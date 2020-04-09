@@ -2,3 +2,15 @@ make sha256 converter
 menu
 FILE (if I delete a csv file after importing, there
 is no harm to your system.)
+
+create student accounts based on their Student ID and their DoB.
+create when importing file
+
+create accounts manually
+
+edit
+remove
+change class
+view class list
+view student list
+
