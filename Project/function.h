@@ -3,25 +3,35 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
 #endif
-
+          
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 using namespace std;
 
-struct usr {
+/*
+struct: vi?t hoa ch? cái ð?u
+bi?n, function: ch? ð?u thý?ng, kí t? ð?u m?i ch? sau vi?t hoa
+const: Hoa h?t
+
+
+
+*/
+
+
+struct User {
 	char* pwd;  //(sha256 if possible)
 	char* uName;
 };
 
-struct course {
+struct Course {
 
 };
 
 #pragma region All roles
-bool login(char* user, char* pwd, usr* db);
+bool login(char* user, char* pwd, User* db);
 
-bool changePwd(char* newPwd, usr* db);
+bool changePwd(char* newPwd, User* db);
 #pragma endregion
 
 #pragma region Academic Staff
