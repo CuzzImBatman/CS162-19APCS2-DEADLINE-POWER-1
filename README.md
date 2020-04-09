@@ -16,5 +16,5 @@ __bold using underscores__
 ~~Strikethrough~~  
 [Link to this README](https://github.com/spookyfiish/CS162_Project/edit/master/README.md)  
 | Tables        | Are           | Cool                |
-| ------------- |:-------------:| -------------------:|
+| ----------------------- |:-----------------------:| -----------------------------:|
 | left-aligned  | centered      | right-aligned       |
