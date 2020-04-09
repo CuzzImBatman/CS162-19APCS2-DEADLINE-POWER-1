@@ -7,11 +7,11 @@ Mark down command lines:
 #### H4
 ##### H5
 ###### H6
-*italic*  
-_underline_  
-**bold italic**  
-__bold underline__  
-**__bold italic and underline__**  
+*italic with asterisk*  
+_italic with underscores_  
+**bold with asterisks**  
+__bold with underscores__  
+**bold and __italic__**  
 `highlight`  
 ~~Strikethrough~~  
 ⋅⋅* Unordered list  
