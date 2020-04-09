@@ -1,0 +1,6 @@
+No, Student ID, Lastname, Firstname, Gender, DoB
+1, 19125113, Thien Phu, Dao, Male, 2001-02-27
+2, 19125096, Duc Huy, Vu, Male, 2001-08-21
+3, 19125086, Hai Duong, Tran, Male, 2001-10-30
+4, 19125079, Gia Bao, Le, Female, 2001-05-24
+5, 19169699, Hanh Dan, Le, Male, 1997-04-25 

@@ -1,0 +1,4 @@
+make sha256 converter
+menu
+FILE (if I delete a csv file after importing, there
+is no harm to your system.)
