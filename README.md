@@ -15,6 +15,6 @@ __bold using underscores__
 `highlight`  
 ~~Strikethrough~~  
 [Link to this README](https://github.com/spookyfiish/CS162_Project/edit/master/README.md)  
-| Tables        | Are           | Cool                |
-| ----------------------- |:-----------------------:| -----------------------------:|
-| left-aligned  | centered      | right-aligned       |
+|Some long words|Another long word|Some even longer words|
+|-|:-:|-:|
+|left-aligned|centered| right-aligned|
