@@ -10,28 +10,38 @@
 using namespace std;
 
 /*
-struct: vi?t hoa ch? cái ð?u
-bi?n, function: ch? ð?u thý?ng, kí t? ð?u m?i ch? sau vi?t hoa
-const: Hoa h?t
-
-
-
+struct: viet hoa chu cai dau
+variable, function: chu dau thuong, ki tu ðau moi chu sau viet hoa
+const: Hoa het
 */
 
 
-struct User {
+struct Account {
 	char* pwd;  //(sha256 if possible)
-	char* uName;
+	char* uName; // =id
+	short int* userData, role; //role = (int)uName[0] - 48;    userData 
+	//Thong tin co ban
 };
-
+struct AcademicStaffDB {
+//account
+	//thong tin them
+}; //3xxxxxx    *hoi gv*
+struct LecturerDB {
+	//same 
+};  //2xxxxxxx
+struct StudentDB {
+//same
+};  //1xxxxxxx
 struct Course {
 
 };
 
 #pragma region All roles
-bool login(char* user, char* pwd, User* db);
-
-bool changePwd(char* newPwd, User* db);
+int login(char* user, char* pwd, Account* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
+void showMenu(int role);
+void viewProfile(Account* curAcc);
+bool changePwd(char* newPwd, Account* accountList);
+bool logout(Account* curAcc);
 #pragma endregion
 
 #pragma region Academic Staff
@@ -67,17 +77,15 @@ bool changePwd(char* newPwd, User* db);
 
 All roles
 	1. Login		   	
-	2. Show menu               void showMenu(
-	3. View profile info	   void viewProfile(	
+	2. Show menu               
+	3. View profile info	   	
 	4. Change password	   	   
-	5. Logout		           void logout(	
-
-
+	5. Logout		 
 Academic staff:
 	Class
-		6. Import students from a csv file.     -> void InputStudents(ifstream& f, 
+		6. Import students from a csv file.     -> void InputStudents(ifstream& f,    close right after importing
 				Remember to create student accounts based on their Student ID and their DoB.
-		7. Manually add a new student to a class.
+		7. Manually add a new student to a class. 
 				For example, there is a new student enrolled in 18CLC6. Remember to create a student account based on his/her Student ID and their DoB.
 		8. Edit an existing student.
 		9. Remove a student.
