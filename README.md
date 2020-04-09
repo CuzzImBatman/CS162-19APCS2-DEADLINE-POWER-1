@@ -7,15 +7,15 @@ Mark down command lines:
 #### H4
 ##### H5
 ###### H6
-*italic*
-_underline_
-**bold italic**
-__bold underline__
-**__bold italic and underline__**.
-`highlight`
-~~Strikethrough~~
-⋅⋅* Unordered list.
-[Link to this README](https://github.com/spookyfiish/CS162_Project/edit/master/README.md)
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| left-aligned  | centered      | right-aligned |
+*italic*  
+_underline_  
+**bold italic**  
+__bold underline__  
+**__bold italic and underline__**  
+`highlight`  
+~~Strikethrough~~  
+⋅⋅* Unordered list  
+[Link to this README](https://github.com/spookyfiish/CS162_Project/edit/master/README.md)  
+| Tables        | Are           | Cool                |
+| ------------- |:-------------:| -------------------:|
+| left-aligned  | centered      | right-aligned       |
