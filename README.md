@@ -1,12 +1,12 @@
 # CS162_Project
 # ready to rage quit any second 
-Mark down command lines: 
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
+Mark down command lines: (double spaces to endl)
+# Headline 1
+## Headline 2
+### Headline 3
+#### Headline 4
+##### Headline 5
+###### Headline 6
 *italic using  asterisk*  
 _italic using underscores_  
 **bold using asterisks**  
