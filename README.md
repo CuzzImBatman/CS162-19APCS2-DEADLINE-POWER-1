@@ -7,14 +7,13 @@ Mark down command lines:
 #### H4
 ##### H5
 ###### H6
-*italic with asterisk*  
-_italic with underscores_  
-**bold with asterisks**  
-__bold with underscores__  
-**bold and __italic__**  
+*italic using  asterisk*  
+_italic using underscores_  
+**bold using asterisks**  
+__bold using underscores__  
+**bold and _italic_**  
 `highlight`  
 ~~Strikethrough~~  
-⋅⋅* Unordered list  
 [Link to this README](https://github.com/spookyfiish/CS162_Project/edit/master/README.md)  
 | Tables        | Are           | Cool                |
 | ------------- |:-------------:| -------------------:|
