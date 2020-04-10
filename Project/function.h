@@ -9,32 +9,69 @@
 #include <iomanip>
 using namespace std;
 
-/*
-struct: viet hoa chu cai dau
-variable, function: chu dau thuong, ki tu ðau moi chu sau viet hoa
-const: Hoa het
+/* Naming rule:
+struct: StructName
+variable, function: variableName, functionName
+const: CONST
 */
-
+struct Date {
+	char day[3], month[3], year[5];
+};
 
 struct Account {
 	char* pwd;  //(sha256 if possible)
-	char* uName; // =id
-	short int* userData, role; //role = (int)uName[0] - 48;    userData 
-	//Thong tin co ban
+	char* uName; // = ID 
+	short int role = (int)uName[0] -48;
+	char* lastname, * firstname, gender[2];
+	Date* doB;
+	
 };
+/*
+struct DBHead {
+	int role;
+	StudentDB* studentDBHead;
+	AcademicStaffDB* academicStaffDBHead;
+	LecturerDB* lecturerDBHead;					
+}
+										  +------------+       +------------+	
+  									   +--| account[0] |   +-->| account[1] |  +-->...
+									  /	  +------------+  /	   +------------+ /		
+					+---------------+/   +--------------+/   +--------------+/
+			   +--->| studentDBHead	|--->| studentDB[0] |--->| studentDB[1] |--->...
+			   |    +---------------+    +--------------+    +--------------+
+			   |								   +------------+			 +------------+
+			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
+			   |                            /      +------------+     /      +------------+     /
++--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
+| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[0] |--->| academicStaffDB[1] |--->...
++--------+     |    +---------------------+    +--------------------+    +--------------------+
+			   |						   +------------+		+------------+
+			   |					    +->| account[0] |    +->| account[1] |    +->...
+			   |					   /   +------------+   /   +------------+   /
+			   |    +----------------+/   +---------------+/   +---------------+/
+			   +--->| lecturerDBHead |--->| lecturerDB[0] |--->| lecturerDB[1] |--->...
+			        +----------------+    +---------------+    +---------------+
+*/
 struct AcademicStaffDB {
 //account
 	//thong tin them
 }; //3xxxxxx    *hoi gv*
 struct LecturerDB {
-	//same 
+	//same  
 };  //2xxxxxxx
 struct StudentDB {
-//same
+	Account* account;
+	int no;
+	char studentClass[20], studentID[20];//id = uName;
+	StudentDB* nextStudent = nullptr;
 };  //1xxxxxxx
 struct Course {
 
 };
+
+#pragma region Initialization
+
+#pragma endregion
 
 #pragma region All roles
 int login(char* user, char* pwd, Account* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
