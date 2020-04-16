@@ -7,15 +7,65 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
 using namespace std;
-
+//string 
 /* Naming rule:
 struct: StructName
 variable, function: variableName, functionName
 const: CONST
 */
+/*
+struct DBHead {
+	int role;
+	StudentDB* studentDBHead;
+	AcademicStaffDB* academicStaffDBHead;
+	LecturerDB* lecturerDBHead;
+}
+										  +------------+       +------------+
+									   +--| account[0] |   +-->| account[1] |  +-->...
+									  /	  +------------+  /	   +------------+ /
+					+---------------+/   +--------------+/   +--------------+/
+			   +--->| studentDBHead	|--->| studentDB[1] |--->| studentDB[2] |--->...
+			   |    +---------------+    +--------------+    +--------------+
+			   |								   +------------+			 +------------+
+			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
+			   |                            /      +------------+     /      +------------+     /
++--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
+| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[1] |--->| academicStaffDB[2] |--->...
++--------+     |    +---------------------+    +--------------------+    +--------------------+
+			   |						   +------------+		+------------+
+			   |					    +->| account[0] |    +->| account[1] |    +->...
+			   |					   /   +------------+   /   +------------+   /
+			   |    +----------------+/   +---------------+/   +---------------+/
+			   +--->| lecturerDBHead |--->| lecturerDB[1] |--->| lecturerDB[2] |--->...
+					+----------------+    +---------------+    +---------------+
+*/ 
+struct AttendanceList {
+
+};
+struct Scoreboard {
+	Course* courseID;
+	Class* classID;
+};
+
+struct Course {
+	int no;
+	string id;
+	string classID;
+	Student* studentList;
+	Lecturer* lecturerList;
+	Date startDate, endDate;
+	int dateOfWeek[6];//bit   
+	string room;
+};
+
+struct Class {
+	string id;
+	Student* studentList;
+};
 struct Date {
-	char day[3], month[3], year[5];
+	string day, month, year;
 };
 
 struct Account {
@@ -24,50 +74,29 @@ struct Account {
 	short int role = (int)uName[0] -48;
 	char* lastname, * firstname, gender[2];
 	Date* doB;
-	
 };
-/*
-struct DBHead {
-	int role;
-	StudentDB* studentDBHead;
-	AcademicStaffDB* academicStaffDBHead;
-	LecturerDB* lecturerDBHead;					
-}
-										  +------------+       +------------+	
-  									   +--| account[0] |   +-->| account[1] |  +-->...
-									  /	  +------------+  /	   +------------+ /		
-					+---------------+/   +--------------+/   +--------------+/
-			   +--->| studentDBHead	|--->| studentDB[0] |--->| studentDB[1] |--->...
-			   |    +---------------+    +--------------+    +--------------+
-			   |								   +------------+			 +------------+
-			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
-			   |                            /      +------------+     /      +------------+     /
-+--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
-| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[0] |--->| academicStaffDB[1] |--->...
-+--------+     |    +---------------------+    +--------------------+    +--------------------+
-			   |						   +------------+		+------------+
-			   |					    +->| account[0] |    +->| account[1] |    +->...
-			   |					   /   +------------+   /   +------------+   /
-			   |    +----------------+/   +---------------+/   +---------------+/
-			   +--->| lecturerDBHead |--->| lecturerDB[0] |--->| lecturerDB[1] |--->...
-			        +----------------+    +---------------+    +---------------+
-*/
-struct AcademicStaffDB {
-//account
-	//thong tin them
-}; //3xxxxxx    *hoi gv*
-struct LecturerDB {
-	//same  
-};  //2xxxxxxx
-struct StudentDB {
+struct Student {
 	Account* account;
 	int no;
 	char studentClass[20], studentID[20];//id = uName;
-	StudentDB* nextStudent = nullptr;
+	//*classes, *courses
+	//*pointer to student in list
+	//*pointer to student in same class
+	Student* nextStudent = nullptr;
 };  //1xxxxxxx
-struct Course {
 
-};
+struct AcademicStaff {
+	Account* account;
+	int no;
+}; //3xxxxxx    *hoi gv*
+struct Lecturer {
+	Account* account;
+	int no;
+	//courses -> linked list
+	//faculty 
+
+};  //2xxxxxxx
+
 
 #pragma region Initialization
 

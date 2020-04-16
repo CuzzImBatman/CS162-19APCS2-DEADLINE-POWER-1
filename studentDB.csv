@@ -1,44 +1,44 @@
-No,Student ID,Lastname,Firstname,Gender,DoB,Class
-1,19125001,An,Chu Duc,Male,2001-01-01,19CTT2
-2,19125002,Cuong,Nguyen Ngoc,Male,2001-01-02,19CTT2
-3,19125003,Dang,Huynh Lam Hai,Male,2001-01-03,19CTT2
-4,19125006,Hai,Le Dinh,Male,2001-01-04,19CTT2
-5,19125007,Huyen,Le Thao,Female,2001-01-05,19CTT2
-6,19125010,Minh,Bui Quang,Male,2001-01-06,19CTT2
-7,19125011,Minh,Khau Dang Nhat,Male,2001-01-07,19CTT2
-8,19125014,Phuong,Ho Thi Ngoc,Female,2001-01-08,19CTT2
-9,19125017,Tuong,Nguyen Lam,Male,2001-01-09,19CTT2
-10,19125029,Nhi,Nguyen Ba Van,Female,2001-01-10,19CTT2
-11,19125031,Phat,Phan Van,Male,2001-01-11,19CTT2
-12,19125033,Tam,Nguyen Ngoc Bang,Female,2001-01-12,19CTT2
-13,19125038,Dat,Huynh Gia,Male,2001-01-13,19CTT2
-14,19125043,Hoang,Vu Thien,Male,2001-01-14,19CTT2
-15,19125046,Hung,Nguyen Huu,Male,2001-01-15,19CTT2
-16,19125050,Khang,Ngo Nhat,Male,2001-01-16,19CTT2
-17,19125051,Khang,Nguyen Thieu,Male,2001-01-17,19CTT2
-18,19125052,Khang,Tran Ky,Male,2001-01-18,19CTT2
-19,19125055,Kiet,Ta Huynh Tuan,Male,2001-01-19,19CTT2
-20,19125056,Lam,Nguyen Pham Tung,Male,2001-01-20,19CTT2
-21,19125063,Phat,Chau Huu,Male,2001-01-21,19CTT2
-22,19125064,Phat,Tu Tan,Male,2001-01-22,19CTT2
-23,19125066,Quyen,Dinh Luong,Male,2001-01-23,19CTT2
-24,19125068,Thien,Nguyen Ngoc,Male,2001-01-24,19CTT2
-25,19125073,Tuyen,Nguyen Quoc Khanh,Male,2001-01-25,19CTT2
-26,19125074,Uyen,Ha Phuong,Female,2001-01-26,19CTT2
-27,19125075,Van,Lam Bich,Female,2001-01-27,19CTT2
-28,19125078,An,Pham Hoang,Male,2001-01-28,19CTT2
-29,19125079,Bao,Le Gia,Female,2001-01-29,19CTT2
-30,19125085,Duc,Pham Minh,Male,2001-01-30,19CTT2
-31,19125086,Duong,Tran Hai,Male,2001-01-31,19CTT2
-32,19125090,Hai,Truong Qui,Male,2001-02-01,19CTT2
-33,19125093,Hoang,Nguyen Duc,Male,2001-02-02,19CTT2
-34,19125096,Huy,Vu Duc,Male,2001-02-03,19CTT2
-35,19125102,Lam,Phan Dam Tung,Male,2001-02-04,19CTT2
-36,19125103,Linh,Nguyen Hoang,Male,2001-02-05,19CTT2
-37,19125109,Nguyen,Nguyen Khanh,Male,2001-02-06,19CTT2
-38,19125113,Phu,Dao Thien,Male,2001-02-07,19CTT2
-39,19125119,Son,Truong Lang Truong,Male,2001-02-08,19CTT2
-40,19125122,Thong,Huynh Pham Tan,Male,2001-02-09,19CTT2
-41,19125126,Trung,Nguyen Ngoc,Male,2001-02-10,19CTT2
-42,19125133,Vu,Hoang,Male,2001-02-11,19CTT2
-43,19125134,Long,Tran Vinh,Male,2001-02-12,19CTT2
+No,Student ID,Lastname,Firstname,Gender,DoB
+1,19125001,An,Chu Duc,Male,3/7/2001
+2,19125002,Cuong,Nguyen Ngoc,Male,1/2/2001
+3,19125003,Dang,Huynh Lam Hai,Male,1/3/2001
+4,19125006,Hai,Le Dinh,Male,4/12/2020
+5,19125007,Huyen,Le Thao,Female,10/30/2001
+6,19125010,Minh,Bui Quang,Male,9/27/2001
+7,19125011,Minh,Khau Dang Nhat,Male,5/25/2001
+8,19125014,Phuong,Ho Thi Ngoc,Female,7/17/2001
+9,19125017,Tuong,Nguyen Lam,Male,4/16/2001
+10,19125029,Nhi,Nguyen Ba Van,Female,9/16/2001
+11,19125031,Phat,Phan Van,Male,1/11/2001
+12,19125033,Tam,Nguyen Ngoc Bang,Female,1/12/2001
+13,19125038,Dat,Huynh Gia,Male,1/13/2001
+14,19125043,Hoang,Vu Thien,Male,12/20/2001
+15,19125046,Hung,Nguyen Huu,Male,10/18/2001
+16,19125050,Khang,Ngo Nhat,Male,1/16/2001
+17,19125051,Khang,Nguyen Thieu,Male,8/1/2001
+18,19125052,Khang,Tran Ky,Male,11/23/2001
+19,19125055,Kiet,Ta Huynh Tuan,Male,8/3/2001
+20,19125056,Lam,Nguyen Pham Tung,Male,1/20/2001
+21,19125063,Phat,Chau Huu,Male,6/21/2001
+22,19125064,Phat,Tu Tan,Male,1/10/2001
+23,19125066,Quyen,Dinh Luong,Male,1/23/2001
+24,19125068,Thien,Nguyen Ngoc,Male,9/1/2001
+25,19125073,Tuyen,Nguyen Quoc Khanh,Male,8/24/2001
+26,19125074,Uyen,Ha Phuong,Female,1/26/2001
+27,19125075,Van,Lam Bich,Female,10/25/2001
+28,19125078,An,Pham Hoang,Male,1/28/2001
+29,19125079,Bao,Le Gia,Female,1/29/2001
+30,19125085,Duc,Pham Minh,Male,1/30/2001
+31,19125086,Duong,Tran Hai,Male,1/31/2001
+32,19125090,Hai,Truong Quy,Male,7/21/2001
+33,19125093,Hoang,Nguyen Duc,Male,2/2/2001
+34,19125096,Huy,Vu Duc,Male,8/21/2001
+35,19125102,Lam,Phan Dam Tung,Male,1/30/2001
+36,19125103,Linh,Nguyen Hoang,Male,3/29/2001
+37,19125109,Nguyen,Nguyen Khanh,Male,1/1/2001
+38,19125113,Phu,Dao Thien,Male,2/27/2001
+39,19125119,Son,Truong Lang Truong,Male,11/28/2001
+40,19125122,Thong,Huynh Pham Tan,Male,8/11/2001
+41,19125126,Trung,Nguyen Ngoc,Male,8/30/2001
+42,19125133,Vu,Hoang,Male,8/3/2001
+43,19125134,Long,Tran Vinh,Male,2/12/2001
