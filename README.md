@@ -1,5 +1,5 @@
 # CS162_Project
-# ready to rage quit any second 
+
 Mark down command lines: (double spaces to endl)
 # Headline 1
 ## Headline 2
@@ -18,3 +18,4 @@ __bold using underscores__
 |Some long words|Another long word|Some even longer words|
 |-|:-:|-:|
 |left-aligned|centered| right-aligned|
+
