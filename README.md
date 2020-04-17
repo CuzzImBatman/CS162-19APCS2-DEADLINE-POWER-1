@@ -1,38 +1,4 @@
 # CS162_Project
-Data Structure   
-			      +-->[Staffs]    
-			      |  
-			      +-->[Lecturers]    			
-			      |			     				 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]--+  
-	       |		      		  	      |  	     	   		                
-	       +--[CourseClass]<------------------------------+    	   		  		                  
-               |						  		 
-       	       |                            	          +-->[AttendanceStatus]  
-	       |			      	          |  
-               +-->[Classes]+------------------>[Students]+-->[Scoreboard]  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Mark down command lines: (double spaces to endl)
 # Headline 1
