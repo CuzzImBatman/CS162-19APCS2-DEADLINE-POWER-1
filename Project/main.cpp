@@ -1,29 +1,34 @@
 #include "function.h"
 
 int main() {
-	StudentDB* studentDBHead;
-	ifstream fStudentDB;
-	fStudentDB.open("studentDB.csv");
-	if (!fStudentDB.is_open()) {
-		cout << "Error initializing student database.";
-	}
-	else {
-		cin.ignore(1000, '\n'); //ignore the title row
-		while (!fStudentDB.eof()) {
-			studentDBHead->nextStudent = new StudentDB;
+	AcademicYears* acaYr = new AcademicYears;
+	acaYr->year = 1920;
+	acaYr->semesters = new Semesters;
+	acaYr->semesters->semesterNo = 2;
+	acaYr->semesters->courses = new Courses;
+	acaYr->semesters->courses->courseName = "CS162";
+	acaYr->semesters->courses->dateOfWeek[1] = 1000;
+	acaYr->classes = new Classes;
+	acaYr->classes->className = "19CTT2";
+	ifstream studentList;
+	studentList.open("studentDB.csv");
+	if (studentList.is_open()) {
+		studentList.ignore(1000, '\n'); //ignore the title row
+		while (!studentList.eof()) {
+			acaYr->classes->students = new Students;
+			studentList.ignore(1000, '\n');
 			char temp[256];
 			int i = 0;
-
-			while ((temp[i++] = cin.get()) != ',');
-			temp[--i] = '\0';
-			studentDBHead->no = (int)temp;
-
-			//same goes for other information.
-			studentDBHead->account->role = 1; //redundant line, put here to demonstrate the link between Account and StudentDB
+			
+	
+			
 		}
-		//might wanna change it so that a specific db only get initialized when the role is confirmed by making use of uName[0].
-		//doing this will yield a better programme memory wise.
 	}
+	else {
+		std::cout << "Error opening file";
+	}
+
+
 
 
 

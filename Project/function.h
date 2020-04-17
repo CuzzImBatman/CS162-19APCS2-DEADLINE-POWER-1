@@ -9,38 +9,133 @@
 #include <iomanip>
 #include <string>
 using namespace std;
-//string 
 /* Naming rule:
 struct: StructName
 variable, function: variableName, functionName
 const: CONST
+plural to indicate a list, single to indicate an attribute of a subject, structs are plural;
 */
+/*  Database Structure
+
+
+
+							  +-->[Staffs]
+							  |
+							  +-->[Lecturers]			
+							  |							 	
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]  
+			   |					   	   		                  
+			   |						  		                  
+			   |						  		 
+			   |                             	          +-->[AttendanceStatus]
+			   |					                      |
+			   +-->[Classes]---------------++-->[Students]+-->[Scoreboard]
+
+*/
+struct Date {
+	int day, month, year;
+};
+struct Accounts {
+	char* pwd = nullptr;  //(sha256 if possible)
+	char* uName = nullptr; // = ID 
+	short int role = (int)uName[0] - 48;
+	string lastname, firstname;
+	char gender[3]; //Female Male, Prefer not to say -> F,M,O
+	Date* doB = nullptr;
+};
+struct Scoreboards {
+	string courseName; //the course that this list belongs to
+	int midtermScore, finalScore, labScore, bonusScore; 
+	Scoreboards* next = nullptr;
+};
+struct Staffs {
+	Accounts* account = nullptr;
+	Staffs* next = nullptr;
+};
+struct Lecturers {
+	Accounts* account = nullptr;
+	Lecturers* next = nullptr;
+};
+struct SessionStatus {
+	short int sessionNo; //11 12 21 22 31 32  week_session
+	bool status;
+	SessionStatus* next = nullptr;
+};
 /*
-struct DBHead {
-	int role;
-	StudentDB* studentDBHead;
-	AcademicStaffDB* academicStaffDBHead;
-	LecturerDB* lecturerDBHead;
-}
-										  +------------+       +------------+
-									   +--| account[0] |   +-->| account[1] |  +-->...
-									  /	  +------------+  /	   +------------+ /
-					+---------------+/   +--------------+/   +--------------+/
-			   +--->| studentDBHead	|--->| studentDB[1] |--->| studentDB[2] |--->...
-			   |    +---------------+    +--------------+    +--------------+
-			   |								   +------------+			 +------------+
-			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
-			   |                            /      +------------+     /      +------------+     /
-+--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
-| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[1] |--->| academicStaffDB[2] |--->...
-+--------+     |    +---------------------+    +--------------------+    +--------------------+
-			   |						   +------------+		+------------+
-			   |					    +->| account[0] |    +->| account[1] |    +->...
-			   |					   /   +------------+   /   +------------+   /
-			   |    +----------------+/   +---------------+/   +---------------+/
-			   +--->| lecturerDBHead |--->| lecturerDB[1] |--->| lecturerDB[2] |--->...
-					+----------------+    +---------------+    +---------------+
-*/ 
+struct WeeklyStatus {
+	SessionStatus* sessions = nullptr;
+	WeeklyStatus* next = nullptr;
+};*/
+struct AttendanceStatus {
+	string courseName;
+	SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
+	AttendanceStatus* next = nullptr;
+	//WeeklyStatus week[11]; 
+	//short int present, absent;
+
+
+
+	//Khi input: academicYear->semester->course->courseclass      student->AttendanceStatus->sessions->status = true;
+	/*Khi truy xuat:
+	    temp = academicYear->semester->course->       student
+	    while (temp->next != nullptr){
+			temp2 = temp->AttendanceStatus->sessions;
+			while (temp2->next != nullptr){
+				cout << temp2->sessionNo << ': ' << temp2->sessionStatus << endl;
+				temp2=temp2->next;
+			}
+			temp= temp->next;
+		}
+	*/
+};
+
+struct Students {
+	int studentNo;
+	Accounts* account = nullptr;
+	Scoreboards* scoreboards = nullptr;
+	AttendanceStatus* attendanceStatus = nullptr;
+	//Courses* courses = nullptr;//List of courses a student enrolled
+	Students* next = nullptr;
+};
+
+struct Courses {
+	short int courseNo;
+	string courseName;	//them course id
+	Date startDate, endDate;
+	short int dateOfWeek[6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat   
+	string room;
+	Lecturers* lecturers = nullptr;
+	Students* students = nullptr;
+	Courses* next = nullptr;
+};
+
+struct Classes {
+	short int classNo;
+	string className; 
+	Students* students = nullptr;
+	Classes* next = nullptr;
+};
+
+struct CourseClass {
+	short int no, classNo, courseNo, studentNo;
+};
+
+struct Semesters {
+	char semesterNo;
+	Courses* courses = nullptr;
+	Lecturers* lecturers = nullptr;
+	Staffs* staffs = nullptr;
+	Semesters* next = nullptr;
+};
+
+struct AcademicYears {
+	short int year;  //Ex: 1920 2021;
+	Semesters* semesters = nullptr;
+	Classes* classes = nullptr;
+	AcademicYears* next = nullptr;
+};
+
+/*
 struct AttendanceList {
 
 };
@@ -96,18 +191,18 @@ struct Lecturer {
 	//faculty 
 
 };  //2xxxxxxx
-
+*/
 
 #pragma region Initialization
 
 #pragma endregion
 
 #pragma region All roles
-int login(char* user, char* pwd, Account* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
+int login(char* user, char* pwd, Accounts* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
 void showMenu(int role);
-void viewProfile(Account* curAcc);
-bool changePwd(char* newPwd, Account* accountList);
-bool logout(Account* curAcc);
+void viewProfile(Accounts* curAcc);
+bool changePwd(char* newPwd, Accounts* accountList);
+bool logout(Accounts* curAcc);
 #pragma endregion
 
 #pragma region Academic Staff
