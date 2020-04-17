@@ -3,25 +3,111 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
 #endif
-
+          
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
 using namespace std;
+//string 
+/* Naming rule:
+struct: StructName
+variable, function: variableName, functionName
+const: CONST
+*/
+/*
+struct DBHead {
+	int role;
+	StudentDB* studentDBHead;
+	AcademicStaffDB* academicStaffDBHead;
+	LecturerDB* lecturerDBHead;
+}
+										  +------------+       +------------+
+									   +--| account[0] |   +-->| account[1] |  +-->...
+									  /	  +------------+  /	   +------------+ /
+					+---------------+/   +--------------+/   +--------------+/
+			   +--->| studentDBHead	|--->| studentDB[1] |--->| studentDB[2] |--->...
+			   |    +---------------+    +--------------+    +--------------+
+			   |								   +------------+			 +------------+
+			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
+			   |                            /      +------------+     /      +------------+     /
++--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
+| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[1] |--->| academicStaffDB[2] |--->...
++--------+     |    +---------------------+    +--------------------+    +--------------------+
+			   |						   +------------+		+------------+
+			   |					    +->| account[0] |    +->| account[1] |    +->...
+			   |					   /   +------------+   /   +------------+   /
+			   |    +----------------+/   +---------------+/   +---------------+/
+			   +--->| lecturerDBHead |--->| lecturerDB[1] |--->| lecturerDB[2] |--->...
+					+----------------+    +---------------+    +---------------+
+*/ 
+struct AttendanceList {
 
-struct usr {
+};
+struct Scoreboard {
+	Course* courseID;
+	Class* classID;
+};
+
+struct Course {
+	int no;
+	string id;
+	string classID;
+	Student* studentList;
+	Lecturer* lecturerList;
+	Date startDate, endDate;
+	int dateOfWeek[6];//bit   
+	string room;
+};
+
+struct Class {
+	string id;
+	Student* studentList;
+};
+struct Date {
+	string day, month, year;
+};
+
+struct Account {
 	char* pwd;  //(sha256 if possible)
-	char* uName;
+	char* uName; // = ID 
+	short int role = (int)uName[0] -48;
+	char* lastname, * firstname, gender[2];
+	Date* doB;
 };
+struct Student {
+	Account* account;
+	int no;
+	char studentClass[20], studentID[20];//id = uName;
+	//*classes, *courses
+	//*pointer to student in list
+	//*pointer to student in same class
+	Student* nextStudent = nullptr;
+};  //1xxxxxxx
 
-struct course {
+struct AcademicStaff {
+	Account* account;
+	int no;
+}; //3xxxxxx    *hoi gv*
+struct Lecturer {
+	Account* account;
+	int no;
+	//courses -> linked list
+	//faculty 
 
-};
+};  //2xxxxxxx
+
+
+#pragma region Initialization
+
+#pragma endregion
 
 #pragma region All roles
-bool login(char* user, char* pwd, usr* db);
-
-bool changePwd(char* newPwd, usr* db);
+int login(char* user, char* pwd, Account* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
+void showMenu(int role);
+void viewProfile(Account* curAcc);
+bool changePwd(char* newPwd, Account* accountList);
+bool logout(Account* curAcc);
 #pragma endregion
 
 #pragma region Academic Staff
@@ -57,17 +143,15 @@ bool changePwd(char* newPwd, usr* db);
 
 All roles
 	1. Login		   	
-	2. Show menu               void showMenu(
-	3. View profile info	   void viewProfile(	
+	2. Show menu               
+	3. View profile info	   	
 	4. Change password	   	   
-	5. Logout		           void logout(	
-
-
+	5. Logout		 
 Academic staff:
 	Class
-		6. Import students from a csv file.     -> void InputStudents(ifstream& f, 
+		6. Import students from a csv file.     -> void InputStudents(ifstream& f,    close right after importing
 				Remember to create student accounts based on their Student ID and their DoB.
-		7. Manually add a new student to a class.
+		7. Manually add a new student to a class. 
 				For example, there is a new student enrolled in 18CLC6. Remember to create a student account based on his/her Student ID and their DoB.
 		8. Edit an existing student.
 		9. Remove a student.
