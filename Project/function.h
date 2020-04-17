@@ -17,24 +17,23 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 */
 /*  Database Structure
 
-
-
 							  +-->[Staffs]
 							  |
 							  +-->[Lecturers]			
 							  |							 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]  
-			   |					   	   		                  
-			   |						  		                  
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+  
+			   |					   	   		                |  
+			   +--[CourseClass]<--------------------------------+			  		                  
 			   |						  		 
-			   |                             	          +-->[AttendanceStatus]
-			   |					                      |
-			   +-->[Classes]---------------++-->[Students]+-->[Scoreboard]
+			   |                            	          +-->[AttendanceStatus]
+			   |			      	                      |
+			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
 
 */
 struct Date {
 	int day, month, year;
 };
+
 struct Accounts {
 	char* pwd = nullptr;  //(sha256 if possible)
 	char* uName = nullptr; // = ID 
@@ -43,19 +42,23 @@ struct Accounts {
 	char gender[3]; //Female Male, Prefer not to say -> F,M,O
 	Date* doB = nullptr;
 };
+
 struct Scoreboards {
 	string courseName; //the course that this list belongs to
 	int midtermScore, finalScore, labScore, bonusScore; 
 	Scoreboards* next = nullptr;
 };
+
 struct Staffs {
 	Accounts* account = nullptr;
 	Staffs* next = nullptr;
 };
+
 struct Lecturers {
 	Accounts* account = nullptr;
 	Lecturers* next = nullptr;
 };
+
 struct SessionStatus {
 	short int sessionNo; //11 12 21 22 31 32  week_session
 	bool status;

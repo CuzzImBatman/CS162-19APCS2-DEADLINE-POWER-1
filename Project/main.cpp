@@ -3,15 +3,19 @@
 int main() {
 	AcademicYears* acaYr = new AcademicYears;
 	acaYr->year = 1920;
+
 	acaYr->semesters = new Semesters;
 	acaYr->semesters->semesterNo = 2;
+
 	acaYr->semesters->courses = new Courses;
 	acaYr->semesters->courses->courseName = "CS162";
 	acaYr->semesters->courses->dateOfWeek[1] = 1000;
 	acaYr->classes = new Classes;
 	acaYr->classes->className = "19CTT2";
+
 	ifstream studentList;
 	studentList.open("studentDB.csv");
+
 	if (studentList.is_open()) {
 		studentList.ignore(1000, '\n'); //ignore the title row
 		while (!studentList.eof()) {
