@@ -1,18 +1,18 @@
 # CS162_Project
-Data Structure
-							  +-->[Staffs]
-							  |
-							  +-->[Lecturers]			
-							  |							 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+  
-			   |					   	   		                |  
-			   +--[CourseClass]<--------------------------------+			  		                  
-			   |						  		 
-			   |                            	          +-->[AttendanceStatus]
-			   |			      	                      |
-			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
-
-
+Data Structure   
+			      +-->[Staffs]    
+			      |  
+			      +-->[Lecturers]    			
+			      |			     				 	
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]--+  
+	       |		      		  	      |  	     	   		                
+	       +--[CourseClass]<------------------------------+    	   		  		                  
+               |						  		 
+       	       |                            	          +-->[AttendanceStatus]  
+	       |			      	          |  
+               +-->[Classes]+------------------>[Students]+-->[Scoreboard]  
+  
+  
 
 
 
