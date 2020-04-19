@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 using namespace std;
 /* Naming rule:
 struct: StructName
@@ -138,6 +139,21 @@ struct AcademicYears {
 	AcademicYears* next = nullptr;
 };
 
+struct Account {
+	char* pwd;  //(sha256 if possible)
+	char* uName; // = ID 
+	short int role = (int)uName[0] - 48;
+	char* lastname, * firstname;
+	int gender;
+	Date* doB;
+};
+
+struct AcademicStaff {
+	Account* account;
+	int no;
+};
+
+
 /*
 struct AttendanceList {
 
@@ -158,35 +174,14 @@ struct Course {
 	string room;
 };
 
-struct Class {
-	string id;
-	Student* studentList;
-};
+
 struct Date {
 	string day, month, year;
 };
 
-struct Account {
-	char* pwd;  //(sha256 if possible)
-	char* uName; // = ID 
-	short int role = (int)uName[0] -48;
-	char* lastname, * firstname, gender[2];
-	Date* doB;
-};
-struct Student {
-	Account* account;
-	int no;
-	char studentClass[20], studentID[20];//id = uName;
-	//*classes, *courses
-	//*pointer to student in list
-	//*pointer to student in same class
-	Student* nextStudent = nullptr;
-};  //1xxxxxxx
 
-struct AcademicStaff {
-	Account* account;
-	int no;
-}; //3xxxxxx    *hoi gv*
+
+
 struct Lecturer {
 	Account* account;
 	int no;
@@ -227,7 +222,13 @@ bool logout(Accounts* curAcc);
 #pragma endregion
 
 #pragma endregion
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma region Lecturer
 
 #pragma endregion
