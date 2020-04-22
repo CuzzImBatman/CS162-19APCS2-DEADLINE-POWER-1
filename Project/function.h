@@ -3,7 +3,7 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
 #endif
-          
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -20,123 +20,164 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 
 							  +-->[Staffs]
 							  |
-							  +-->[Lecturers]			
-							  |							 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+  
-			   |					   	   		                |  
-			   +--[CourseClass]<--------------------------------+			  		                  
-			   |						  		 
+							  +-->[Lecturers]
+							  |
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
+			   |					   	   		                |
+			   +--[CourseClass]<--------------------------------+
+			   |
 			   |                            	          +-->[AttendanceStatus]
 			   |			      	                      |
 			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
 
 */
-struct Date {
-	int day, month, year;
+struct Date
+{
+    int day, month, year;
 };
 
-struct Accounts {
-	char* pwd = nullptr;  //(sha256 if possible)
-	char* uName = nullptr; // = ID 
-	short int role = (int)uName[0] - 48;
-	string lastname, firstname;
-	char gender[3]; //Female Male, Prefer not to say -> F,M,O
-	Date* doB = nullptr;
+struct Accounts
+{
+    char* pwd = nullptr;  //(sha256 if possible)
+    char* uName = nullptr; // = ID
+    short int role = (int)uName[0] - 48;
+    string lastname, firstname;
+    char gender[3]; //Female Male, Prefer not to say -> F,M,O
+    Date* doB = nullptr;
 };
 
-struct Scoreboards {
-	string courseName; //the course that this list belongs to
-	int midtermScore, finalScore, labScore, bonusScore; 
-	Scoreboards* next = nullptr;
+struct Scoreboards
+{
+    string courseName; //the course that this list belongs to
+    int midtermScore, finalScore, labScore, bonusScore;
+    Scoreboards* next = nullptr;
 };
 
-struct Staffs {
-	Accounts* account = nullptr;
-	Staffs* next = nullptr;
+struct Staffs
+{
+    Accounts* account = nullptr;
+    Staffs* next = nullptr;
+    CourseClass
 };
 
-struct Lecturers {
-	Accounts* account = nullptr;
-	Lecturers* next = nullptr;
+struct Lecturers
+{
+    Accounts* account = nullptr;
+    Lecturers* next = nullptr;
 };
 
-struct SessionStatus {
-	short int sessionNo; //11 12 21 22 31 32  week_session
-	bool status;
-	SessionStatus* next = nullptr;
+struct SessionStatus
+{
+    short int sessionNo; //11 12 21 22 31 32  week_session
+    bool status;
+    SessionStatus* next = nullptr;
 };
 /*
 struct WeeklyStatus {
 	SessionStatus* sessions = nullptr;
 	WeeklyStatus* next = nullptr;
 };*/
-struct AttendanceStatus {
-	string courseName;
-	SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
-	AttendanceStatus* next = nullptr;
-	//WeeklyStatus week[11]; 
-	//short int present, absent;
+struct AttendanceStatus
+{
+    string courseName;
+    SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
+    AttendanceStatus* next = nullptr;
+    //WeeklyStatus week[11];
+    //short int present, absent;
 
 
 
-	//Khi input: academicYear->semester->course->courseclass      student->AttendanceStatus->sessions->status = true;
-	/*Khi truy xuat:
-	    temp = academicYear->semester->course->       student
-	    while (temp->next != nullptr){
-			temp2 = temp->AttendanceStatus->sessions;
-			while (temp2->next != nullptr){
-				cout << temp2->sessionNo << ': ' << temp2->sessionStatus << endl;
-				temp2=temp2->next;
-			}
-			temp= temp->next;
-		}
-	*/
+    //Khi input: academicYear->semester->course->courseclass      student->AttendanceStatus->sessions->status = true;
+    /*Khi truy xuat:
+        temp = academicYear->semester->course->       student
+        while (temp->next != nullptr){
+    		temp2 = temp->AttendanceStatus->sessions;
+    		while (temp2->next != nullptr){
+    			cout << temp2->sessionNo << ': ' << temp2->sessionStatus << endl;
+    			temp2=temp2->next;
+    		}
+    		temp= temp->next;
+    	}
+    */
+};
+struct viewCheckin
+{
+    int week;
+    string viewWeek[6][4];
+    viewCheckin *next;
 };
 
-struct Students {
-	int studentNo;
-	Accounts* account = nullptr;
-	Scoreboards* scoreboards = nullptr;
-	AttendanceStatus* attendanceStatus = nullptr;
-	//Courses* courses = nullptr;//List of courses a student enrolled
-	Students* next = nullptr;
+struct Students
+{
+    int studentNo;
+    Accounts* account = nullptr;
+    Scoreboards* scoreboards = nullptr;
+    AttendanceStatus* attendanceStatus = nullptr;
+    // Courses* courses = nullptr;//List of courses a student enrolled
+    Students* next = nullptr;
+    viewCheckin *checkinList;
 };
 
-struct Courses {
-	short int courseNo;
-	string courseName;	//them course id
-	Date startDate, endDate;
-	short int dateOfWeek[6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat   
-	string room;
-	Lecturers* lecturers = nullptr;
-	Students* students = nullptr;
-	Courses* next = nullptr;
+int numberOfDay(Date x, Date y);
+
+
+struct Courses
+{
+
+    string courseID;	//them course id
+    CourseClass *courseclass;
+    string room;
+    Lecturers* lecturers = nullptr;
+    Students* students = nullptr;
+    Courses* next = nullptr;
+    /*Date startDate, endDate;
+    int days= numberOfDay(startDate,endDate);
+    int weeks=days/7;
+    short int dateOfWeek[11][6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat
+    short int checkinList[11][6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat
+    memset(checkin,11,6);
+    string room;
+    Lecturers* lecturers = nullptr;
+    Students* students = nullptr;
+    ;*/
+};
+/*struct Schedule
+{
+    Date beginDate;
+    string schedule[6][4];
+};
+*/
+
+struct Classes
+{
+    string className;
+    Students* students = nullptr;
+    Classes* next = nullptr;
+    string schedule[6][4];
+};
+struct CourseClass
+{
+    string classID;
+    Students* students = nullptr;
+    Date startDate, endDate;
+    CourseClass *next;
 };
 
-struct Classes {
-	short int classNo;
-	string className; 
-	Students* students = nullptr;
-	Classes* next = nullptr;
+struct Semesters
+{
+    char semesterNo;
+    Courses* courses = nullptr;
+    Lecturers* lecturers = nullptr;
+    Staffs* staffs = nullptr;
+    Semesters* next = nullptr;
 };
 
-struct CourseClass {
-	short int no, classNo, courseNo, studentNo;
-};
-
-struct Semesters {
-	char semesterNo;
-	Courses* courses = nullptr;
-	Lecturers* lecturers = nullptr;
-	Staffs* staffs = nullptr;
-	Semesters* next = nullptr;
-};
-
-struct AcademicYears {
-	short int year;  //Ex: 1920 2021;
-	Semesters* semesters = nullptr;
-	Classes* classes = nullptr;
-	AcademicYears* next = nullptr;
+struct AcademicYears
+{
+    short int year;  //Ex: 1920 2021;
+    Semesters* semesters = nullptr;
+    Classes* classes = nullptr;
+    AcademicYears* next = nullptr;
 };
 
 struct Account {
@@ -170,7 +211,7 @@ struct Course {
 	Student* studentList;
 	Lecturer* lecturerList;
 	Date startDate, endDate;
-	int dateOfWeek[6];//bit   
+	int dateOfWeek[6];//bit
 	string room;
 };
 
@@ -179,6 +220,25 @@ struct Date {
 	string day, month, year;
 };
 
+<<<<<<< Updated upstream
+=======
+struct Account {
+	char* pwd;  //(sha256 if possible)
+	char* uName; // = ID
+	short int role = (int)uName[0] -48;
+	char* lastname, * firstname, gender[2];
+	Date* doB;
+};
+struct Student {
+	Account* account;
+	int no;
+	char studentClass[20], studentID[20];//id = uName;
+	//*classes, *courses
+	//*pointer to student in list
+	//*pointer to student in same class
+	Student* nextStudent = nullptr;
+};  //1xxxxxxx
+>>>>>>> Stashed changes
 
 
 
@@ -186,7 +246,7 @@ struct Lecturer {
 	Account* account;
 	int no;
 	//courses -> linked list
-	//faculty 
+	//faculty
 
 };  //2xxxxxxx
 */
@@ -211,7 +271,8 @@ bool logout(Accounts* curAcc);
 
 #pragma region Course
 
-#pragma endregion
+#pragma endregion		37. View schedules.
+
 
 #pragma region Scoreboard
 
@@ -238,19 +299,20 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 #endif
 
-/* 
+/*
 
-All roles
-	1. Login		   	
-	2. Show menu               
-	3. View profile info	   	
-	4. Change password	   	   
-	5. Logout		 
+All roles		37. View schedules.
+
+	1. Login
+	2. Show menu
+	3. View profile info
+	4. Change password
+	5. Logout
 Academic staff:
 	Class
 		6. Import students from a csv file.     -> void InputStudents(ifstream& f,    close right after importing
 				Remember to create student accounts based on their Student ID and their DoB.
-		7. Manually add a new student to a class. 
+		7. Manually add a new student to a class.
 				For example, there is a new student enrolled in 18CLC6. Remember to create a student account based on his/her Student ID and their DoB.
 		8. Edit an existing student.
 		9. Remove a student.
@@ -260,7 +322,7 @@ Academic staff:
 	Course
 		13. Create / update / delete / view academic years (2018-2019), and semesters (Fall).
 		14. From a semester, import courses such as CTT008, CTT010 from a csv file.
-			The csv file should include columns such as No (1), Course ID (CTT008),
+			The csv file should include columns such a365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.year - 457) / 5 + x.day - 307s No (1), Course ID (CTT008),
 			Course Name (Programming Techniques), Class (18CLC6),
 			LecturerAccount (nhminh), Start Date (2019-01-07), End Date
 			(2019-04-13), Day of Week (Wed), Start Hour:Minute (08:00), and End Hour:Minute (11:00), Room (I33).
