@@ -100,22 +100,22 @@ struct AttendanceStatus
     	}
     */
 };
-struct viewCheckin
+struct ViewCheckin
 {
     int week;
     string viewWeek[6][4];
-    viewCheckin *next;
+    ViewCheckin *next;
 };
 
 struct Students
 {
-    int studentNo;
+    int studentID;
     Accounts* account = nullptr;
     Scoreboards* scoreboards = nullptr;
     AttendanceStatus* attendanceStatus = nullptr;
     // Courses* courses = nullptr;//List of courses a student enrolled
     Students* next = nullptr;
-    viewCheckin *checkinList;
+    ViewCheckin *checkinList;
 };
 
 int numberOfDay(Date x, Date y);
@@ -124,10 +124,11 @@ int numberOfDay(Date x, Date y);
 struct Courses
 {
 
+    short int courseno;
     string courseID;	//them course id
     CourseClass *courseclass;
     string room;
-    Lecturers* lecturers = nullptr;
+   string LectureName;
     Students* students = nullptr;
     Courses* next = nullptr;
     /*Date startDate, endDate;
@@ -150,7 +151,8 @@ struct Courses
 
 struct Classes
 {
-    string className;
+    short int classno;
+    string classID;
     Students* students = nullptr;
     Classes* next = nullptr;
     string schedule[6][4];
@@ -159,10 +161,13 @@ struct CourseClass
 {
     string classID;
     Students* students = nullptr;
+    long int BitAttend=0;
     Date startDate, endDate;
     CourseClass *next;
 };
-
+struct CourseClass0 {
+	short int no, classNo, courseNo, studentNo;
+};
 struct Semesters
 {
     char semesterNo;
@@ -182,7 +187,7 @@ struct AcademicYears
 
 struct Account {
 	char* pwd;  //(sha256 if possible)
-	char* uName; // = ID 
+	char* uName; // = ID
 	short int role = (int)uName[0] - 48;
 	char* lastname, * firstname;
 	int gender;
