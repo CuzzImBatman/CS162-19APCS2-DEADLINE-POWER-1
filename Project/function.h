@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <string>
+#include <string.h>
 #include <fstream>
 using namespace std;
 /* Naming rule:
@@ -29,7 +29,7 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 			   |                            	          +-->[AttendanceStatus]
 			   |			      	                      |
 			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
-
+Outsider
 */
 struct Date
 {
@@ -38,39 +38,39 @@ struct Date
 
 struct Accounts
 {
-    char* pwd = nullptr;  //(sha256 if possible)
-    char* uName = nullptr; // = ID
+    char* pwd = NULL;  //(sha256 if possible)
+    char* uName = NULL; // = ID
     short int role = (int)uName[0] - 48;
     string lastname, firstname;
     char gender[3]; //Female Male, Prefer not to say -> F,M,O
-    Date* doB = nullptr;
+    Date* doB = NULL;
 };
 
 struct Scoreboards
 {
     string courseName; //the course that this list belongs to
     int midtermScore, finalScore, labScore, bonusScore;
-    Scoreboards* next = nullptr;
+    Scoreboards* next = NULL;
 };
 
 struct Staffs
 {
-    Accounts* account = nullptr;
-    Staffs* next = nullptr;
-    CourseClass
+    Accounts* account = NULL;
+    Staffs* next = NULL;
+
 };
 
 struct Lecturers
 {
-    Accounts* account = nullptr;
-    Lecturers* next = nullptr;
+    Accounts* account = NULL;
+    Lecturers* next = NULL;
 };
 
 struct SessionStatus
 {
     short int sessionNo; //11 12 21 22 31 32  week_session
     bool status;
-    SessionStatus* next = nullptr;
+    SessionStatus* next = NULL;
 };
 /*
 struct WeeklyStatus {
@@ -80,8 +80,8 @@ struct WeeklyStatus {
 struct AttendanceStatus
 {
     string courseName;
-    SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
-    AttendanceStatus* next = nullptr;
+    SessionStatus* sessions = NULL; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
+    AttendanceStatus* next = NULL;
     //WeeklyStatus week[11];
     //short int present, absent;
 
@@ -105,22 +105,44 @@ struct ViewCheckin
     int week;
     string viewWeek[6][4];
     ViewCheckin *next;
+
 };
 
 struct Students
 {
     int studentID;
-    Accounts* account = nullptr;
-    Scoreboards* scoreboards = nullptr;
-    AttendanceStatus* attendanceStatus = nullptr;
-    // Courses* courses = nullptr;//List of courses a student enrolled
-    Students* next = nullptr;
-    ViewCheckin *checkinList;
-};
+    Accounts* account = NULL;
+    Scoreboards* scoreboards = NULL;
+    AttendanceStatus* attendanceStatus = NULL;
 
+    int Status;
+    ///1  in class
+    ///0  not avaialble
+    ///-1 removed to another class
+    ///-2 kicked
+    ViewCheckin *checkinList;
+    Students* next = NULL;
+
+};
+struct OutsideStudent
+{
+    int studentID;
+    string classID;
+    OutsideStudent* next;
+
+};
 int numberOfDay(Date x, Date y);
 
+struct CourseClass
+{
+    string classID;
+    Students* students = NULL;
+    long int BitAttend=0;
+    Date startDate, endDate;
+    CourseClass *next;
+    OutsideStudent* Outsider=NULL;
 
+};
 struct Courses
 {
 
@@ -128,9 +150,9 @@ struct Courses
     string courseID;	//them course id
     CourseClass *courseclass;
     string room;
-   string LectureName;
-    Students* students = nullptr;
-    Courses* next = nullptr;
+    string LectureName;
+    Students* students = NULL;
+    Courses* next = NULL;
     /*Date startDate, endDate;
     int days= numberOfDay(startDate,endDate);
     int weeks=days/7;
@@ -153,36 +175,32 @@ struct Classes
 {
     short int classno;
     string classID;
-    Students* students = nullptr;
-    Classes* next = nullptr;
+    Students* students = NULL;
+    Classes* next = NULL;
     string schedule[6][4];
+
 };
-struct CourseClass
-{
-    string classID;
-    Students* students = nullptr;
-    long int BitAttend=0;
-    Date startDate, endDate;
-    CourseClass *next;
-};
+
 struct CourseClass0 {
 	short int no, classNo, courseNo, studentNo;
 };
 struct Semesters
 {
     char semesterNo;
-    Courses* courses = nullptr;
-    Lecturers* lecturers = nullptr;
-    Staffs* staffs = nullptr;
-    Semesters* next = nullptr;
+    Courses* courses = NULL;
+    Lecturers* lecturers = NULL;
+    Staffs* staffs = NULL;
+    Semesters* next = NULL;
+
 };
 
 struct AcademicYears
 {
     short int year;  //Ex: 1920 2021;
-    Semesters* semesters = nullptr;
-    Classes* classes = nullptr;
-    AcademicYears* next = nullptr;
+    Semesters* semesters = NULL;
+    Classes* classes = NULL;
+    AcademicYears* next = NULL;
+
 };
 
 struct Account {
@@ -192,6 +210,7 @@ struct Account {
 	char* lastname, * firstname;
 	int gender;
 	Date* doB;
+
 };
 
 struct AcademicStaff {
@@ -200,61 +219,6 @@ struct AcademicStaff {
 };
 
 
-/*
-struct AttendanceList {
-
-};
-struct Scoreboard {
-	Course* courseID;
-	Class* classID;
-};
-
-struct Course {
-	int no;
-	string id;
-	string classID;
-	Student* studentList;
-	Lecturer* lecturerList;
-	Date startDate, endDate;
-	int dateOfWeek[6];//bit
-	string room;
-};
-
-
-struct Date {
-	string day, month, year;
-};
-
-<<<<<<< Updated upstream
-=======
-struct Account {
-	char* pwd;  //(sha256 if possible)
-	char* uName; // = ID
-	short int role = (int)uName[0] -48;
-	char* lastname, * firstname, gender[2];
-	Date* doB;
-};
-struct Student {
-	Account* account;
-	int no;
-	char studentClass[20], studentID[20];//id = uName;
-	//*classes, *courses
-	//*pointer to student in list
-	//*pointer to student in same class
-	Student* nextStudent = nullptr;
-};  //1xxxxxxx
->>>>>>> Stashed changes
-
-
-
-struct Lecturer {
-	Account* account;
-	int no;
-	//courses -> linked list
-	//faculty
-
-};  //2xxxxxxx
-*/
 
 #pragma region Initialization
 

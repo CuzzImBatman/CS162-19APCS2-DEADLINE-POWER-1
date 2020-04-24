@@ -1,5 +1,7 @@
 #include"function.h"
-int numberOfDay(Date x, Date y);
+using namespace std;
+
+int numberOfDay(Date x, Date y)
 {
     if (x.month < 3)
     {
@@ -9,7 +11,7 @@ int numberOfDay(Date x, Date y);
     return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307-(365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307)+1;
 }
 
-void memset(short int&checkinList[][],int x,int  y)
+void memset(short int checkinList[10][10],int x,int  y)
 {
     for(int i=1; i<=x; i++)
         for(int j=1; j<=y; j++)
@@ -29,7 +31,7 @@ bool Tick(int week, string Course,ViewCheckin *&checkin )
         i++;
     }
     for(i=1; i<=6; i++)
-        for(j=1; j<=4; j++)
+        for(int j=1; j<=4; j++)
             if(*x==cur->viewWeek[i][j])
             {
                 cur->viewWeek[i][j]=*v;
@@ -41,13 +43,13 @@ bool Tick(int week, string Course,ViewCheckin *&checkin )
                 return false;
             }
     cout<<"Cannot check  in Course";
-    return false
+    return false;
 
 
 
 
 }
-void viewCheckIn(string &checkinWeek[][], int week)
+void viewCheckIn(string checkInWeek[6][4], int week)
 {
     cout<<"Week: "<<week<<endl;
     cout<<setw(10);
@@ -71,7 +73,7 @@ void viewCheckIn(string &checkinWeek[][], int week)
 
 
 }
-}
+
 void viewSchedule(Classes *Class)
 {
     cout<<setw(10);
@@ -96,9 +98,9 @@ void viewSchedule(Classes *Class)
 }
 void viewScoreCourse(Students *&student,string course)
 {
-    Scoreboards scoreboard=student->scoreboards;
+    Scoreboards *scoreboard=student->scoreboards;
     while(scoreboard->courseName!=course)
-        scoreboard=scoreboard->next
+        scoreboard=scoreboard->next;
                    //cout
     }
 
@@ -111,7 +113,7 @@ void changeCheckinList(ViewCheckin *&checkinList,int day,int nth,string courseID
     {
         for(int i=1; i<=6; i++)
             for(int j=1; j<=4; j++)
-                if(cur[i][j]== *v)
+                if(cur->viewWeek[i][j]== *v)
                     break;
                 else if(cur->viewWeek[i][j]== *x)
                 {
@@ -122,10 +124,10 @@ void changeCheckinList(ViewCheckin *&checkinList,int day,int nth,string courseID
         cur=cur->next;
     }
 }
-void EditScheduleCourseOfClass(Course*& course,string classID,string courseID,Classes *&Class)
+void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class)
 {
     Classes *curClass=Class;
-    Course* curCourse=course;
+    Courses* curCourse=course;
     while(curClass->classID!=classID)
         curClass=curClass->next;
     while(curCourse->courseID!=courseID)
@@ -146,7 +148,7 @@ void EditScheduleCourseOfClass(Course*& course,string classID,string courseID,Cl
                 nth=j;
                 break;
             }
-    schedule[day0][nth0]=courseID;
+    curClass->schedule[day0][nth0]=courseID;
 
 
     Students *student=curClass->students;
@@ -160,55 +162,63 @@ void EditScheduleCourseOfClass(Course*& course,string classID,string courseID,Cl
 
 
 }
-EditCourseId(Course*& course,string NewID,string OldID)
+void EditCourseId(Courses*& course,string NewID,string OldID)
 {
-    Course*cur=course;
+    Courses*cur=course;
     while(cur->courseID!=OldID)
         cur->next;
     cur->courseID=NewID;
 }
-EditCourseroom(Course*& course,string courseID,string room)
+void EditCourseroom(Courses*& course,string courseID,string room)
 {
-    Course*cur=course;
+    Courses*cur=course;
 
     while(cur->courseID!=courseID)
         cur->next;
     cur->room=room;
 }
-EditCourseLecture(Course*& course,string name,string courseID)
+void EditCourseLecture(Courses*& course,string name,string courseID)
 {
-    Course*cur=course;
+    Courses*cur=course;
     while(cur->courseID!=courseID)
         cur->next;
     cur->LectureName=name;
 
 }
 
-void EditCourse(Course*& course,Classes *&Class)
+void EditCourse(Courses*& course,Classes *&Class)
 {
+    int n;
     cin>>n;
+    string courseID,room,NewID, OldID,name,classID;
     switch(n)
     {
     case 1:
-        string NewID,OldID;
-        cin>>OldID;
-        cin>>NewID;
-        EditCourseId(course,NewID,,OldID);
+
+        getline(cin,OldID);
+        getline(cin,NewID);
+        EditCourseId(course,NewID,OldID);
+        break;
     case 2:
-        string ID,room;
-        cin>>ID;
+
+        cin>>courseID;
         cin>>room;
-        EditCourseroom( course, ID, room);
+        EditCourseroom( course, courseID, room);
+                break;
+
     case 3:
 
-        string classID,courseID;
+
         cin>>classID;
         cin>>courseID;
-        EditScheduleCourseOfClass(course,classID,courseID,Class)
+        EditScheduleCourseOfClass(course,classID,courseID,Class);
+        break;
+
     case 4:
-        string courseID;
-        string name;
+
         EditCourseLecture(course,name,courseID);
+                break;
+
 
 
 
@@ -232,12 +242,12 @@ void DeleteCourseSchedule(Classes *&Class,string courseID,string classID)
     }
 
 }
-bool RemoveCourse(Course*& course,string courseID,Classes *&Class)
+bool RemoveCourse(Courses*& course,string courseID,Classes * &Class)
 {
-    Course*cur=course;
-    course*tmp=new Course;
-    course*pre=new Course;
-    if(cur->courseID==courseID)
+    Courses* cur=course;
+    Courses* tmp=new Courses;
+    Courses* pre=new Courses;
+    if(cur-> courseID==courseID)
     {
         cur=cur->next;
         course=NULL;
@@ -247,13 +257,13 @@ bool RemoveCourse(Course*& course,string courseID,Classes *&Class)
     {
         if(cur->courseID==courseID)
         {
-            while(cur->CourseClass!=NULL)
-                DeleteCourseSchedule(Class,courseID,cur->CourseClass->ClassID);
+            while(cur->courseclass!=NULL)
+                DeleteCourseSchedule(Class,courseID,cur->courseclass->classID);
             pre->next=cur->next;
-            Node* tmp=cur->next;
+            Courses* tmp=cur->next;
             cur=NULL;
             cur=tmp;
-            return true
+            return true;
         }
         pre= cur;
         cur=cur->next;
@@ -261,10 +271,10 @@ bool RemoveCourse(Course*& course,string courseID,Classes *&Class)
     return false;
 
 }
-void RemovedStudentFromCourseClass(Course*& course,string courseID,string classID,int studentID )
+void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,int studentID )
 {
-    Course* curCourse= course;
-    while(curCourse->coutseID!=c ourseID)
+    Courses* curCourse= course;
+    while(curCourse->courseID !=courseID)
         curCourse = curCourse->next;
     CourseClass* courseclass = curCourse->courseclass;
     while(courseclass->classID != classID)
@@ -273,6 +283,25 @@ void RemovedStudentFromCourseClass(Course*& course,string courseID,string classI
         Students* students= courseclass->students;
         while(students->studentID != studentID)i++;
         courseclass->BitAttend -= 2>>i;
+       changeCheckinList(students->checkinList,0,0,courseID);
+//1 inside
+//0 outsie
+}
+void AddStudentToCourseClass(Courses*& course,string courseID,string classID,int studentID )
+{
+    Courses* curCourse= course;
+    while(curCourse->courseID != courseID)
+        curCourse = curCourse->next;
+    CourseClass* courseclass = curCourse->courseclass;
+    while(courseclass->classID != classID)
+        courseclass = courseclass->next;
+
+    OutsideStudent* Outsider=   new OutsideStudent;
+    Outsider->classID= classID;
+    Outsider->studentID= studentID;
+    Outsider->next= courseclass->Outsider;
+    courseclass->Outsider = Outsider;
+
 }
 
 
