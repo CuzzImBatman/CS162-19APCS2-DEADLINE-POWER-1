@@ -121,6 +121,7 @@ struct Students
     ///-1 removed to another class
     ///-2 kicked
     ViewCheckin *checkinList;
+    string schedule[6][4];
     Students* next = NULL;
 
 };
@@ -141,7 +142,8 @@ struct CourseClass
     Date startDate, endDate;
     CourseClass *next;
     OutsideStudent* Outsider=NULL;
-
+    int DayInWeek;
+    int AtNth;
 };
 struct Courses
 {
@@ -151,7 +153,6 @@ struct Courses
     CourseClass *courseclass;
     string room;
     string LectureName;
-    Students* students = NULL;
     Courses* next = NULL;
     /*Date startDate, endDate;
     int days= numberOfDay(startDate,endDate);
@@ -164,12 +165,7 @@ struct Courses
     Students* students = nullptr;
     ;*/
 };
-/*struct Schedule
-{
-    Date beginDate;
-    string schedule[6][4];
-};
-*/
+
 
 struct Classes
 {
