@@ -107,7 +107,13 @@ struct ViewCheckin
     ViewCheckin *next;
 
 };
-
+struct CheckinCourse
+{
+    int bitweek;
+    string courseID;
+    int status;
+    CheckinCourse *next;
+};
 struct Students
 {
     int studentID;
@@ -122,6 +128,7 @@ struct Students
     ///-2 kicked
     ViewCheckin *checkinList;
     string schedule[6][4];
+   CheckinCourse *checkincourse;
     Students* next = NULL;
 
 };
