@@ -153,44 +153,6 @@ struct AcademicStaff {
 	int no;
 };
 
-
-/*
-struct AttendanceList {
-
-};
-struct Scoreboard {
-	Course* courseID;
-	Class* classID;
-};
-
-struct Course {
-	int no;
-	string id;
-	string classID;
-	Student* studentList;
-	Lecturer* lecturerList;
-	Date startDate, endDate;
-	int dateOfWeek[6];//bit   
-	string room;
-};
-
-
-struct Date {
-	string day, month, year;
-};
-
-
-
-
-struct Lecturer {
-	Account* account;
-	int no;
-	//courses -> linked list
-	//faculty 
-
-};  //2xxxxxxx
-*/
-
 #pragma region Initialization
 
 #pragma endregion
@@ -206,7 +168,13 @@ bool logout(Accounts* curAcc);
 #pragma region Academic Staff
 
 #pragma region Class
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 
 #pragma region Course

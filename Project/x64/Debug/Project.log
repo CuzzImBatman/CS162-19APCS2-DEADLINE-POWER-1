@@ -1,0 +1,4 @@
+﻿  function.cpp
+  main.cpp
+  Generating Code...
+D:\CS162\CS162_Project\Project\main.cpp(68,73): error C2059: syntax error: ')'
