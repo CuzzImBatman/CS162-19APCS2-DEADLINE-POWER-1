@@ -3,7 +3,7 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
 #endif
-          
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -19,12 +19,12 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 
 							  +-->[Staffs]
 							  |
-							  +-->[Lecturers]			
-							  |							 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+  
-			   |					   	   		                |  
-			   +<-----------------------------------------------+			  		                  
-			   |						  		 
+							  +-->[Lecturers]
+							  |
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
+			   |					   	   		                |
+			   +<-----------------------------------------------+
+			   |
 			   |                            	          +-->[AttendanceStatus]
 			   |			      	                      |
 			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
@@ -36,7 +36,7 @@ struct Date {
 
 struct Accounts {
 	char* pwd = nullptr;  //(sha256 if possible)
-	char* uName = nullptr; // = ID 
+	char* uName = nullptr; // = ID
 	short int role = (int)uName[0] - 48;
 	string lastname, firstname;
 	char gender[3]; //Female Male, Prefer not to say -> F,M,O
@@ -45,7 +45,7 @@ struct Accounts {
 
 struct Scoreboards {
 	string courseName; //the course that this list belongs to
-	int midtermScore, finalScore, labScore, bonusScore; 
+	int midtermScore, finalScore, labScore, bonusScore;
 	Scoreboards* next = nullptr;
 };
 
@@ -73,7 +73,7 @@ struct AttendanceStatus {
 	string courseName;
 	SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
 	AttendanceStatus* next = nullptr;
-	//WeeklyStatus week[11]; 
+	//WeeklyStatus week[11];
 	//short int present, absent;
 
 
@@ -104,8 +104,9 @@ struct Students {
 struct Courses {
 	short int courseNo;
 	string courseName;	//them course id
-	Date startDate, endDate;  
-	
+	Date startDate, endDate;
+	short int dateOfWeek[6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat
+	string room;
 	Lecturers* lecturers = nullptr;
 	Students* students = nullptr;
 	Courses* next = nullptr;
@@ -113,7 +114,7 @@ struct Courses {
 
 struct Classes {
 	short int classNo;
-	string className; 
+	string className;
 	Students* students = nullptr;
 	Classes* next = nullptr;
 };
@@ -162,7 +163,7 @@ struct Course {
 	Student* studentList;
 	Lecturer* lecturerList;
 	Date startDate, endDate;
-	int dateOfWeek[6];//bit   
+	int dateOfWeek[6];//bit
 	string room;
 };
 
@@ -176,7 +177,7 @@ struct Date {
 
 struct Account {
 	char* pwd;  //(sha256 if possible)
-	char* uName; // = ID 
+	char* uName; // = ID
 	short int role = (int)uName[0] -48;
 	char* lastname, * firstname, gender[2];
 	Date* doB;
@@ -194,15 +195,7 @@ struct Student {
 struct AcademicStaff {
 	Account* account;
 	int no;
-}; //3xxxxxx    *hoi gv*
-struct Lecturer {
-	Account* account;
-	int no;
-	//courses -> linked list
-	//faculty 
-
-};  //2xxxxxxx
-*/
+};
 
 #pragma region Initialization
 
@@ -219,7 +212,13 @@ bool logout(Accounts* curAcc);
 #pragma region Academic Staff
 
 #pragma region Class
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 
 #pragma region Course
@@ -235,7 +234,13 @@ bool logout(Accounts* curAcc);
 #pragma endregion
 
 #pragma endregion
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma region Lecturer
 
 #pragma endregion
@@ -245,19 +250,19 @@ bool logout(Accounts* curAcc);
 #pragma endregion
 #endif
 
-/* 
+/*
 
 All roles
-	1. Login		   	
-	2. Show menu               
-	3. View profile info	   	
-	4. Change password	   	   
-	5. Logout		 
+	1. Login
+	2. Show menu
+	3. View profile info
+	4. Change password
+	5. Logout
 Academic staff:
 	Class
 		6. Import students from a csv file.     -> void InputStudents(ifstream& f,    close right after importing
 				Remember to create student accounts based on their Student ID and their DoB.
-		7. Manually add a new student to a class. 
+		7. Manually add a new student to a class.
 				For example, there is a new student enrolled in 18CLC6. Remember to create a student account based on his/her Student ID and their DoB.
 		8. Edit an existing student.
 		9. Remove a student.
