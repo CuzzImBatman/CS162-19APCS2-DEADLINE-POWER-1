@@ -124,6 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="function.cpp" />
+    <ClCompile Include="functionAllRoles.cpp" />
+    <ClCompile Include="functionLecturer.cpp" />
+    <ClCompile Include="functionStaff.cpp" />
+    <ClCompile Include="functionStudent.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

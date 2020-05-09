@@ -1,0 +1,17 @@
+19125096
+210801096 // ddmmyy096
+Vu Duc Huy
+21-08-2001 // dd-mm-yyyy
+19CTT2
+
+19125002
+010101002
+Trinh Van A
+01-01-2001
+19CTT1
+
+19125079
+240501079 // ddmmyy079
+Le Gia Bao
+24-05-2001 // dd-mm-yyyy
+19CTT2
