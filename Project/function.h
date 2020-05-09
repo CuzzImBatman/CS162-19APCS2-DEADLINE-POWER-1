@@ -8,75 +8,23 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 using namespace std;
-//string 
 /* Naming rule:
 struct: StructName
 variable, function: variableName, functionName
 const: CONST
+plural to indicate a list, single to indicate an attribute of a subject, structs are plural;
 */
-<<<<<<< Updated upstream
-/*
-struct DBHead {
-	int role;
-	StudentDB* studentDBHead;
-	AcademicStaffDB* academicStaffDBHead;
-	LecturerDB* lecturerDBHead;
-}
-										  +------------+       +------------+
-									   +--| account[0] |   +-->| account[1] |  +-->...
-									  /	  +------------+  /	   +------------+ /
-					+---------------+/   +--------------+/   +--------------+/
-			   +--->| studentDBHead	|--->| studentDB[1] |--->| studentDB[2] |--->...
-			   |    +---------------+    +--------------+    +--------------+
-			   |								   +------------+			 +------------+
-			   |							 +---->| account[0] |      +---->| account[1] |      +---->...
-			   |                            /      +------------+     /      +------------+     /
-+--------+     |    +---------------------+/   +--------------------+/   +--------------------+/
-| dbHead |-----+--->| academicStaffDBHead |--->| academicStaffDB[1] |--->| academicStaffDB[2] |--->...
-+--------+     |    +---------------------+    +--------------------+    +--------------------+
-			   |						   +------------+		+------------+
-			   |					    +->| account[0] |    +->| account[1] |    +->...
-			   |					   /   +------------+   /   +------------+   /
-			   |    +----------------+/   +---------------+/   +---------------+/
-			   +--->| lecturerDBHead |--->| lecturerDB[1] |--->| lecturerDB[2] |--->...
-					+----------------+    +---------------+    +---------------+
-*/ 
-struct AttendanceList {
-
-};
-struct Scoreboard {
-	Course* courseID;
-	Class* classID;
-};
-
-struct Course {
-	int no;
-	string id;
-	string classID;
-	Student* studentList;
-	Lecturer* lecturerList;
-	Date startDate, endDate;
-	int dateOfWeek[6];//bit   
-	string room;
-};
-
-struct Class {
-	string id;
-	Student* studentList;
-};
-struct Date {
-	string day, month, year;
-=======
 /*  Database Structure
 
 							  +-->[Staffs]
 							  |
 							  +-->[Lecturers]			
 							  |							 	
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->
-			   |					   	   	  |  
-			   +--[CourseClass]<--------------+			  		                  
+[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+  
+			   |					   	   		                |  
+			   +--[CourseClass]<--------------------------------+			  		                  
 			   |						  		 
 			   |                            	          +-->[AttendanceStatus]
 			   |			      	                      |
@@ -113,15 +61,36 @@ struct Lecturers {
 };
 
 struct SessionStatus {
-	short int sessionNo;
+	short int sessionNo; //11 12 21 22 31 32  week_session
 	bool status;
 	SessionStatus* next = nullptr;
 };
-
+/*
+struct WeeklyStatus {
+	SessionStatus* sessions = nullptr;
+	WeeklyStatus* next = nullptr;
+};*/
 struct AttendanceStatus {
 	string courseName;
 	SessionStatus* sessions = nullptr; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
 	AttendanceStatus* next = nullptr;
+	//WeeklyStatus week[11]; 
+	//short int present, absent;
+
+
+
+	//Khi input: academicYear->semester->course->courseclass      student->AttendanceStatus->sessions->status = true;
+	/*Khi truy xuat:
+	    temp = academicYear->semester->course->       student
+	    while (temp->next != nullptr){
+			temp2 = temp->AttendanceStatus->sessions;
+			while (temp2->next != nullptr){
+				cout << temp2->sessionNo << ': ' << temp2->sessionStatus << endl;
+				temp2=temp2->next;
+			}
+			temp= temp->next;
+		}
+	*/
 };
 
 struct Students {
@@ -153,7 +122,6 @@ struct Classes {
 
 struct CourseClass {
 	short int no, classNo, courseNo, studentNo;
-	CourseClass* next;
 };
 
 struct Semesters {
@@ -169,69 +137,32 @@ struct AcademicYears {
 	Semesters* semesters = nullptr;
 	Classes* classes = nullptr;
 	AcademicYears* next = nullptr;
->>>>>>> Stashed changes
 };
 
 struct Account {
 	char* pwd;  //(sha256 if possible)
 	char* uName; // = ID 
-<<<<<<< Updated upstream
-	short int role = (int)uName[0] -48;
-	char* lastname, * firstname, gender[2];
-	Date* doB;
-};
-struct Student {
-	Account* account;
-	int no;
-	char studentClass[20], studentID[20];//id = uName;
-	//*classes, *courses
-	//*pointer to student in list
-	//*pointer to student in same class
-	Student* nextStudent = nullptr;
-};  //1xxxxxxx
-=======
 	short int role = (int)uName[0] - 48;
 	char* lastname, * firstname;
 	int gender;
 	Date* doB;
 };
->>>>>>> Stashed changes
 
 struct AcademicStaff {
 	Account* account;
 	int no;
-<<<<<<< Updated upstream
-}; //3xxxxxx    *hoi gv*
-struct Lecturer {
-	Account* account;
-	int no;
-	//courses -> linked list
-	//faculty 
-
-};  //2xxxxxxx
-
-=======
 };
->>>>>>> Stashed changes
 
 #pragma region Initialization
 
 #pragma endregion
 
 #pragma region All roles
-int login(char* user, char* pwd, Account* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
+int login(char* user, char* pwd, Accounts* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
 void showMenu(int role);
-<<<<<<< Updated upstream
-void viewProfile(Account* curAcc);
-bool changePwd(char* newPwd, Account* accountList);
-bool logout(Account* curAcc);
-=======
 void viewProfile(Accounts* curAcc);
 bool changePwd(char* newPwd, Accounts* accountList);
 bool logout(Accounts* curAcc);
-
-
->>>>>>> Stashed changes
 #pragma endregion
 
 #pragma region Academic Staff
@@ -259,7 +190,13 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 
 #pragma endregion
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma region Lecturer
 
 #pragma endregion
