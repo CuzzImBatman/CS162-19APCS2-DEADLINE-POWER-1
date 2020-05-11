@@ -1,17 +1,22 @@
-19125096
-210801096 // ddmmyy096
-Vu Duc Huy
-21-08-2001 // dd-mm-yyyy
+2
 19CTT2
+19125113
+SpookyFish
+1
+Phu
+Dao Thien
+M
+27
+02
+2001
 
-19125002
-010101002
-Trinh Van A
-01-01-2001
-19CTT1
-
+19CTT2
 19125079
-240501079 // ddmmyy079
-Le Gia Bao
-24-05-2001 // dd-mm-yyyy
-19CTT2
+EmVoSpookyFish
+1
+Bao
+Le Gia
+M
+69
+69
+2001
