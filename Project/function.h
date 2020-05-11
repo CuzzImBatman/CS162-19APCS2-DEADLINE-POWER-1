@@ -206,29 +206,27 @@ bool logout(Accounts* curAcc);
 #pragma region Academic Staff
 
 #pragma region Class
-
-#pragma endregion
-
-#pragma region Course
-
-#pragma endregion
-
-#pragma region Scoreboard
-
-#pragma endregion
-
-#pragma region Attendance list
-
-#pragma endregion
-
-#pragma endregion
 void importAClassFromCsvFile(Account* acc, Classes*& aClass, ifstream fin);
-void addAStudentToAClass(Account* acc, Students*& aStudent, Classes*& aClass);
+void addAStudentToAClass(Account* acc, Classes*& aClass);
 void editAStudent(Account* acc, Classes*& aClass);
 void removeAStudent(Account* acc, Classes*& aClass);
 void changeClassForStudents(Account* acc, CourseClass*& classes);
 void viewListOfClasses(Account* acc, Classes* aClass);
 void viewListOfStudentsInAClass(Account* acc, Classes* aClass);
+#pragma endregion
+
+#pragma region Course
+#pragma endregion
+
+#pragma region Scoreboard
+#pragma endregion
+
+#pragma region Attendance list
+#pragma endregion
+
+#pragma endregion
+
+
 #pragma region Lecturer
 
 #pragma endregion
