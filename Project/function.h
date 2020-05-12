@@ -158,7 +158,7 @@ struct CourseClass
 };
 struct Courses
 {
-    short int courseno;
+    string courseno;
     string courseID;	//them course id
     CourseClass *courseclass;
     string room;
@@ -200,7 +200,7 @@ struct Semesters
 
 struct AcademicYears
 {
-    short int year;  //Ex: 1920 2021;
+    string year;  //Ex: 1920 2021;
     Semesters* semesters = NULL;
     Classes* classes = NULL;
     AcademicYears* next = NULL;
@@ -210,23 +210,27 @@ struct AcademicYears
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
 
-void courseInit(Courses* course, char semes);
-void lecturerInit(Lecturers* lec, char semes);
-void staffInit(Staffs* staff, char semes);
-void semesterInit(Semesters*& semes, int year);
+void courseInit(Courses*& course, char semes, string year);
+void lecturerInit(Lecturers*& lec, char semes, string year);
+void staffInit(Staffs*& staff, char semes, string year);
+void semesterInit(Semesters*& semes, string year);
 
-void studentInit(Students*& st, string Class);
-void classInit(Classes*& Class, int year);
+void studentInit(Students*& st, string Class, string year);
+void classInit(Classes*& Class, string year);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
 
 #pragma region All roles
 int login(AcademicYears* year, Accounts*& acc);
-void showMenu(int role);
-void viewProfile(Accounts* acc);
+void showClassOptions();
+void showCourseOptions();
+void showScoreboardOptions();
+void showAttendanceListOptions();
+void showMenu(short int role);
 void changePwd(Accounts*& acc);
-bool logout(Accounts*& acc);
+void viewProfile(Accounts* acc);
+void logout(Accounts*& acc);
 #pragma endregion
 
 #pragma region Academic Staff

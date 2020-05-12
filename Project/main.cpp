@@ -4,8 +4,10 @@ int main() {
 	AcademicYears* academicYear = nullptr;
 	academicYearInit(academicYear);
 	
+	char loginchoice;
 	cout << "Login? [Y/N] ";
-	while (cin.get() == 'Y') {
+	cin >> loginchoice;
+	while (loginchoice == 'Y') {
 		bool loggedin = 0;
 		Accounts* acc = new Accounts;
 		while (true) {
@@ -18,14 +20,14 @@ int main() {
 				break;
 			}
 			else {
-				cout << "Login failed." << endl;
+				cout << "Login failed. Wrong username or password." << endl;
 				break;
 			}
 		}
 		int choice; 
 		while (loggedin) {
-			cout << endl << "What do you want to do?" << endl << "[1] to show menu." << endl << "[2] to view profile."
-				<< endl << "[3] to change password." << endl << "[4] to logout.";
+			cout << endl << "Main menu: What do you want to do?" << endl << "[1] to show menu." << endl << "[2] to view profile."
+				<< endl << "[3] to change password." << endl << "[4] to logout." << endl << "Your choice: ";
 			cin >> choice;
 			switch (choice) {
 			case 1: {
@@ -47,7 +49,8 @@ int main() {
 			}
 			}
 		}
-		if (!loggedin) cout << "Login? [Y/N] ";
+		if (!loggedin) cout << endl << "Login again? [Y/N] ";
+		cin >> loginchoice;
 	}
 	return 0;
 }
