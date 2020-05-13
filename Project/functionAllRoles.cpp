@@ -62,7 +62,7 @@ int login(AcademicYears* year, Accounts*& acc) {
 	}
 }
 
-void showClassOptions() {
+void showClassOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -83,27 +83,27 @@ void showClassOptions() {
 			break;
 		}
 		case 2: {
-
+			addAStudentToAClass(year->classes);
 			break;
 		}
 		case 3: {
-
+			editAStudent(year->classes);
 			break;
 		}
 		case 4: {
-
+			removeAStudent(year->classes);
 			break;
 		}
 		case 5: {
-
+			changeClassForStudents(year->classes);
 			break;
 		}
 		case 6: {
-
+			viewListOfClasses(year->classes);
 			break;
 		}
 		case 7: {
-
+			viewListOfStudentsInAClass(year->classes);
 			break;
 		}
 		case 8: variableName = 0;
@@ -112,7 +112,7 @@ void showClassOptions() {
 	}
 }
 
-void showCourseOptions() {
+void showCourseOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -182,7 +182,7 @@ void showCourseOptions() {
 	}
 }
 
-void showScoreboardOptions() {
+void showScoreboardOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -207,7 +207,7 @@ void showScoreboardOptions() {
 	}
 }
 
-void showAttendanceListOptions() {
+void showAttendanceListOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -232,7 +232,7 @@ void showAttendanceListOptions() {
 	}
 }
 
-void showMenu(short int role) {
+void showMenu(short int role, AcademicYears*& year) {
 	switch (role) {
 	case 1: {
 		//call student functions
@@ -336,19 +336,19 @@ void showMenu(short int role) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				showClassOptions();
+				showClassOptions(year);
 				break;
 			}
 			case 2: {
-				showCourseOptions();
+				showCourseOptions(year);
 				break;
 			}
 			case 3: {
-				showScoreboardOptions();
+				showScoreboardOptions(year);
 				break;
 			}
 			case 4: {
-				showAttendanceListOptions();
+				showAttendanceListOptions(year);
 				break;
 			}
 			case 5: variableName = 0;

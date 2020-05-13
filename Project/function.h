@@ -98,7 +98,7 @@ struct CheckinCourse
     int bitweek;
     string courseID;
     int status;
-    CheckinCourse *next;
+    CheckinCourse *next = NULL;
 };
 
 struct Students
@@ -113,9 +113,9 @@ struct Students
     ///0  not avaialble
     ///-1 removed to another class
     ///-2 kicked
-    ViewCheckin *checkinList;
+    ViewCheckin *checkinList = NULL;
     string schedule[6][4];
-    CheckinCourse *checkincourse;
+    CheckinCourse *checkincourse = NULL;
     Students* next = NULL;
 };
 
@@ -123,7 +123,7 @@ struct OutsideStudent
 {
     string studentID;
     string classID;
-    OutsideStudent* next;
+    OutsideStudent* next = NULL;
 };
 
 int numberOfDay(Date x, Date y);
@@ -137,7 +137,7 @@ struct CourseClass
     OutsideStudent* Outsider=NULL;
     int DayInWeek;
     int AtNth;
-	CourseClass* next;
+	CourseClass* next = NULL;
 };
 
 struct Courses
@@ -201,11 +201,11 @@ void academicYearInit(AcademicYears*& year);
 
 #pragma region All roles
 int login(AcademicYears* year, Accounts*& acc);
-void showClassOptions();
-void showCourseOptions();
-void showScoreboardOptions();
-void showAttendanceListOptions();
-void showMenu(short int role);
+void showClassOptions(AcademicYears*& year);
+void showCourseOptions(AcademicYears*& year);
+void showScoreboardOptions(AcademicYears*& year);
+void showAttendanceListOptions(AcademicYears*& year);
+void showMenu(short int role, AcademicYears*& year);
 void changePwd(Accounts*& acc);
 void viewProfile(Accounts* acc);
 void logout(Accounts*& acc);
@@ -214,13 +214,13 @@ void logout(Accounts*& acc);
 #pragma region Academic Staff
 
 #pragma region Class
-void importAClassFromCsvFile(Staffs* staff, Classes*& aClass, ifstream fin);
-void addAStudentToAClass(Staffs* staff, Students*& aStudent, Classes*& aClass);
-void editAStudent(Staffs* staff, Classes*& aClass);
-void removeAStudent(Staffs* staff, Classes*& aClass);
-void changeClassForStudents(Staffs* staff, Classes*& oldClass, Classes*& newClass);
-void viewListOfClasses(Staffs* staff, Classes* classes);
-void viewListOfStudentsInAClass(Staffs* staff, Classes* aClass);
+void importAClassFromCsvFile(Classes*& aClass);
+void addAStudentToAClass(Classes*& aClass);
+void editAStudent(Classes*& aClass);
+void removeAStudent(Classes*& aClass);
+void changeClassForStudents(Classes*& classes);
+void viewListOfClasses(Classes* aClass);
+void viewListOfStudentsInAClass(Classes* aClass);
 #pragma endregion
 
 #pragma region Course

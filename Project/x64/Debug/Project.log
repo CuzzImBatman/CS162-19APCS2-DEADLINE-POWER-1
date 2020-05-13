@@ -1,6 +1,28 @@
-﻿  function.cpp
-  functionAllRoles.cpp
-  functionInitialization.cpp
-  main.cpp
-  Generating Code...
-  Project.vcxproj -> D:\CS162\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
+﻿  functionStaff.cpp
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(41,28): error C2039: 'studentNo': is not a member of 'Students'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(104): message : see declaration of 'Students'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,45): error C2664: 'std::basic_istream<char,std::char_traits<char>> &std::basic_istream<char,std::char_traits<char>>::getline(_Elem *,std::streamsize,_Elem)': cannot convert argument 1 from 'std::string' to '_Elem *'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,45): error C2664:         with
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,45): error C2664:         [
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,45): error C2664:             _Elem=char
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,45): error C2664:         ]
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,32): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\istream(434,39): message : see declaration of 'std::basic_istream<char,std::char_traits<char>>::getline'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(69,32): error C2440: 'delete': cannot convert from 'std::string' to 'void*'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(69,27): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(98,4): error C3861: 'viewScoreboard': identifier not found
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(101,4): error C3861: 'viewAttendance': identifier not found
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(97,3): error C2360: initialization of 'tmp' is skipped by 'case' label
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(72): message : see declaration of 'tmp'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(100,3): error C2360: initialization of 'tmp' is skipped by 'case' label
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(72): message : see declaration of 'tmp'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(103,3): error C2361: initialization of 'tmp' is skipped by 'default' label
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(72): message : see declaration of 'tmp'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(117,30): error C2039: 'studentNo': is not a member of 'Students'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(104): message : see declaration of 'Students'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(132,25): error C2039: 'classNo': is not a member of 'Classes'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(163): message : see declaration of 'Classes'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(132,52): error C2039: 'className': is not a member of 'Classes'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(163): message : see declaration of 'Classes'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(136,27): error C2039: 'studentNo': is not a member of 'Students'
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(104): message : see declaration of 'Students'
