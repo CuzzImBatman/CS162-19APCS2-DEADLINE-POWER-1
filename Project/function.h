@@ -108,7 +108,7 @@ struct CheckinCourse
 };
 struct Students
 {
-    int studentID;
+    string studentID;
     Accounts* account = NULL;
     Scoreboards* scoreboards = NULL;
     AttendanceStatus* attendanceStatus = NULL;
@@ -126,7 +126,7 @@ struct Students
 };
 struct OutsideStudent
 {
-    int studentID;
+    string studentID;
     string classID;
     OutsideStudent* next;
 
@@ -209,20 +209,7 @@ struct Account {
 };*/
 
 
-struct Semesters {
-	char semesterNo;
-	Courses* courses = nullptr;
-	Lecturers* lecturers = nullptr;
-	Staffs* staffs = nullptr;
-	Semesters* next = nullptr;
-};
 
-struct AcademicYears {
-	short int year;  //Ex: 1920 2021;
-	Semesters* semesters = nullptr;
-	Classes* classes = nullptr;
-	AcademicYears* next = nullptr;
-};
 
 
 #pragma region Initialization
@@ -240,13 +227,13 @@ bool logout(Accounts* curAcc);
 #pragma region Academic Staff
 
 #pragma region Class
-void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+/*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
 void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
 void editAStudent(AcademicStaff* staff, Classes*& aClass);
 void removeAStudent(AcademicStaff* staff, Classes*& aClass);
 void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
 void viewListOfClasses(AcademicStaff* staff, Classes* classes);
-void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma endregion
 
 #pragma region Course
@@ -262,13 +249,13 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 
 #pragma endregion
-void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+/*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
 void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
 void editAStudent(AcademicStaff* staff, Classes*& aClass);
 void removeAStudent(AcademicStaff* staff, Classes*& aClass);
 void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
 void viewListOfClasses(AcademicStaff* staff, Classes* classes);
-void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma region Lecturer
 
 #pragma endregion
