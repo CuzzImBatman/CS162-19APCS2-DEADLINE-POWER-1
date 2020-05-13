@@ -332,10 +332,6 @@ void EditCourse(Courses*& course,Classes *&Class)
 
         EditCourseLecture(course,name,courseID);
         break;
-
-
-
-
     }
 
 

@@ -135,7 +135,6 @@ struct OutsideStudent
     int studentID;
     string classID;
     OutsideStudent* next;
-
 };
 int numberOfDay(Date x, Date y);
 
@@ -236,14 +235,29 @@ struct AcademicYears {
 #pragma endregion
 
 #pragma region All roles
+<<<<<<< Updated upstream
 int login(char* user, char* pwd, Accounts* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
 void showMenu(int role);
 void viewProfile(Accounts* curAcc);
 bool changePwd(char* newPwd, Accounts* accountList);
 bool logout(Accounts* curAcc);
+=======
+int login(AcademicYears* year, Accounts*& acc);
+void showClassOptions();
+void showCourseOptions(AcademicYears* acaYear);
+void showScoreboardOptions();
+void showAttendanceListOptions();
+void showMenu(short int role, AcademicYears* acaYear);
+void changePwd(Accounts*& acc);
+void viewProfile(Accounts* acc);
+void logout(Accounts*& acc);
+>>>>>>> Stashed changes
 #pragma endregion
 
 #pragma region Academic Staff
+void viewCourseOfSemester(AcademicYears* AcaYear);
+void viewStudentsOfCourse();
+#pragma endregion
 
 #pragma region Class
 void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);

@@ -69,6 +69,29 @@ int main() {
 		if (loginStatus == -1) {
 			cout << "Login unsuccessful, login again? (Y/N)";
 			cin >> choice;
+<<<<<<< Updated upstream
+=======
+			switch (choice) {
+			case 1: {
+				//Emblema: need to add param academicYear for some functions to work...
+				showMenu(acc->role, academicYear);
+				break;
+			}
+			case 2: {
+				viewProfile(acc);
+				break;
+			}
+			case 3: {
+				changePwd(acc);
+				break;
+			}
+			case 4: {
+				logout(acc);
+				loggedin = 0;
+				break;
+			}
+			}
+>>>>>>> Stashed changes
 		}
 		else {
 			//showMenu();
