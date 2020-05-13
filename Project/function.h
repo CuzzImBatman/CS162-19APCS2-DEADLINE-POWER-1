@@ -46,7 +46,6 @@ struct Accounts
     string lastname, firstname;
     char gender; //Female Male, Prefer not to say -> F,M,O
     Date* doB = NULL;
-	Accounts* next=NULL;
 };
 
 struct Scoreboards
@@ -223,6 +222,11 @@ void removeAStudent(Classes*& aClass);
 void changeClassForStudents(Classes*& classes);
 void viewListOfClasses(Classes* aClass);
 void viewListOfStudentsInAClass(Classes* aClass);
+
+void createLecturer(AcademicYears* year);
+void updateLecturer(AcademicYears* year);
+void deleteLecturer(AcademicYears* year);
+void viewLecturer(AcademicYears* year);
 #pragma endregion
 
 #pragma region Course
