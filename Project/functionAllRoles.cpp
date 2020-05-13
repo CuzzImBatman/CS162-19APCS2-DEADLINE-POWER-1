@@ -63,7 +63,7 @@ int login(AcademicYears* year, Accounts*& acc) {
 	}
 }
 
-void showClassOptions() {
+void showClassOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -84,27 +84,27 @@ void showClassOptions() {
 			break;
 		}
 		case 2: {
-
+			addAStudentToAClass(year->classes);
 			break;
 		}
 		case 3: {
-
+			editAStudent(year->classes);
 			break;
 		}
 		case 4: {
-
+			removeAStudent(year->classes);
 			break;
 		}
 		case 5: {
-
+			changeClassForStudents(year->classes);
 			break;
 		}
 		case 6: {
-
+			viewListOfClasses(year->classes);
 			break;
 		}
 		case 7: {
-
+			viewListOfStudentsInAClass(year->classes);
 			break;
 		}
 		case 8: variableName = 0;
@@ -113,8 +113,7 @@ void showClassOptions() {
 	}
 }
 
-
-void showCourseOptions(AcademicYears* acaYear) {
+void showCourseOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -162,7 +161,7 @@ void showCourseOptions(AcademicYears* acaYear) {
 			break;
 		}
 		case 8: {
-			viewCourseOfSemester(acaYear);
+			viewCourseOfSemester(year);
 			break;
 		}
 		case 9: {
@@ -183,7 +182,7 @@ void showCourseOptions(AcademicYears* acaYear) {
 	}
 }
 
-void showScoreboardOptions() {
+void showScoreboardOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -208,7 +207,7 @@ void showScoreboardOptions() {
 	}
 }
 
-void showAttendanceListOptions() {
+void showAttendanceListOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -235,6 +234,7 @@ void showAttendanceListOptions() {
 //Emblema: need to add param academicYear for some functions to work...
 void showMenu(short int role, AcademicYears* acaYear) {
 
+void showMenu(short int role, AcademicYears*& year) {
 	switch (role) {
 	case 1: {
 		//call student functions
@@ -338,19 +338,19 @@ void showMenu(short int role, AcademicYears* acaYear) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				showClassOptions();
+				showClassOptions(year);
 				break;
 			}
 			case 2: {
-				showCourseOptions(acaYear);
+				showCourseOptions(year);
 				break;
 			}
 			case 3: {
-				showScoreboardOptions();
+				showScoreboardOptions(year);
 				break;
 			}
 			case 4: {
-				showAttendanceListOptions();
+				showAttendanceListOptions(year);
 				break;
 			}
 			case 5: variableName = 0;
@@ -443,4 +443,3 @@ void viewProfile(Accounts* acc) {
 void logout(Accounts*& acc) {
 	acc = nullptr;
 }
-
