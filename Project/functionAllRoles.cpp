@@ -232,7 +232,6 @@ void showAttendanceListOptions(AcademicYears*& year) {
 	}
 }
 //Emblema: need to add param academicYear for some functions to work...
-void showMenu(short int role, AcademicYears* acaYear) {
 
 void showMenu(short int role, AcademicYears*& year) {
 	switch (role) {
@@ -290,7 +289,7 @@ void showMenu(short int role, AcademicYears*& year) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				viewCourseOfSemester(acaYear);
+				viewCourseOfSemester(year);
 				break;
 			}
 			case 2: {

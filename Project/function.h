@@ -213,9 +213,7 @@ void logout(Accounts*& acc);
 #pragma endregion
 
 #pragma region Academic Staff
-void viewCourseOfSemester(AcademicYears* AcaYear);
-void viewStudentsOfCourse();
-#pragma endregion
+
 
 #pragma region Class
 void importAClassFromCsvFile(Classes*& aClass);
@@ -228,7 +226,8 @@ void viewListOfStudentsInAClass(Classes* aClass);
 #pragma endregion
 
 #pragma region Course
-
+void viewCourseOfSemester(AcademicYears* AcaYear);
+void viewStudentsOfCourse();
 #pragma endregion
 
 #pragma region Scoreboard
