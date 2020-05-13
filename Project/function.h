@@ -115,12 +115,12 @@ struct Students
 
     int Status;
     ///1  in class
-    ///0  not avaialble
+    ///0  not available
     ///-1 removed to another class
     ///-2 kicked
 
     string schedule[6][4];
-   CheckinCourse *checkincourse;
+   CheckinCourse *checkincourse=NULL;
     Students* next = NULL;
 
 };
@@ -128,7 +128,7 @@ struct OutsideStudent
 {
     string studentID;
     string classID;
-    OutsideStudent* next;
+    OutsideStudent* next=NULL;
 
 };
 int numberOfDay(Date x, Date y);
@@ -226,7 +226,7 @@ bool logout(Accounts* curAcc);
 
 #pragma region Academic Staff
 int CheckStatusStudent(string studentID,string classID, Classes* &Class);
-#pragma endregion
+
 
 #pragma region Class
 /*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
@@ -236,6 +236,10 @@ void removeAStudent(AcademicStaff* staff, Classes*& aClass);
 void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
 void viewListOfClasses(AcademicStaff* staff, Classes* classes);
 void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
+void RemoveStudentFromClass(Classes* &Class,string classID, string studentID);
+void UpdateBitAttend(string classID,Courses *&course);
+void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID,string studentID,Courses *&course);
+
 #pragma endregion
 
 #pragma region Course
@@ -285,9 +289,6 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma endregion
 
 #pragma region Student
-void RemoveStudentFromClass(Classes* &Class,string classID, string studentID);
-void UpdateBitAttend(string classID,Courses *&course);
-void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID,string studentID,Courses *&course);
 void viewScoreCourse(Students *student,string courseID,string studentID);
 void viewSchedule(Students* student);
 void viewCheckIn(CheckinCourse *checkincourse, int week);

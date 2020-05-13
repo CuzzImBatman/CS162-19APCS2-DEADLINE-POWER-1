@@ -16,22 +16,21 @@ int numberOfDay(Date x, Date y)
     return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307-(365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307)+1;
 }
 
-/*void FillCheckinCourse(Students* &student)
+void FillCheckinCourse(Students* &student)
 {
     for(int i=1; i<=6; i++)
         for(int j=1; j<=4; j++)
             if(student->schedule[i][j]!="//")
             {
-                CheckinCourse* checkincourse= student->checkincourse;
                 CheckinCourse* newcourse= new CheckinCourse;
                 newcourse->courseID=student->schedule[i][j];
                 newcourse->bitweek=0;
-//                newcourse->status=1;
-                newcourse->next= checkincourse;
-                checkincourse= newcourse;
+//              newcourse->status=1;
+                newcourse->next= student->checkincourse;
+                student->checkincourse= newcourse;
             }
 
-}*/
+}
 bool Tick(int week, string courseID,CheckinCourse* &checkincourse )
 {
     CheckinCourse *cur=checkincourse;
@@ -712,7 +711,7 @@ void RemoveStudentFromClass(Classes* &Class,string classID, string studentID)
 
 }
 
-///
+
 
 void UpdateBitAttend(string classID,Courses *&course)
 {
@@ -760,8 +759,8 @@ void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID
             newST->attendanceStatus = curST->attendanceStatus;
             for(int i=1;i<=6;i++)
                 for(int j=1;j<=4;j++)
-                   newST->schedule[i][j]= curST->schedule[i][j];
-            newST->checkincourse= curST->checkincourse;
+                   newST->schedule[i][j]= curCL->schedule[i][j];
+            FillCheckinCourse(newST);
             newST->scoreboards  = curST->scoreboards;
         }
         UpdateBitAttend(classBID,course);
