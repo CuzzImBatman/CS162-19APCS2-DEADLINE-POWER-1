@@ -3,9 +3,9 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	if (!acc)
 		acc = new Accounts;
 	fin >> acc->pwd;
-	fin >> acc->lastname;
+	fin >> acc->firstname;
 	fin.ignore(10, '\n');
-	getline(fin, acc->firstname);
+	getline(fin, acc->lastname);
 	fin >> acc->gender;
 	acc->doB = new Date;
 	fin >> acc->doB->day;
