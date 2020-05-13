@@ -31,7 +31,7 @@ int main() {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				showMenu(acc->role);
+				showMenu(acc->role, academicYear);
 				break;
 			}
 			case 2: {
