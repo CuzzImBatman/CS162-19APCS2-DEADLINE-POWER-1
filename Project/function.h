@@ -225,6 +225,8 @@ bool logout(Accounts* curAcc);
 #pragma endregion
 
 #pragma region Academic Staff
+int CheckStatusStudent(string studentID,string classID, Classes* &Class);
+#pragma endregion
 
 #pragma region Class
 /*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
@@ -237,6 +239,28 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma endregion
 
 #pragma region Course
+void EditCourse(Courses*& course,Classes *&Class);
+void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,string studentID );
+bool AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,string classID, string classIDOut,string studentID );
+bool DeleteCourse(Courses*& course,string courseID,Classes * &Class);
+void AddCourse(Courses *&course,Classes* Class);
+void InitCourse(Courses *&course,Classes* Class);
+
+///
+void AddCourseToStudent(Classes*& Class,string studentID,string classID,string courseID,int DayInWeek,int AtNth);
+void AddCourseToClass(Classes*& Class,string classID,string courseID,int DayInWeek,int AtNth);
+void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
+void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
+void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
+void EditCourseId(Courses*& course,string NewID,string  OldID);
+void EditCourseroom(Courses*& course,string courseID,string room);
+void EditCourseLecture(Courses*& course,string name,string courseID);
+void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
+void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStudent* &Outsider,Classes *&Class);
+void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
+
+
+
 
 #pragma endregion
 
@@ -261,7 +285,13 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma endregion
 
 #pragma region Student
-
+void RemoveStudentFromClass(Classes* &Class,string classID, string studentID);
+void UpdateBitAttend(string classID,Courses *&course);
+void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID,string studentID,Courses *&course);
+void viewScoreCourse(Students *student,string courseID,string studentID);
+void viewSchedule(Students* student);
+void viewCheckIn(CheckinCourse *checkincourse, int week);
+bool Tick(int week, string courseID,CheckinCourse* &checkincourse )
 #pragma endregion
 #endif
 

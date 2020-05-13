@@ -105,8 +105,9 @@ void viewCheckIn(CheckinCourse *checkincourse, int week)
 
 }
 
-void viewSchedule(Students* ST)
+void viewSchedule(Students* student)
 {
+
     cout<<setw(10);
     cout<<"Monay";
     cout<<setw(10);
@@ -124,7 +125,7 @@ void viewSchedule(Students* ST)
     for(int i=1; i<=6; i++)
         for(int j=1; j<=4; j++ )
 
-            cout<<setw(10)<<ST->schedule[i][j];
+            cout<<setw(10)<<student->schedule[i][j];
 
 }
 void viewScoreCourse(Students *student,string courseID,string studentID)
@@ -473,27 +474,26 @@ void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStude
             curCL= Class;
             continue;
         }
-        while(curCL!= NULL)
+        while(curCL!= NULL&& Outsider!= NULL)
           if(curCL->classID==Outsider->classID)
         {
 
             curST=Class->students;
-            while(curST!= NULL && curST->Status)
-            {
+            while(curST!= NULL && curST->Status ==1)
 
                 if(curST->studentID==Outsider->studentID)
 
                 {
                     RemoveCourseOfScheduleStudent(curST->schedule,courseID);
                     DeleteCourseOfCheckin(curST->checkincourse,courseID);
-                    curCL = Class;
-                    Outsider = Outsider->next;
-                    k=1;
+
                     break;
                 }
-                curST=  curST->next;
-            }
+                else curST=  curST->next;
 
+            Outsider = Outsider->next;
+            curCL= Class;
+            break;
         }
           else
             curCL = curCL->next;
@@ -712,7 +712,7 @@ void RemoveStudentFromClass(Classes* &Class,string classID, string studentID)
 
 }
 
-
+///
 
 void UpdateBitAttend(string classID,Courses *&course)
 {
