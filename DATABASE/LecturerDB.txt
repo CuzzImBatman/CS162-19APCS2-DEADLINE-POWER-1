@@ -1,0 +1,11 @@
+dbtien
+Dinh Ba Tien
+12345
+Tien si
+0 // gioi tinh nam
+
+nhanh
+Nguyen Huu Anh
+67890
+Giao su
+0 // gioi tinh nam

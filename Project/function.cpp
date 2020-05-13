@@ -600,5 +600,3 @@ bool AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,s
     AddCourseToStudent(Class,studentID,classIDOut,courseID,courseclass->DayInWeek,courseclass->AtNth);
     return true;
 }
-
-

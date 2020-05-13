@@ -8,7 +8,6 @@
 #include <fstream>
 #include <iomanip>
 #include <string.h>
-#include <fstream>
 using namespace std;
 /* Naming rule:
 struct: StructName
@@ -24,16 +23,15 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 							  |
 [AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
 			   |					   	   		                |
-			   +--[CourseClass]<--------------------------------+
+			   +<-----------------------------------------------+
 			   |
 			   |                            	          +-->[AttendanceStatus]
 			   |			      	                      |
 			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
 Outsider
 */
-struct Date
-{
-    int day, month, year;
+struct Date {
+	int day, month, year;
 };
 
 struct Accounts
@@ -199,7 +197,7 @@ struct AcademicYears
     AcademicYears* next = NULL;
 
 };
-
+/*
 struct Account {
 	char* pwd;  //(sha256 if possible)
 	char* uName; // = ID
@@ -208,13 +206,23 @@ struct Account {
 	int gender;
 	Date* doB;
 
+};*/
+
+
+struct Semesters {
+	char semesterNo;
+	Courses* courses = nullptr;
+	Lecturers* lecturers = nullptr;
+	Staffs* staffs = nullptr;
+	Semesters* next = nullptr;
 };
 
-struct AcademicStaff {
-	Account* account;
-	int no;
+struct AcademicYears {
+	short int year;  //Ex: 1920 2021;
+	Semesters* semesters = nullptr;
+	Classes* classes = nullptr;
+	AcademicYears* next = nullptr;
 };
-
 
 
 #pragma region Initialization
@@ -232,13 +240,18 @@ bool logout(Accounts* curAcc);
 #pragma region Academic Staff
 
 #pragma region Class
-
+void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 #pragma endregion
 
 #pragma region Course
 
-#pragma endregion		37. View schedules.
-
+#pragma endregion
 
 #pragma region Scoreboard
 
@@ -267,8 +280,7 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);
 
 /*
 
-All roles		37. View schedules.
-
+All roles
 	1. Login
 	2. Show menu
 	3. View profile info
@@ -288,7 +300,7 @@ Academic staff:
 	Course
 		13. Create / update / delete / view academic years (2018-2019), and semesters (Fall).
 		14. From a semester, import courses such as CTT008, CTT010 from a csv file.
-			The csv file should include columns such a365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.year - 457) / 5 + x.day - 307s No (1), Course ID (CTT008),
+			The csv file should include columns such as No (1), Course ID (CTT008),
 			Course Name (Programming Techniques), Class (18CLC6),
 			LecturerAccount (nhminh), Start Date (2019-01-07), End Date
 			(2019-04-13), Day of Week (Wed), Start Hour:Minute (08:00), and End Hour:Minute (11:00), Room (I33).
