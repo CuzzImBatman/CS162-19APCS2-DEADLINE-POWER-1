@@ -38,7 +38,7 @@ void viewCourseOfSemester(AcademicYears* acaYear)
 		cout << "List of courses in year " << year << ", semester " << semes->semesterNo << " are: " << endl;
 		while (courseList != nullptr)
 		{
-			cout << courseList->courseID << endl;
+			cout << courseList->courseID << " - " << courseList->courseName << endl;
 			courseList = courseList->next;
 		}
 	}
@@ -87,7 +87,7 @@ void createLecturer(AcademicYears* acaYear)
 		cin >> newLecturer->account->doB->day >> newLecturer->account->doB->month
 			>> newLecturer->account->doB->year;
 		cout << "\nNew lecturer's default username: " << newLecturer->account->uName;
-		cout << "\nNew lecturer's default username: " << newLecturer->account->pwd << endl; 
+		cout << "\nNew lecturer's default password: " << newLecturer->account->pwd << endl; 
 	}
 }
 
@@ -249,13 +249,20 @@ Semesters* findSemester(Semesters* semes, char no) {
 	return temp;
 }
 
+Courses* findCourse(Courses* course, string ID) {
+	Courses* temp = course;
+	while (temp && temp->courseID != ID)
+		temp = temp->next;
+	return temp;
+}
+
 #pragma region Class
 void importAClassFromCsvFile(Classes*& aClass) {
 	cout << "Haven't written this yet." << endl;
 }
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;
-	cout << "Specify which class to add the student to: ";
+	cout << endl << "Enter the class to add the student to: ";
 	cin >> Class;
 	Classes* tmpClass = nullptr;
 	while (true) {
@@ -263,7 +270,7 @@ void addAStudentToAClass(Classes*& aClass) {
 		if (tmpClass)
 			break;
 		else cout << "Class does not exist." << endl;
-		cout << "Specify which class to add the student to: ";
+		cout << "Enter the class to add the student to: ";
 		cin >> Class;
 	}
 	Students* aStudent = new Students;
@@ -277,7 +284,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	cin.ignore(10, '\n');
 	getline(cin, aStudent->account->firstname);
 	cout << "Enter the student's last name: ";
-	cin >> aStudent->account->lastname;
+	getline(cin, aStudent->account->lastname);
 	cout << "Enter the student's gender: ";
 	cin >> aStudent->account->gender;
 	aStudent->account->doB = new Date;
@@ -295,7 +302,7 @@ void addAStudentToAClass(Classes*& aClass) {
 }
 void editAStudent(Classes*& aClass) {
 	string Class;
-	cout << "Enter the class of the student: ";
+	cout << endl << "Enter the class of the student: ";
 	cin >> Class;
 	Classes* tmpClass = nullptr;
 	while (true) {
@@ -321,7 +328,7 @@ void editAStudent(Classes*& aClass) {
 	}
 	int choice;
 
-	cout << "What do you want to edit? " << endl;
+	cout << endl << "What do you want to edit? " << endl;
 	cout << "[1] Username." << endl;
 	cout << "[2] Password." << endl;
 	cout << "[3] Name." << endl;
@@ -333,31 +340,31 @@ void editAStudent(Classes*& aClass) {
 	while (choice != 6) {
 		switch (choice) {
 		case 1:
-			cout << "Current username: " << tmpSt->account->uName << endl;
+			cout << endl << "Current username: " << tmpSt->account->uName << endl;
 			cout << "New username: ";
 			cin >> tmpSt->account->uName;
 			break;
 		case 2:
-			cout << "Current password: " << tmpSt->account->pwd << endl;
+			cout << endl << "Current password: " << tmpSt->account->pwd << endl;
 			cout << "New password: ";
 			cin >> tmpSt->account->pwd;
 			break;
 		case 3:
-			cout << "Current full name: " << tmpSt->account->firstname << ' ' << tmpSt->account->lastname << endl;
+			cout << endl << "Current full name: " << tmpSt->account->lastname << ' ' << tmpSt->account->firstname << endl;
 			cout << "New full name: " << endl;
 			cout << "- First name: ";
 			cin.ignore(10, '\n');
 			getline(cin, tmpSt->account->firstname);
 			cout << "- Last name: ";
-			cin >> tmpSt->account->lastname;
+			getline(cin, tmpSt->account->lastname);
 			break;
 		case 4:
-			cout << "Current gender: " << tmpSt->account->gender << endl;
-			cout << "New gender: " << endl;
-			cin >> tmpSt->account->lastname;
+			cout << endl << "Current gender: " << tmpSt->account->gender << endl;
+			cout << "New gender: ";
+			cin >> tmpSt->account->gender;
 			break;
 		case 5:
-			cout << "Current DoB: " << tmpSt->account->doB << endl;
+			cout << endl << "Current DoB: " << tmpSt->account->doB->day << '-' << tmpSt->account->doB->month << '-' << tmpSt->account->doB->year << endl;
 			cout << "New DoB: " << endl;
 			cout << "- Day: ";
 			cin >> tmpSt->account->doB->day;
@@ -382,7 +389,7 @@ void editAStudent(Classes*& aClass) {
 	}
 }
 void removeAStudent(Classes*& aClass) {
-	cout << "Enter the class from which you want to remove a student: ";
+	cout << endl << "Enter the class from which you want to remove a student: ";
 	string Class;
 	cin >> Class;
 	Classes* tmpClass = nullptr;
@@ -414,10 +421,10 @@ void removeAStudent(Classes*& aClass) {
 	Students* tmp = tmpClass->students;
 	if (tmp->studentID == studentToRemove) {
 		Students* toRemove = tmp;
-		tmp = tmp->next;
+		tmpClass->students = tmpClass->students->next;
 		
-		delete tmp;
-		cout << "The student is successfully removed.";
+		delete toRemove;
+		cout << "The student is successfully removed." << endl;
 		return;
 	}
 	while (tmp->next->studentID != studentToRemove) //The student definitely exist, checked above.
@@ -425,9 +432,10 @@ void removeAStudent(Classes*& aClass) {
 	Students* toRemove = tmp->next;
 	tmp->next = toRemove->next;
 	delete toRemove;
+	cout << "The student is successfully removed." << endl;
 }
 void changeClassForStudents(Classes*& classes) {
-	cout << "Enter the class from which you want to change the students: ";
+	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
 	cin >> classA;
 	Classes* tmpClassA = nullptr;
@@ -452,14 +460,18 @@ void changeClassForStudents(Classes*& classes) {
 		cin >> classB;
 	}
 	Students* st = tmpClassB->students;
-	while (st->next)
-		st = st->next;
-	st->next = tmpClassA->students;
+	if (!tmpClassB->students)
+		tmpClassB->students = tmpClassA->students;
+	else {
+		while (st->next)
+			st = st->next;
+		st->next = tmpClassA->students;
+	}
 	tmpClassA->students = nullptr;
 	cout << endl << "All students from class " << classA << " are moved to class " << classB << endl;
 }
 void viewListOfClasses(Classes* aClass) {
-	cout << "Here is the list of classes: ";
+	cout << endl << "Here is the list of classes: ";
 	Classes* tmpClass = aClass;
 	cout << endl;
 	while (tmpClass) {
@@ -468,7 +480,7 @@ void viewListOfClasses(Classes* aClass) {
 	}
 }
 void viewListOfStudentsInAClass(Classes* aClass) {
-	cout << "Enter the class from which you want to view student list: ";
+	cout << endl << "Enter the class whose student list you want to view: ";
 	string Class;
 	cin >> Class;
 	Classes* tmpClass = nullptr;
@@ -477,12 +489,14 @@ void viewListOfStudentsInAClass(Classes* aClass) {
 		if (tmpClass)
 			break;
 		cout << "Class does not exist." << endl;
-		cout << "Enter the class from which you want to view student list: ";
+		cout << "Enter the class whose student list you want to view: ";
 		cin >> Class;
 	}
 	Students* st = tmpClass->students;
+	if (!st)
+		cout << "There is no student in this class." << endl;
 	while (st) {
-		cout << st->studentID << "     " << st->account->firstname << ' ' << st->account->lastname << endl;
+		cout << st->studentID << "     " << st->account->lastname << ' ' << st->account->firstname << endl;
 		st = st->next;
 	}
 }
@@ -493,7 +507,22 @@ void viewListOfStudentsInAClass(Classes* aClass) {
 #pragma endregion
 
 #pragma region Scoreboard
+void viewScoreboardOfACourse(Courses* course) {
+	cout << "What course whose scoreboard you want to view? ";
+	string courseID;
+	cin >> courseID;
 
+	Courses* tmpCourse = nullptr;
+	while (true) {
+		tmpCourse = findCourse(course, courseID);
+		if (tmpCourse)
+			break;
+		else cout << "Course does not exist." << endl;
+		cout << "What course whose scoreboard you want to view? ";
+		cin >> courseID;
+	}
+	//not finished
+}
 #pragma endregion
 
 #pragma region Attendance List

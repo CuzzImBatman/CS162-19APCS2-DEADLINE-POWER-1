@@ -76,14 +76,14 @@ struct WeeklyStatus {
 	WeeklyStatus* next = nullptr;
 };*/
 
-struct AttendanceStatus
+/*struct AttendanceStatus
 {
     string courseName;
    // SessionStatus* sessions = NULL;
     AttendanceStatus* next = NULL;
     //WeeklyStatus week[11];
     //short int present, absent;	
-};
+};*/
 
 struct ViewCheckin
 {
@@ -105,7 +105,7 @@ struct Students
     string studentID;
     Accounts* account = nullptr;
     Scoreboards* scoreboards = NULL;
-    AttendanceStatus* attendanceStatus = NULL;
+//    AttendanceStatus* attendanceStatus = NULL;
 
     int Status;
     ///1  in class
@@ -143,6 +143,7 @@ struct Courses
 {
     string courseno;
 	string courseID;
+	string courseName;
     CourseClass *courseclass;
     string room;
     string LectureName;

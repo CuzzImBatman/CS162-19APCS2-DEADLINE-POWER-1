@@ -75,7 +75,7 @@ void showClassOptions(AcademicYears*& year) {
 		cout << "[5] Change students from class A to class B." << endl;
 		cout << "[6] View list of classes." << endl;
 		cout << "[7] View list of students in a class." << endl;
-		cout << "[8] Back to main menu." << endl;
+		cout << "[8] Back." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -129,7 +129,7 @@ void showCourseOptions(AcademicYears*& year) {
 		cout << "[9] View list of students of a course." << endl;
 		cout << "[10] View attendance list of a course." << endl;
 		cout << "[11] Create/update/delete/view all lecturers." << endl;
-		cout << "[12] Back to main menu." << endl;
+		cout << "[12] Back." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -215,7 +215,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 		cout << endl << "Sub menu: What do you want to do? " << endl;
 		cout << "[1] Search and view the scoreboard of a course." << endl;
 		cout << "[2] Export a scoreboard to a csv file." << endl;
-		cout << "[3] Back to main menu." << endl;
+		cout << "[3] Back." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -240,7 +240,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cout << endl << "Sub menu: What do you want to do? " << endl;
 		cout << "[1] Search and view attendance list of a course." << endl;
 		cout << "[2] Export a attendance list to a csv file." << endl;
-		cout << "[3] Back to main menu." << endl;
+		cout << "[3] Back." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -418,7 +418,7 @@ void changePwd(Accounts*& acc) {
 
 void viewProfile(Accounts* acc) {
 	cout << endl << "Your profile: " << endl;
-	cout << "Name: " << acc->firstname << ' ' << acc->lastname << endl;
+	cout << "Name: " << acc->lastname << ' ' << acc->firstname << endl;
 	cout << "DoB (dd-mm-yyyy): " << acc->doB->day << '-' << acc->doB->month << '-' << acc->doB->year << endl;
 	cout << "Gender: ";
 	switch (acc->gender) {
