@@ -31,6 +31,7 @@ int main() {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
+				//Emblema: need to add param academicYear for some functions to work...
 				showMenu(acc->role, academicYear);
 				break;
 			}

@@ -1,4 +1,42 @@
 #include "function.h"
+
+void viewCourseOfSemester(AcademicYears* AcaYear)
+{
+	string year;
+	cout << "Please enter Academic Year (1920/2021): ";
+	cin >> year;
+	while (AcaYear != nullptr && AcaYear->year != year)
+		AcaYear = AcaYear->next;
+	if (AcaYear == nullptr)
+	{
+		cout << "Academic year not found!" << endl;
+		return;
+	}
+	else
+	{
+		Semesters* semes = AcaYear->semesters;
+		char semester;
+		cout << "Please enter Semester: ";
+		cin >> semester;
+		while (semes != nullptr && semes->semesterNo != semester)
+			semes = semes->next;
+		if (semes == nullptr)
+		{
+			cout << "Semester not found!" << endl;
+			return;
+		}
+		else
+		{
+			Courses* courseList = semes->courses;
+			cout << "List of courses in year " << year << ", semester " << semester << " are: " << endl;
+			while (courseList != nullptr)
+			{
+				cout << courseList->courseID << endl;
+				courseList = courseList->next;
+			}
+		}
+	}
+}
 Classes* findClass(Classes* Class, string ClassID) {
 	Classes* temp = Class;
 	while (temp && temp->classID != ClassID)
@@ -43,6 +81,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	aStudent->account->uName = aStudent->studentID;
 	aStudent->account->pwd = "password";
 	cout << "Enter the student's first name: ";
+	cin.ignore(10, '\n');
 	getline(cin, aStudent->account->firstname);
 	cout << "Enter the student's last name: ";
 	cin >> aStudent->account->lastname;
@@ -76,7 +115,7 @@ void editAStudent(Classes*& aClass) {
 	}
 
 	string st;
-	cout << "Enter the studetn's ID: ";
+	cout << "Enter the student's ID: ";
 	cin >> st;
 	Students* tmpSt = nullptr;
 	while (true) {
@@ -150,7 +189,7 @@ void editAStudent(Classes*& aClass) {
 	}
 }
 void removeAStudent(Classes*& aClass) {
-	cout << "Enter the class from which you want to renmove a student: ";
+	cout << "Enter the class from which you want to remove a student: ";
 	string Class;
 	cin >> Class;
 	Classes* tmpClass = nullptr;
@@ -162,7 +201,7 @@ void removeAStudent(Classes*& aClass) {
 		cout << "Enter the class from which you want to remove a students: ";
 		cin >> Class;
 	}
-	
+
 	cout << "Enter the student's ID: ";
 	string studentToRemove;
 	cin >> studentToRemove;
@@ -176,6 +215,9 @@ void removeAStudent(Classes*& aClass) {
 		cin >> studentToRemove;
 	}
 
+	/*cout << "Enter the student's ID: ";
+	string studentToRemove;
+	cin >> studentToRemove;*/
 	Students* tmp = tmpClass->students;
 	if (tmp->studentID == studentToRemove) {
 		Students* toRemove = tmp;
@@ -225,6 +267,7 @@ void changeClassForStudents(Classes*& classes) {
 void viewListOfClasses(Classes* aClass) {
 	cout << "Here is the list of classes: ";
 	Classes* tmpClass = aClass;
+	cout << endl;
 	while (tmpClass) {
 		cout << tmpClass->classID << endl;
 		tmpClass = tmpClass->next;
