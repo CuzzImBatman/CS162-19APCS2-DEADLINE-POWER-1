@@ -1,11 +1,2 @@
-<<<<<<< Updated upstream
-﻿  function.cpp
-  main.cpp
-  Generating Code...
-D:\CS162\CS162_Project\Project\main.cpp(68,73): error C2059: syntax error: ')'
-=======
 ﻿  functionAllRoles.cpp
-  functionLecturer.cpp
-  Generating Code...
-  Project.vcxproj -> D:\Study\C++\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
->>>>>>> Stashed changes
+  Project.vcxproj -> D:\CS162\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe

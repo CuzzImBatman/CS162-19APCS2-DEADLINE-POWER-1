@@ -138,7 +138,7 @@ void ChangeCheckinList(ViewCheckin *&checkinList,int day,int nth,string courseID
         cur=cur->next;
     }
 }
-void AddCourseToStudent(Classes*& Class,int studentID,string classID,string courseID,int DayInWeek,int AtNth)
+void AddCourseToStudent(Classes*& Class,string studentID,string classID,string courseID,int DayInWeek,int AtNth)
 {
 
     Classes* curCL= Class;
@@ -185,13 +185,13 @@ void AddCourseToClass(Classes*& Class,string classID,string courseID,int DayInWe
 
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,int DayInWeek,int AtNth,string courseID)
 {
-    int i;
+    int i=0;
 
     Courses* curCS=course;
     while(curCS->courseID!= courseID)
         curCS= curCS->next;
 
-   CourseClass* courseclass= new CourseClass;
+    CourseClass* courseclass= new CourseClass;
     courseclass->classID = classID;
     courseclass->AtNth = AtNth;
     courseclass->DayInWeek = DayInWeek;
@@ -484,7 +484,7 @@ bool DeleteCourse(Courses*& course,string courseID,Classes * &Class)
     return false;
 
 }
-void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,int studentID )
+void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,string studentID )
 {
     Courses* curCourse= course;
     while(curCourse->courseID !=courseID)
@@ -502,7 +502,7 @@ void RemovedStudentFromCourseClass(Courses*& course,string courseID,string class
 //0 outsie
 }
 
-void AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,string classID, string classIDOut,int studentID )
+void AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,string classID, string classIDOut,string studentID )
 {
     Courses* curCourse= course;
     while(curCourse->courseID != courseID)

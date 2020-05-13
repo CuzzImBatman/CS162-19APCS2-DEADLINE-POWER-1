@@ -29,7 +29,7 @@ void courseInit(Courses*& course, char semes, string year) {
 				courseIn >> course->courseID;
 				courseIn >> course->room;
 				courseIn.ignore(10, '\n');
-				getline(courseIn, course->LectureName, '\n');
+				getline(courseIn, course->LectureName);
 				tempCourse = course;
 			}
 			else {
@@ -38,7 +38,7 @@ void courseInit(Courses*& course, char semes, string year) {
 				courseIn >> tempCourse->next->courseID;
 				courseIn >> tempCourse->next->room;
 				courseIn.ignore(10, '\n');
-				getline(courseIn, tempCourse->next->LectureName, '\n');
+				getline(courseIn, tempCourse->next->LectureName);
 				tempCourse = tempCourse->next;
 			}
 			n--;

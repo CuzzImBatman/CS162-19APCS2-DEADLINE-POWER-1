@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 #include "function.h"
 
 int login(AcademicYears* year, Accounts*& acc) {
@@ -115,7 +113,8 @@ void showClassOptions() {
 	}
 }
 
-void showCourseOptions(AcademicYears* acaYear) {
+
+void showCourseOptions() {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {
@@ -136,7 +135,6 @@ void showCourseOptions(AcademicYears* acaYear) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			
 			break;
 		}
 		case 2: {
@@ -236,6 +234,7 @@ void showAttendanceListOptions() {
 }
 //Emblema: need to add param academicYear for some functions to work...
 void showMenu(short int role, AcademicYears* acaYear) {
+
 	switch (role) {
 	case 1: {
 		//call student functions
@@ -444,4 +443,4 @@ void viewProfile(Accounts* acc) {
 void logout(Accounts*& acc) {
 	acc = nullptr;
 }
->>>>>>> Stashed changes
+
