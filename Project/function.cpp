@@ -199,7 +199,7 @@ void AddCourseToClass(Classes*& Class,string classID,string courseID,int DayInWe
 
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID)
 {
-    int i;
+
 
     Courses* curCS=course;
     while(curCS->courseID!= courseID)
@@ -231,11 +231,13 @@ void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string cou
 
     Students* curST= curCL->students;
     courseclass->students=curCL->students;
+
+    int i=0;
     while(curST!=NULL)
     {
 
 
-        if(curST->Status>=1)courseclass->BitAttend += 1>>i;
+        if(curST->Status==1 || curST->Status==0)courseclass->BitAttend += 1>>i;
         i++;
         curST= curST ->next;
     }
@@ -362,15 +364,18 @@ void EditCourseLecture(Courses*& course,string name,string courseID)
 
 void EditCourse(Courses*& course,Classes *&Class)
 {
-    int n;
-    cin>>n;
+    int n=1;
+    do
+    {
+
     string courseID,room,NewID, OldID,name,classID,Lname;
     cout<<"Menu: "<<endl;
     cout<<"1.Change course ID. "<<endl;;
     cout<<"2.change Room."<<endl;
     cout<<"3.Change Schedule course of a class."<<endl;
     cout<<"4.Change Course Lecture."<<endl;
-
+    cout<<" Press 0 to stop.";
+    cin>>n;
     switch(n)
     {
     case 1:
@@ -404,10 +409,10 @@ void EditCourse(Courses*& course,Classes *&Class)
         EditCourseLecture(course,Lname,courseID);
         break;
 
-
-
-
     }
+
+
+ }while(n);
 
 
 }
@@ -653,7 +658,7 @@ void InitCourse(Courses *&course,Classes* Class)
     }
 
 }
-void AddCourse(Courses *&course)
+void AddCourse(Courses *&course,Classes* Class)
 {
     Courses* newcourse=new Courses;
     cout<<"courseID: ";
@@ -667,8 +672,101 @@ void AddCourse(Courses *&course)
     newcourse->next=course;
     course= newcourse;
     course->courseclass= NULL;
-    newcourse= course->next;
+
+    int n;
+
+    do{
+        string classID;
+        cout<<"1.Add Class.";
+        cout<<"2.Stop.";
+        cin>>n;
+        if(n==1)
+       {
+           cin>>classID;
+           AddClassToCourse(Class,classID,course,course->courseID);
+          break;
+       }
+    }while(n!=2);
 
 
 }
 
+///
+void RemoveStudentFromClass(Classes* &Class,string classID, string studentID)
+{
+    Classes* curCL= Class;
+    while(curCL!=NULL)
+        if(curCL->classID== classID)
+        {
+            Students* curST=curCL->students;;
+            while(curST!=NULL)
+             if(curST->studentID == studentID)
+             {
+                 curST->Status=-2;
+                 break;
+             }
+             else curST= curST->next;
+           break;
+        }
+        else curCL =curCL->next;
+
+}
+
+
+
+void UpdateBitAttend(string classID,Courses *&course)
+{
+    Courses* curCS= course;
+    while(curCS!=NULL)
+     {
+         CourseClass* cur =curCS->courseclass;
+         while(cur!= NULL)
+            if(cur->classID == classID)
+         {
+             cur->BitAttend= cur->BitAttend>>1 + 1;
+             break;
+         }
+         else cur= cur->next;
+        curCS= curCS->next;
+     }
+}
+void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID,string studentID,Courses *&course)
+{
+       Classes* curCL= Class;
+       Students* curST;
+    while(curCL!=NULL)
+        if(curCL->classID== classAID)
+        {
+            curST =curCL->students;;
+            while(curST!=NULL)
+             if(curST->studentID == studentID)
+             {
+                 curST->Status=-1;
+                 break;
+             }
+             else curST= curST->next;
+           break;
+        }
+        else curCL =curCL->next;
+
+    curCL= Class;
+    while(curCL!=NULL)
+        if(curCL->classID== classBID)
+        {
+            Students* newST= new Students;
+            newST->studentID= studentID;
+            newST->Status=1;
+            newST->account = curST->account;
+            newST->attendanceStatus = curST->attendanceStatus;
+            for(int i=1;i<=6;i++)
+                for(int j=1;j<=4;j++)
+                   newST->schedule[i][j]= curST->schedule[i][j];
+            newST->checkincourse= curST->checkincourse;
+            newST->scoreboards  = curST->scoreboards;
+        }
+        UpdateBitAttend(classBID,course);
+
+
+}
+
+///
