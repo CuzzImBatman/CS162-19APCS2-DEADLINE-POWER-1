@@ -173,7 +173,33 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 11: {
-
+			cout << endl << "Sub menu: What do you want to do?" << endl
+				<< "[1] Create a new lecturer." << endl
+				<< "[2] Edit a lecturer." << endl
+				<< "[3] Delete a lecturer." << endl
+				<< "[4] View all lecturers." << endl
+				<< "Your choice: ";
+			cin >> choice;
+			switch (choice)
+			{
+			case 1: {
+				createLecturer(year);
+				break;
+			}
+				  
+			case 2: {
+				updateLecturer(year);
+				break;
+			}
+			case 3: {
+				deleteLecturer(year);
+				break;
+			}
+			case 4: {
+				viewLecturer(year);
+				break;
+			}
+			}
 			break;
 		}
 		case 12: variableName = 0;
