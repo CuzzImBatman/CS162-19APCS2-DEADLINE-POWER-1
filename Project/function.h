@@ -210,7 +210,7 @@ void importAClassFromCsvFile(Account* acc, Classes*& aClass, ifstream fin);
 void addAStudentToAClass(Account* acc, Classes*& aClass);
 void editAStudent(Account* acc, Classes*& aClass);
 void removeAStudent(Account* acc, Classes*& aClass);
-void changeClassForStudents(Account* acc, CourseClass*& classes);
+void changeClassForStudents(Account* acc, Classes*& theClass);
 void viewListOfClasses(Account* acc, Classes* aClass);
 void viewListOfStudentsInAClass(Account* acc, Classes* aClass);
 #pragma endregion

@@ -8,6 +8,7 @@ void addAStudentToAClass(Account* acc, Classes*& aClass) {
 	if (acc->role != 1)
 		return;
 	Students* aStudent = new Students;
+	aStudent->next = nullptr;
 	// NAME
 	cout << "Enter first name: ";
 	cin >> aStudent->account->firstname;
@@ -22,11 +23,14 @@ void addAStudentToAClass(Account* acc, Classes*& aClass) {
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
 	// Insert into the class
+	if (aClass->students == nullptr) {
+		aClass->students = aStudent;
+		return;
+	}
 	Students* tmp = aClass->students;
 	while (tmp->next != nullptr)
 		tmp = tmp->next;
 	tmp->next = aStudent;
-	aStudent->next = nullptr;
 }
 void editAStudent(Account* acc, Classes*& aClass) {
 	if (acc->role != 1)
@@ -117,12 +121,70 @@ void removeAStudent(Account* acc, Classes*& aClass) {
 	tmp->next = toRemove->next;
 	delete toRemove;
 }
-void changeClassForStudents(Account* acc, CourseClass*& classes) {
+void changeClassForStudents(Account* acc, Classes*& theClass) {
 	if (acc->role != 1)
 		return;
-	int findStudent;
-	cout << "Please enter the student ID:";
+	int findStudent, findClass, findDestinationClass;
+	// Find original class
+	cout << "Please enter the class No:";
+	cin >> findClass;
+	Classes* scanClass = theClass;
+	while (true) {
+		while (scanClass != nullptr && scanClass->classNo != findClass)
+			scanClass = scan->next;
+		if (scanClass == nullptr)
+			cout << "Cannot find the class!" << endl;
+		else 
+			break;
+		cout << "Please re-enter the class No:";
+		cin >> findClass;
+		scanClass = theClass;
+	}
+	// Find student
+	cout << "Please enter the student No:";
 	cin >> findStudent;
+	Students* scanStudent = scanClass->students;
+	while (true) {
+		while (scanStudent != nullptr && scanStudent->next->studentNo != findStudent)
+			scanStudent = scanStudent->next;
+		if (scanStudent == nullptr)
+			cout << "Cannot find the student!" << endl;
+		else 
+			break;
+		cout << "Please re-enter the student No:";
+		cin >> findStudent;
+		scanStudent = scanClass->students;
+	}
+	// Find destination class
+	cout << "Please enter the destination class No:";
+	cin >> findDestinationClass;
+	if (findDestinationClass == findClass)
+		return;
+	/* scanClass CHANGES for REPURPOSED */
+	scanClass = theClass;
+	while (true) {
+		while (scanClass != nullptr && scanClass->classNo != findDestinationClass)
+			scanClass = scan->next;
+		if (scanClass == nullptr)
+			cout << "Cannot find the destination class!" << endl;
+		else
+			break;
+		cout << "Please re-enter the destination class No:";
+		cin >> findDestinationClass;
+		if (findDestinationClass == findClass)
+			return;
+		scanClass = theClass;
+	}
+	// Remove the student from the original class
+	Students* theStudent = scanStudent->next;
+	scanStudent->next = scanStudent->next->next;
+	theStudent->next = nullptr;
+	// Add the student to the destination class
+	/* scanStudent CHANGES for REPURPOSED */
+	scanStudent = scanClass->students;
+	while (scanStudent->next != nullptr)
+		scanStudent = scanStudent->next;
+	scanStudent->next = theStudent;
 }
 void viewListOfClasses(Account* acc, Classes* aClass) {
 	for (Classes* scan = aClass; scan != nullptr; scan = scan->next)
