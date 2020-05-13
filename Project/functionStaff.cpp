@@ -114,6 +114,7 @@ void editAStudent(Classes*& aClass) {
 			cout << "Current full name: " << tmpSt->account->firstname << ' ' << tmpSt->account->lastname << endl;
 			cout << "New full name: " << endl;
 			cout << "- First name: ";
+			cin.ignore(10, '\n');
 			getline(cin, tmpSt->account->firstname);
 			cout << "- Last name: ";
 			cin >> tmpSt->account->lastname;
@@ -175,9 +176,6 @@ void removeAStudent(Classes*& aClass) {
 		cin >> studentToRemove;
 	}
 
-	cout << "Enter the student's ID: ";
-	string studentToRemove;
-	cin >> studentToRemove;
 	Students* tmp = tmpClass->students;
 	if (tmp->studentID == studentToRemove) {
 		Students* toRemove = tmp;
@@ -228,8 +226,8 @@ void viewListOfClasses(Classes* aClass) {
 	cout << "Here is the list of classes: ";
 	Classes* tmpClass = aClass;
 	while (tmpClass) {
-		cout << aClass->classID << endl;
-		aClass = aClass->next;
+		cout << tmpClass->classID << endl;
+		tmpClass = tmpClass->next;
 	}
 }
 void viewListOfStudentsInAClass(Classes* aClass) {
