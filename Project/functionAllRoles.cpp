@@ -114,7 +114,7 @@ void showClassOptions() {
 }
 
 
-void showCourseOptions() {
+void showCourseOptions(AcademicYears* acaYear) {
 	int choice;
 	bool variableName = 1;
 	while (variableName) {

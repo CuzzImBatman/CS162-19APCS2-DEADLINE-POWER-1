@@ -1,2 +1,6 @@
 ﻿  functionAllRoles.cpp
-  Project.vcxproj -> D:\CS162\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
+  functionInitialization.cpp
+  main.cpp
+  Generating Code...
+  LINK : D:\Study\C++\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe not found or not built by the last incremental link; performing full link
+  Project.vcxproj -> D:\Study\C++\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
