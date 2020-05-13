@@ -26,7 +26,7 @@ void FillCheckIN(Students* &student)
                 CheckinCourse* newcourse= new CheckinCourse;
                 newcourse->courseID=student->schedule[i][j];
                 newcourse->bitweek=0;
-                newcourse->status=1;
+//                newcourse->status=1;
                 newcourse->next= checkincourse;
                 checkincourse= newcourse;
             }
@@ -37,7 +37,7 @@ bool Tick(int week, string courseID,CheckinCourse* &checkincourse )
     CheckinCourse *cur=checkincourse;
 
     while(cur!=NULL)
-        if(cur->courseID==courseID && cur->status)
+        if(cur->courseID==courseID /*&& cur->status*/)
             if(  (cur->bitweek>> (week-1)  )%2==0 )
             {
                 cout<<"Cannot check  in Course";
@@ -77,27 +77,30 @@ int CheckStatusStudent(int studentID,string classID, Classes* &Class)
 
 
 
-void viewCheckIn(string checkInWeek[6][4], int week)
+void viewCheckIn(CheckinCourse *checkincourse, int week)
 {
     cout<<"Week: "<<week<<endl;
-    cout<<setw(10);
-    cout<<"Monay";
-    cout<<setw(10);
-    cout<<"Tueseday";
-    cout<<setw(10);
-    cout<<"Wednesday";
-    cout<<setw(10);
-    cout<<"Thursday";
-    cout<<setw(10);
-    cout<<"Friday";
-    cout<<setw(10);
-    cout<<"Saturday";
-    cout<<setw(10);
+    while(checkincourse!=NULL)
+    {
+        int check=0;
+        int bit=checkincourse->bitweek;
+        cout<<setw(10)<<checkincourse->courseID;
+        for(int i=0;i<11;i++)
+        {
+            int bit=checkincourse->bitweek>>i;
+            if(bit%2)
+            {
+             check=1;
+            cout<<setw(10)<<"V";
+            }
+            else if(bit%2==0 && !check)cout<<setw(10)<<"-";
+            else if(bit%2==0 &&  check)cout<<setw(10)<<"X";
+        }
+       cout<<endl;
+       checkincourse= checkincourse->next;
+    }
 
-    for(int i=1; i<=6; i++)
-        for(int j=1; j<=4; j++ )
 
-            cout<<setw(10)<<checkInWeek[i][j];
 
 
 }
@@ -152,7 +155,7 @@ void AddCourseToStudent(Classes*& Class,int studentID,string classID,string cour
     CheckinCourse* newcourse= new CheckinCourse;
     newcourse->courseID= courseID;
     newcourse->bitweek=0;
-    newcourse->status=1;
+//    newcourse->status=1;
     newcourse->next= checkincourse;
     checkincourse= newcourse;
 
@@ -170,7 +173,7 @@ void AddCourseToClass(Classes*& Class,string classID,string courseID,int DayInWe
         CheckinCourse* newcourse= new CheckinCourse;
         newcourse->courseID= courseID;
         newcourse->bitweek=0;
-        newcourse->status=1;
+//        newcourse->status=1;
         newcourse->next= checkincourse;
         checkincourse= newcourse;
         curST=curST->next;

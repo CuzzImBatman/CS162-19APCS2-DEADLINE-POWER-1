@@ -100,18 +100,12 @@ struct AttendanceStatus
     	}
     */
 };
-struct ViewCheckin
-{
-    int week;
-    string viewWeek[6][4];
-    ViewCheckin *next;
 
-};
 struct CheckinCourse
 {
     int bitweek;
     string courseID;
-    int status;
+    //int status;
     CheckinCourse *next;
 };
 struct Students
@@ -126,7 +120,7 @@ struct Students
     ///0  not avaialble
     ///-1 removed to another class
     ///-2 kicked
-    ViewCheckin *checkinList;
+
     string schedule[6][4];
    CheckinCourse *checkincourse;
     Students* next = NULL;

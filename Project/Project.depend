@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1587725668 source:d:\cs162_project\cs162_project\project\function.cpp
+1589341369 source:d:\cs162_project\cs162_project\project\function.cpp
 	"function.h"
 
-1587725668 d:\cs162_project\cs162_project\project\function.h
+1589341406 d:\cs162_project\cs162_project\project\function.h
 	<iostream>
 	<fstream>
 	<iomanip>
