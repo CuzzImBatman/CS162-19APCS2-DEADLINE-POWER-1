@@ -1,4 +1,5 @@
 #include "function.h"
+
 int login(AcademicYears* year, Accounts*& acc) {
 	if (acc->uName[0] <= 57) {
 		//student
@@ -133,7 +134,6 @@ void showCourseOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
 			break;
 		}
 		case 2: {
@@ -161,7 +161,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 8: {
-
+			viewCourseOfSemester(year);
 			break;
 		}
 		case 9: {
@@ -231,6 +231,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		}
 	}
 }
+//Emblema: need to add param academicYear for some functions to work...
 
 void showMenu(short int role, AcademicYears*& year) {
 	switch (role) {
@@ -288,7 +289,7 @@ void showMenu(short int role, AcademicYears*& year) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-
+				viewCourseOfSemester(year);
 				break;
 			}
 			case 2: {
