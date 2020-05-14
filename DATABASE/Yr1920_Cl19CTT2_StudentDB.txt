@@ -1,9 +1,7 @@
 3
 
-19CTT2
 19125113
-SpookyFish
-1
+password
 Phu
 Dao Thien
 M
@@ -11,10 +9,8 @@ M
 02
 2001
 
-19CTT2
 19125079
-EmVoSpookyFish
-1
+password
 Bao
 Le Gia
 M

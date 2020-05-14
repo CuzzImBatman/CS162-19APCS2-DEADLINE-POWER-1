@@ -27,18 +27,120 @@ void courseInit(Courses*& course, char semes, string year) {
 				course = new Courses;
 				course->courseno = no++;
 				courseIn >> course->courseID;
-				courseIn >> course->room;
 				courseIn.ignore(10, '\n');
-				getline(courseIn, course->LectureName);
+				getline(courseIn, course->courseName);
+				course->courseclass = new CourseClass;
+				int m;
+				courseIn >> m;
+				for (int i = 0; i < m; ++i) {
+					courseIn >> course->courseclass->classID;// temporary, it's wrong btw.
+				}
+				courseIn >> course->LectureName;
+				courseIn >> course->courseclass->startDate.day;
+				courseIn >> course->courseclass->startDate.month;
+				courseIn >> course->courseclass->startDate.year;
+				courseIn >> course->courseclass->endDate.day;
+				courseIn >> course->courseclass->endDate.month;
+				courseIn >> course->courseclass->endDate.year;
+				string temp;
+				courseIn >> temp;
+				switch (temp[1]) { //Mo Tu We Th Fr Sa
+				case 'o':
+					course->courseclass->DayInWeek = 1;
+					break;
+				case 'u':
+					course->courseclass->DayInWeek = 2;
+					break;
+				case 'e':
+					course->courseclass->DayInWeek = 3;
+					break;
+				case 'h':
+					course->courseclass->DayInWeek = 4;
+					break;
+				case 'r':
+					course->courseclass->DayInWeek = 5;
+					break;
+				case 'a':
+					course->courseclass->DayInWeek = 6;
+					break;
+				}
+				int hour, minute;
+				courseIn >> hour >> minute;
+				switch (hour) {
+				case 7:
+					course->courseclass->AtNth = 1;
+					break;
+				case 9:
+					course->courseclass->AtNth = 2;
+					break;
+				case 13:
+					course->courseclass->AtNth = 3;
+					break;
+				case 15:
+					course->courseclass->AtNth = 4;
+					break;
+				}
+				courseIn >> course->room;
 				tempCourse = course;
 			}
 			else {
 				tempCourse->next = new Courses;
 				tempCourse->next->courseno = no++;
 				courseIn >> tempCourse->next->courseID;
-				courseIn >> tempCourse->next->room;
 				courseIn.ignore(10, '\n');
-				getline(courseIn, tempCourse->next->LectureName);
+				getline(courseIn, tempCourse->next->courseName);
+				tempCourse->next->courseclass = new CourseClass;
+				int m;
+				courseIn >> m;
+				for (int i = 0; i < m; ++i) {
+					courseIn >> tempCourse->next->courseclass->classID;// temporary, it's wrong btw.
+				}
+				courseIn >> tempCourse->next->LectureName;
+				courseIn >> tempCourse->next->courseclass->startDate.day;
+				courseIn >> tempCourse->next->courseclass->startDate.month;
+				courseIn >> tempCourse->next->courseclass->startDate.year;
+				courseIn >> tempCourse->next->courseclass->endDate.day;
+				courseIn >> tempCourse->next->courseclass->endDate.month;
+				courseIn >> tempCourse->next->courseclass->endDate.year;
+				string temp;
+				courseIn >> temp;
+				switch (temp[1]) { //Mo Tu We Th Fr Sa
+				case 'o':
+					tempCourse->next->courseclass->DayInWeek = 1;
+					break;
+				case 'u':
+					tempCourse->next->courseclass->DayInWeek = 2;
+					break;
+				case 'e':
+					tempCourse->next->courseclass->DayInWeek = 3;
+					break;
+				case 'h':
+					tempCourse->next->courseclass->DayInWeek = 4;
+					break;
+				case 'r':
+					tempCourse->next->courseclass->DayInWeek = 5;
+					break;
+				case 'a':
+					tempCourse->next->courseclass->DayInWeek = 6;
+					break;
+				}
+				int hour, minute;
+				courseIn >> hour >> minute;
+				switch (hour) {
+				case 7:
+					tempCourse->next->courseclass->AtNth = 1;
+					break;
+				case 9:
+					tempCourse->next->courseclass->AtNth = 2;
+					break;
+				case 13:
+					tempCourse->next->courseclass->AtNth = 3;
+					break;
+				case 15:
+					tempCourse->next->courseclass->AtNth = 4;
+					break;
+				}
+				courseIn >> tempCourse->next->room;
 				tempCourse = tempCourse->next;
 			}
 			n--;

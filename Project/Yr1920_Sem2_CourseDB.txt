@@ -1,13 +1,23 @@
-3
+2
 
 CS162
+Introduction to Computer Science 2
+1
+19CTT2
+dbtien
+20 02 2020
+20 06 2020
+Tue
+7 30
 I41
-Dinh Ba Tien
 
 MTH252
+Calculus II
+1
+19CTT2
+nttvan
+20 02 2020
+20 06 2020
+Wed
+7 30
 F204
-somethin somethin Van
-
-PH212
-I35
-forgot his name
