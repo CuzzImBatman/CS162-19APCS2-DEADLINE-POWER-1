@@ -663,5 +663,4 @@ void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
   UpdateBitAttend(classBID, course);
 
 }
-
 ///

@@ -33,6 +33,9 @@
     <ClCompile Include="functionAllRoles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functionInitialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h">
