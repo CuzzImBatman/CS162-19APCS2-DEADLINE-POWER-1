@@ -396,6 +396,7 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
     curST = curST ->  next;
   }
 
+
   Classes * curCL = Class;
   while (Outsider != NULL) {
     int k = CheckStatusStudent(Outsider ->  studentID, Outsider ->  classID, Class);
