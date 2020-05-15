@@ -1,6 +1,6 @@
-#include"function.h"
+#include "function.h"
 
-using namespace std;
+ using namespace std;
 
 int numberOfDay(Date x, Date y) {
   if (x.month < 3) {
@@ -620,7 +620,7 @@ void UpdateBitAttend(string classID, Courses * & course) {
     CourseClass * cur = curCS ->  courseclass;
     while (cur != NULL)
       if (cur ->  classID == classID) {
-        cur ->  BitAttend = cur ->  BitAttend>>1 + 1;
+        cur ->  BitAttend =( cur ->  BitAttend)>>1 + 1;
         break;
       }
     else
@@ -653,7 +653,6 @@ void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
       newST ->  studentID = studentID;
       newST ->  Status = 1;
       newST ->  account = curST ->  account;
-      newST ->  attendanceStatus = curST ->  attendanceStatus;
       for (int i = 1; i <= 6; i++)
         for (int j = 1; j <= 4; j++)
           newST ->  schedule[i][j] = curCL ->  schedule[i][j];
