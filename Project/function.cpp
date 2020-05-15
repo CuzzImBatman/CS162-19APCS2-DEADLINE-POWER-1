@@ -629,7 +629,7 @@ void UpdateBitAttend(string classID, Courses * & course) {
     curCS = curCS ->  next;
   }
 }
-void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string classBID, string studentID, Courses * & course) {
+bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string classBID, string studentID, Courses * & course) {
   Classes * curCL = Class;
   Students * curST;
   while (curCL != NULL)
