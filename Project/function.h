@@ -101,7 +101,7 @@ struct AttendanceStatus
 
 struct CheckinCourse
 {
-    int bitweek;
+    int bitweek=0;
     string courseID;
     //int status;
     CheckinCourse *next;
@@ -292,7 +292,7 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 void viewScoreCourse(Students *student,string courseID,string studentID);
 void viewSchedule(Students* student);
 void viewCheckIn(CheckinCourse *checkincourse, int week);
-bool Tick(int week, string courseID,CheckinCourse* &checkincourse )
+bool Tick(int week, string courseID, CheckinCourse*& checkincourse);
 #pragma endregion
 #endif
 
