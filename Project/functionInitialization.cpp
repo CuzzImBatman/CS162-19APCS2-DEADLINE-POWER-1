@@ -244,7 +244,8 @@ void studentInit(Students*& st, string Class, string year) {
 			if (!st) {
 				st = new Students;
 				stIn >> st->studentID;
-				st->account = new Accounts;
+				Accounts* acc = new Accounts;
+				st->account = acc;
 				st->account->uName = st->studentID;
 				st->account->role = 1;
 				accountInit(stIn, st->account);
