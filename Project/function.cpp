@@ -646,7 +646,7 @@ bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
     }
   else
     curCL = curCL ->  next;
-  if (curST == NULL)return;
+  if (curST == NULL)return false;
   curCL = Class;
   while (curCL != NULL)
     if (curCL ->  classID == classBID) {
@@ -661,7 +661,7 @@ bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
       FillCheckinCourse(newST);
     }
   UpdateBitAttend(classBID, course);
-
+  return true;
 
 }
 ///
