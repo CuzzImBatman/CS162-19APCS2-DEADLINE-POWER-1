@@ -629,7 +629,7 @@ void UpdateBitAttend(string classID, Courses * & course) {
     curCS = curCS ->  next;
   }
 }
-void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string classBID, string studentID, Courses * & course) {
+bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string classBID, string studentID, Courses * & course) {
   Classes * curCL = Class;
   Students * curST = NULL;
   while (curCL != NULL)
@@ -646,7 +646,7 @@ void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
     }
   else
     curCL = curCL ->  next;
-  if (curST == NULL)return;
+  if (curST == NULL)return false;
   curCL = Class;
   while (curCL != NULL)
     if (curCL ->  classID == classBID) {
@@ -661,7 +661,7 @@ void ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
       FillCheckinCourse(newST);
     }
   UpdateBitAttend(classBID, course);
-
+  return true;
 
 }
 ///
