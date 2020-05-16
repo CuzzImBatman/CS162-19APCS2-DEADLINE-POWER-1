@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <string.h>
+#include <string>
 using namespace std;
 /* Naming rule:
 struct: StructName
@@ -36,11 +36,11 @@ struct Date {
 
 struct Accounts
 {
-    char* pwd = NULL;  //(sha256 if possible)
-    char* uName = NULL; // = ID
-    short int role = (int)uName[0] - 48;
+    string pwd;  //(sha256 if possible)
+    string uName;
+    short int role;
     string lastname, firstname;
-    char gender[3]; //Female Male, Prefer not to say -> F,M,O
+    char gender; //Female Male, Prefer not to say -> F,M,O
     Date* doB = NULL;
 };
 
@@ -64,7 +64,7 @@ struct Lecturers
     Lecturers* next = NULL;
 };
 
-struct SessionStatus
+/*struct SessionStatus
 {
     short int sessionNo; //11 12 21 22 31 32  week_session
     bool status;
@@ -75,7 +75,7 @@ struct WeeklyStatus {
 	SessionStatus* sessions = nullptr;
 	WeeklyStatus* next = nullptr;
 };*/
-struct AttendanceStatus
+/*struct AttendanceStatus
 {
     string courseName;
     SessionStatus* sessions = NULL; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
@@ -96,14 +96,21 @@ struct AttendanceStatus
     		}
     		temp= temp->next;
     	}
-    */
+    
+};
+*/
+struct ViewCheckin
+{
+    int week;
+    string viewWeek[6][4];
+    ViewCheckin* next;
 };
 
 struct CheckinCourse
 {
-    int bitweek=0;
+    int bitweek;
     string courseID;
-    //int status;
+    int status;
     CheckinCourse *next;
 };
 struct Students
@@ -111,7 +118,7 @@ struct Students
     string studentID;
     Accounts* account = NULL;
     Scoreboards* scoreboards = NULL;
-    AttendanceStatus* attendanceStatus = NULL;
+    // AttendanceStatus* attendanceStatus = NULL;
 
     int Status;
     ///1  in class
@@ -120,7 +127,7 @@ struct Students
     ///-2 kicked
 
     string schedule[6][4];
-   CheckinCourse *checkincourse=NULL;
+    CheckinCourse *checkincourse=NULL;
     Students* next = NULL;
 
 };
@@ -139,7 +146,7 @@ struct CourseClass
     Students* students = NULL;
     long int BitAttend=0;
     Date startDate, endDate;
-    CourseClass *next;
+    CourseClass *next = NULL;
     OutsideStudent* Outsider=NULL;
     int DayInWeek;
     int AtNth;
@@ -147,8 +154,9 @@ struct CourseClass
 struct Courses
 {
 
-    short int courseno;
+    string courseno;
     string courseID;	//them course id
+    string courseName;
     CourseClass *courseclass;
     string room;
     string LectureName;
@@ -191,7 +199,7 @@ struct Semesters
 
 struct AcademicYears
 {
-    short int year;  //Ex: 1920 2021;
+    string year;  //Ex: 1920 2021;
     Semesters* semesters = NULL;
     Classes* classes = NULL;
     AcademicYears* next = NULL;
@@ -213,15 +221,29 @@ struct Account {
 
 
 #pragma region Initialization
+void accountInit(ifstream& fin, Accounts*& acc);
 
+void courseInit(Courses*& course, char semes, string year);
+void lecturerInit(Lecturers*& lec, char semes, string year);
+void staffInit(Staffs*& staff, char semes, string year);
+void semesterInit(Semesters*& semes, string year);
+
+void studentInit(Students*& st, string Class, string year);
+void classInit(Classes*& Class, string year);
+
+void academicYearInit(AcademicYears*& year);
 #pragma endregion
 
 #pragma region All roles
-int login(char* user, char* pwd, Accounts* accountList); //1 2 3 -1          -> 2. 3. 4. 5.    tao curAcc
-void showMenu(int role);
-void viewProfile(Accounts* curAcc);
-bool changePwd(char* newPwd, Accounts* accountList);
-bool logout(Accounts* curAcc);
+int login(AcademicYears* year, Accounts*& acc);
+void showClassOptions(AcademicYears*& year);
+void showCourseOptions(AcademicYears*& year);
+void showScoreboardOptions(AcademicYears*& year);
+void showAttendanceListOptions(AcademicYears*& year);
+void showMenu(short int role, AcademicYears*& year);
+void changePwd(Accounts*& acc);
+void viewProfile(Accounts* acc);
+void logout(Accounts*& acc);
 #pragma endregion
 
 #pragma region Academic Staff
@@ -229,17 +251,18 @@ int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 
 
 #pragma region Class
-/*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
-void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
-void editAStudent(AcademicStaff* staff, Classes*& aClass);
-void removeAStudent(AcademicStaff* staff, Classes*& aClass);
-void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
-void viewListOfClasses(AcademicStaff* staff, Classes* classes);
-void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
-void RemoveStudentFromClass(Classes* &Class,string classID, string studentID);
-void UpdateBitAttend(string classID,Courses *&course);
-void ChangeStudentFromClassAtoB(Classes* &Class,string classAID, string classBID,string studentID,Courses *&course);
+void importAClassFromCsvFile(Classes*& aClass);
+void addAStudentToAClass(Classes*& aClass);
+void editAStudent(Classes*& aClass);
+void removeAStudent(Classes*& aClass);
+void changeClassForStudents(Classes*& classes);
+void viewListOfClasses(Classes* aClass);
+void viewListOfStudentsInAClass(Classes* aClass);
 
+void createLecturer(AcademicYears* year);
+void updateLecturer(AcademicYears* year);
+void deleteLecturer(AcademicYears* year);
+void viewLecturer(AcademicYears* year);
 #pragma endregion
 
 #pragma region Course
@@ -263,7 +286,8 @@ void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
 void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStudent* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
 
-
+void viewCourseOfSemester(AcademicYears* AcaYear);
+void viewStudentsOfCourse();
 
 
 #pragma endregion

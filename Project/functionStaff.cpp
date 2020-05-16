@@ -1,5 +1,8 @@
 #include "function.h"
 
+Students* findStudent(Students* st, string stID);
+Classes* findClass(Classes* Class, string ClassID);
+
 #pragma region Class
 void importAClassFromCsvFile(Classes*& aClass) {
 	cout << "Haven't written this yet." << endl;
