@@ -13,8 +13,8 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	fin >> acc->doB->year;
 }
 
-void courseInit(Courses*& course, char semes, string year) {
-	Courses* tempCourse = course;
+void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
+	Courses* tempCourse =new Courses;
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
@@ -23,126 +23,27 @@ void courseInit(Courses*& course, char semes, string year) {
 		int n;
 		courseIn >> n;
 		while (n) {
-			if (!course) {
-				course = new Courses;
-				course->courseno = no++;
-				courseIn >> course->courseID;
+	
+				courseIn >> tempCourse->courseID;
 				courseIn.ignore(10, '\n');
-				getline(courseIn, course->courseName);
-				course->courseclass = new CourseClass;
+				getline(courseIn, tempCourse->courseName);
+				courseIn >> tempCourse->LectureName;
+				courseIn >> tempCourse->courseclass->startDate.day;
+				courseIn >> tempCourse->courseclass->startDate.month;
+				courseIn >> tempCourse->courseclass->startDate.year;
+				courseIn >> tempCourse->courseclass->endDate.day;
+				courseIn >> tempCourse->courseclass->endDate.month;
+				courseIn >> tempCourse->courseclass->endDate.year;
 				int m;
 				courseIn >> m;
-				for (int i = 0; i < m; ++i) {
-					courseIn >> course->courseclass->classID;// temporary, it's wrong btw.
-				}
-				courseIn >> course->LectureName;
-				courseIn >> course->courseclass->startDate.day;
-				courseIn >> course->courseclass->startDate.month;
-				courseIn >> course->courseclass->startDate.year;
-				courseIn >> course->courseclass->endDate.day;
-				courseIn >> course->courseclass->endDate.month;
-				courseIn >> course->courseclass->endDate.year;
-				string temp;
-				courseIn >> temp;
-				switch (temp[1]) { //Mo Tu We Th Fr Sa
-				case 'o':
-					course->courseclass->DayInWeek = 1;
-					break;
-				case 'u':
-					course->courseclass->DayInWeek = 2;
-					break;
-				case 'e':
-					course->courseclass->DayInWeek = 3;
-					break;
-				case 'h':
-					course->courseclass->DayInWeek = 4;
-					break;
-				case 'r':
-					course->courseclass->DayInWeek = 5;
-					break;
-				case 'a':
-					course->courseclass->DayInWeek = 6;
-					break;
-				}
-				int hour, minute;
-				courseIn >> hour >> minute;
-				switch (hour) {
-				case 7:
-					course->courseclass->AtNth = 1;
-					break;
-				case 9:
-					course->courseclass->AtNth = 2;
-					break;
-				case 13:
-					course->courseclass->AtNth = 3;
-					break;
-				case 15:
-					course->courseclass->AtNth = 4;
-					break;
-				}
-				courseIn >> course->room;
-				tempCourse = course;
-			}
-			else {
-				tempCourse->next = new Courses;
-				tempCourse->next->courseno = no++;
-				courseIn >> tempCourse->next->courseID;
-				courseIn.ignore(10, '\n');
-				getline(courseIn, tempCourse->next->courseName);
-				tempCourse->next->courseclass = new CourseClass;
-				int m;
-				courseIn >> m;
-				for (int i = 0; i < m; ++i) {
-					courseIn >> tempCourse->next->courseclass->classID;// temporary, it's wrong btw.
-				}
-				courseIn >> tempCourse->next->LectureName;
-				courseIn >> tempCourse->next->courseclass->startDate.day;
-				courseIn >> tempCourse->next->courseclass->startDate.month;
-				courseIn >> tempCourse->next->courseclass->startDate.year;
-				courseIn >> tempCourse->next->courseclass->endDate.day;
-				courseIn >> tempCourse->next->courseclass->endDate.month;
-				courseIn >> tempCourse->next->courseclass->endDate.year;
-				string temp;
-				courseIn >> temp;
-				switch (temp[1]) { //Mo Tu We Th Fr Sa
-				case 'o':
-					tempCourse->next->courseclass->DayInWeek = 1;
-					break;
-				case 'u':
-					tempCourse->next->courseclass->DayInWeek = 2;
-					break;
-				case 'e':
-					tempCourse->next->courseclass->DayInWeek = 3;
-					break;
-				case 'h':
-					tempCourse->next->courseclass->DayInWeek = 4;
-					break;
-				case 'r':
-					tempCourse->next->courseclass->DayInWeek = 5;
-					break;
-				case 'a':
-					tempCourse->next->courseclass->DayInWeek = 6;
-					break;
-				}
-				int hour, minute;
-				courseIn >> hour >> minute;
-				switch (hour) {
-				case 7:
-					tempCourse->next->courseclass->AtNth = 1;
-					break;
-				case 9:
-					tempCourse->next->courseclass->AtNth = 2;
-					break;
-				case 13:
-					tempCourse->next->courseclass->AtNth = 3;
-					break;
-				case 15:
-					tempCourse->next->courseclass->AtNth = 4;
-					break;
-				}
-				courseIn >> tempCourse->next->room;
-				tempCourse = tempCourse->next;
-			}
+				for (int i = 0; i < m; ++i)
+					InitClassToCourse(Class, courseIn, tempCourse);
+					
+				
+				tempCourse->next = course;
+				course = tempCourse;
+			
+			
 			n--;
 		}
 	}

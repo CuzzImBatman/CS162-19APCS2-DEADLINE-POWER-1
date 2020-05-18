@@ -230,6 +230,7 @@ void semesterInit(Semesters*& semes, string year);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
+void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
@@ -263,6 +264,7 @@ void createLecturer(AcademicYears* year);
 void updateLecturer(AcademicYears* year);
 void deleteLecturer(AcademicYears* year);
 void viewLecturer(AcademicYears* year);
+
 #pragma endregion
 
 #pragma region Course
@@ -271,7 +273,7 @@ void RemovedStudentFromCourseClass(Courses*& course,string courseID,string class
 bool AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,string classID, string classIDOut,string studentID );
 bool DeleteCourse(Courses*& course,string courseID,Classes * &Class);
 void AddCourse(Courses *&course,Classes* Class);
-void InitCourse(Courses *&course,Classes* Class);
+//void InitCourse(Courses *&course,Classes* Class);
 
 ///
 void AddCourseToStudent(Classes*& Class,string studentID,string classID,string courseID,int DayInWeek,int AtNth);
