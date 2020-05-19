@@ -96,7 +96,7 @@ void showClassOptions(AcademicYears*& year) {
 			break;
 		}
 		case 5: {
-			changeClassForStudents(year->classes);
+			changeClassForStudents(year->classes,year->semesters->courses);
 			break;
 		}
 		case 6: {

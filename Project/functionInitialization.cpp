@@ -14,7 +14,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 }
 
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
-	Courses* tempCourse =new Courses;
+	
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
@@ -23,8 +23,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 		int n;
 		courseIn >> n;
 		while (n) {
-	
-				courseIn >> tempCourse->courseID;
+			    Courses* tempCourse = new Courses;
+			 	courseIn >> tempCourse->courseID;
 				courseIn.ignore(10, '\n');
 				getline(courseIn, tempCourse->courseName);
 				courseIn >> tempCourse->LectureName;
@@ -33,14 +33,12 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
 					InitClassToCourse(Class, courseIn, tempCourse);
-					
-				
 				tempCourse->next = course;
 				course = tempCourse;
 			
-			
 			n--;
 		}
+		
 	}
 	courseIn.close();
 }
@@ -149,6 +147,7 @@ void studentInit(Students*& st, string Class, string year) {
 				st->account->role = 1;
 				accountInit(stIn, st->account);
 				tempSt = st;
+				scheduleInit(st->schedule, stIn);
 			}
 			else {
 				tempSt->next = new Students;
@@ -157,12 +156,21 @@ void studentInit(Students*& st, string Class, string year) {
 				tempSt->next->account->uName = tempSt->next->studentID;
 				tempSt->next->account->role = 1;
 				accountInit(stIn, tempSt->next->account);
+				scheduleInit(tempSt->schedule, stIn);
 				tempSt = tempSt->next;
 			}
 			n--;
 		}
 	}
 	stIn.close();
+}
+void scheduleInit(string schedule[6][4],ifstream& in)
+{
+
+	for (int j = 1; j <= 4; j++)
+	for (int i = 1; i <= 6; i++)
+	in >> schedule[i][j];
+
 }
 void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
@@ -178,7 +186,7 @@ void classInit(Classes*& Class, string year) {
 				Class = new Classes;
 				Class->classno = no++;
 				classIn >> Class->classID;
-				//scheduleInit
+				scheduleInit(Class->schedule,classIn);
 				studentInit(Class->students, Class->classID, year);
 				tempClass = Class;
 			}
@@ -186,6 +194,7 @@ void classInit(Classes*& Class, string year) {
 				tempClass->next = new Classes;
 				tempClass->next->classno = no++;
 				classIn >> tempClass->next->classID;
+				scheduleInit(tempClass->schedule, classIn);
 				studentInit(tempClass->next->students, tempClass->next->classID,year);
 				//scheduleInit
 				tempClass = tempClass->next;
@@ -214,7 +223,7 @@ void academicYearInit(AcademicYears*& year) {
 			tempYear->next = new AcademicYears;
 			yearIn >> tempYear->next->year;
 			classInit(tempYear->next->classes, tempYear->next->year);
-			semesterInit(tempYear->next->semesters, tempYear->next->year, year->classes);
+			semesterInit(tempYear->next->semesters, tempYear->next->year, tempYear->next->classes);
 			tempYear = tempYear->next;
 		}
 		n--;

@@ -1,8 +1,3 @@
-﻿  function.cpp
-  functionAllRoles.cpp
-  functionInitialization.cpp
-  functionStaff.cpp
-  main.cpp
-  Generating Code...
-D:\CS162_Project\Project\function.cpp(625,55): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
-  Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe
+﻿  functionInitialization.cpp
+D:\CS162_Project\Project\functionInitialization.cpp(150,5): error C3861: 'scheduleInit': identifier not found
+D:\CS162_Project\Project\functionInitialization.cpp(159,5): error C3861: 'scheduleInit': identifier not found

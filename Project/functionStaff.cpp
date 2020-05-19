@@ -177,7 +177,10 @@ void removeAStudent(Classes*& aClass) {
 		tmp = tmp->next;*/
 	
 }
-void changeClassForStudents(Classes*& classes) {
+
+
+
+void changeClassForStudents(Classes*& classes, Courses*& course) {
 	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
 	cin >> classA;
@@ -224,8 +227,11 @@ void changeClassForStudents(Classes*& classes) {
 	AddSt->scoreboards = tmpSt->scoreboards;
 	AddSt->studentID = tmpSt->studentID;
 	AddSt->Status = 1;
+	FillCheckinCourse(AddSt);
 	AddSt->next = tmpClassB->students;
 	tmpClassB->students = AddSt;
+	UpdateBitAttend(tmpClassB->classID, course);
+	
 	
 }
 void viewListOfClasses(Classes* aClass) {

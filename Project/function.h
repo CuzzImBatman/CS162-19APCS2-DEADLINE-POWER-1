@@ -99,18 +99,12 @@ struct WeeklyStatus {
     
 };
 */
-struct ViewCheckin
-{
-    int week;
-    string viewWeek[6][4];
-    ViewCheckin* next;
-};
+
 
 struct CheckinCourse
 {
     int bitweek;
     string courseID;
-    int status;
     CheckinCourse *next;
 };
 struct Students
@@ -256,7 +250,7 @@ void importAClassFromCsvFile(Classes*& aClass);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
 void removeAStudent(Classes*& aClass);
-void changeClassForStudents(Classes*& classes);
+void changeClassForStudents(Classes*& classes, Courses*& course);
 void viewListOfClasses(Classes* aClass);
 void viewListOfStudentsInAClass(Classes* aClass);
 
@@ -287,9 +281,10 @@ void EditCourseLecture(Courses*& course,string name,string courseID);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
 void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStudent* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
+void UpdateBitAttend(string classID, Courses*& course);
 
 void viewCourseOfSemester(AcademicYears* AcaYear);
-void viewStudentsOfCourse();
+//void viewStudentsOfCourse();
 
 
 #pragma endregion
@@ -315,10 +310,11 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma endregion
 
 #pragma region Student
-void viewScoreCourse(Students *student,string courseID,string studentID);
+void viewScoreCourse(Students *student);
 void viewSchedule(Students* student);
-void viewCheckIn(CheckinCourse *checkincourse, int week);
-bool Tick(int week, string courseID, CheckinCourse*& checkincourse);
+void viewCheckIn(CheckinCourse *checkincourse);
+void Tick( CheckinCourse*& checkincourse);
+void FillCheckinCourse(Students*& student);
 #pragma endregion
 #endif
 
