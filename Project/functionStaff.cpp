@@ -527,5 +527,32 @@ void viewScoreboardOfACourse(Courses* course) {
 #pragma endregion
 
 #pragma region Attendance List
+void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID)
+{
+	Courses* curCS = findCourse(course, CourseID);
+	cout << "Attendace List of " << CourseID;
+	CourseClass* CL = curCS->courseclass;
+	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID";
+	while (CL != NULL)
+	{
+		Students* ST = CL->students;
+		OutsideStudent* OS = CL->Outsider;
+		int i = 0;
+		while (ST != NULL)
+		{
+			if (ST->Status && (CL->BitAttend) % 2)
+				cout << setw(3) << ST->account->lastname << setw(10) << ST->account->firstname << setw(10) << ST->studentID << setw(10) << CL->classID << endl;
+		}
+		while (OS != NULL)
+		{
+			Classes* tempCL = findClass(Class, OS->classID);
+			Students* tempST = findStudent(tempCL->students, OS->studentID);
+			if(tempST->Status)
+				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
 
+		}
+		CL = CL->next;
+	}
+
+}
 #pragma endregion
