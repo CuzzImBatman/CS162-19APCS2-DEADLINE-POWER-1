@@ -546,7 +546,7 @@ bool AddStudentToCourseClass(Courses * & course, Classes * & Class, string cours
   AddCourseToStudent(Class, studentID, classIDOut, courseID, courseclass ->  DayInWeek, courseclass ->  AtNth);
   return true;
 }
-void InitCourse(Courses * & course, Classes * Class) {
+/*void InitCourse(Courses * & course, Classes * Class) {
 
   string a, b;
   while (cin >> a) {
@@ -563,8 +563,8 @@ void InitCourse(Courses * & course, Classes * Class) {
       AddClassToCourse(Class, a, course, newcourse ->  courseID);
 
   }
-
-}
+  
+}*/
 void AddCourse(Courses * & course, Classes * Class) {
   Courses * newcourse = new Courses;
   cout << "courseID: ";

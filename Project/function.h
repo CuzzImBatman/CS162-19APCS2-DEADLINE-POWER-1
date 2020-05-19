@@ -299,7 +299,7 @@ void viewStudentsOfCourse();
 #pragma endregion
 
 #pragma region Attendance list
-
+void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID);
 #pragma endregion
 
 #pragma endregion

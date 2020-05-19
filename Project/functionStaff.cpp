@@ -161,25 +161,21 @@ void removeAStudent(Classes*& aClass) {
 		cout << "Enter the student's ID: ";
 		cin >> studentToRemove;
 	}
-
+	tmpSt->Status = -2;
+	cout << "The student is successfully removed." << endl;
 	/*cout << "Enter the student's ID: ";
 	string studentToRemove;
 	cin >> studentToRemove;*/
-	Students* tmp = tmpClass->students;
+	/*Students* tmp = tmpClass->students;
 	if (tmp->studentID == studentToRemove) {
-		Students* toRemove = tmp;
-		tmpClass->students = tmpClass->students->next;
 		
-		delete toRemove;
+		tmp->Status = -2;
 		cout << "The student is successfully removed." << endl;
 		return;
 	}
 	while (tmp->next->studentID != studentToRemove) //The student definitely exist, checked above.
-		tmp = tmp->next;
-	Students* toRemove = tmp->next;
-	tmp->next = toRemove->next;
-	delete toRemove;
-	cout << "The student is successfully removed." << endl;
+		tmp = tmp->next;*/
+	
 }
 void changeClassForStudents(Classes*& classes) {
 	cout << endl << "Enter the class from which you want to change the students: ";
@@ -206,16 +202,31 @@ void changeClassForStudents(Classes*& classes) {
 		cout << "Enter the class to which you want to change the students: ";
 		cin >> classB;
 	}
-	Students* st = tmpClassB->students;
-	if (!tmpClassB->students)
-		tmpClassB->students = tmpClassA->students;
-	else {
-		while (st->next)
-			st = st->next;
-		st->next = tmpClassA->students;
+	cout << "Enter the student's ID: ";
+	string studentToChange;
+	cin >> studentToChange;
+	Students* tmpSt = nullptr;
+	while (true) {
+		tmpSt = findStudent(tmpClassA->students, studentToChange);
+		if (tmpSt)
+			break;
+		cout << "Student does not exist." << endl;
+		cout << "Enter the student's ID: ";
+		cin >> studentToChange;
 	}
-	tmpClassA->students = nullptr;
-	cout << endl << "All students from class " << classA << " are moved to class " << classB << endl;
+	tmpSt->Status = -1;
+	Students* AddSt = new Students;
+	AddSt->account = tmpSt->account;
+	AddSt->checkincourse = tmpSt->checkincourse;
+	for (int i = 1; i <= 6; i++)
+	for (int j = 1; j <= 4; j++)
+	    AddSt->schedule[i][j] = tmpSt->schedule[i][j];
+	AddSt->scoreboards = tmpSt->scoreboards;
+	AddSt->studentID = tmpSt->studentID;
+	AddSt->Status = 1;
+	AddSt->next = tmpClassB->students;
+	tmpClassB->students = AddSt;
+	
 }
 void viewListOfClasses(Classes* aClass) {
 	cout << endl << "Here is the list of classes: ";
