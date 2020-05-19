@@ -18,7 +18,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
-	courseIn.open(fileIn); 
+	courseIn.open(fileIn);
 	if (courseIn.is_open()) {
 		int n;
 		courseIn >> n;
@@ -28,12 +28,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn.ignore(10, '\n');
 				getline(courseIn, tempCourse->courseName);
 				courseIn >> tempCourse->LectureName;
-				courseIn >> tempCourse->courseclass->startDate.day;
-				courseIn >> tempCourse->courseclass->startDate.month;
-				courseIn >> tempCourse->courseclass->startDate.year;
-				courseIn >> tempCourse->courseclass->endDate.day;
-				courseIn >> tempCourse->courseclass->endDate.month;
-				courseIn >> tempCourse->courseclass->endDate.year;
+
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
@@ -49,6 +44,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 	}
 	courseIn.close();
 }
+
 void lecturerInit(Lecturers*& lec, char semes, string year) {
 	Lecturers* tempLec = lec;
 	ifstream lecIn;
@@ -109,7 +105,8 @@ void staffInit(Staffs*& staff, char semes, string year) {
 	}
 	staffIn.close();
 }
-void semesterInit(Semesters*& semes, string year) {
+
+void semesterInit(Semesters*& semes, string year, Classes*& Class){
 	Semesters* tempSemes = semes;
 	char n = '1';
 	while (n < '4') {
@@ -118,7 +115,8 @@ void semesterInit(Semesters*& semes, string year) {
 			semes->semesterNo = n;
 			staffInit(semes->staffs, semes->semesterNo, year);
 			lecturerInit(semes->lecturers, semes->semesterNo, year);
-			courseInit(semes->courses, semes->semesterNo, year);
+			courseInit(semes->courses, semes->semesterNo, year, Class);
+			
 			tempSemes = semes;
 		}
 		else {
@@ -126,7 +124,7 @@ void semesterInit(Semesters*& semes, string year) {
 			tempSemes->next->semesterNo = n;
 			staffInit(tempSemes->next->staffs, tempSemes->next->semesterNo, year);
 			lecturerInit(tempSemes->next->lecturers, tempSemes->next->semesterNo, year);
-			courseInit(tempSemes->next->courses, tempSemes->next->semesterNo, year);
+			courseInit(tempSemes->next->courses, tempSemes->next->semesterNo, year, Class);
 			tempSemes = tempSemes->next;
 		}
 		n++;
@@ -209,14 +207,14 @@ void academicYearInit(AcademicYears*& year) {
 			year = new AcademicYears;
 			yearIn >> year->year;
 			classInit(year->classes, year->year);
-			semesterInit(year->semesters, year->year);
+			semesterInit(year->semesters, year->year, year->classes);
 			tempYear = year;
 		}
 		else {
 			tempYear->next = new AcademicYears;
 			yearIn >> tempYear->next->year;
 			classInit(tempYear->next->classes, tempYear->next->year);
-			semesterInit(tempYear->next->semesters, tempYear->next->year);
+			semesterInit(tempYear->next->semesters, tempYear->next->year, year->classes);
 			tempYear = tempYear->next;
 		}
 		n--;

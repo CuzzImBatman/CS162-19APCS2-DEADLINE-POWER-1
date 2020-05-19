@@ -1,12 +1,12 @@
-0
+2
 
 CS162
 Introduction to Computer Science 2
 dbtien
-20 02 2020
-20 06 2020
 1
 19CTT2
+20 02 2020
+20 06 2020
 Tue
 7 30
 I41
@@ -15,10 +15,10 @@ I41
 MTH252
 Calculus II
 nttvan
-20 02 2020
-20 06 2020
 1
 19CTT2
+20 02 2020
+20 06 2020
 Wed
 7 30
 F204

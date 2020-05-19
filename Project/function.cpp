@@ -671,6 +671,13 @@ void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses *& course) 
 	
 	CourseClass* courseclass = new CourseClass;
 	courseIn >> courseclass->classID;
+
+	courseIn >> courseclass->startDate.day;
+	courseIn >> courseclass->startDate.month;
+	courseIn >> courseclass->startDate.year;
+	courseIn >> courseclass->endDate.day;
+	courseIn >> courseclass->endDate.month;
+	courseIn >> courseclass->endDate.year;
 	string temp;
 	courseIn >> temp;
 	switch (temp[1]) { //Mo Tu We Th Fr Sa

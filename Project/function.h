@@ -223,10 +223,10 @@ struct Account {
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
 
-void courseInit(Courses*& course, char semes, string year);
+void courseInit(Courses*& course, char semes, string year, Classes*& Class);
 void lecturerInit(Lecturers*& lec, char semes, string year);
 void staffInit(Staffs*& staff, char semes, string year);
-void semesterInit(Semesters*& semes, string year);
+void semesterInit(Semesters*& semes, string year, Classes*& Class);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);

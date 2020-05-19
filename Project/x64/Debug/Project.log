@@ -1,5 +1,2 @@
 ﻿  functionInitialization.cpp
-functionInitialization.obj : error LNK2019: unresolved external symbol "void __cdecl courseInit(struct Courses * &,char,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?courseInit@@YAXAEAPEAUCourses@@DV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) referenced in function "void __cdecl semesterInit(struct Semesters * &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?semesterInit@@YAXAEAPEAUSemesters@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
-    Hint on symbols that are defined and could potentially match:
-      "void __cdecl courseInit(struct Courses * &,char,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct Classes * &)" (?courseInit@@YAXAEAPEAUCourses@@DV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEAPEAUClasses@@@Z)
-D:\CS162_Project\x64\Debug\Project.exe : fatal error LNK1120: 1 unresolved externals
+  Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe
