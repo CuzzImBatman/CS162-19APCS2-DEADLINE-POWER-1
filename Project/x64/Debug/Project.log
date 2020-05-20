@@ -1,0 +1,10 @@
+﻿  function.cpp
+C:\Users\thduo\Documents\GitHub\CS162_Project\Project\function.cpp(231,30): warning C4834: discarding return value of function with 'nodiscard' attribute
+  functionAllRoles.cpp
+  functionInitialization.cpp
+  functionLecturer.cpp
+  functionStaff.cpp
+  functionStudent.cpp
+  main.cpp
+  Generating Code...
+  Project.vcxproj -> C:\Users\thduo\Documents\GitHub\CS162_Project\x64\Debug\Project.exe
