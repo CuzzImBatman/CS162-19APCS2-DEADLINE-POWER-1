@@ -1,13 +1,2 @@
-﻿  function.cpp
-D:\CS162_Project\Project\function.cpp(41,47): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
-D:\CS162_Project\Project\function.cpp(495,1): error C2059: syntax error: '}'
-  functionAllRoles.cpp
-  functionInitialization.cpp
-D:\CS162_Project\Project\function.cpp(495,1): error C2143: syntax error: missing ';' before '}'
-D:\CS162_Project\Project\functionInitialization.cpp(150,5): error C3861: 'scheduleInit': identifier not found
-  functionStaff.cpp
-D:\CS162_Project\Project\functionInitialization.cpp(159,5): error C3861: 'scheduleInit': identifier not found
-  functionStudent.cpp
-  main.cpp
-  Generating Code...
-D:\CS162_Project\Project\functionStaff.cpp(646): fatal error C1075: '{': no matching token found
+﻿  functionInitialization.cpp
+  Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe

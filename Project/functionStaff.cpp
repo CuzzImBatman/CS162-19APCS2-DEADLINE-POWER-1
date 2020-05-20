@@ -682,4 +682,104 @@ void AddCourse(Courses*& course, Classes* Class) {
 			break;
 		}
 	} while (n != 2);
+}
+
+void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
+	string courseID, classID, studentID;
+	cout << "ID of course you want to add student: ";
+	cin >> courseID;
+	cout << "ID of student's class";
+	cin >> classID;
+	cout << "student ID: ";
+	cin >> studentID;
+	Courses* curCourse = course;
+	while (curCourse->courseID != courseID)
+		curCourse = curCourse->next;
+	CourseClass* courseclass = curCourse->courseclass;
+	while (courseclass->classID != classID)
+		courseclass = courseclass->next;
+	///
+	int i = 0;
+	Students* curST = courseclass->students;
+	while (curST != NULL)
+		if (curST->studentID == studentID)
+			if ((courseclass->BitAttend >> i) % 2)
+				return ;
+			else {
+				courseclass->BitAttend += 1 << i;
+				break;
+			}
+		else
+			curST = curST->next;
+
+	///
+
+	OutsideStudent* Outsider = new OutsideStudent;
+	Outsider->classID = classID;
+	Outsider->studentID = studentID;
+	Outsider->next = courseclass->Outsider;
+	courseclass->Outsider = Outsider;
+	AddCourseToStudent(Class, studentID, classID, courseID, courseclass->DayInWeek, courseclass->AtNth);
+	return ;
+}
+
+void EditCourse(Courses*& course, Classes*& Class) {
+	int n = 1;
+	do {
+
+		string courseID, room, NewID, OldID, name, classID, Lname;
+		cout << "Menu: " << endl;
+		cout << "1.Change course ID. " << endl;;
+		cout << "2.change Room." << endl;
+		cout << "3.Change Schedule course of a class." << endl;
+		cout << "4.Change Course Lecture." << endl;
+		cout << "5.Edit start date, end date of a class course.";
+		cout << " Press 0 to stop.";
+
+		cin >> n;
+		switch (n) {
+		case 1:
+			cout << "Course ID: ";
+			cin >> OldID;
+			cout << "New course ID: ";
+			cin >> NewID;
+			EditCourseId(course, NewID, OldID);
+			break;
+		case 2:
+			cout << "Course ID: ";
+			cin >> courseID;
+			cout << "New room: ";
+			cin >> room;
+			EditCourseroom(course, courseID, room);
+			break;
+
+		case 3:
+			cout << "Class ID: ";
+			cin >> classID;
+			cout << "Course ID: ";
+			cin >> courseID;
+			EditScheduleCourseOfClass(course, classID, courseID, Class);
+			break;
+
+		case 4:
+			cout << "New lecture: ";
+			cin >> Lname;
+			cout << "Course ID: ";
+			cin >> courseID;
+			EditCourseLecture(course, Lname, courseID);
+			break;
+
+		case 5:
+			cout << "Course ID: ";
+			cin >> courseID;
+			cout << "Class ID: ";
+			cin >> classID;
+			EditDateOfCL(course, classID, courseID);
+
+
+		}
+
+	} while (n);
+
+}
 #pragma endregion

@@ -221,6 +221,7 @@ void courseInit(Courses*& course, char semes, string year, Classes*& Class);
 void lecturerInit(Lecturers*& lec, char semes, string year);
 void staffInit(Staffs*& staff, char semes, string year);
 void semesterInit(Semesters*& semes, string year, Classes*& Class);
+void scheduleInit(string schedule[6][4], ifstream& in);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
@@ -264,7 +265,7 @@ void viewLecturer(AcademicYears* year);
 #pragma region Course
 void EditCourse(Courses*& course,Classes *&Class);
 void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,string studentID );
-bool AddStudentToCourseClass(Courses*& course,Classes * &Class );
+void AddStudentToCourseClass(Courses*& course,Classes * &Class );
 bool DeleteCourse(Courses*& course,string courseID,Classes * &Class);
 void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
@@ -278,6 +279,7 @@ void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Cl
 void EditCourseId(Courses*& course,string NewID,string  OldID);
 void EditCourseroom(Courses*& course,string courseID,string room);
 void EditCourseLecture(Courses*& course,string name,string courseID);
+void EditDateOfCL(Courses*& course, string classID, string courseID);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
 void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStudent* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);

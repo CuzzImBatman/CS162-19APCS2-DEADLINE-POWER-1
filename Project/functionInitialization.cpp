@@ -147,7 +147,7 @@ void studentInit(Students*& st, string Class, string year) {
 				st->account->role = 1;
 				accountInit(stIn, st->account);
 				tempSt = st;
-				scheduleInit(st->schedule, stIn);
+				//scheduleInit(st->schedule, stIn); not ready yet
 			}
 			else {
 				tempSt->next = new Students;
@@ -156,7 +156,7 @@ void studentInit(Students*& st, string Class, string year) {
 				tempSt->next->account->uName = tempSt->next->studentID;
 				tempSt->next->account->role = 1;
 				accountInit(stIn, tempSt->next->account);
-				scheduleInit(tempSt->schedule, stIn);
+				//scheduleInit(tempSt->schedule, stIn);
 				tempSt = tempSt->next;
 			}
 			n--;
@@ -167,10 +167,9 @@ void studentInit(Students*& st, string Class, string year) {
 void scheduleInit(string schedule[6][4],ifstream& in)
 {
 
-	for (int j = 1; j <= 4; j++)
-	for (int i = 1; i <= 6; i++)
-	in >> schedule[i][j];
-
+	for (int j = 0; j < 4; j++)
+		for (int i = 0; i < 6; i++)
+			in >> schedule[i][j];
 }
 void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
@@ -194,7 +193,7 @@ void classInit(Classes*& Class, string year) {
 				tempClass->next = new Classes;
 				tempClass->next->classno = no++;
 				classIn >> tempClass->next->classID;
-				scheduleInit(tempClass->schedule, classIn);
+				scheduleInit(tempClass->next->schedule, classIn);
 				studentInit(tempClass->next->students, tempClass->next->classID,year);
 				//scheduleInit
 				tempClass = tempClass->next;
@@ -246,38 +245,38 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 	courseIn >> temp;
 	switch (temp[1]) { //Mo Tu We Th Fr Sa
 	case 'o':
-		courseclass->DayInWeek = 1;
+		courseclass->DayInWeek = 0;
 		break;
 	case 'u':
-		courseclass->DayInWeek = 2;
+		courseclass->DayInWeek = 1;
 		break;
 	case 'e':
-		courseclass->DayInWeek = 3;
+		courseclass->DayInWeek = 2;
 		break;
 	case 'h':
-		courseclass->DayInWeek = 4;
+		courseclass->DayInWeek = 3;
 		break;
 	case 'r':
-		courseclass->DayInWeek = 5;
+		courseclass->DayInWeek = 4;
 		break;
 	case 'a':
-		courseclass->DayInWeek = 6;
+		courseclass->DayInWeek = 5;
 		break;
 	}
 	int hour, minute;
 	courseIn >> hour >> minute;
 	switch (hour) {
 	case 7:
-		courseclass->AtNth = 1;
+		courseclass->AtNth = 0;
 		break;
 	case 9:
-		courseclass->AtNth = 2;
+		courseclass->AtNth = 1;
 		break;
 	case 13:
-		courseclass->AtNth = 3;
+		courseclass->AtNth = 2;
 		break;
 	case 15:
-		courseclass->AtNth = 4;
+		courseclass->AtNth = 3;
 		break;
 	}
 	courseIn >> course->room;
