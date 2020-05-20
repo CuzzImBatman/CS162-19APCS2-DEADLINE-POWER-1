@@ -97,73 +97,7 @@ void AddCourseToStudent(Classes * & Class, string studentID, string classID, str
   checkincourse = newcourse;
 
 }
-void AddCourseToClass(Classes * & Class, string classID, string courseID, int DayInWeek, int AtNth) {
-  Classes * curCL = Class;
-  while (curCL ->  classID != classID)
-    curCL = curCL ->  next;
-  Students * curST = curCL ->  students;
-  while (curST != NULL) {
-    curST ->  schedule[DayInWeek][AtNth] = courseID;
-    CheckinCourse * checkincourse = curST ->  checkincourse;
-    CheckinCourse * newcourse = new CheckinCourse;
-    newcourse ->  courseID = courseID;
-    newcourse ->  bitweek = 0;
-    //        newcourse->status=1;
-    newcourse ->  next = checkincourse;
-    checkincourse = newcourse;
-    curST = curST ->  next;
 
-  }
-}
-
-void AddClassToCourse(Classes * & Class, string classID, Courses * & course, string courseID) {
-
-  Courses * curCS = course;
-  while (curCS != NULL)
-	  if (curCS->courseID == courseID)break;
-	  else  curCS = curCS ->  next;
-
-  CourseClass * courseclass = new CourseClass;
-  courseclass ->  classID = classID;
-
-  cout << "Start Day: ";
-  cin >> courseclass ->  startDate.day;
-  cin >> courseclass ->  startDate.month;
-  cin >> courseclass ->  startDate.year;
-  cout << "End Day: ";
-  cin >> courseclass ->  endDate.day;
-  cin >> courseclass ->  endDate.month;
-  cin >> courseclass ->  endDate.year;
-  cout << "Day in Week: ";
-  cin >> courseclass ->  DayInWeek;
-  cout << "Nth class: ";
-  cin >> courseclass ->  AtNth;
-  int DayInWeek = courseclass ->  DayInWeek, AtNth = courseclass ->  AtNth;
-  //int week= 3;/// just EX
-
-  Classes * curCL = Class;
-  while (curCL ->  classID != classID)
-    curCL = curCL ->  next;
-
-  curCL ->  schedule[DayInWeek][AtNth] = courseID;
-
-  Students * curST = curCL ->  students;
-  courseclass ->  students = curCL ->  students;
-
-  int i = 0;
-  while (curST != NULL) {
-
-    if (curST ->  Status == 1 )
-      courseclass ->  BitAttend += 1 >> i;
-    i++;
-    curST = curST ->  next;
-  }
-  AddCourseToClass(curCL, classID, courseID, DayInWeek, AtNth);
-
-  courseclass ->  next = curCS ->  courseclass;
-  curCS ->  courseclass = courseclass;
-
-}
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
 void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
@@ -466,8 +400,14 @@ void RemovedStudentFromCourseClass(Courses * & course, string courseID, string c
   //0 outsie
 }
 
-bool AddStudentToCourseClass(Courses * & course, Classes * & Class, string courseID, string classID, string classIDOut, string studentID) {
-
+bool AddStudentToCourseClass(Courses * & course, Classes * & Class) {
+	string courseID, classID, studentID;
+	cout << "ID of course you want to add student: ";
+	cin >> courseID;
+	cout << "ID of student's class";
+	cin >> classID;
+	cout << "student ID: ";
+	cin >> studentID;
   Courses * curCourse = course;
   while (curCourse ->  courseID != courseID)
     curCourse = curCourse ->  next;
@@ -491,11 +431,11 @@ bool AddStudentToCourseClass(Courses * & course, Classes * & Class, string cours
   ///
 
   OutsideStudent * Outsider = new OutsideStudent;
-  Outsider ->  classID = classIDOut;
+  Outsider ->  classID = classID;
   Outsider ->  studentID = studentID;
   Outsider ->  next = courseclass ->  Outsider;
   courseclass ->  Outsider = Outsider;
-  AddCourseToStudent(Class, studentID, classIDOut, courseID, courseclass ->  DayInWeek, courseclass ->  AtNth);
+  AddCourseToStudent(Class, studentID, classID, courseID, courseclass ->  DayInWeek, courseclass ->  AtNth);
   return true;
 }
 /*void InitCourse(Courses * & course, Classes * Class) {
@@ -517,7 +457,7 @@ bool AddStudentToCourseClass(Courses * & course, Classes * & Class, string cours
   }
   
 }*/
-void AddCourse(Courses * & course, Classes * Class) {
+/*void AddCourse(Courses * & course, Classes * Class) {
   Courses * newcourse = new Courses;
   cout << "courseID: ";
   cin >> newcourse ->  courseID;
@@ -539,16 +479,22 @@ void AddCourse(Courses * & course, Classes * Class) {
     cin >> n;
     if (n == 1)
     {
+		cout << "classID :";
+		if (!findClass(Class, classID))
+		{
+			cout << "invalid Class ID.";
+			continue;
+		}
       cin >> classID;
       AddClassToCourse(Class, classID, course, course ->  courseID);
       break;
     }
   }
-  while (n != 2);
+  while (n != 2);*/
 
-}
 
-///
+
+
 /*void RemoveStudentFromClass(Classes * & Class, string classID, string studentID) {
   Classes * curCL = Class;
   while (curCL != NULL)
@@ -605,83 +551,3 @@ bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
 
 }*/
 ///
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses *& course) {
-
-	
-	CourseClass* courseclass = new CourseClass;
-	courseIn >> courseclass->classID;
-
-	courseIn >> courseclass->startDate.day;
-	courseIn >> courseclass->startDate.month;
-	courseIn >> courseclass->startDate.year;
-	courseIn >> courseclass->endDate.day;
-	courseIn >> courseclass->endDate.month;
-	courseIn >> courseclass->endDate.year;
-	string temp;
-	courseIn >> temp;
-	switch (temp[1]) { //Mo Tu We Th Fr Sa
-	case 'o':
-		courseclass->DayInWeek = 1;
-		break;
-	case 'u':
-		courseclass->DayInWeek = 2;
-		break;
-	case 'e':
-		courseclass->DayInWeek = 3;
-		break;
-	case 'h':
-		courseclass->DayInWeek = 4;
-		break;
-	case 'r':
-		courseclass->DayInWeek = 5;
-		break;
-	case 'a':
-		courseclass->DayInWeek = 6;
-		break;
-	}
-	int hour, minute;
-	courseIn >> hour >> minute;
-	switch (hour) {
-	case 7:
-		courseclass->AtNth = 1;
-		break;
-	case 9:
-		courseclass->AtNth = 2;
-		break;
-	case 13:
-		courseclass->AtNth = 3;
-		break;
-	case 15:
-		courseclass->AtNth = 4;
-		break;
-	}
-	courseIn >> course->room;
-	
-	
-	
-	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
-
-	Classes* curCL = Class;
-	while (curCL != NULL)
-		if (curCL->classID == courseclass->classID)break;
-		else curCL = curCL->next;
-
-	curCL -> schedule[ DayInWeek ][ AtNth ] = course->courseID;
-
-	Students* curST = curCL->students;
-	courseclass->students = curCL->students;
-
-	int i = 0;
-	while (curST != NULL) {
-
-		if (curST->Status == 1 )
-			courseclass->BitAttend += 1 >> i;
-		i++;
-		curST = curST->next;
-	}
-	courseclass->next = course->courseclass;
-	course->courseclass = courseclass;
-	AddCourseToClass(curCL, courseclass->classID, course->courseID, DayInWeek, AtNth);
-
-
-}

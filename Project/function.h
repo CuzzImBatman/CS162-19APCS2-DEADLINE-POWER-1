@@ -264,7 +264,7 @@ void viewLecturer(AcademicYears* year);
 #pragma region Course
 void EditCourse(Courses*& course,Classes *&Class);
 void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,string studentID );
-bool AddStudentToCourseClass(Courses*& course,Classes * &Class,string courseID,string classID, string classIDOut,string studentID );
+bool AddStudentToCourseClass(Courses*& course,Classes * &Class );
 bool DeleteCourse(Courses*& course,string courseID,Classes * &Class);
 void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
@@ -317,7 +317,18 @@ void Tick( CheckinCourse*& checkincourse);
 void FillCheckinCourse(Students*& student);
 #pragma endregion
 #endif
+#pragma region tool
+Classes* findClass(Classes* Class, string ClassID);
+	
+Students* findStudent(Students * st, string stID);
 
+Semesters* findSemester(Semesters * semes, char no);
+
+Courses* findCourse(Courses * course, string ID);
+
+CourseClass* findCL(CourseClass* CL, string classID);
+int CheckStatusStudent(string studentID, string classID, Classes*& Class);
+#pragma endregion
 /*
 
 All roles

@@ -522,6 +522,12 @@ Courses* findCourse(Courses* course, string ID) {
 		temp = temp->next;
 	return temp;
 }
+CourseClass* findCL(CourseClass* CL, string classID) {
+	CourseClass* temp = CL;
+	while (temp && temp->classID != classID)
+		temp = temp->next;
+	return temp;
+}
 #pragma endregion
 
 #pragma region Scoreboard
@@ -572,4 +578,108 @@ void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID)
 	}
 
 }
+#pragma endregion
+#pragma region course
+
+void AddCourseToClass(Classes*& Class, string classID, string courseID, int DayInWeek, int AtNth) {
+	Classes* curCL = Class;
+	while (curCL->classID != classID)
+		curCL = curCL->next;
+	Students* curST = curCL->students;
+	while (curST != NULL) {
+		curST->schedule[DayInWeek][AtNth] = courseID;
+		CheckinCourse* checkincourse = curST->checkincourse;
+		CheckinCourse* newcourse = new CheckinCourse;
+		newcourse->courseID = courseID;
+		newcourse->bitweek = 0;
+		//        newcourse->status=1;
+		newcourse->next = checkincourse;
+		checkincourse = newcourse;
+		curST = curST->next;
+
+	}
+}
+
+void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
+
+	Courses* curCS = course;
+	while (curCS != NULL)
+		if (curCS->courseID == courseID)break;
+		else  curCS = curCS->next;
+
+	CourseClass* courseclass = new CourseClass;
+	courseclass->classID = classID;
+
+	cout << "Start Day: ";
+	cin >> courseclass->startDate.day;
+	cin >> courseclass->startDate.month;
+	cin >> courseclass->startDate.year;
+	cout << "End Day: ";
+	cin >> courseclass->endDate.day;
+	cin >> courseclass->endDate.month;
+	cin >> courseclass->endDate.year;
+	cout << "Day in Week: ";
+	cin >> courseclass->DayInWeek;
+	cout << "Nth class: ";
+	cin >> courseclass->AtNth;
+	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
+	//int week= 3;/// just EX
+
+	Classes* curCL = Class;
+	while (curCL->classID != classID)
+		curCL = curCL->next;
+
+	curCL->schedule[DayInWeek][AtNth] = courseID;
+
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+	int i = 0;
+	while (curST != NULL) {
+
+		if (curST->Status == 1)
+			courseclass->BitAttend += 1 >> i;
+		i++;
+		curST = curST->next;
+	}
+	AddCourseToClass(curCL, classID, courseID, DayInWeek, AtNth);
+
+	courseclass->next = curCS->courseclass;
+	curCS->courseclass = courseclass;
+
+}
+
+void AddCourse(Courses*& course, Classes* Class) {
+	Courses* newcourse = new Courses;
+	cout << "courseID: ";
+	cin >> newcourse->courseID;
+
+	cout << "Room: ";
+	cin >> newcourse->room;
+	cout << "Lecture's name: ";
+	cin >> newcourse->LectureName;
+	newcourse->next = course;
+	course = newcourse;
+	course->courseclass = NULL;
+
+	int n;
+
+	do {
+		string classID;
+		cout << "1.Add Class.";
+		cout << "2.Stop.";
+		cin >> n;
+		if (n == 1)
+		{
+			cout << "classID :";
+			if (!findClass(Class, classID))
+			{
+				cout << "invalid Class ID.";
+				continue;
+			}
+			cin >> classID;
+			AddClassToCourse(Class, classID, course, course->courseID);
+			break;
+		}
+	} while (n != 2);
 #pragma endregion

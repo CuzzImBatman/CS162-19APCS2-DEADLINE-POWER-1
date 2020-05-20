@@ -230,3 +230,83 @@ void academicYearInit(AcademicYears*& year) {
 	}
 	yearIn.close();
 }
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
+
+
+	CourseClass* courseclass = new CourseClass;
+	courseIn >> courseclass->classID;
+
+	courseIn >> courseclass->startDate.day;
+	courseIn >> courseclass->startDate.month;
+	courseIn >> courseclass->startDate.year;
+	courseIn >> courseclass->endDate.day;
+	courseIn >> courseclass->endDate.month;
+	courseIn >> courseclass->endDate.year;
+	string temp;
+	courseIn >> temp;
+	switch (temp[1]) { //Mo Tu We Th Fr Sa
+	case 'o':
+		courseclass->DayInWeek = 1;
+		break;
+	case 'u':
+		courseclass->DayInWeek = 2;
+		break;
+	case 'e':
+		courseclass->DayInWeek = 3;
+		break;
+	case 'h':
+		courseclass->DayInWeek = 4;
+		break;
+	case 'r':
+		courseclass->DayInWeek = 5;
+		break;
+	case 'a':
+		courseclass->DayInWeek = 6;
+		break;
+	}
+	int hour, minute;
+	courseIn >> hour >> minute;
+	switch (hour) {
+	case 7:
+		courseclass->AtNth = 1;
+		break;
+	case 9:
+		courseclass->AtNth = 2;
+		break;
+	case 13:
+		courseclass->AtNth = 3;
+		break;
+	case 15:
+		courseclass->AtNth = 4;
+		break;
+	}
+	courseIn >> course->room;
+
+
+
+	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
+
+	Classes* curCL = Class;
+	while (curCL != NULL)
+		if (curCL->classID == courseclass->classID)break;
+		else curCL = curCL->next;
+
+	curCL->schedule[DayInWeek][AtNth] = course->courseID;
+
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+	int i = 0;
+	while (curST != NULL) {
+
+		if (curST->Status == 1)
+			courseclass->BitAttend += 1 >> i;
+		i++;
+		curST = curST->next;
+	}
+	courseclass->next = course->courseclass;
+	course->courseclass = courseclass;
+	AddCourseToClass(curCL, courseclass->classID, course->courseID, DayInWeek, AtNth);
+
+
+}
