@@ -221,8 +221,8 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
 	AddSt->checkincourse = tmpSt->checkincourse;
-	for (int i = 1; i <= 6; i++)
-	for (int j = 1; j <= 4; j++)
+	for (int i = 0; i < 6; i++)
+	for (int j = 0; j < 4; j++)
 	    AddSt->schedule[i][j] = tmpSt->schedule[i][j];
 	AddSt->scoreboards = tmpSt->scoreboards;
 	AddSt->studentID = tmpSt->studentID;
@@ -231,7 +231,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 	AddSt->next = tmpClassB->students;
 	tmpClassB->students = AddSt;
 	UpdateBitAttend(tmpClassB->classID, course);
-	
+	cout << "Changed.";
 	
 }
 void viewListOfClasses(Classes* aClass) {
@@ -550,13 +550,44 @@ void viewScoreboardOfACourse(Courses* course) {
 #pragma endregion
 
 #pragma region Attendance List
-void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID)
+
+void View_Attendance_List(Courses* course, Classes* Class)
 {
-	Courses* curCS = findCourse(course, CourseID);
-	cout << "Attendace List of " << CourseID;
+	string CourseID;
+	Courses* curCS = NULL;
+	while (!curCS)
+	{
+		cout << "Course ID: ";
+		cin >> CourseID;
+		curCS = findCourse(course, CourseID);
+		if (!curCS)cout << "invalid course ID. Please enter agian.";
+		else break;
+	}
+	curCS = findCourse(course, CourseID);
+	cout << "Attendace List of " << CourseID << endl;
 	CourseClass* CL = curCS->courseclass;
-	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID";
-	while (CL != NULL)
+	while (CL)
+		cout << setw(3) << CL->classID << endl;
+	//not done yet;
+
+}
+void View_StudentList_Course(Courses* course, Classes* Class)
+{
+	string CourseID;
+	Courses* curCS = NULL;
+	while (!curCS)
+	{
+		cout << "Course ID: ";
+		cin >> CourseID;
+		curCS = findCourse(course, CourseID);
+		if (!curCS)cout << "invalid course ID. Please enter agian.";
+		else break;
+	}
+	 curCS = findCourse(course, CourseID);
+	 cout << "Students List of " << CourseID << endl;;
+	CourseClass* CL = curCS->courseclass;
+	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID"<<endl;
+	while (CL )
 	{
 		Students* ST = CL->students;
 		OutsideStudent* OS = CL->Outsider;
@@ -565,14 +596,15 @@ void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID)
 		{
 			if (ST->Status && (CL->BitAttend) % 2)
 				cout << setw(3) << ST->account->lastname << setw(10) << ST->account->firstname << setw(10) << ST->studentID << setw(10) << CL->classID << endl;
+			ST = ST->next;
 		}
 		while (OS != NULL)
 		{
 			Classes* tempCL = findClass(Class, OS->classID);
 			Students* tempST = findStudent(tempCL->students, OS->studentID);
-			if(tempST->Status)
+			if(tempST->Status && tempST->Status)
 				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
-
+			OS = OS->next;
 		}
 		CL = CL->next;
 	}
@@ -782,4 +814,164 @@ void EditCourse(Courses*& course, Classes*& Class) {
 	} while (n);
 
 }
+void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
+
+	string courseID, classID, studentID;
+	cout << "Course ID: ";
+	cin >> courseID;
+	cout << "Student ID: ";
+	cin >> studentID;
+
+	Courses* curCourse = NULL;
+	while (!curCourse)
+	{
+		cout << "Course ID: ";
+		cin >> courseID;
+		curCourse = findCourse(course, courseID);
+		if (!curCourse)cout << "invalid course ID. Please enter agian.";
+		else break;
+	}
+
+	CourseClass* courseclass = NULL;
+	while (!courseclass)
+	{
+		cout << "Class ID of course: ";
+		cin >> classID;
+		courseclass = findCL(curCourse->courseclass, classID);
+		if (!courseclass)cout << "invalid class ID. Please enter agian.";
+		else break;
+	}
+
+	
+
+	int i = 0;
+	Students* students = NULL;
+	OutsideStudent* OS = NULL;
+	while (!students && !OS)
+	{
+		cout << "Student ID: ";
+		cin >> studentID;
+		students = findStudent(courseclass->students, studentID);
+		OS = courseclass->Outsider;
+		while (OS)
+			if (OS->studentID == studentID)break;
+			else OS->next;
+		if (!students && !OS)cout << "invalid student ID. Please enter agian.";
+		else break;
+	}
+	students = courseclass->students;
+
+	while (students)
+	{
+		if (students->studentID == studentID)break;
+		students = students->next;
+		i++;
+	}
+	if (students)
+	{
+		courseclass->BitAttend -= 1 >> i;
+		DeleteCourseOfCheckin(students->checkincourse, courseID);
+		RemoveCourseOfScheduleStudent(students->schedule, courseID);
+		return;
+	}
+	///
+	OS = courseclass->Outsider;
+	if (OS->classID == classID && OS->studentID == studentID)
+	{
+		Classes* CL = findClass(Class, OS->classID);
+		if (CL)students = findStudent(CL->students, OS->studentID);
+		if (students)
+		{
+			courseclass->BitAttend -= 1 >> i;
+			DeleteCourseOfCheckin(students->checkincourse, courseID);
+			RemoveCourseOfScheduleStudent(students->schedule, courseID);
+		}
+		courseclass->Outsider = courseclass->Outsider->next;
+		OS = NULL;
+
+	}
+	OutsideStudent* pre = OS, * tmp;
+
+	while (OS)
+	{
+		if (OS->classID == classID && OS->studentID == studentID)
+		{
+			Classes* CL = findClass(Class, OS->classID);
+			if (CL)students = findStudent(CL->students, OS->studentID);
+			if (students)
+			{
+				courseclass->BitAttend -= 1 >> i;
+				DeleteCourseOfCheckin(students->checkincourse, courseID);
+				RemoveCourseOfScheduleStudent(students->schedule, courseID);
+			}
+			pre->next = OS->next;
+			tmp = OS->next;
+			OS = NULL;
+			OS = tmp;
+			continue;
+
+		}
+		pre = OS;
+		OS = OS->next;
+	}
+
+	//1 inside
+	//0 outsie
+}
+
+void DeleteCourse(Courses*& course, Classes*& Class) {
+	cout << "course ID: ";
+	string courseID;
+	cin >> courseID;
+	Courses* cur = NULL;
+	Courses* tmp = new Courses;
+	Courses* pre = new Courses;
+
+	while (!cur)
+	{
+		cout << "course ID: ";
+		string courseID;
+		cur = findCourse(course, courseID);
+		if (!cur)cout << "invalid course ID. Please enter agian.";
+		else break;
+	}
+	cur = course;
+	if (cur->courseID == courseID) {
+		CourseClass* courseclass = cur->courseclass;
+
+		while (courseclass) {
+			DeleteCourseScheduleStudent(courseclass->students, courseID, courseclass->Outsider, Class);
+			DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
+			courseclass = courseclass->next;
+		}
+
+		cur = cur->next;
+		course = NULL;
+		course = cur;
+		return;
+	}
+	while (cur != NULL) {
+		if (cur->courseID == courseID) {
+
+			CourseClass* courseclass = cur->courseclass;
+
+			while (courseclass != NULL) {
+				DeleteCourseScheduleStudent(courseclass->students, courseID, courseclass->Outsider, Class);
+				DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
+				courseclass = courseclass->next;
+			}
+
+			pre->next = cur->next;
+			Courses* tmp = cur->next;
+			cur = NULL;
+			cur = tmp;
+			return;
+		}
+		pre = cur;
+		cur = cur->next;
+	}
+	return;
+
+}
+
 #pragma endregion

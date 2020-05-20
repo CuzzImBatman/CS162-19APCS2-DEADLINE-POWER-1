@@ -28,7 +28,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn.ignore(10, '\n');
 				getline(courseIn, tempCourse->courseName);
 				courseIn >> tempCourse->LectureName;
-
+				tempCourse->courseclass = NULL;
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
@@ -303,6 +303,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 		i++;
 		curST = curST->next;
 	}
+	courseclass->Outsider = NULL;
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
 	AddCourseToClass(curCL, courseclass->classID, course->courseID, DayInWeek, AtNth);

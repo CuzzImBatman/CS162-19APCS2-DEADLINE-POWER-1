@@ -13,25 +13,7 @@ int numberOfDay(Date x, Date y) {
   }
   return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307 - (365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307) + 1;
 }
-/*lasses* findClass(Classes* Class, string ClassID) {
-	Classes* temp = Class;
-	while (temp && temp->classID != ClassID)
-		temp = temp->next;
-	return temp;
-}
-Students* findStudent(Students* st, string stID) {
-	Students* temp = st;
-	while (temp && temp->studentID != stID)
-		temp = temp->next;
-	return temp;
-}
 
-Courses* findCourse(Courses* course, string ID) {
-	Courses* temp = course;
-	while (temp && temp->courseID != ID)
-		temp = temp->next;
-	return temp;
-}*/
 void UpdateBitAttend(string classID, Courses*& course) {
 	Courses* curCS = course;
 	while (curCS != NULL) {
@@ -77,7 +59,7 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 
 
-
+#pragma region AddStudentToCourseClass
 
 void AddCourseToStudent(Classes * & Class, string studentID, string classID, string courseID, int DayInWeek, int AtNth) {
 
@@ -97,7 +79,7 @@ void AddCourseToStudent(Classes * & Class, string studentID, string classID, str
   checkincourse = newcourse;
 
 }
-
+#pragma endregion
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
 void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
@@ -106,6 +88,8 @@ void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
       if (schedule[i][j] == courseID)
         schedule[i][j] = "//";
 }
+
+#pragma region EditCourse
 void EditScheduleCourseOfClass(Courses * & course, string classID, string courseID, Classes * & Class) {
   Classes * curCL = Class;
   while (curCL ->  classID != classID)
@@ -214,8 +198,9 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 
 }
 
+#pragma endregion
 
-
+#pragma region Delete
 void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
   if (checkincourse ->  courseID == courseID) {
     CheckinCourse * tmp = checkincourse;
@@ -292,79 +277,16 @@ void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classI
         for (int j = 1; j <= 4; j++)
           if (curCL ->  schedule[i][j] == courseID)
             curCL ->  schedule[i][j] = "//";
-      /* Students curST=Class->students;
-       while(curST!=NULL)
-       {
-          DeleteCourseOfCheckin(curST->checkincourse,courseID);
-           curST= curST->next;
-       }*/
+      
       return;
     }
     curCL = curCL ->  next;
   }
 
 }
+#pragma endregion
 
-bool DeleteCourse(Courses * & course, string courseID, Classes * & Class) {
-  Courses * cur = course;
-  Courses * tmp = new Courses;
-  Courses * pre = new Courses;
-  if (cur ->  courseID == courseID) {
-    CourseClass * courseclass = cur ->  courseclass;
 
-    while (courseclass != NULL) {
-      DeleteCourseScheduleStudent(courseclass ->  students, courseID, courseclass ->  Outsider, Class);
-      DeleteCourseScheduleClass(Class, courseID, courseclass ->  classID);
-      courseclass = courseclass ->  next;
-    }
-
-    cur = cur ->  next;
-    course = NULL;
-    course = cur;
-    return true;
-  }
-  while (cur != NULL) {
-    if (cur ->  courseID == courseID) {
-
-      CourseClass * courseclass = cur ->  courseclass;
-
-      while (courseclass != NULL) {
-        DeleteCourseScheduleStudent(courseclass ->  students, courseID, courseclass ->  Outsider, Class);
-        DeleteCourseScheduleClass(Class, courseID, courseclass ->  classID);
-        courseclass = courseclass ->  next;
-      }
-
-      pre ->  next = cur ->  next;
-      Courses * tmp = cur ->  next;
-      cur = NULL;
-      cur = tmp;
-      return true;
-    }
-    pre = cur;
-    cur = cur ->  next;
-  }
-  return false;
-
-}
-
-void RemovedStudentFromCourseClass(Courses * & course, string courseID, string classID, string studentID) {
-  Courses * curCourse = course;
-  while (curCourse ->  courseID != courseID)
-    curCourse = curCourse ->  next;
-  CourseClass * courseclass = curCourse ->  courseclass;
-  while (courseclass ->  classID != classID)
-    courseclass = courseclass ->  next;
-  int i = 0;
-  Students * students = courseclass ->  students;
-  while (students ->  studentID != studentID)
-    i++;
-  courseclass ->  BitAttend -= 1 >> i;
-  DeleteCourseOfCheckin(students ->  checkincourse, courseID);
-  RemoveCourseOfScheduleStudent(students ->  schedule, courseID);
-
-  //1 inside
-  //0 outsie
-}
 
 /*void InitCourse(Courses * & course, Classes * Class) {
 

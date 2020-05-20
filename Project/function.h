@@ -114,7 +114,7 @@ struct Students
     Scoreboards* scoreboards = NULL;
     // AttendanceStatus* attendanceStatus = NULL;
 
-    int Status;
+    int Status = 1;
     ///1  in class
     ///0  not available
     ///-1 removed to another class
@@ -264,9 +264,9 @@ void viewLecturer(AcademicYears* year);
 
 #pragma region Course
 void EditCourse(Courses*& course,Classes *&Class);
-void RemovedStudentFromCourseClass(Courses*& course,string courseID,string classID,string studentID );
+void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class);
 void AddStudentToCourseClass(Courses*& course,Classes * &Class );
-bool DeleteCourse(Courses*& course,string courseID,Classes * &Class);
+void DeleteCourse(Courses*& course,Classes * &Class);
 void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
 
@@ -296,7 +296,8 @@ void viewCourseOfSemester(AcademicYears* AcaYear);
 #pragma endregion
 
 #pragma region Attendance list
-void View_AttendaceList_Course(Courses* course, Classes* Class, string CourseID);
+void View_StudentList_Course(Courses* course, Classes* Class);
+void View_Attendance_List(Courses* course, Classes* Class);
 #pragma endregion
 
 #pragma endregion
