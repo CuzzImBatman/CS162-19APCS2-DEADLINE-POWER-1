@@ -70,7 +70,7 @@ void editAStudent(Classes*& aClass) {
 		if (tmpSt)
 			break;
 		else cout << "Student does not exist." << endl;
-		cout << "Enter the studetn's ID: ";
+		cout << "Enter the student's ID: ";
 		cin >> st;
 	}
 	int choice;
@@ -130,7 +130,6 @@ void editAStudent(Classes*& aClass) {
 		cout << "[4] Gender." << endl;
 		cout << "[5] Date of Birth." << endl;
 		cout << "[6] Back." << endl;
-		cout << "Your choice: ";
 		cout << "Your choice: ";
 		cin >> choice;
 	}
