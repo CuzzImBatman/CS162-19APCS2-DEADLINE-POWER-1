@@ -306,7 +306,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 	courseclass->Outsider = NULL;
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, courseclass->classID, course->courseID, DayInWeek, AtNth);
+	AddCourseToClass(curCL, course->courseID, DayInWeek, AtNth);
 
 
 }

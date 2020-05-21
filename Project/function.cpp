@@ -59,35 +59,87 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 
 
-#pragma region AddStudentToCourseClass
+#pragma region Add
 
-void AddCourseToStudent(Classes * & Class, string studentID, string classID, string courseID, int DayInWeek, int AtNth) {
+void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth) {
+	
+	Students* curST = Class->students;
+	while (curST != NULL) 
+		AddCourseToStudent(curST, courseID, DayInWeek, AtNth);
 
-  Classes * curCL = Class;
-  while (curCL ->  classID != classID)
-    curCL = curCL ->  next;
-  Students * curST = curCL ->  students;
-  while (curST ->  studentID != studentID)
-    curST = curST ->  next;
-  curST ->  schedule[DayInWeek][AtNth] = courseID;
-  CheckinCourse * checkincourse = curST ->  checkincourse;
+	
+}
+
+void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
+
+	Courses* curCS = course;
+	while (curCS != NULL)
+		if (curCS->courseID == courseID)break;
+		else  curCS = curCS->next;
+
+	CourseClass* courseclass = new CourseClass;
+	courseclass->classID = classID;
+
+	cout << "Start Day: ";
+	cin >> courseclass->startDate.day;
+	cin >> courseclass->startDate.month;
+	cin >> courseclass->startDate.year;
+	cout << "End Day: ";
+	cin >> courseclass->endDate.day;
+	cin >> courseclass->endDate.month;
+	cin >> courseclass->endDate.year;
+	cout << "Day in Week: ";
+	cin >> courseclass->DayInWeek;
+	cout << "Nth class: ";
+	cin >> courseclass->AtNth;
+	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
+	//int week= 3;/// just EX
+
+	Classes* curCL = findClass(Class, classID);
+
+	curCL->schedule[DayInWeek][AtNth] = courseID;
+
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+	int i = 0;
+	while (curST != NULL) {
+
+		if (curST->Status == 1)
+			courseclass->BitAttend += 1 >> i;
+		i++;
+		curST = curST->next;
+	}
+	AddCourseToClass(curCL, courseID, DayInWeek, AtNth);
+
+	courseclass->next = curCS->courseclass;
+	curCS->courseclass = courseclass;
+
+}
+
+
+
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth) {
+
+	ST->  schedule[DayInWeek][AtNth] = courseID;
+
   CheckinCourse * newcourse = new CheckinCourse;
   newcourse ->  courseID = courseID;
   newcourse ->  bitweek = 0;
   //    newcourse->status=1;
-  newcourse ->  next = checkincourse;
-  checkincourse = newcourse;
+  newcourse ->  next = ST->checkincourse;
+  ST->checkincourse = newcourse;
+ 
+  Scoreboards* SB = new Scoreboards;
+  SB->courseName = courseID;
+  SB->next = ST->scoreboards;
+  ST->scoreboards = SB;
 
 }
 #pragma endregion
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
-void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
-  for (int i = 0; i < 6; i++)
-    for (int j = 0; j < 4; j++)
-      if (schedule[i][j] == courseID)
-        schedule[i][j] = "//";
-}
+
 
 #pragma region EditCourse
 void EditScheduleCourseOfClass(Courses * & course, string classID, string courseID, Classes * & Class) {
@@ -201,6 +253,53 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
+void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
+{
+	
+	Scoreboards* SB = ST->scoreboards, * pre = SB;
+	if (SB->courseName == courseID)
+	{
+		Scoreboards* tmp = ST->scoreboards->next;
+		ST->scoreboards = NULL;
+		ST->scoreboards = tmp;
+		return;
+	}
+	while (!SB)
+	{
+		if (SB->courseName == courseID)
+		{
+			pre->next = SB->next;
+			Scoreboards* tmp = SB->next;
+			SB = NULL;
+			SB = tmp;
+
+		}
+		pre = SB;
+		SB = SB->next;
+
+	}
+
+}
+
+void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
+{
+	Students* st = ST;
+	while (st)
+	{
+		DeleteScoreBoardOfCourseStudent(st, courseID);
+	}
+
+}
+
+
+
+void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
+	for (int i = 0; i < 6; i++)
+		for (int j = 0; j < 4; j++)
+			if (schedule[i][j] == courseID)
+				schedule[i][j] = "//";
+}
+
 void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
   if (checkincourse ->  courseID == courseID) {
     CheckinCourse * tmp = checkincourse;
@@ -228,6 +327,7 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
 
     RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
     DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
+	DeleteScoreBoardOfCourse(curST, courseID);
     /*CheckinCourse* curCk= curST->checkincourse;
     while(curCk!= NULL)
       if(curCk->courseID== courseID)curCk->status=0;*/
@@ -254,6 +354,7 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
         {
           RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
           DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
+		  DeleteScoreBoardOfCourse(curST, courseID);
 
           break;
         } else
