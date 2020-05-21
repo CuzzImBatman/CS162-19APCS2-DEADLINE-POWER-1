@@ -58,7 +58,7 @@ void viewCheckIn(string checkInWeek[6][4], int week)
 {
     cout<<"Week: "<<week<<endl;
     cout<<setw(10);
-    cout<<"Monay";
+    cout<<"Monday";
     cout<<setw(10);
     cout<<"Tueseday";
     cout<<setw(10);
@@ -78,7 +78,7 @@ void viewCheckIn(string checkInWeek[6][4], int week)
 void viewSchedule(Classes *Class)
 {
     cout<<setw(10);
-    cout<<"Monay";
+    cout<<"Monday";
     cout<<setw(10);
     cout<<"Tueseday";
     cout<<setw(10);

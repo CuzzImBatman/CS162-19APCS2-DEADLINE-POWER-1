@@ -528,3 +528,43 @@ void viewScoreboardOfACourse(Courses* course) {
 #pragma region Attendance List
 
 #pragma endregion
+
+void AddCourseToStudent(Classes*& Class, string studentID, string classID, string courseID, int DayInWeek, int AtNth)
+{
+
+	Classes* curCL = Class;
+	while (curCL->classID != classID)
+		curCL = curCL->next;
+	Students* curST = curCL->students;
+	while (curST->studentID != studentID)
+		curST = curST->next;
+	curST->schedule[DayInWeek][AtNth] = courseID;
+
+
+	/* cout<<"At Week: ";
+	 int week;
+	 cin>>week;*/
+	CheckinCourse* checkincourse = curST->checkincourse;
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	newcourse->status = 1;
+	newcourse->next = checkincourse;
+	checkincourse = newcourse;
+
+}
+void AddStudentToCourseClass(Courses*& course, Classes*& Class, string courseID, string classID, string classIDOut, string studentID)
+{
+	Courses* curCourse = course;
+	while (curCourse->courseID != courseID)
+		curCourse = curCourse->next;
+	CourseClass* courseclass = curCourse->courseclass;
+	while (courseclass->classID != classID)
+		courseclass = courseclass->next;
+	OutsideStudent* Outsider = new OutsideStudent;
+	Outsider->classID = classIDOut;
+	Outsider->studentID = studentID;
+	Outsider->next = courseclass->Outsider;
+	courseclass->Outsider = Outsider;
+	AddCourseToStudent(Class, studentID, classIDOut, courseID, courseclass->DayInWeek, courseclass->AtNth);
+}
