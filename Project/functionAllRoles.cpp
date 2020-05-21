@@ -96,7 +96,7 @@ void showClassOptions(AcademicYears*& year) {
 			break;
 		}
 		case 5: {
-			changeClassForStudents(year->classes);
+			changeClassForStudents(year->classes,year->semesters->courses);
 			break;
 		}
 		case 6: {
@@ -141,23 +141,23 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 3: {
-
+		    AddCourse(year->semesters->courses, year->classes);
 			break;
 		}
 		case 4: {
-
+			EditCourse(year->semesters->courses, year->classes);
 			break;
 		}
 		case 5: {
-
+			DeleteCourse(year->semesters->courses, year->classes);
 			break;
 		}
 		case 6: {
-
+			RemovedStudentFromCourseClass(year->semesters->courses, year->classes);
 			break;
 		}
 		case 7: {
-
+			AddStudentToCourseClass(year->semesters->courses, year->classes);
 			break;
 		}
 		case 8: {
@@ -165,11 +165,11 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 9: {
-
+			View_StudentList_Course(year->semesters->courses, year->classes);
 			break;
 		}
 		case 10: {
-
+			View_Attendance_List(year->semesters->courses, year->classes);// still not understand difference (Attendancelist and Stulist)
 			break;
 		}
 		case 11: {
