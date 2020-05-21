@@ -175,7 +175,6 @@ struct Classes
     Students* students = NULL;
     Classes* next = NULL;
     string schedule[6][4];
-
 };
 
 struct CourseClass0 {

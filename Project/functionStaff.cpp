@@ -43,9 +43,15 @@ void addAStudentToAClass(Classes*& aClass) {
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
 	Students* tmp = tmpClass->students;
-	while (tmp->next != nullptr)
-		tmp = tmp->next;
-	tmp->next = aStudent;
+	if (tmp == nullptr)
+		// Joey: Doesn't work yet
+		tmp = aStudent;
+	else {
+		while (tmp->next != nullptr)
+			tmp = tmp->next;
+		tmp->next = aStudent;
+	}
+	aStudent->next = nullptr;
 }
 void editAStudent(Classes*& aClass) {
 	string Class;
@@ -87,6 +93,7 @@ void editAStudent(Classes*& aClass) {
 	while (choice != 6) {
 		switch (choice) {
 		case 1:
+			// Joey: DOES NOT WORK
 			cout << endl << "Current username: " << tmpSt->account->uName << endl;
 			cout << "New username: ";
 			cin >> tmpSt->account->uName;
@@ -176,9 +183,6 @@ void removeAStudent(Classes*& aClass) {
 		tmp = tmp->next;*/
 	
 }
-
-
-
 void changeClassForStudents(Classes*& classes, Courses*& course) {
 	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
