@@ -42,6 +42,20 @@ void addAStudentToAClass(Classes*& aClass) {
 	cin >> aStudent->account->doB->month;
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
+	aStudent->checkincourse = NULL;
+	for (int i = 0; i < 6; i++)
+		for (int j = 0; j < 4; j++)
+		{
+			aStudent->schedule[i][j] = tmpClass->schedule[i][j];
+			if (tmpClass->schedule[i][j] != "//")
+			{
+				CheckinCourse* newcourse = new CheckinCourse;
+				newcourse->courseID = tmpClass->schedule[i][j];
+				newcourse->bitweek = 0;
+				newcourse->next = aStudent->checkincourse;
+				aStudent->checkincourse = newcourse;
+			}
+		}
 	Students* tmp = tmpClass->students;
 	if (tmp == nullptr)
 		// Joey: Doesn't work yet
@@ -563,7 +577,7 @@ void View_Attendance_List(Courses* course, Classes* Class)
 		cout << "Course ID: ";
 		cin >> CourseID;
 		curCS = findCourse(course, CourseID);
-		if (!curCS)cout << "invalid course ID. Please enter agian.";
+		if (!curCS)cout << "invalid course ID. Please enter agian." << endl;
 		else break;
 	}
 	curCS = findCourse(course, CourseID);
@@ -583,7 +597,7 @@ void View_StudentList_Course(Courses* course, Classes* Class)
 		cout << "Course ID: ";
 		cin >> CourseID;
 		curCS = findCourse(course, CourseID);
-		if (!curCS)cout << "invalid course ID. Please enter agian.";
+		if (!curCS)cout << "invalid course ID. Please enter agian." << endl;
 		else break;
 	}
 	 curCS = findCourse(course, CourseID);
@@ -615,74 +629,6 @@ void View_StudentList_Course(Courses* course, Classes* Class)
 }
 #pragma endregion
 #pragma region course
-
-void AddCourseToClass(Classes*& Class, string classID, string courseID, int DayInWeek, int AtNth) {
-	Classes* curCL = Class;
-	while (curCL->classID != classID)
-		curCL = curCL->next;
-	Students* curST = curCL->students;
-	while (curST != NULL) {
-		curST->schedule[DayInWeek][AtNth] = courseID;
-		CheckinCourse* checkincourse = curST->checkincourse;
-		CheckinCourse* newcourse = new CheckinCourse;
-		newcourse->courseID = courseID;
-		newcourse->bitweek = 0;
-		//        newcourse->status=1;
-		newcourse->next = checkincourse;
-		checkincourse = newcourse;
-		curST = curST->next;
-
-	}
-}
-
-void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
-
-	Courses* curCS = course;
-	while (curCS != NULL)
-		if (curCS->courseID == courseID)break;
-		else  curCS = curCS->next;
-
-	CourseClass* courseclass = new CourseClass;
-	courseclass->classID = classID;
-
-	cout << "Start Day: ";
-	cin >> courseclass->startDate.day;
-	cin >> courseclass->startDate.month;
-	cin >> courseclass->startDate.year;
-	cout << "End Day: ";
-	cin >> courseclass->endDate.day;
-	cin >> courseclass->endDate.month;
-	cin >> courseclass->endDate.year;
-	cout << "Day in Week: ";
-	cin >> courseclass->DayInWeek;
-	cout << "Nth class: ";
-	cin >> courseclass->AtNth;
-	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
-	//int week= 3;/// just EX
-
-	Classes* curCL = Class;
-	while (curCL->classID != classID)
-		curCL = curCL->next;
-
-	curCL->schedule[DayInWeek][AtNth] = courseID;
-
-	Students* curST = curCL->students;
-	courseclass->students = curCL->students;
-
-	int i = 0;
-	while (curST != NULL) {
-
-		if (curST->Status == 1)
-			courseclass->BitAttend += 1 >> i;
-		i++;
-		curST = curST->next;
-	}
-	AddCourseToClass(curCL, classID, courseID, DayInWeek, AtNth);
-
-	courseclass->next = curCS->courseclass;
-	curCS->courseclass = courseclass;
-
-}
 
 void AddCourse(Courses*& course, Classes* Class) {
 	Courses* newcourse = new Courses;
@@ -720,41 +666,72 @@ void AddCourse(Courses*& course, Classes* Class) {
 }
 
 void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
-	string courseID, classID, studentID;
-	cout << "ID of course you want to add student: ";
-	cin >> courseID;
-	cout << "ID of student's class";
-	cin >> classID;
-	cout << "student ID: ";
-	cin >> studentID;
-	Courses* curCourse = course;
-	while (curCourse->courseID != courseID)
-		curCourse = curCourse->next;
-	CourseClass* courseclass = curCourse->courseclass;
-	while (courseclass->classID != classID)
-		courseclass = courseclass->next;
+	string courseID, classSTID, studentID,classID;
+
+	Courses* curCourse = NULL;
+	while (!curCourse)
+	{
+		cout << "Course ID: ";
+		cin >> courseID;
+		curCourse = findCourse(course, courseID);
+		if (!curCourse)cout << "invalid course ID. Please enter agian." << endl;
+		else break;
+	}
+	Classes* curCL = NULL;
+	while (!curCL)
+	{
+		cout << "Class ID of Student: ";
+		cin >> classSTID;
+		curCL = findClass(curCL, classSTID);
+		if (!curCL)cout << "invalid class ID. Please enter agian." << endl;
+		else break;
+	}
+	Students* curST=NULL;
+	while (!curST)
+	{
+		cout << "student ID: ";
+		cin >> studentID;
+		curST = findStudent(curCL->students, studentID);
+		if (!curST)cout << "invalid student ID. Please enter agian." << endl;
+	}
+	CourseClass* courseclass = NULL;
+	while (!courseclass)
+	{
+		cout << "Class ID of course you want to add student: " << endl;
+		cin >> classID;
+		CourseClass* courseclass = NULL;
+		courseclass = findCL(curCourse->courseclass, classID);
+		if(!courseclass)cout << "invalid class ID. Please enter agian." << endl;
+	}
 	///
 	int i = 0;
-	Students* curST = courseclass->students;
+	 curST = courseclass->students;
 	while (curST != NULL)
 		if (curST->studentID == studentID)
 			if ((courseclass->BitAttend >> i) % 2)
-				return ;
+			{
+				cout << "Student's already in the course" << endl;
+				return;
+			}
 			else {
 				courseclass->BitAttend += 1 << i;
+				AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+				cout << "Added" << endl;
 				break;
 			}
 		else
 			curST = curST->next;
 
 	///
-
+	if (!curST) return;
 	OutsideStudent* Outsider = new OutsideStudent;
 	Outsider->classID = classID;
 	Outsider->studentID = studentID;
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
-	AddCourseToStudent(Class, studentID, classID, courseID, courseclass->DayInWeek, courseclass->AtNth);
+	curST = findStudent(curCL->students, studentID);
+	AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+	cout << "Added" << endl;
 	return ;
 }
 
@@ -768,7 +745,7 @@ void EditCourse(Courses*& course, Classes*& Class) {
 		cout << "2.change Room." << endl;
 		cout << "3.Change Schedule course of a class." << endl;
 		cout << "4.Change Course Lecture." << endl;
-		cout << "5.Edit start date, end date of a class course.";
+		cout << "5.Edit start date, end date of a class course." << endl;
 		cout << " Press 0 to stop.";
 
 		cin >> n;
@@ -820,10 +797,7 @@ void EditCourse(Courses*& course, Classes*& Class) {
 void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 
 	string courseID, classID, studentID;
-	cout << "Course ID: ";
-	cin >> courseID;
-	cout << "Student ID: ";
-	cin >> studentID;
+	
 
 	Courses* curCourse = NULL;
 	while (!curCourse)
@@ -831,7 +805,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 		cout << "Course ID: ";
 		cin >> courseID;
 		curCourse = findCourse(course, courseID);
-		if (!curCourse)cout << "invalid course ID. Please enter agian.";
+		if (!curCourse)cout << "invalid course ID. Please enter agian." << endl;
 		else break;
 	}
 
@@ -841,7 +815,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 		cout << "Class ID of course: ";
 		cin >> classID;
 		courseclass = findCL(curCourse->courseclass, classID);
-		if (!courseclass)cout << "invalid class ID. Please enter agian.";
+		if (!courseclass)cout << "invalid class ID. Please enter agian." << endl;
 		else break;
 	}
 
@@ -859,7 +833,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 		while (OS)
 			if (OS->studentID == studentID)break;
 			else OS->next;
-		if (!students && !OS)cout << "invalid student ID. Please enter agian.";
+		if (!students && !OS)cout << "invalid student ID. Please enter againn." << endl;
 		else break;
 	}
 	students = courseclass->students;
@@ -875,6 +849,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 		courseclass->BitAttend -= 1 >> i;
 		DeleteCourseOfCheckin(students->checkincourse, courseID);
 		RemoveCourseOfScheduleStudent(students->schedule, courseID);
+		DeleteScoreBoardOfCourseStudent(students, courseID);
 		return;
 	}
 	///
@@ -888,6 +863,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 			courseclass->BitAttend -= 1 >> i;
 			DeleteCourseOfCheckin(students->checkincourse, courseID);
 			RemoveCourseOfScheduleStudent(students->schedule, courseID);
+			DeleteScoreBoardOfCourseStudent(students, courseID);
 		}
 		courseclass->Outsider = courseclass->Outsider->next;
 		OS = NULL;
@@ -906,6 +882,7 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 				courseclass->BitAttend -= 1 >> i;
 				DeleteCourseOfCheckin(students->checkincourse, courseID);
 				RemoveCourseOfScheduleStudent(students->schedule, courseID);
+				DeleteScoreBoardOfCourseStudent(students, courseID);
 			}
 			pre->next = OS->next;
 			tmp = OS->next;
@@ -923,19 +900,19 @@ void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class) {
 }
 
 void DeleteCourse(Courses*& course, Classes*& Class) {
-	cout << "course ID: ";
+	
 	string courseID;
-	cin >> courseID;
+	
 	Courses* cur = NULL;
 	Courses* tmp = new Courses;
 	Courses* pre = new Courses;
 
 	while (!cur)
 	{
-		cout << "course ID: ";
-		string courseID;
+		cout << "course ID: "; 
+		cin >> courseID;
 		cur = findCourse(course, courseID);
-		if (!cur)cout << "invalid course ID. Please enter agian.";
+		if (!cur)cout << "invalid course ID. Please enter agian." << endl;
 		else break;
 	}
 	cur = course;
@@ -951,6 +928,7 @@ void DeleteCourse(Courses*& course, Classes*& Class) {
 		cur = cur->next;
 		course = NULL;
 		course = cur;
+		cout << "Removed."<<endl;
 		return;
 	}
 	while (cur != NULL) {
@@ -968,6 +946,7 @@ void DeleteCourse(Courses*& course, Classes*& Class) {
 			Courses* tmp = cur->next;
 			cur = NULL;
 			cur = tmp;
+			cout << "Removed." << endl;
 			return;
 		}
 		pre = cur;

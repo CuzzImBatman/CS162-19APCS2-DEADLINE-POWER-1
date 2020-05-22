@@ -47,7 +47,7 @@ struct Accounts
 struct Scoreboards
 {
     string courseName; //the course that this list belongs to
-    int midtermScore, finalScore, labScore, bonusScore;
+	string midtermScore = "//", finalScore = "//", labScore = "//", bonusScore = "//";
     Scoreboards* next = NULL;
 };
 
@@ -270,8 +270,8 @@ void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Classes*& Class,string studentID,string classID,string courseID,int DayInWeek,int AtNth);
-void AddCourseToClass(Classes*& Class,string classID,string courseID,int DayInWeek,int AtNth);
+void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth);
+void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth);
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
@@ -291,7 +291,8 @@ void viewCourseOfSemester(AcademicYears* AcaYear);
 #pragma endregion
 
 #pragma region Scoreboard
-
+void DeleteScoreBoardOfCourse(Students* &ST, string courseID);
+void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID);
 #pragma endregion
 
 #pragma region Attendance list
