@@ -146,8 +146,11 @@ void studentInit(Students*& st, string Class, string year) {
 				st->account->uName = st->studentID;
 				st->account->role = 1;
 				accountInit(stIn, st->account);
+				for (int i = 0; i < 6; i++)
+					for (int j = 0; j < 4; j++)
+						st->schedule[i][j] = "//";
 				tempSt = st;
-				//scheduleInit(st->schedule, stIn); not ready yet
+				
 			}
 			else {
 				tempSt->next = new Students;
@@ -156,7 +159,10 @@ void studentInit(Students*& st, string Class, string year) {
 				tempSt->next->account->uName = tempSt->next->studentID;
 				tempSt->next->account->role = 1;
 				accountInit(stIn, tempSt->next->account);
-				//scheduleInit(tempSt->schedule, stIn);
+				for (int i = 0; i < 6; i++)
+					for (int j = 0; j < 4; j++)
+						tempSt->next->schedule[i][j] = "//";
+				
 				tempSt = tempSt->next;
 			}
 			n--;
@@ -233,8 +239,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 
 
 	CourseClass* courseclass = new CourseClass;
-	courseIn >> courseclass->classID;
-
+	
 	courseIn >> courseclass->startDate.day;
 	courseIn >> courseclass->startDate.month;
 	courseIn >> courseclass->startDate.year;
@@ -279,11 +284,30 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 		courseclass->AtNth = 3;
 		break;
 	}
+
+	int no;
+	courseIn >> courseclass->classID;
+	courseIn >> courseclass->BitAttend;
+	courseIn >> no;
+	courseclass->Outsider = NULL;
+	for (int i = 0; i < no; i++)
+	{
+		OutsideStudent* OS = new OutsideStudent;
+		courseIn >> OS->studentID;
+		courseIn >> OS->classID;
+		OS->next = courseclass->Outsider;
+		courseclass->Outsider = OS;
+		Classes* cl = findClass(Class, OS->classID);
+		Students* st = findStudent(cl->students, OS->studentID);
+		AddCourseToStudent(st, course->courseID, courseclass->DayInWeek, courseclass->AtNth);
+
+	}
 	courseIn >> course->room;
 
 
 
 	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
+
 
 	Classes* curCL = Class;
 	while (curCL != NULL)
@@ -296,6 +320,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 	courseclass->students = curCL->students;
 
 	int i = 0;
+	if (courseclass->BitAttend < 0)
 	while (curST != NULL) {
 
 		if (curST->Status == 1)
@@ -303,7 +328,6 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 		i++;
 		curST = curST->next;
 	}
-	courseclass->Outsider = NULL;
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
 	AddCourseToClass(curCL, course->courseID, DayInWeek, AtNth);

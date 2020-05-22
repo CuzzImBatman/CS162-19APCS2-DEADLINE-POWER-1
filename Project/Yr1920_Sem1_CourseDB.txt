@@ -4,11 +4,13 @@ MTH251
 Calculus I
 nhanh
 1
-19CTT2
 20 10 2019
 21 01 2020
 Wed
 7 30
+19CTT2
+-1
+0
 I23
 
 
@@ -16,11 +18,11 @@ CS161
 Introduction to Computer Science 1
 forgothername
 1
-19CTT2
 20 10 2019
 21 01 2020
 Tue
 7 30
-F203
-1
 19CTT2
+-1
+0
+F203

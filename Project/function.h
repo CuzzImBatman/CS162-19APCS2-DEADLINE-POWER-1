@@ -105,7 +105,7 @@ struct CheckinCourse
 {
     int bitweek;
     string courseID;
-    CheckinCourse *next;
+    CheckinCourse *next=NULL;
 };
 struct Students
 {
@@ -235,7 +235,7 @@ void showClassOptions(AcademicYears*& year);
 void showCourseOptions(AcademicYears*& year);
 void showScoreboardOptions(AcademicYears*& year);
 void showAttendanceListOptions(AcademicYears*& year);
-void showMenu(short int role, AcademicYears*& year);
+void showMenu(Accounts*& acc, AcademicYears*& year);
 void changePwd(Accounts*& acc);
 void viewProfile(Accounts* acc);
 void logout(Accounts*& acc);
@@ -316,7 +316,7 @@ void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 void viewScoreCourse(Students *student);
 void viewSchedule(Students* student);
 void viewCheckIn(CheckinCourse *checkincourse);
-void Tick( CheckinCourse*& checkincourse);
+void Tick(Students* student);
 void FillCheckinCourse(Students*& student);
 #pragma endregion
 #endif
@@ -331,6 +331,12 @@ Courses* findCourse(Courses * course, string ID);
 
 CourseClass* findCL(CourseClass* CL, string classID);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
+
+void AddCheckInCourse(Students*& st, string courseID);
+
+void AddScoreBoardCourse(Students*& st, string courseID);
+
+void DeleleScoreBoardStudent(Students*& ST);
 #pragma endregion
 /*
 

@@ -259,8 +259,17 @@ void showAttendanceListOptions(AcademicYears*& year) {
 }
 //Emblema: need to add param academicYear for some functions to work...
 
-void showMenu(short int role, AcademicYears*& year) {
-	switch (role) {
+void showMenu(Accounts*& acc, AcademicYears*& year) {
+
+	Classes* cl = year->classes;
+	Students* st=cl->students;
+	while (cl)
+	{
+		 st = findStudent(cl->students, acc->uName);
+		if (st->Status)break;
+		cl = cl->next;;
+	}
+	switch (acc->role) {
 	case 1: {
 		//call student functions
 		int choice;
@@ -276,19 +285,19 @@ void showMenu(short int role, AcademicYears*& year) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-
+				Tick(st);
 				break;
 			}
 			case 2: {
-
+				viewCheckIn(st->checkincourse);
 				break;
 			}
 			case 3: {
-
+				viewSchedule(st);
 				break;
 			}
 			case 4: {
-
+				viewScoreCourse(st);
 				break;
 			}
 			case 5: variableName = 0;

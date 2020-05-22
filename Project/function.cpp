@@ -61,21 +61,39 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 #pragma region Add
 
+void AddCheckInCourse(Students*& st, string courseID)
+{
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	newcourse->next = st->checkincourse;
+	st->checkincourse = newcourse;
+
+}
+
+void AddScoreBoardCourse(Students*& st, string courseID)
+{
+	Scoreboards* newcourse = new Scoreboards;
+	newcourse->courseName = courseID;
+	newcourse->next = st->scoreboards;
+	st->scoreboards = newcourse;
+}
 void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth) {
 	
 	Students* curST = Class->students;
-	while (curST != NULL) 
+	while (curST != NULL)
+	{
 		AddCourseToStudent(curST, courseID, DayInWeek, AtNth);
+		curST = curST->next;
+	}
 
 	
 }
 
 void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
 
-	Courses* curCS = course;
-	while (curCS != NULL)
-		if (curCS->courseID == courseID)break;
-		else  curCS = curCS->next;
+	Courses* curCS =findCourse(course,courseID);
+	
 
 	CourseClass* courseclass = new CourseClass;
 	courseclass->classID = classID;
@@ -143,13 +161,9 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
 
 #pragma region EditCourse
 void EditScheduleCourseOfClass(Courses * & course, string classID, string courseID, Classes * & Class) {
-  Classes * curCL = Class;
-  while (curCL ->  classID != classID)
-    curCL = curCL ->  next;
-
-  Courses * curCourse = course;
-  while (curCourse ->  courseID != courseID)
-    curCourse = curCourse ->  next;
+  Classes * curCL = findClass(Class,classID);
+ 
+  Courses* curCourse = findCourse(course, courseID);
 
   CourseClass * courseclass = curCourse ->  courseclass;
   while (courseclass ->  classID != classID)
@@ -253,6 +267,21 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
+void DeleleScoreBoardStudent(Students*& ST)
+{
+	while (ST->scoreboards)
+	{
+		Scoreboards* SB = ST->scoreboards;
+		SB = ST->scoreboards->next;
+		ST->scoreboards = NULL;
+		ST->scoreboards = SB;
+
+	}
+
+}
+
+
+
 void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
 {
 	
@@ -287,6 +316,7 @@ void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 	while (st)
 	{
 		DeleteScoreBoardOfCourseStudent(st, courseID);
+		st = st->next;
 	}
 
 }
