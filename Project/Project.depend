@@ -1,11 +1,19 @@
 # depslib dependency file v1.0
-1587725668 source:d:\cs162_project\cs162_project\project\function.cpp
+1589341369 source:d:\cs162_project\cs162_project\project\function.cpp
 	"function.h"
 
-1587725668 d:\cs162_project\cs162_project\project\function.h
+1589341406 d:\cs162_project\cs162_project\project\function.h
 	<iostream>
 	<fstream>
 	<iomanip>
 	<string.h>
 	<fstream>
+
+1589380708 source:d:\cs162_project\cs162_project\project\functionallroles.cpp
+
+1589380708 source:d:\cs162_project\cs162_project\project\functionlecturer.cpp
+
+1589380708 source:d:\cs162_project\cs162_project\project\functionstaff.cpp
+
+1589341757 source:d:\cs162_project\cs162_project\project\functionstudent.cpp
 
