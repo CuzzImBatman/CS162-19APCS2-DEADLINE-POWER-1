@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="function.cpp" />
     <ClCompile Include="functionAllRoles.cpp" />
+    <ClCompile Include="functionFinalization.cpp" />
     <ClCompile Include="functionInitialization.cpp" />
     <ClCompile Include="functionLecturer.cpp" />
     <ClCompile Include="functionStaff.cpp" />
