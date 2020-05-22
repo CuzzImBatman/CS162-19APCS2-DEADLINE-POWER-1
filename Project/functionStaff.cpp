@@ -43,17 +43,16 @@ void addAStudentToAClass(Classes*& aClass) {
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
 	aStudent->checkincourse = NULL;
+	aStudent->scoreboards = NULL;
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
 		{
 			aStudent->schedule[i][j] = tmpClass->schedule[i][j];
 			if (tmpClass->schedule[i][j] != "//")
 			{
-				CheckinCourse* newcourse = new CheckinCourse;
-				newcourse->courseID = tmpClass->schedule[i][j];
-				newcourse->bitweek = 0;
-				newcourse->next = aStudent->checkincourse;
-				aStudent->checkincourse = newcourse;
+				AddCheckInCourse(aStudent, tmpClass->schedule[i][j]);
+				AddScoreBoardCourse(aStudent, tmpClass->schedule[i][j]);
+				
 			}
 		}
 	Students* tmp = tmpClass->students;
@@ -234,11 +233,18 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 	tmpSt->Status = -1;
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
-	AddSt->checkincourse = tmpSt->checkincourse;
+	
 	for (int i = 0; i < 6; i++)
-	for (int j = 0; j < 4; j++)
-	    AddSt->schedule[i][j] = tmpSt->schedule[i][j];
-	AddSt->scoreboards = tmpSt->scoreboards;
+		for (int j = 0; j < 4; j++)
+		{
+			AddSt->schedule[i][j] = tmpClassB->schedule[i][j];
+			if (tmpClassB->schedule[i][j] != "//")
+			{
+				AddCheckInCourse(AddSt, tmpClassB->schedule[i][j]);
+				AddScoreBoardCourse(AddSt, tmpClassB->schedule[i][j]);
+			}
+		}
+	
 	AddSt->studentID = tmpSt->studentID;
 	AddSt->Status = 1;
 	FillCheckinCourse(AddSt);
@@ -246,7 +252,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 	tmpClassB->students = AddSt;
 	UpdateBitAttend(tmpClassB->classID, course);
 	cout << "Changed.";
-	
+	/// scoreborad
 }
 void viewListOfClasses(Classes* aClass) {
 	cout << endl << "Here is the list of classes: ";

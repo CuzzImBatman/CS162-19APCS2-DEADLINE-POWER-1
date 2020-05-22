@@ -20,8 +20,8 @@ Courses* findCourse(Courses* course, string ID) {
 		temp = temp->next;
 	return temp;
 }*/
-void Tick( CheckinCourse*& checkincourse) {
-	CheckinCourse* cur = checkincourse;
+void Tick(Students* student) {
+	CheckinCourse* cur = student->checkincourse;
 	cout << "Current week : ";
 	int week; 
 	cin >> week;
