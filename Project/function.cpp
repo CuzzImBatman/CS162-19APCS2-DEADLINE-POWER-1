@@ -78,12 +78,12 @@ void AddScoreBoardCourse(Students*& st, string courseID)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth) {
+void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
 	
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, courseID, DayInWeek, AtNth);
+		AddCourseToStudent(curST, courseID, DayInWeek, AtNth,check);
 		curST = curST->next;
 	}
 
@@ -128,7 +128,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		i++;
 		curST = curST->next;
 	}
-	AddCourseToClass(curCL, courseID, DayInWeek, AtNth);
+	AddCourseToClass(curCL, courseID, DayInWeek, AtNth,0);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;
@@ -137,7 +137,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
-void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth) {
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth,int check) {
 
 	ST->  schedule[DayInWeek][AtNth] = courseID;
 
@@ -147,7 +147,7 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
   //    newcourse->status=1;
   newcourse ->  next = ST->checkincourse;
   ST->checkincourse = newcourse;
- 
+  if (check)return;
   Scoreboards* SB = new Scoreboards;
   SB->courseName = courseID;
   SB->next = ST->scoreboards;

@@ -718,7 +718,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 			}
 			else {
 				courseclass->BitAttend += 1 << i;
-				AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+				AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth,0);
 				cout << "Added" << endl;
 				break;
 			}
@@ -733,7 +733,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
 	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+	AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth,0);
 	cout << "Added" << endl;
 	return ;
 }

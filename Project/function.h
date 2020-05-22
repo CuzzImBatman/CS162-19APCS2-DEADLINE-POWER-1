@@ -225,7 +225,7 @@ void scheduleInit(string schedule[6][4], ifstream& in);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course);
+void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,int check);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
@@ -271,8 +271,8 @@ void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth);
-void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth);
+void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth, int check);
+void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth,int check);
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
