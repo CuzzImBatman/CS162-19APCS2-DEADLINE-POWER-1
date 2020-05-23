@@ -144,7 +144,6 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
   CheckinCourse * newcourse = new CheckinCourse;
   newcourse ->  courseID = courseID;
   newcourse ->  bitweek = 0;
-  //    newcourse->status=1;
   newcourse ->  next = ST->checkincourse;
   ST->checkincourse = newcourse;
   if (check)return;

@@ -428,6 +428,7 @@ void changePwd(Accounts*& acc) {
 	{
 		cout << "Type in your new password again to confirm." << endl;
 		cin >> conPwd;
+		if(newPwd == conPwd)
 		cout << endl << "The new password does not match with confirm password." << endl;
 	} while (newPwd != conPwd);
 	
@@ -446,40 +447,14 @@ void viewProfile(Accounts* acc) {
 	case 'F': cout << "Female" << endl;
 		break;
 	case 'M': cout << "Male" << endl; break;
-	case 'O': cout << "Prefer not to say" << endl;
+	case 'O': cout << "Other" << endl;
 		break;
 	}
 	cout << "Username: " << acc->uName << endl;
 	cout << endl;
 	int choice;
 	bool variableName = 1;
-	while (variableName) {
-		cout << endl << "Sub menu: What do you want to do? " << endl << "[1] Show password." << endl << "[2] Change password." << endl
-			<< "[3] Back to main menu" << endl << "Your choice: ";
-		cin >> choice;
-		switch (choice) {
-		case 1: {
-			/*cout << endl << "Please confirm your password: ";
-			string confPwd;
-			cin >> confPwd;
-			if (confPwd == acc->pwd) 
-				cout << "Password: " << acc->pwd << endl;
-			else {
-				cout << "Confirm password incorrect." << endl;
-			}*/
-			break;
-		}
-		case 2: {
-			changePwd(acc);
-			break;
-		}
-		case 3: {
-			variableName = 0;
-			break;
-		}
-		default: break;
-		}
-	}
+
 	
 }
 

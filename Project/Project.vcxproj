@@ -132,6 +132,7 @@
     <ClCompile Include="functionStudent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="functionImport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h" />

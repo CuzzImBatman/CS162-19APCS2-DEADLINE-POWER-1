@@ -18,10 +18,12 @@ int main() {
 			cin >> pwd;
 			if (login(academicYear, acc,pwd)) {
 				loggedin = 1;
+				pwd = "";
 				break;
 			}
 			else {
 				cout << "Login failed. Wrong username or password." << endl;
+				pwd = "";
 				break;
 			}
 		}
@@ -53,6 +55,7 @@ int main() {
 		}
 		if (!loggedin) cout << endl << "Login again? [Y/N] ";
 		cin >> loginchoice;
+		//if(!loginchoice)
 	}
 	return 0;
 }
