@@ -168,7 +168,7 @@ void removeAStudent(Classes*& aClass) {
 	Students* tmpSt = nullptr;
 	while (true) {
 		tmpSt = findStudent(tmpClass->students, studentToRemove);
-		if (tmpSt)
+		if (tmpSt && tmpSt->Status==1)
 			break;
 		cout << "Student does not exist." << endl;
 		cout << "Enter the student's ID: ";
@@ -279,8 +279,10 @@ void viewListOfStudentsInAClass(Classes* aClass) {
 	Students* st = tmpClass->students;
 	if (!st)
 		cout << "There is no student in this class." << endl;
-	while (st) {
-		cout << st->studentID << "     " << st->account->lastname << ' ' << st->account->firstname << endl;
+	while (st)
+	{
+		if (st->Status==1)
+			cout << st->studentID << "     " << st->account->lastname << ' ' << st->account->firstname << endl;
 		st = st->next;
 	}
 }
