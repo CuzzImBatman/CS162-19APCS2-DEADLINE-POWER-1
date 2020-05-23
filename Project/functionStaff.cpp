@@ -56,9 +56,15 @@ void addAStudentToAClass(Classes*& aClass) {
 			}
 		}
 	Students* tmp = tmpClass->students;
-	while (tmp->next != nullptr)
-		tmp = tmp->next;
-	tmp->next = aStudent;
+	if (tmp == nullptr)
+		// Joey: Doesn't work yet
+		tmp = aStudent;
+	else {
+		while (tmp->next != nullptr)
+			tmp = tmp->next;
+		tmp->next = aStudent;
+	}
+	aStudent->next = nullptr;
 }
 void editAStudent(Classes*& aClass) {
 	string Class;
@@ -83,7 +89,7 @@ void editAStudent(Classes*& aClass) {
 		if (tmpSt)
 			break;
 		else cout << "Student does not exist." << endl;
-		cout << "Enter the studetn's ID: ";
+		cout << "Enter the student's ID: ";
 		cin >> st;
 	}
 	int choice;
@@ -100,6 +106,7 @@ void editAStudent(Classes*& aClass) {
 	while (choice != 6) {
 		switch (choice) {
 		case 1:
+			// Joey: DOES NOT WORK
 			cout << endl << "Current username: " << tmpSt->account->uName << endl;
 			cout << "New username: ";
 			cin >> tmpSt->account->uName;
@@ -143,7 +150,6 @@ void editAStudent(Classes*& aClass) {
 		cout << "[4] Gender." << endl;
 		cout << "[5] Date of Birth." << endl;
 		cout << "[6] Back." << endl;
-		cout << "Your choice: ";
 		cout << "Your choice: ";
 		cin >> choice;
 	}
@@ -190,9 +196,6 @@ void removeAStudent(Classes*& aClass) {
 		tmp = tmp->next;*/
 	
 }
-
-
-
 void changeClassForStudents(Classes*& classes, Courses*& course) {
 	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
@@ -339,18 +342,15 @@ void createLecturer(AcademicYears* acaYear)
 	Semesters* semes;
 	if (input(acaYear, semes, year))
 	{
-		Lecturers* lecturerList = semes->lecturers;
-		while (lecturerList->next != nullptr)
-			lecturerList = lecturerList->next;
 		Lecturers* newLecturer = new Lecturers;
 		newLecturer->account = new Accounts;
-		lecturerList->next = newLecturer;
-		newLecturer->next = nullptr;
+		newLecturer->next = semes->lecturers;
+		semes->lecturers = newLecturer;
 
-		cout << "Enter new lecturer's first name: ";
+		cout << "Enter new lecturer's first name (one word): ";
 		cin.ignore(10, '\n');
 		getline(cin, newLecturer->account->firstname);
-		cout << "Enter new lecturer's last name: ";
+		cout << "Enter new lecturer's last name (rest of your name): ";
 		getline(cin, newLecturer->account->lastname);
 		newLecturer->account->pwd = "password";
 		newLecturer->account->role = 3;
@@ -386,69 +386,20 @@ void updateLecturer(AcademicYears* acaYear)
 	Semesters* semes;
 	if (input(acaYear, semes, year))
 	{
-		Lecturers* lecturerList = semes->lecturers;
-		string uName;
-		cout << "\nPlease enter lecturer's username: ";
-		cin >> uName;
-		while (lecturerList != nullptr && lecturerList->account->uName != uName)
-			lecturerList = lecturerList->next;
-		if (lecturerList == nullptr)
+		if (semes->lecturers == nullptr)
+			cout << "No lecturer to update!\n";
+		else
 		{
-			cout << "Lecturer not found! \n";
-			return;
-		}
-		cout << "\nWhat do you want to edit? " << endl;
-		cout << "[1] Username." << endl;
-		cout << "[2] Password." << endl;
-		cout << "[3] Name." << endl;
-		cout << "[4] Gender." << endl;
-		cout << "[5] Date of Birth." << endl;
-		cout << "[6] Back." << endl;
-		cout << "Your choice: ";
-		int choice;
-		cin >> choice;
-		string tmp;
-		while (choice != 6)
-		{
-			switch (choice)
+			Lecturers* lecturerList = semes->lecturers;
+			string uName;
+			cout << "\nPlease enter lecturer's username: ";
+			cin >> uName;
+			while (lecturerList != nullptr && lecturerList->account->uName != uName)
+				lecturerList = lecturerList->next;
+			if (lecturerList == nullptr)
 			{
-			case 1: {
-				cout << "Current username: " << lecturerList->account->uName << "\nNew username: ";
-				cin >> lecturerList->account->uName;
-			}
-				  break;
-			case 2: {
-				cout << "Current password: " << lecturerList->account->pwd << "\nNew password: ";
-				cin >> lecturerList->account->pwd;
-			}
-				  break;
-			case 3: {
-				cout << "Current full name: " << lecturerList->account->firstname << ' '
-					<< lecturerList->account->lastname << endl;
-				cout << "New full name: " << endl;
-				cout << "- First name: ";
-				cin.ignore(10, '\n');
-				getline(cin, lecturerList->account->firstname);
-				cout << "- Last name: ";
-				getline(cin, lecturerList->account->lastname);
-			}
-				  break;
-			case 4: {
-				cout << "Current gender: " << lecturerList->account->gender << endl;
-				cout << "New gender: " << endl;
-				cin >> lecturerList->account->lastname;
-			}
-				  break;
-			case 5: {
-				cout << "Current DoB: " << lecturerList->account->doB << endl;
-				cout << "New DoB (dd mm yyyy): ";
-				cin >> lecturerList->account->doB->day
-					>> lecturerList->account->doB->month
-					>> lecturerList->account->doB->year;
-			}
-				  break;
-			default:
-				break;
+				cout << "Lecturer not found! \n";
+				return;
 			}
 			cout << "\nWhat do you want to edit? " << endl;
 			cout << "[1] Username." << endl;
@@ -458,8 +409,63 @@ void updateLecturer(AcademicYears* acaYear)
 			cout << "[5] Date of Birth." << endl;
 			cout << "[6] Back." << endl;
 			cout << "Your choice: ";
+			int choice;
 			cin >> choice;
+			string tmp;
+			while (choice != 6)
+			{
+				switch (choice)
+				{
+				case 1: {
+					cout << "Current username: " << lecturerList->account->uName << "\nNew username: ";
+					cin >> lecturerList->account->uName;
+				}
+					  break;
+				case 2: {
+					cout << "Current password: " << lecturerList->account->pwd << "\nNew password: ";
+					cin >> lecturerList->account->pwd;
+				}
+					  break;
+				case 3: {
+					cout << "Current full name: " << lecturerList->account->firstname << ' '
+						<< lecturerList->account->lastname << endl;
+					cout << "New full name: " << endl;
+					cout << "- First name: ";
+					cin.ignore(10, '\n');
+					getline(cin, lecturerList->account->firstname);
+					cout << "- Last name: ";
+					getline(cin, lecturerList->account->lastname);
+				}
+					  break;
+				case 4: {
+					cout << "Current gender: " << lecturerList->account->gender << endl;
+					cout << "New gender: " << endl;
+					cin >> lecturerList->account->lastname;
+				}
+					  break;
+				case 5: {
+					cout << "Current DoB: " << lecturerList->account->doB << endl;
+					cout << "New DoB (dd mm yyyy): ";
+					cin >> lecturerList->account->doB->day
+						>> lecturerList->account->doB->month
+						>> lecturerList->account->doB->year;
+				}
+					  break;
+				default:
+					break;
+				}
+				cout << "\nWhat do you want to edit? " << endl;
+				cout << "[1] Username." << endl;
+				cout << "[2] Password." << endl;
+				cout << "[3] Name." << endl;
+				cout << "[4] Gender." << endl;
+				cout << "[5] Date of Birth." << endl;
+				cout << "[6] Back." << endl;
+				cout << "Your choice: ";
+				cin >> choice;
+			}
 		}
+		
 	}
 }
 
@@ -469,37 +475,43 @@ void deleteLecturer(AcademicYears* acaYear)
 	Semesters* semes;
 	if (input(acaYear, semes, year))
 	{
-		Lecturers* lecturerList = semes->lecturers;
-		Lecturers* prev = nullptr;
-		string uName;
-		cout << "\nPlease enter lecturer's username: ";
-		cin >> uName;
-		while (lecturerList != nullptr && lecturerList->account->uName != uName)
-		{
-			prev = lecturerList;
-			lecturerList = lecturerList->next;
-		}
-		if (lecturerList == nullptr)
-		{
-			cout << "Lecturer not found! \n";
-			return;
-		}
-		if (lecturerList == semes->lecturers)
-		{
-			Lecturers* tmp = lecturerList;
-			semes->lecturers = semes->lecturers->next;
-			delete tmp->account->doB;
-			delete tmp->account;
-			delete tmp;
-		}
+		if (semes->lecturers == nullptr)
+			cout << "No lecturer to delete!\n";
 		else
 		{
-			Lecturers* tmp = lecturerList;
-			prev->next = lecturerList->next;
-			delete tmp->account->doB;
-			delete tmp->account;
-			delete tmp;
+			Lecturers* lecturerList = semes->lecturers;
+			Lecturers* prev = nullptr;
+			string uName;
+			cout << "\nPlease enter lecturer's username: ";
+			cin >> uName;
+			while (lecturerList != nullptr && lecturerList->account->uName != uName)
+			{
+				prev = lecturerList;
+				lecturerList = lecturerList->next;
+			}
+			if (lecturerList == nullptr)
+			{
+				cout << "Lecturer not found! \n";
+				return;
+			}
+			if (lecturerList == semes->lecturers)
+			{
+				Lecturers* tmp = lecturerList;
+				semes->lecturers = semes->lecturers->next;
+				delete tmp->account->doB;
+				delete tmp->account;
+				delete tmp;
+			}
+			else
+			{
+				Lecturers* tmp = lecturerList;
+				prev->next = lecturerList->next;
+				delete tmp->account->doB;
+				delete tmp->account;
+				delete tmp;
+			}
 		}
+		
 	}
 }
 
@@ -509,13 +521,19 @@ void viewLecturer(AcademicYears* acaYear)
 	Semesters* semes;
 	if (input(acaYear, semes, year))
 	{
-		Lecturers* lecturerList = semes->lecturers;
-		cout << "List of lecturers in year " << year << ", semester " << semes->semesterNo << " are: " << endl;
-		while (lecturerList != nullptr)
+		if (semes->lecturers == nullptr)
+			cout << "No lecturer to view!";
+		else
 		{
-			cout << lecturerList->account->lastname << " " << lecturerList->account->firstname << endl;
-			lecturerList = lecturerList->next;
+			Lecturers* lecturerList = semes->lecturers;
+			cout << "List of lecturers in year " << year << ", semester " << semes->semesterNo << " are: " << endl;
+			while (lecturerList != nullptr)
+			{
+				cout << lecturerList->account->lastname << " " << lecturerList->account->firstname << endl;
+				lecturerList = lecturerList->next;
+			}
 		}
+		
 	}
 }
 
