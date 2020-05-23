@@ -26,7 +26,9 @@ void addAStudentToAClass(Classes*& aClass) {
 	cout << "Enter student ID: ";
 	cin >> aStudent->studentID;
 	aStudent->account->uName = aStudent->studentID;
-	aStudent->account->pwd = "password";
+	string pwd = aStudent->account->doB->day + aStudent->account->doB->month + aStudent->account->uName;
+	sha256_init(&aStudent->account->pwd);
+	sha256_update(&aStudent->account->pwd, pwd, pwd.length());
 	cout << "Enter the student's first name: ";
 	cin.ignore(10, '\n');
 	getline(cin, aStudent->account->firstname);
@@ -112,9 +114,11 @@ void editAStudent(Classes*& aClass) {
 			cin >> tmpSt->account->uName;
 			break;
 		case 2:
-			cout << endl << "Current password: " << tmpSt->account->pwd << endl;
+			
 			cout << "New password: ";
-			cin >> tmpSt->account->pwd;
+			cin >> Class;
+			sha256_init(&tmpSt->account->pwd);
+			sha256_update(&tmpSt->account->pwd, Class, Class.length());
 			break;
 		case 3:
 			cout << endl << "Current full name: " << tmpSt->account->lastname << ' ' << tmpSt->account->firstname << endl;
@@ -352,7 +356,9 @@ void createLecturer(AcademicYears* acaYear)
 		getline(cin, newLecturer->account->firstname);
 		cout << "Enter new lecturer's last name (rest of your name): ";
 		getline(cin, newLecturer->account->lastname);
-		newLecturer->account->pwd = "password";
+		string pwd =  newLecturer->account->doB->day + newLecturer->account->doB->month + newLecturer->account->uName;
+		sha256_init(&newLecturer->account->pwd);
+		sha256_update(&newLecturer->account->pwd, pwd, pwd.length());
 		newLecturer->account->role = 3;
 		newLecturer->account->uName = "";
 
@@ -376,7 +382,7 @@ void createLecturer(AcademicYears* acaYear)
 		cin >> newLecturer->account->doB->day >> newLecturer->account->doB->month
 			>> newLecturer->account->doB->year;
 		cout << "\nNew lecturer's default username: " << newLecturer->account->uName;
-		cout << "\nNew lecturer's default password: " << newLecturer->account->pwd << endl;
+		cout << "\nNew lecturer's default password: " << pwd << endl;
 	}
 }
 
@@ -422,9 +428,11 @@ void updateLecturer(AcademicYears* acaYear)
 				}
 					  break;
 				case 2: {
-					cout << "Current password: " << lecturerList->account->pwd << "\nNew password: ";
-					cin >> lecturerList->account->pwd;
-				}
+					cout << "\nNew password: ";
+					cin >> year;
+					sha256_init(&lecturerList->account->pwd);
+					sha256_update(&lecturerList->account->pwd, year, year.length());
+				};
 					  break;
 				case 3: {
 					cout << "Current full name: " << lecturerList->account->firstname << ' '
