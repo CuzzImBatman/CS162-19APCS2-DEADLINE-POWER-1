@@ -131,6 +131,7 @@
     <ClCompile Include="functionStaff.cpp" />
     <ClCompile Include="functionStudent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pointersDeletion.cpp" />
     <ClCompile Include="sha256.cpp" />
     <ClCompile Include="functionImport.cpp" />
   </ItemGroup>
