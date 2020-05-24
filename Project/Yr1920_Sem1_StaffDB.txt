@@ -1,7 +1,7 @@
 3
 
 httu
-password
+0
 Tu
 Hoang Thanh
 F
@@ -10,7 +10,7 @@ F
 1989
 
 ntmphuc
-verystrongpassword
+0
 Phuc
 Nguyen Thi Minh
 F
@@ -19,7 +19,7 @@ F
 1990
 
 ltathao
-superstrongpassword
+0
 Thao
 Le Thi Anh
 F

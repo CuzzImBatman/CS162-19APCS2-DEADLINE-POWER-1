@@ -26,7 +26,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	cout << "Enter student ID: ";
 	cin >> aStudent->studentID;
 	aStudent->account->uName = aStudent->studentID;
-	aStudent->account->pwd = "password";
+	
 	cout << "Enter the student's first name: ";
 	cin.ignore(10, '\n');
 	getline(cin, aStudent->account->firstname);
@@ -42,6 +42,9 @@ void addAStudentToAClass(Classes*& aClass) {
 	cin >> aStudent->account->doB->month;
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
+	string pwd = aStudent->account->doB->day + aStudent->account->doB->month + aStudent->account->uName;
+	sha256_init(&aStudent->account->pwd);
+	sha256_update(&aStudent->account->pwd, pwd, pwd.length());
 	aStudent->checkincourse = NULL;
 	aStudent->scoreboards = NULL;
 	for (int i = 0; i < 6; i++)
@@ -112,9 +115,11 @@ void editAStudent(Classes*& aClass) {
 			cin >> tmpSt->account->uName;
 			break;
 		case 2:
-			cout << endl << "Current password: " << tmpSt->account->pwd << endl;
+			
 			cout << "New password: ";
-			cin >> tmpSt->account->pwd;
+			cin >> Class;
+			sha256_init(&tmpSt->account->pwd);
+			sha256_update(&tmpSt->account->pwd, Class, Class.length());
 			break;
 		case 3:
 			cout << endl << "Current full name: " << tmpSt->account->lastname << ' ' << tmpSt->account->firstname << endl;
@@ -174,7 +179,7 @@ void removeAStudent(Classes*& aClass) {
 	Students* tmpSt = nullptr;
 	while (true) {
 		tmpSt = findStudent(tmpClass->students, studentToRemove);
-		if (tmpSt)
+		if (tmpSt && tmpSt->Status==1)
 			break;
 		cout << "Student does not exist." << endl;
 		cout << "Enter the student's ID: ";
@@ -282,8 +287,10 @@ void viewListOfStudentsInAClass(Classes* aClass) {
 	Students* st = tmpClass->students;
 	if (!st)
 		cout << "There is no student in this class." << endl;
-	while (st) {
-		cout << st->studentID << "     " << st->account->lastname << ' ' << st->account->firstname << endl;
+	while (st)
+	{
+		if (st->Status==1)
+			cout << st->studentID << "     " << st->account->lastname << ' ' << st->account->firstname << endl;
 		st = st->next;
 	}
 }
@@ -350,7 +357,7 @@ void createLecturer(AcademicYears* acaYear)
 		getline(cin, newLecturer->account->firstname);
 		cout << "Enter new lecturer's last name (rest of your name): ";
 		getline(cin, newLecturer->account->lastname);
-		newLecturer->account->pwd = "password";
+		
 		newLecturer->account->role = 3;
 		newLecturer->account->uName = "";
 
@@ -374,7 +381,10 @@ void createLecturer(AcademicYears* acaYear)
 		cin >> newLecturer->account->doB->day >> newLecturer->account->doB->month
 			>> newLecturer->account->doB->year;
 		cout << "\nNew lecturer's default username: " << newLecturer->account->uName;
-		cout << "\nNew lecturer's default password: " << newLecturer->account->pwd << endl;
+		string pwd = newLecturer->account->doB->day + newLecturer->account->doB->month + newLecturer->account->uName;
+		sha256_init(&newLecturer->account->pwd);
+		sha256_update(&newLecturer->account->pwd, pwd, pwd.length());
+		cout << "\nNew lecturer's default password: " << pwd << endl;
 	}
 }
 
@@ -420,9 +430,11 @@ void updateLecturer(AcademicYears* acaYear)
 				}
 					  break;
 				case 2: {
-					cout << "Current password: " << lecturerList->account->pwd << "\nNew password: ";
-					cin >> lecturerList->account->pwd;
-				}
+					cout << "\nNew password: ";
+					cin >> year;
+					sha256_init(&lecturerList->account->pwd);
+					sha256_update(&lecturerList->account->pwd, year, year.length());
+				};
 					  break;
 				case 3: {
 					cout << "Current full name: " << lecturerList->account->firstname << ' '
@@ -736,7 +748,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 			}
 			else {
 				courseclass->BitAttend += 1 << i;
-				AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+				AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth,0);
 				cout << "Added" << endl;
 				break;
 			}
@@ -751,7 +763,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
 	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth);
+	AddCourseToStudent(curST, courseID, courseclass->DayInWeek, courseclass->AtNth,0);
 	cout << "Added" << endl;
 	return ;
 }

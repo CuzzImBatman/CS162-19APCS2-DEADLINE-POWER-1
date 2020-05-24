@@ -1,7 +1,7 @@
 2
 
 19125096
-password
+0
 Huy
 Vu Duc
 M
@@ -10,7 +10,7 @@ M
 2001
 
 19125001
-password
+0
 Test
 Test Test
 M
