@@ -1,8 +1,18 @@
 #include "function.h"
+#include "sha256.h"
 void accountInit(ifstream& fin, Accounts*& acc) {
 	if (!acc)
 		acc = new Accounts;
-	fin >> acc->pwd;
+	int test;
+
+	fin >> test;
+	if(test)
+	{
+		acc->pwd.state[0] = test;
+		for (int i = 1; i < 8; i++)
+			fin >> acc->pwd.state[i];
+
+	}
 	fin >> acc->firstname;
 	fin.ignore(10, '\n');
 	getline(fin, acc->lastname);
@@ -11,10 +21,53 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	fin >> acc->doB->day;
 	fin >> acc->doB->month;
 	fin >> acc->doB->year;
+	string pwd = acc->doB->day + acc->doB->month + acc->uName;
+	sha256_init(&acc->pwd);
+	sha256_update(&acc->pwd ,pwd, pwd.length());
 }
 
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
-	
+
+	int check = 0;
+	Classes* cl = Class;
+	Students* st;
+	while (cl)
+	{
+		int k = 0;
+		 st = cl->students;
+		while (st)
+		{
+			if (st->Status >= 0)
+			{
+				k = 1;
+				ifstream SBinit("Yr" + year + "_Sem" + semes + "_StudentID" + st->studentID + "ScoreBoard.txt");
+				if (SBinit.is_open())
+				{
+					string courseID;
+					while (SBinit >> courseID)
+					{
+						Scoreboards* SB = new Scoreboards;
+						SB->courseName = courseID;
+						SBinit >> SB->labScore;
+						SBinit >> SB->midtermScore;
+						SBinit >> SB->finalScore;
+						SBinit >> SB->bonusScore;
+					}
+					check = 1;
+				}
+
+
+
+			}
+				st = st->next;
+		}
+		if (k)break;
+		cl = cl->next;
+	}
+
+
+
+
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
@@ -32,13 +85,13 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
-					InitClassToCourse(Class, courseIn, tempCourse);
+					InitClassToCourse(Class, courseIn, tempCourse,check);
 				tempCourse->next = course;
 				course = tempCourse;
-			
+
 			n--;
 		}
-		
+
 	}
 	courseIn.close();
 }
@@ -114,7 +167,7 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class){
 			staffInit(semes->staffs, semes->semesterNo, year);
 			lecturerInit(semes->lecturers, semes->semesterNo, year);
 			courseInit(semes->courses, semes->semesterNo, year, Class);
-			
+
 			tempSemes = semes;
 		}
 		else {
@@ -157,7 +210,7 @@ void studentInit(Students*& st, string Class, string year) {
 					for (int j = 0; j < 4; j++)
 						st->schedule[i][j] = "//";
 				tempSt = st;
-				
+
 			}
 			else {
 				tempSt->next = new Students;
@@ -169,7 +222,7 @@ void studentInit(Students*& st, string Class, string year) {
 				for (int i = 0; i < 6; i++)
 					for (int j = 0; j < 4; j++)
 						tempSt->next->schedule[i][j] = "//";
-				
+
 				tempSt = tempSt->next;
 			}
 			n--;
@@ -235,9 +288,11 @@ void academicYearInit(AcademicYears*& year) {
 	}
 	yearIn.close();
 }
-void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int check) {
+
+
 	CourseClass* courseclass = new CourseClass;
-	
+
 	courseIn >> courseclass->startDate.day;
 	courseIn >> courseclass->startDate.month;
 	courseIn >> courseclass->startDate.year;
@@ -297,7 +352,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 		courseclass->Outsider = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course->courseID, courseclass->DayInWeek, courseclass->AtNth);
+		AddCourseToStudent(st, course->courseID, courseclass->DayInWeek, courseclass->AtNth,check);
 
 	}
 	courseIn >> course->room;
@@ -328,7 +383,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
 	}
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course->courseID, DayInWeek, AtNth);
+	AddCourseToClass(curCL, course->courseID, DayInWeek, AtNth, check);
 
 
 }

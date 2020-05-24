@@ -1,14 +1,17 @@
 #include "function.h"
 
-int login(AcademicYears* year, Accounts*& acc) {
+int login(AcademicYears* year, Accounts*& acc, string pwd) {
 	if (acc->uName[0] <= 57) {
 		//student
+		SHA256_CTX check;
+		sha256_init(&check);
+		sha256_update(&check, pwd, pwd.length());
 		Classes* tempClass = year->classes;
 		while (tempClass) {
 			Students* tempSt = tempClass->students;
 			while (tempSt) {
 				if (tempSt->account->uName == acc->uName)
-					if (tempSt->account->pwd == acc->pwd) {
+					if (ComparePwd( tempSt->account->pwd, check)) {
 						delete acc;
 						acc = tempSt->account;
 						return 1;
@@ -26,12 +29,15 @@ int login(AcademicYears* year, Accounts*& acc) {
 	}
 	else {
 		//staff or lecturer
+		SHA256_CTX check;
+		sha256_init(&check);
+		sha256_update(&check, pwd, pwd.length());
 		Semesters* tempSemes = year->semesters;
 		while (tempSemes) {
 			Staffs* tempStaff = tempSemes->staffs;
 			while (tempStaff) {
 				if (tempStaff->account->uName == acc->uName)
-					if (tempStaff->account->pwd == acc->pwd) {
+					if ( ComparePwd(tempStaff->account->pwd , check) ) {
 						delete acc;
 						acc = tempStaff->account;
 						return 2;
@@ -45,7 +51,7 @@ int login(AcademicYears* year, Accounts*& acc) {
 			Lecturers* tempLec = tempSemes->lecturers;
 			while (tempLec) {
 				if (tempLec->account->uName == acc->uName)
-					if (tempLec->account->pwd == acc->pwd) {
+					if (ComparePwd(tempLec->account->pwd ,check)) {
 						delete acc;
 						acc = tempLec->account;
 						return 3;
@@ -186,7 +192,7 @@ void showCourseOptions(AcademicYears*& year) {
 				createLecturer(year);
 				break;
 			}
-				  
+
 			case 2: {
 				updateLecturer(year);
 				break;
@@ -399,30 +405,35 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 }
 
 void changePwd(Accounts*& acc) {
-	cout << endl << "Type in your old password." << endl;
-	string oldPwd;
-	cin >> oldPwd;
-	cout << "Type in your new password." << endl;
-	string newPwd;
-	cin >> newPwd;
-	cout << "Type in your new password again to confirm." << endl;
-	string conPwd;
-	cin >> conPwd;
-	while (oldPwd != acc->pwd || newPwd != conPwd || newPwd == oldPwd) {
-		if (oldPwd != acc->pwd)
-			cout << endl << "The old password does not match." << endl;
-		else if (newPwd != conPwd)
-			cout << endl << "The new password does not match with confirm password." << endl;
-		else if (newPwd == oldPwd)
-			cout << endl << "New password cannot be the same as old password." << endl;
+	SHA256_CTX confirm;
+	string oldPwd, newPwd, conPwd;
+	do
+	{
 		cout << endl << "Type in your old password." << endl;
 		cin >> oldPwd;
+		sha256_init(&confirm);
+		sha256_update(&confirm, oldPwd, oldPwd.length());
+		if (!ComparePwd(confirm, acc->pwd))
+			cout << endl << "The old password does not match." << endl;
+	} while (!ComparePwd(confirm, acc->pwd));
+
+	do
+	{
 		cout << "Type in your new password." << endl;
 		cin >> newPwd;
+		if (newPwd == oldPwd)
+			cout << endl << "New password cannot be the same as old password." << endl;
+	} while (newPwd == oldPwd);
+	do
+	{
 		cout << "Type in your new password again to confirm." << endl;
 		cin >> conPwd;
-	}
-	acc->pwd = newPwd;
+		cout << endl << "The new password does not match with confirm password." << endl;
+	} while (newPwd != conPwd);
+
+
+	sha256_init(&acc->pwd);
+	sha256_update(&acc->pwd, conPwd, conPwd.length());
 	cout << endl << "Password changed." << endl;
 }
 
@@ -439,9 +450,6 @@ void viewProfile(Accounts* acc) {
 		break;
 	}
 	cout << "Username: " << acc->uName << endl;
-	cout << "Password: ";
-	for (int i = 0; i < acc->pwd.length(); ++i)
-		cout << '*';
 	cout << endl;
 	int choice;
 	bool variableName = 1;
@@ -451,14 +459,14 @@ void viewProfile(Accounts* acc) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			cout << endl << "Please confirm your password: ";
+			/*cout << endl << "Please confirm your password: ";
 			string confPwd;
 			cin >> confPwd;
-			if (confPwd == acc->pwd) 
+			if (confPwd == acc->pwd)
 				cout << "Password: " << acc->pwd << endl;
 			else {
 				cout << "Confirm password incorrect." << endl;
-			}
+			}*/
 			break;
 		}
 		case 2: {
@@ -472,7 +480,7 @@ void viewProfile(Accounts* acc) {
 		default: break;
 		}
 	}
-	
+
 }
 
 void logout(Accounts*& acc) {
