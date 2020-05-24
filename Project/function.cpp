@@ -2,7 +2,7 @@
 
  using namespace std;
 
-int numberOfDay(Date x, Date y) {
+/*int numberOfDay(Date x, Date y) {
   if (x.month < 3) {
     x.year--;
     x.month += 12;
@@ -12,7 +12,7 @@ int numberOfDay(Date x, Date y) {
     y.month += 12;
   }
   return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307 - (365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307) + 1;
-}
+}*/
 
 void UpdateBitAttend(string classID, Courses*& course) {
 	Courses* curCS = course;
@@ -61,7 +61,15 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 #pragma region Add
 
+void AddCheckInCourse(Students*& st, string courseID)
+{
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	newcourse->next = st->checkincourse;
+	st->checkincourse = newcourse;
 
+}
 
 void AddScoreBoardCourse(Students*& st, string courseID)
 {
@@ -70,12 +78,12 @@ void AddScoreBoardCourse(Students*& st, string courseID)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth) {
+void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
 	
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, courseID, DayInWeek, AtNth);
+		AddCourseToStudent(curST, courseID, DayInWeek, AtNth,check);
 		curST = curST->next;
 	}
 
@@ -120,7 +128,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		i++;
 		curST = curST->next;
 	}
-	AddCourseToClass(curCL, courseID, DayInWeek, AtNth);
+	AddCourseToClass(curCL, courseID, DayInWeek, AtNth,0);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;
@@ -129,14 +137,97 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth,int check) {
 
+	ST->  schedule[DayInWeek][AtNth] = courseID;
+
+  CheckinCourse * newcourse = new CheckinCourse;
+  newcourse ->  courseID = courseID;
+  newcourse ->  bitweek = 0;
+  //    newcourse->status=1;
+  newcourse ->  next = ST->checkincourse;
+  ST->checkincourse = newcourse;
+  if (check)return;
+  Scoreboards* SB = new Scoreboards;
+  SB->courseName = courseID;
+  SB->next = ST->scoreboards;
+  ST->scoreboards = SB;
+
+}
 #pragma endregion
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
 
 
 #pragma region EditCourse
+void EditScheduleCourseOfClass(Courses * & course, string classID, string courseID, Classes * & Class) {
+  Classes * curCL = findClass(Class,classID);
+ 
+  Courses* curCourse = findCourse(course, courseID);
 
+  CourseClass * courseclass = curCourse ->  courseclass;
+  while (courseclass ->  classID != classID)
+    courseclass = courseclass ->  next;
+
+  int day, nth, day0, nth0, i, j;
+  cout << "Day in week: ";
+  cin >> day0;
+  cout << "nth: ";
+  cin >> nth0;
+  //change schedule
+
+  for (i = 1; i <= 6; i++)
+    for (j = 1; j <= 4; j++)
+      if (curCL ->  schedule[i][j] == courseID) {
+        curCL ->  schedule[i][j] == "//";
+        day = i;
+        nth = j;
+        break;
+      }
+  curCL ->  schedule[day0][nth0] = courseID;
+
+  Students * curST = Class ->  students;
+  while (curST != NULL) {
+    curST ->  schedule[i][j] = "//";
+    curST ->  schedule[day0][nth0] = courseID;
+    curST = curST ->  next;
+  }
+
+  /// change schedule chechou
+  OutsideStudent * Outsider = courseclass ->  Outsider;
+  curCL = Class;
+  while (Outsider != NULL) {
+    int k = CheckStatusStudent(Outsider ->  studentID, Outsider ->  classID, Class);
+    if (k < 1) {
+      Outsider = Outsider ->  next;
+      curCL = Class;
+      continue;
+    }
+    while (curCL != NULL)
+      if (curCL ->  classID == Outsider ->  classID) {
+
+        curST = Class ->  students;
+        while (curST != NULL && curST ->  Status) {
+
+          if (curST ->  studentID == Outsider ->  studentID)
+
+          {
+            curST ->  schedule[i][j] = "//";
+            curST ->  schedule[day0][nth0] = courseID;
+            curCL = Class;
+            Outsider = Outsider ->  next;
+            k = 1;
+            break;
+          }
+          curST = curST ->  next;
+        }
+
+      }
+    else
+      curCL = curCL ->  next;
+  }
+
+}
 void EditCourseId(Courses * & course, string NewID, string OldID) {
   Courses * cur = course;
   while (cur ->  courseID != OldID)
@@ -176,7 +267,18 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
+void DeleleScoreBoardStudent(Students*& ST)
+{
+	while (ST->scoreboards)
+	{
+		Scoreboards* SB = ST->scoreboards;
+		SB = ST->scoreboards->next;
+		ST->scoreboards = NULL;
+		ST->scoreboards = SB;
 
+	}
+
+}
 
 
 
@@ -228,7 +330,27 @@ void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
 				schedule[i][j] = "//";
 }
 
+void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
+  if (checkincourse ->  courseID == courseID) {
+    CheckinCourse * tmp = checkincourse;
+    checkincourse = checkincourse ->  next;
+    tmp = NULL;
+  }
+  return;
+  CheckinCourse * tmp;
+  CheckinCourse * cur = checkincourse;
+  while (cur != NULL) {
+    if (cur ->  courseID == courseID) {
+      tmp ->  next = cur ->  next;
+      CheckinCourse * del = cur;
+      cur = cur ->  next;
+      del = NULL;
+    }
+    tmp = cur;
+    cur = cur ->  next;
+  }
 
+}
 void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideStudent * & Outsider, Classes * & Class) {
   Students * curST = student;
   while (curST != NULL) {
@@ -296,7 +418,14 @@ void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classI
 #pragma endregion
 
 
+bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
+{
+	for (int i = 0; i < 8; i++)
+		if (a.state[i] != b.state[i])return false;
+	return true;
 
+
+}
 /*void InitCourse(Courses * & course, Classes * Class) {
 
   string a, b;
