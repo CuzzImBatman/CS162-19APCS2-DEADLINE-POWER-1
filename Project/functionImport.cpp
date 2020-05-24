@@ -59,9 +59,6 @@ void CourseImport(Courses* course, char semes, string year)
 			CL = CL->next;
 
 		}
-		
-
-
 		course = course->next;
 	}
 
@@ -80,10 +77,9 @@ void StudentImport(Students* student, string Class, string year)
 	out << i << endl;
 	while (st)
 	{
-
 		out << st->studentID<<endl;
 		for (int i = 0; i < 8; i++)
-			out << st->account->pwd.state[i] << endl;
+			out << st->account->pwd.state[i];
 		out << st->account->firstname << endl;
 		out << st->account->lastname << endl;
 		out << st->account->gender << endl;

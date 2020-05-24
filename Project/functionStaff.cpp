@@ -26,9 +26,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	cout << "Enter student ID: ";
 	cin >> aStudent->studentID;
 	aStudent->account->uName = aStudent->studentID;
-	string pwd = aStudent->account->doB->day + aStudent->account->doB->month + aStudent->account->uName;
-	sha256_init(&aStudent->account->pwd);
-	sha256_update(&aStudent->account->pwd, pwd, pwd.length());
+	
 	cout << "Enter the student's first name: ";
 	cin.ignore(10, '\n');
 	getline(cin, aStudent->account->firstname);
@@ -44,6 +42,9 @@ void addAStudentToAClass(Classes*& aClass) {
 	cin >> aStudent->account->doB->month;
 	cout << "- Year: ";
 	cin >> aStudent->account->doB->year;
+	string pwd = aStudent->account->doB->day + aStudent->account->doB->month + aStudent->account->uName;
+	sha256_init(&aStudent->account->pwd);
+	sha256_update(&aStudent->account->pwd, pwd, pwd.length());
 	aStudent->checkincourse = NULL;
 	aStudent->scoreboards = NULL;
 	for (int i = 0; i < 6; i++)
@@ -356,9 +357,7 @@ void createLecturer(AcademicYears* acaYear)
 		getline(cin, newLecturer->account->firstname);
 		cout << "Enter new lecturer's last name (rest of your name): ";
 		getline(cin, newLecturer->account->lastname);
-		string pwd =  newLecturer->account->doB->day + newLecturer->account->doB->month + newLecturer->account->uName;
-		sha256_init(&newLecturer->account->pwd);
-		sha256_update(&newLecturer->account->pwd, pwd, pwd.length());
+		
 		newLecturer->account->role = 3;
 		newLecturer->account->uName = "";
 
@@ -382,6 +381,9 @@ void createLecturer(AcademicYears* acaYear)
 		cin >> newLecturer->account->doB->day >> newLecturer->account->doB->month
 			>> newLecturer->account->doB->year;
 		cout << "\nNew lecturer's default username: " << newLecturer->account->uName;
+		string pwd = newLecturer->account->doB->day + newLecturer->account->doB->month + newLecturer->account->uName;
+		sha256_init(&newLecturer->account->pwd);
+		sha256_update(&newLecturer->account->pwd, pwd, pwd.length());
 		cout << "\nNew lecturer's default password: " << pwd << endl;
 	}
 }
