@@ -2,7 +2,7 @@
 
  using namespace std;
 
-/*int numberOfDay(Date x, Date y) {
+int numberOfDay(Date x, Date y) {
   if (x.month < 3) {
     x.year--;
     x.month += 12;
@@ -12,7 +12,7 @@
     y.month += 12;
   }
   return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307 - (365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307) + 1;
-}*/
+}
 
 void UpdateBitAttend(string classID, Courses*& course) {
 	Courses* curCS = course;
@@ -78,12 +78,12 @@ void AddScoreBoardCourse(Students*& st, string courseID)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
+void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth) {
 	
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, courseID, DayInWeek, AtNth,check);
+		AddCourseToStudent(curST, courseID, DayInWeek, AtNth);
 		curST = curST->next;
 	}
 
@@ -128,7 +128,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		i++;
 		curST = curST->next;
 	}
-	AddCourseToClass(curCL, courseID, DayInWeek, AtNth,0);
+	AddCourseToClass(curCL, courseID, DayInWeek, AtNth);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;
@@ -137,7 +137,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
-void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth,int check) {
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth) {
 
 	ST->  schedule[DayInWeek][AtNth] = courseID;
 
@@ -147,7 +147,7 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
   //    newcourse->status=1;
   newcourse ->  next = ST->checkincourse;
   ST->checkincourse = newcourse;
-  if (check)return;
+ 
   Scoreboards* SB = new Scoreboards;
   SB->courseName = courseID;
   SB->next = ST->scoreboards;
@@ -418,14 +418,7 @@ void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classI
 #pragma endregion
 
 
-bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
-{
-	for (int i = 0; i < 8; i++)
-		if (a.state[i] != b.state[i])return false;
-	return true;
 
-
-}
 /*void InitCourse(Courses * & course, Classes * Class) {
 
   string a, b;

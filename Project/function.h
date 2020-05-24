@@ -8,8 +8,6 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include "sha256.h"
-
 using namespace std;
 /* Naming rule:
 struct: StructName
@@ -33,13 +31,12 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 Outsider
 */
 struct Date {
-	string day, month, year;
+	int day, month, year;
 };
 
 struct Accounts
 {
-
-	SHA256_CTX pwd;
+    string pwd;  //(sha256 if possible)
     string uName;
     short int role;
     string lastname, firstname;
@@ -99,7 +96,7 @@ struct WeeklyStatus {
     		}
     		temp= temp->next;
     	}
-
+    
 };
 */
 
@@ -157,7 +154,16 @@ struct Courses
     string room;
     string LectureName;
     Courses* next = NULL;
-
+    /*Date startDate, endDate;
+    int days= numberOfDay(startDate,endDate);
+    int weeks=days/7;
+    short int dateOfWeek[11][6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat
+    short int checkinList[11][6]; //Ex: CS162: {0000;1000;0000;0000;0000;0001} -> first shift of Tue and last shift of Sat
+    memset(checkin,11,6);
+    string room;
+    Lecturers* lecturers = nullptr;
+    Students* students = nullptr;
+    ;*/
 };
 
 struct Classes
@@ -202,13 +208,13 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class);
 void scheduleInit(string schedule[6][4], ifstream& in);
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,int check);
+void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
 
 #pragma region All roles
-int login(AcademicYears* year, Accounts*& acc, string pwd);
+int login(AcademicYears* year, Accounts*& acc);
 void showClassOptions(AcademicYears*& year);
 void showCourseOptions(AcademicYears*& year);
 void showScoreboardOptions(AcademicYears*& year);
@@ -248,8 +254,8 @@ void AddCourse(Courses *&course,Classes* Class);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth, int check);
-void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth,int check);
+void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth);
+void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth);
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
@@ -279,7 +285,13 @@ void View_Attendance_List(Courses* course, Classes* Class);
 #pragma endregion
 
 #pragma endregion
-
+/*void importAClassFromCsvFile(AcademicStaff* staff, Classes*& aClass, ifstream fin);
+void addAStudentToAClass(AcademicStaff* staff, Students*& aStudent, Classes*& aClass);
+void editAStudent(AcademicStaff* staff, Classes*& aClass);
+void removeAStudent(AcademicStaff* staff, Classes*& aClass);
+void changeClassForStudents(AcademicStaff* staff, Classes*& oldClass, Classes*& newClass);
+void viewListOfClasses(AcademicStaff* staff, Classes* classes);
+void viewListOfStudentsInAClass(AcademicStaff* staff, Classes* aClass);*/
 #pragma region Lecturer
 
 #pragma endregion
@@ -294,7 +306,7 @@ void FillCheckinCourse(Students*& student);
 #endif
 #pragma region tool
 Classes* findClass(Classes* Class, string ClassID);
-
+	
 Students* findStudent(Students * st, string stID);
 
 Semesters* findSemester(Semesters * semes, char no);
@@ -302,7 +314,6 @@ Semesters* findSemester(Semesters * semes, char no);
 Courses* findCourse(Courses * course, string ID);
 
 CourseClass* findCL(CourseClass* CL, string classID);
-
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
 
 void AddCheckInCourse(Students*& st, string courseID);
@@ -310,9 +321,6 @@ void AddCheckInCourse(Students*& st, string courseID);
 void AddScoreBoardCourse(Students*& st, string courseID);
 
 void DeleleScoreBoardStudent(Students*& ST);
-
-bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
-
 #pragma endregion
 /*
 

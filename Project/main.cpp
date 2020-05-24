@@ -14,9 +14,8 @@ int main() {
 			cout << "Username: ";
 			cin >> acc->uName;
 			cout << "Password: ";
-			string pwd;
-			cin >> pwd;
-			if (login(academicYear, acc,pwd)) {
+			cin >> acc->pwd;
+			if (login(academicYear, acc)) {
 				loggedin = 1;
 				break;
 			}
