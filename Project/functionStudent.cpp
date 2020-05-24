@@ -150,3 +150,24 @@ void DeleleScoreBoardStudent(Students*& ST)
 	}
 
 }
+void DeleteCourseOfCheckin(CheckinCourse*& checkincourse, string courseID) {
+	if (checkincourse->courseID == courseID) {
+		CheckinCourse* tmp = checkincourse;
+		checkincourse = checkincourse->next;
+		tmp = NULL;
+	}
+	return;
+	CheckinCourse* tmp;
+	CheckinCourse* cur = checkincourse;
+	while (cur != NULL) {
+		if (cur->courseID == courseID) {
+			tmp->next = cur->next;
+			CheckinCourse* del = cur;
+			cur = cur->next;
+			del = NULL;
+		}
+		tmp = cur;
+		cur = cur->next;
+	}
+
+}
