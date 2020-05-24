@@ -1,11 +1,23 @@
 #include "function.h"
 
+void writeCourses(Courses* course, char semes, string year) {
+
+}
+
+void writeLecturers(Lecturers* lect, char semes, string year) {
+
+}
+
+void writeStaffs(Staffs* staff, char semes, string year) {
+
+}
+
 void writeSemesters(Semesters* semes, string year) {
 	char n = 49;
 	for (n; n < 52; ++n) {
-		writeLecturers();
-		writeCourses();
-		writeStaffs();
+		writeStaffs(semes->staffs, n, year);
+		writeLecturers(semes->lecturers, n, year);
+		writeCourses(semes->courses, n, year);
 	}
 }
 
