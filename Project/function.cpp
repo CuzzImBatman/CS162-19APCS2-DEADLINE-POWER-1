@@ -61,15 +61,7 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 #pragma region Add
 
-void AddCheckInCourse(Students*& st, string courseID)
-{
-	CheckinCourse* newcourse = new CheckinCourse;
-	newcourse->courseID = courseID;
-	newcourse->bitweek = 0;
-	newcourse->next = st->checkincourse;
-	st->checkincourse = newcourse;
 
-}
 
 void AddScoreBoardCourse(Students*& st, string courseID)
 {

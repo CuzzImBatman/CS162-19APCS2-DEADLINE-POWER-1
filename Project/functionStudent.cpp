@@ -112,3 +112,12 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
+void AddCheckInCourse(Students*& st, string courseID)
+{
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	newcourse->next = st->checkincourse;
+	st->checkincourse = newcourse;
+
+}

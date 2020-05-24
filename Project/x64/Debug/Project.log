@@ -1,12 +1,4 @@
 ﻿  function.cpp
 C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\function.cpp(23,47): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
-C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\function.cpp(182,34): warning C4834: discarding return value of function with 'nodiscard' attribute
-  functionAllRoles.cpp
-  functionFinalization.cpp
-  functionInitialization.cpp
-  functionLecturer.cpp
-  functionStaff.cpp
-  functionStudent.cpp
-  main.cpp
-  Generating Code...
+C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\function.cpp(174,34): warning C4834: discarding return value of function with 'nodiscard' attribute
   Project.vcxproj -> C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
