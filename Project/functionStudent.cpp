@@ -121,3 +121,20 @@ void AddCheckInCourse(Students*& st, string courseID)
 	st->checkincourse = newcourse;
 
 }
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth) {
+
+	ST->schedule[DayInWeek][AtNth] = courseID;
+
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	//    newcourse->status=1;
+	newcourse->next = ST->checkincourse;
+	ST->checkincourse = newcourse;
+
+	Scoreboards* SB = new Scoreboards;
+	SB->courseName = courseID;
+	SB->next = ST->scoreboards;
+	ST->scoreboards = SB;
+
+}
