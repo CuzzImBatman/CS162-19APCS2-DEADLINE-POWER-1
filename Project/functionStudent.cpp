@@ -138,3 +138,15 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
 	ST->scoreboards = SB;
 
 }
+void DeleleScoreBoardStudent(Students*& ST)
+{
+	while (ST->scoreboards)
+	{
+		Scoreboards* SB = ST->scoreboards;
+		SB = ST->scoreboards->next;
+		ST->scoreboards = NULL;
+		ST->scoreboards = SB;
+
+	}
+
+}

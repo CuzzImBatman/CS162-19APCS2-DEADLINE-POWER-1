@@ -243,18 +243,7 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
-void DeleleScoreBoardStudent(Students*& ST)
-{
-	while (ST->scoreboards)
-	{
-		Scoreboards* SB = ST->scoreboards;
-		SB = ST->scoreboards->next;
-		ST->scoreboards = NULL;
-		ST->scoreboards = SB;
 
-	}
-
-}
 
 
 
