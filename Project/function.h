@@ -100,7 +100,6 @@ struct WeeklyStatus {
 };
 */
 
-
 struct CheckinCourse
 {
     int bitweek;
@@ -167,7 +166,6 @@ struct Courses
     ;*/
 };
 
-
 struct Classes
 {
     short int classno;
@@ -198,20 +196,6 @@ struct AcademicYears
     AcademicYears* next = NULL;
 
 };
-/*
-struct Account {
-	char* pwd;  //(sha256 if possible)
-	char* uName; // = ID
-	short int role = (int)uName[0] - 48;
-	char* lastname, * firstname;
-	int gender;
-	Date* doB;
-
-};*/
-
-
-
-
 
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
@@ -220,8 +204,8 @@ void courseInit(Courses*& course, char semes, string year, Classes*& Class);
 void lecturerInit(Lecturers*& lec, char semes, string year);
 void staffInit(Staffs*& staff, char semes, string year);
 void semesterInit(Semesters*& semes, string year, Classes*& Class);
-void scheduleInit(string schedule[6][4], ifstream& in);
 
+void scheduleInit(string schedule[6][4], ifstream& in);
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
 void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course);

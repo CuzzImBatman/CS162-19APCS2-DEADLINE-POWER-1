@@ -265,8 +265,8 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 	Students* st=cl->students;
 	while (cl)
 	{
-		 st = findStudent(cl->students, acc->uName);
-		if (st->Status)break;
+		st = findStudent(cl->students, acc->uName);
+		if (st && st->Status) break;
 		cl = cl->next;;
 	}
 	switch (acc->role) {

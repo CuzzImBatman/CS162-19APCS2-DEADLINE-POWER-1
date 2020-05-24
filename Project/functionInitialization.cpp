@@ -129,6 +129,13 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class){
 	}
 }
 
+void scheduleInit(string schedule[6][4], ifstream& in)
+{
+
+	for (int j = 0; j < 4; j++)
+		for (int i = 0; i < 6; i++)
+			in >> schedule[i][j];
+}
 void studentInit(Students*& st, string Class, string year) {
 	Students* tempSt = st;
 	ifstream stIn;
@@ -169,13 +176,6 @@ void studentInit(Students*& st, string Class, string year) {
 		}
 	}
 	stIn.close();
-}
-void scheduleInit(string schedule[6][4],ifstream& in)
-{
-
-	for (int j = 0; j < 4; j++)
-		for (int i = 0; i < 6; i++)
-			in >> schedule[i][j];
 }
 void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
@@ -236,8 +236,6 @@ void academicYearInit(AcademicYears*& year) {
 	yearIn.close();
 }
 void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course) {
-
-
 	CourseClass* courseclass = new CourseClass;
 	
 	courseIn >> courseclass->startDate.day;
