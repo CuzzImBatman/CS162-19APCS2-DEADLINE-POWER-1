@@ -46,6 +46,20 @@ void Tick(Students* student) {
 	return ;
 
 }
+int CheckStatusStudent(string studentID, string classID, Classes*& Class) {
+	Classes* curCL = Class;
+	while (curCL != NULL)
+		if (curCL->classID == classID) {
+			Students* curST = curCL->students;
+			while (curST != NULL)
+				if (curST->studentID == studentID)
+					return curST->Status;
+		}
+		else
+			curCL = curCL->next;
+	return -2;
+}
+
 
 void viewCheckIn(CheckinCourse* checkincourse) {
 	

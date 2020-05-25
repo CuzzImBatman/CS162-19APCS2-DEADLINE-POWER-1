@@ -1,6 +1,6 @@
 ﻿  function.cpp
 C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\function.cpp(23,47): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
   functionStudent.cpp
-C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\functionStudent.cpp(171,27): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\Project\functionStudent.cpp(188,27): warning C4834: discarding return value of function with 'nodiscard' attribute
   Generating Code...
   Project.vcxproj -> C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
