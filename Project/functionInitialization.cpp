@@ -6,7 +6,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	int test;
 	
 	fin >> test;
-	if(test)
+	if(test!= 0)
 	{
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
@@ -21,6 +21,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	fin >> acc->doB->day;
 	fin >> acc->doB->month;
 	fin >> acc->doB->year;
+	if (test)return;
 	string pwd = acc->doB->day + acc->doB->month + acc->uName;
 	sha256_init(&acc->pwd);
 	sha256_update(&acc->pwd ,pwd, pwd.length());
@@ -34,7 +35,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 	while (cl)
 	{
 		int k = 0;
-		 st = cl->students;
+		st = cl->students;
 		while (st)
 		{     
 			if (st->Status >= 0)
@@ -55,11 +56,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 					}
 					check = 1;
 				}
-				
-				
-
 			}
-				st = st->next;
+			st = st->next;
 		}
 		if (k)break;
 		cl = cl->next;
@@ -95,7 +93,6 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 	}
 	courseIn.close();
 }
-
 void lecturerInit(Lecturers*& lec, char semes, string year) {
 	Lecturers* tempLec = lec;
 	ifstream lecIn;
@@ -156,7 +153,6 @@ void staffInit(Staffs*& staff, char semes, string year) {
 	}
 	staffIn.close();
 }
-
 void semesterInit(Semesters*& semes, string year, Classes*& Class){
 	Semesters* tempSemes = semes;
 	char n = '1';

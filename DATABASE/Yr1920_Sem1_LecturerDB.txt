@@ -1,7 +1,7 @@
 2
 
 dbtien
-password
+0
 Tien
 Dinh Ba
 M
@@ -10,7 +10,7 @@ M
 1990
 
 nhanh
-p455w0rd
+0
 Anh
 Nguyen Huu
 M

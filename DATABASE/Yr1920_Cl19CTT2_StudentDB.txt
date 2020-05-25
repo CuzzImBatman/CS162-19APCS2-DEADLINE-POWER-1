@@ -1,7 +1,7 @@
-3
+2
 
 19125113
-password
+0
 Phu
 Dao Thien
 M
@@ -10,21 +10,10 @@ M
 2001
 
 19125079
-password
+0
 Bao
 Le Gia
 M
 69
 69
-2001
-
-19CTT2
-19125096
-Emblema
-1
-Huy
-Vu Duc
-M
-21
-08
 2001
