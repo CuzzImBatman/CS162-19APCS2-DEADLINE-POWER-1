@@ -3,7 +3,7 @@
 int main() {
 	AcademicYears* academicYear = nullptr;
 	academicYearInit(academicYear);
-	
+
 	char loginchoice;
 	cout << "Login? [Y/N] ";
 	cin >> loginchoice;
@@ -57,5 +57,8 @@ int main() {
 		cin >> loginchoice;
 		//if(!loginchoice)
 	}
+
+	writeAcademicYears(academicYear);
+	deleteAcademicYears(academicYear);
 	return 0;
 }

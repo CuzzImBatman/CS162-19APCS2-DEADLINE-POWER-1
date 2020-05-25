@@ -161,7 +161,6 @@ struct Courses
    
 };
 
-
 struct Classes
 {
     short int classno;
@@ -192,20 +191,6 @@ struct AcademicYears
     AcademicYears* next = NULL;
 
 };
-/*
-struct Account {
-	char* -> pdwd;  //(sha256 if possible)
-	char* uName; // = ID
-	short int role = (int)uName[0] - 48;
-	char* lastname, * firstname;
-	int gender;
-	Date* doB;
-
-};*/
-
-
-
-
 
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
@@ -307,15 +292,15 @@ void viewCheckIn(CheckinCourse *checkincourse);
 void Tick(Students* student);
 void FillCheckinCourse(Students*& student);
 #pragma endregion
-#endif
+
 #pragma region tool
 Classes* findClass(Classes* Class, string ClassID);
-	
-Students* findStudent(Students * st, string stID);
 
-Semesters* findSemester(Semesters * semes, char no);
+Students* findStudent(Students* st, string stID);
 
-Courses* findCourse(Courses * course, string ID);
+Semesters* findSemester(Semesters* semes, char no);
+
+Courses* findCourse(Courses* course, string ID);
 
 CourseClass* findCL(CourseClass* CL, string classID);
 
@@ -330,6 +315,30 @@ void DeleleScoreBoardStudent(Students*& ST);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 
 #pragma endregion
+
+#pragma region Finalization
+void writeAccounts(ofstream& fout, Accounts* acc);
+void writeCourses(Courses* course, char semes, string year);
+void writeLecturers(Lecturers* lect, char semes, string year);
+void writeStaffs(Staffs* staff, char semes, string year);
+void writeSemesters(Semesters* semes, string year);
+void writeStudents(Students* st, string Class, string year);
+void writeClasses(Classes* Class, string year);
+void writeAcademicYears(AcademicYears* year);
+#pragma endregion
+
+#pragma region PointersDeletion
+void deleteAccounts(Accounts*& acc);
+void deleteCourses(Courses*& course);
+void deleteLecturers(Lecturers*& lect);
+void deleteStaffs(Staffs*& staff);
+void deleteSemesters(Semesters*& semes);
+void deleteStudents(Students*& st);
+void deleteClasses(Classes*& Class);
+void deleteAcademicYears(AcademicYears*& year);
+#pragma endregion
+#endif
+
 /*
 
 All roles

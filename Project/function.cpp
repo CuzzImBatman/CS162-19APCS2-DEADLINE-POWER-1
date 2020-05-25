@@ -348,12 +348,11 @@ void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
     tmp = cur;
     cur = cur ->  next;
   }
-
 }
+
 void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideStudent * & Outsider, Classes * & Class) {
   Students * curST = student;
   while (curST != NULL) {
-
     RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
     DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
 	DeleteScoreBoardOfCourse(curST, courseID);
@@ -362,7 +361,6 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
       if(curCk->courseID== courseID)curCk->status=0;*/
     curST = curST ->  next;
   }
-
 
   Classes * curCL = Class;
   while (Outsider != NULL) {
@@ -396,7 +394,6 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
     else
       curCL = curCL ->  next;
   }
-
 }
 
 void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classID) {
@@ -415,7 +412,6 @@ void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classI
 
 }
 #pragma endregion
-
 
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
 {
@@ -479,9 +475,6 @@ bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
   }
   while (n != 2);*/
 
-
-
-
 /*void RemoveStudentFromClass(Classes * & Class, string classID, string studentID) {
   Classes * curCL = Class;
   while (curCL != NULL)
@@ -537,4 +530,3 @@ bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string class
   return true;
 
 }*/
-///
