@@ -1,2 +1,14 @@
-﻿  functionStaff.cpp
+﻿  function.cpp
+  functionAllRoles.cpp
+D:\CS162_Project\Project\function.cpp(23,47): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
+  functionFinalization.cpp
+  functionInitialization.cpp
+  functionLecturer.cpp
+  functionStaff.cpp
+  functionStudent.cpp
+  main.cpp
+  sha256.cpp
+  functionImport.cpp
+  Generating Code...
+D:\CS162_Project\Project\functionAllRoles.cpp(455,6): warning C4101: 'choice': unreferenced local variable
   Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe

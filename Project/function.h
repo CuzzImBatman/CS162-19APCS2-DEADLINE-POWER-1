@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <fstream>
+#include<stdio.h>
 #include <iomanip>
 #include <string>
 #include "sha256.h"
@@ -135,7 +136,7 @@ struct OutsideStudent
     OutsideStudent* next=NULL;
 
 };
-int numberOfDay(Date x, Date y);
+//int numberOfDay(Date x, Date y);
 
 struct CourseClass
 {
@@ -243,7 +244,7 @@ int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 void importAClassFromCsvFile(Classes*& aClass);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
-void removeAStudent(Classes*& aClass);
+void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year);
 void changeClassForStudents(Classes*& classes, Courses*& course);
 void viewListOfClasses(Classes* aClass);
 void viewListOfStudentsInAClass(Classes* aClass);
@@ -310,25 +311,19 @@ void FillCheckinCourse(Students*& student);
 #endif
 #pragma region tool
 Classes* findClass(Classes* Class, string ClassID);
-	
 Students* findStudent(Students * st, string stID);
-
 Semesters* findSemester(Semesters * semes, char no);
-
 Courses* findCourse(Courses * course, string ID);
-
 CourseClass* findCL(CourseClass* CL, string classID);
-
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-
 void AddCheckInCourse(Students*& st, string courseID);
-
 void AddScoreBoardCourse(Students*& st, string courseID);
-
-void DeleleScoreBoardStudent(Students*& ST);
-
+void DeleteScoreBoardStudent(Students*& ST);
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
+int DeleteABit(int bit, int x);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
-
+void RemoveFile(string s);
 #pragma endregion
 /*
 

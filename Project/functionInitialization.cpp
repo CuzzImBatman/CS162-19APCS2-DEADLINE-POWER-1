@@ -56,9 +56,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 					}
 					check = 1;
 				}
-				
-				
-
+		
 			}
 				st = st->next;
 		}

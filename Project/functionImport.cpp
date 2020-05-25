@@ -3,7 +3,7 @@ void ScoreBoardImport(Students* st,  char semes, string year)
 {
 	Scoreboards* SB = st->scoreboards;
 	ofstream out("Yr" + year + "_Sem" + semes + "_StudentID" + st->studentID + "ScoreBoard.txt");
-	out.open("Yr" + year + "_Sem" + semes + "_StudentID" + st->studentID + "ScoreBoard.txt");
+	
 	while (SB)
 	{
 		out << SB->courseName << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
@@ -14,7 +14,7 @@ void ScoreBoardImport(Students* st,  char semes, string year)
 void CourseImport(Courses* course, char semes, string year)
 {
 	ofstream out("Yr" + year + "_Sem" + semes + "_CourseDB.txt");
-	out.open("Yr" + year + "_Sem" + semes + "_CourseDB.txt");
+	
 	int i = 0;
 	Courses* cs = course;
 	while (cs)
@@ -67,7 +67,7 @@ void StudentImport(Students* student, string Class, string year)
 {
 	Students* st = student;
 	ofstream out("Yr" + year + "_Cl" + Class + "_StudentDB.txt");
-	 out.open("Yr" + year + "_Cl" + Class + "_StudentDB.txt");
+	
 	int i = 0;
 	while (st)
 	{

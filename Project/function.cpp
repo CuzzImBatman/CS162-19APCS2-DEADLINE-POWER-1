@@ -266,17 +266,96 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
-void DeleleScoreBoardStudent(Students*& ST)
+void DeleteScoreBoardStudent(Students*& ST)
 {
 	while (ST->scoreboards)
 	{
 		Scoreboards* SB = ST->scoreboards;
-		SB = ST->scoreboards->next;
-		ST->scoreboards = NULL;
-		ST->scoreboards = SB;
+		ST->scoreboards = SB->next;
+		delete SB;
+		SB = NULL;
 
 	}
 
+}
+int DeleteABit(int bit, int x)
+{
+	int newBIt = 0;
+	int i = 0;
+	while (bit)
+	{
+		if (x != i)
+		{
+			newBIt += ((bit) % 2) << i;
+			i++;
+		}
+		else x = -1;
+		bit = bit >> 1;
+	}
+	return newBIt;
+}
+
+void DeleteCheckinCourseStudent(Students*& St)
+{
+	while (St->checkincourse)
+	{
+		CheckinCourse* CK = St->checkincourse;
+		St->checkincourse = CK->next;
+		delete CK;
+		CK = NULL;
+
+	}
+}
+void DeleteStudentFromCourses(string studentID,string classID, Courses* &course)
+{
+	Courses* cs = course;
+	CourseClass* CL = findCL(course->courseclass, classID);
+	if (CL)
+	{
+		Students*& st = CL->students;
+		int i = 0;
+		while (st)
+			if (st->studentID == studentID)
+			{
+				CL->BitAttend = DeleteABit(CL->BitAttend, i);
+			}
+			else
+			{
+				i++;
+				st = st->next;
+			}
+	}
+	while (cs)
+	{
+		CL = cs->courseclass;
+		OutsideStudent* OS = CL->Outsider;
+		OutsideStudent* tmp = OS;
+		if (OS && OS->studentID == studentID)
+		{
+			OS = OS->next;
+			delete tmp;
+			tmp = NULL;
+			break;
+
+		}
+		while (OS)
+		{
+			if (OS->studentID == studentID)
+			{
+				OutsideStudent* del = OS;
+				tmp->next = OS->next;
+				OS = OS->next;
+				delete del;
+				del = NULL;
+				break;
+			}
+
+			tmp = OS;
+			OS = OS->next;
+
+		}
+		cs = cs->next;
+	}
 }
 
 
@@ -425,116 +504,9 @@ bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
 
 
 }
-/*void InitCourse(Courses * & course, Classes * Class) {
+void RemoveFile(string s)
+{
+	char* c = const_cast<char*>(s.c_str());
+	remove(c);
 
-  string a, b;
-  while (cin >> a) {
-    Courses * newcourse = new Courses;
-    newcourse ->  courseID = a;
-
-    cin >> newcourse ->  room;
-    cin >> newcourse ->  LectureName;
-    newcourse ->  next = course;
-    course = newcourse;
-    course ->  courseclass = NULL;
-
-    while (cin >> b && b != "------")
-      AddClassToCourse(Class, a, course, newcourse ->  courseID);
-
-  }
-  
-}*/
-/*void AddCourse(Courses * & course, Classes * Class) {
-  Courses * newcourse = new Courses;
-  cout << "courseID: ";
-  cin >> newcourse ->  courseID;
-
-  cout << "Room: ";
-  cin >> newcourse ->  room;
-  cout << "Lecture's name: ";
-  cin >> newcourse ->  LectureName;
-  newcourse ->  next = course;
-  course = newcourse;
-  course ->  courseclass = NULL;
-
-  int n;
-
-  do {
-    string classID;
-    cout << "1.Add Class.";
-    cout << "2.Stop.";
-    cin >> n;
-    if (n == 1)
-    {
-		cout << "classID :";
-		if (!findClass(Class, classID))
-		{
-			cout << "invalid Class ID.";
-			continue;
-		}
-      cin >> classID;
-      AddClassToCourse(Class, classID, course, course ->  courseID);
-      break;
-    }
-  }
-  while (n != 2);*/
-
-
-
-
-/*void RemoveStudentFromClass(Classes * & Class, string classID, string studentID) {
-  Classes * curCL = Class;
-  while (curCL != NULL)
-    if (curCL ->  classID == classID) {
-      Students * curST = curCL ->  students;;
-      while (curST != NULL)
-        if (curST ->  studentID == studentID) {
-          curST ->  Status = -2;
-          break;
-        }
-      else
-        curST = curST ->  next;
-      break;
-    }
-  else
-    curCL = curCL ->  next;
-
-}
-
-
-bool ChangeStudentFromClassAtoB(Classes * & Class, string classAID, string classBID, string studentID, Courses * & course) {
-  Classes * curCL = Class;
-  Students * curST = NULL;
-  while (curCL != NULL)
-    if (curCL ->  classID == classAID) {
-      curST = curCL ->  students;;
-      while (curST != NULL)
-        if (curST ->  studentID == studentID) {
-          curST ->  Status = -1;
-          break;
-        }
-      else
-        curST = curST ->  next;
-      break;
-    }
-  else
-    curCL = curCL ->  next;
-  if (curST == NULL)return false;
-  curCL = Class;
-  while (curCL != NULL)
-    if (curCL ->  classID == classBID) {
-      Students * newST = new Students;
-      newST ->  studentID = studentID;
-      newST ->  Status = 1;
-      newST ->  account = curST ->  account;
-      for (int i = 1; i <= 6; i++)
-        for (int j = 1; j <= 4; j++)
-          newST ->  schedule[i][j] = curCL ->  schedule[i][j];
-      newST ->  scoreboards = curST ->  scoreboards;
-      FillCheckinCourse(newST);
-    }
-  UpdateBitAttend(classBID, course);
-  return true;
-
-}*/
-///
+ }

@@ -98,7 +98,7 @@ void showClassOptions(AcademicYears*& year) {
 			break;
 		}
 		case 4: {
-			removeAStudent(year->classes);
+			removeAStudent(year->classes,  year->semesters->courses,year->semesters->semesterNo,year->year);
 			break;
 		}
 		case 5: {
