@@ -1,7 +1,7 @@
 #include "function.h"
 
 void writeAccounts(ofstream& fout, Accounts* acc){
-	fout << acc->uName;
+	fout << acc->uName << endl;
 	//SpookyFish: cout << cais gif maf soos 0 cuar m ddaays SunFLower
 	fout << acc->firstname << endl;
 	fout << acc->lastname << endl;
@@ -17,7 +17,7 @@ void writeCourses(Courses* course, char semes, string year) {
 void writeLecturers(Lecturers* lect, char semes, string year) {
 	Lecturers* tempLect = lect;
 	ofstream lectOut;
-	string fileOut = "Yr" + year + "_" + semes + "_LecturerDB.txt";
+	string fileOut = "Yr" + year + "_Sem" + semes + "_LecturerDB_TEST.txt";
 	lectOut.open(fileOut);
 	if (lectOut.is_open()) {
 		int n = 0;
@@ -37,7 +37,7 @@ void writeLecturers(Lecturers* lect, char semes, string year) {
 void writeStaffs(Staffs* staff, char semes, string year) {
 	Staffs* tempStaff = staff;
 	ofstream staffOut;
-	string fileOut = "Yr" + year + "_Sem" + semes + "_StaffDB.txt";
+	string fileOut = "Yr" + year + "_Sem" + semes + "_StaffDB_TEST.txt";
 	staffOut.open(fileOut);
 	if (staffOut.is_open()) {
 		int n = 0;
@@ -86,7 +86,7 @@ void writeStudents(Students* st, string Class, string year) {
 void writeClasses(Classes* Class, string year) {
 	Classes* tempClass = Class;
 	ofstream classOut;
-	string fileOut = "Yr" + year + "_ClassDB.txt";
+	string fileOut = "Yr" + year + "_ClassDB_TEST.txt";
 	classOut.open(fileOut);
 	if (classOut.is_open()) {
 		int n = 0;
@@ -108,7 +108,7 @@ void writeClasses(Classes* Class, string year) {
 void writeAcademicYears(AcademicYears* year) {
 	AcademicYears* tempYear = year;
 	ofstream yearOut;
-	yearOut.open("AcademicYearDB.txt");
+	yearOut.open("AcademicYearDB_TEST.txt");
 	if (yearOut.is_open()) {
 		int n = 0;
 		while (tempYear) {
