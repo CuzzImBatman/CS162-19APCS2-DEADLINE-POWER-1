@@ -243,7 +243,7 @@ void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year)
 		tmp = tmp->next;*/
 	
 }
-void changeClassForStudents(Classes*& classes, Courses*& course) {
+void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year) {
 	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
 	cin >> classA;
@@ -280,6 +280,8 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 		cout << "Enter the student's ID: ";
 		cin >> studentToChange;
 	}
+	string s = "Yr" + year + "_Sem" + semes + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+	RemoveFile(s);
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
 	AddSt->studentID = tmpSt->studentID;
@@ -786,7 +788,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	{
 		cout << "Class ID of Student: ";
 		cin >> classSTID;
-		curCL = findClass(curCL, classSTID);
+		curCL = findClass(Class, classSTID);
 		if (!curCL)cout << "invalid class ID. Please enter agian." << endl;
 		else break;
 	}
@@ -803,7 +805,6 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	{
 		cout << "Class ID of course you want to add student: " << endl;
 		cin >> classID;
-		CourseClass* courseclass = NULL;
 		courseclass = findCL(curCourse->courseclass, classID);
 		if(!courseclass)cout << "invalid class ID. Please enter agian." << endl;
 	}
@@ -827,9 +828,9 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 			curST = curST->next;
 
 	///
-	if (!curST) return;
+	if (curST) return;
 	OutsideStudent* Outsider = new OutsideStudent;
-	Outsider->classID = classID;
+	Outsider->classID = classSTID;
 	Outsider->studentID = studentID;
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
