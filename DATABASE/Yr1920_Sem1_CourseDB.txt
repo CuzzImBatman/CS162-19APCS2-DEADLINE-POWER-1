@@ -1,17 +1,28 @@
-4
+2
 
 MTH251
-F201
-Huynh Lam Vu
-
-CM101
+Calculus I
+nhanh
+1
+20 10 2019
+21 01 2020
+Wed
+7 30
+19CTT2
+-1
+0
 I23
-Duong Nguyen Vu
+
 
 CS161
-I61
-forgot her name
-
-PH101
-F204
-somethin somethin Thu
+Introduction to Computer Science 1
+forgothername
+1
+20 10 2019
+21 01 2020
+Tue
+7 30
+19CTT2
+-1
+0
+F203
