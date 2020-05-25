@@ -191,6 +191,22 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
 	ST->scoreboards = SB;
 
 }
+void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth, int check) {
+
+	ST->schedule[DayInWeek][AtNth] = courseID;
+
+	CheckinCourse* newcourse = new CheckinCourse;
+	newcourse->courseID = courseID;
+	newcourse->bitweek = 0;
+	newcourse->next = ST->checkincourse;
+	ST->checkincourse = newcourse;
+	if (check)return;
+	Scoreboards* SB = new Scoreboards;
+	SB->courseName = courseID;
+	SB->next = ST->scoreboards;
+	ST->scoreboards = SB;
+
+}
 
 void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID, Classes*& Class) {
 	Classes* curCL = findClass(Class, classID);

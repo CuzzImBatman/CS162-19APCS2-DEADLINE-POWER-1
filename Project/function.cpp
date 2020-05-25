@@ -81,22 +81,6 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
-void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth,int check) {
-
-	ST->  schedule[DayInWeek][AtNth] = courseID;
-
-  CheckinCourse * newcourse = new CheckinCourse;
-  newcourse ->  courseID = courseID;
-  newcourse ->  bitweek = 0;
-  newcourse ->  next = ST->checkincourse;
-  ST->checkincourse = newcourse;
-  if (check)return;
-  Scoreboards* SB = new Scoreboards;
-  SB->courseName = courseID;
-  SB->next = ST->scoreboards;
-  ST->scoreboards = SB;
-
-}
 #pragma endregion
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
