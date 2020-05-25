@@ -28,19 +28,6 @@ void UpdateBitAttend(string classID, Courses*& course) {
 		curCS = curCS->next;
 	}
 }
-void FillCheckinCourse(Students*& student) {
-	for (int i = 0; i <= 5; i++)
-		for (int j = 0; j <= 3; j++)
-			if (student->schedule[i][j] != "//") {
-				CheckinCourse* newcourse = new CheckinCourse;
-				newcourse->courseID = student->schedule[i][j];
-				newcourse->bitweek = 0;
-				//              newcourse->status=1;
-				newcourse->next = student->checkincourse;
-				student->checkincourse = newcourse;
-			}
-
-}
 
 
 
