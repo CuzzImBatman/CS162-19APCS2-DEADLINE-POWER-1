@@ -72,6 +72,20 @@ void FillCheckinCourse(Students*& student) {
 			}
 
 }
+void UpdateBitAttend(string classID, Courses*& course) {
+	Courses* curCS = course;
+	while (curCS != NULL) {
+		CourseClass* cur = curCS->courseclass;
+		while (cur != NULL)
+			if (cur->classID == classID) {
+				cur->BitAttend = (cur->BitAttend) >> 1 + 1;
+				break;
+			}
+			else
+				cur = cur->next;
+		curCS = curCS->next;
+	}
+}
 
 void viewCheckIn(CheckinCourse* checkincourse) {
 	

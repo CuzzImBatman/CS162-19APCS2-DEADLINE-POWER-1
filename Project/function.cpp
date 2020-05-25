@@ -14,20 +14,6 @@
   return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307 - (365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307) + 1;
 }*/
 
-void UpdateBitAttend(string classID, Courses*& course) {
-	Courses* curCS = course;
-	while (curCS != NULL) {
-		CourseClass* cur = curCS->courseclass;
-		while (cur != NULL)
-			if (cur->classID == classID) {
-				cur->BitAttend = (cur->BitAttend) >> 1 + 1;
-				break;
-			}
-			else
-				cur = cur->next;
-		curCS = curCS->next;
-	}
-}
 
 
 
