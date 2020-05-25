@@ -164,20 +164,6 @@ void EditCourseroom(Courses * & course, string courseID, string room) {
   cur ->  room = room;
 }
 
-void EditDateOfCL(Courses*& course, string classID, string courseID)
-{
-	Courses* curCS = findCourse(course, courseID);
-	CourseClass* curCL = findCL(curCS->courseclass, classID);
-	cout << "Start date: ";
-	cin >> curCL->startDate.day;
-	cin >> curCL->startDate.month;
-	cin >> curCL->startDate.year;
-	cout << "End date: ";
-	cin >> curCL->endDate.day;
-	cin >> curCL->endDate.month;
-	cin >> curCL->endDate.year;
-
-}
 
 #pragma endregion
 

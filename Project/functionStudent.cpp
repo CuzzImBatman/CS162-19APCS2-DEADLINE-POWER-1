@@ -217,6 +217,20 @@ void EditCourseLecture(Courses*& course, string name, string courseID) {
 	cur->LectureName = name;
 
 }
+void EditDateOfCL(Courses*& course, string classID, string courseID)
+{
+	Courses* curCS = findCourse(course, courseID);
+	CourseClass* curCL = findCL(curCS->courseclass, classID);
+	cout << "Start date: ";
+	cin >> curCL->startDate.day;
+	cin >> curCL->startDate.month;
+	cin >> curCL->startDate.year;
+	cout << "End date: ";
+	cin >> curCL->endDate.day;
+	cin >> curCL->endDate.month;
+	cin >> curCL->endDate.year;
+
+}
 void DeleleScoreBoardStudent(Students*& ST)
 {
 	while (ST->scoreboards)
