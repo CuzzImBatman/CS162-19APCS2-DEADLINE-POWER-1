@@ -331,6 +331,52 @@ void DeleteCourseOfCheckin(CheckinCourse*& checkincourse, string courseID) {
 	}
 
 }
+void DeleteCourseScheduleStudent(Students*& student, string courseID, OutsideStudent*& Outsider, Classes*& Class) {
+	Students* curST = student;
+	while (curST != NULL) {
+		RemoveCourseOfScheduleStudent(curST->schedule, courseID);
+		DeleteCourseOfCheckin(curST->checkincourse, courseID);
+		DeleteScoreBoardOfCourse(curST, courseID);
+		/*CheckinCourse* curCk= curST->checkincourse;
+		while(curCk!= NULL)
+		  if(curCk->courseID== courseID)curCk->status=0;*/
+		curST = curST->next;
+	}
+
+	Classes* curCL = Class;
+	while (Outsider != NULL) {
+		int k = CheckStatusStudent(Outsider->studentID, Outsider->classID, Class);
+		if (k < 1) {
+			Outsider = Outsider->next;
+			curCL = Class;
+			continue;
+		}
+		while (curCL != NULL && Outsider != NULL)
+			if (curCL->classID == Outsider->classID) {
+
+				curST = Class->students;
+				while (curST != NULL && curST->Status == 1)
+
+					if (curST->studentID == Outsider->studentID)
+
+					{
+						RemoveCourseOfScheduleStudent(curST->schedule, courseID);
+						DeleteCourseOfCheckin(curST->checkincourse, courseID);
+						DeleteScoreBoardOfCourse(curST, courseID);
+
+						break;
+					}
+					else
+						curST = curST->next;
+
+				Outsider = Outsider->next;
+				curCL = Class;
+				break;
+			}
+			else
+				curCL = curCL->next;
+	}
+}
 void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)

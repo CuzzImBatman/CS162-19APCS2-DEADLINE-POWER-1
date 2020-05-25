@@ -20,8 +20,6 @@
 
 
 #pragma region Add
-
-
 void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
 	
 	Students* curST = Class->students;
@@ -33,7 +31,6 @@ void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth
 
 	
 }
-
 void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
 
 	Courses* curCS =findCourse(course,courseID);
@@ -78,9 +75,6 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	curCS->courseclass = courseclass;
 
 }
-
-
-
 #pragma endregion
 //void EditScheduleCourseOfStudent()
 //void RemoveCourse()
@@ -100,15 +94,9 @@ void EditCourseroom(Courses * & course, string courseID, string room) {
     cur ->  next;
   cur ->  room = room;
 }
-
-
 #pragma endregion
 
 #pragma region Delete
-
-
-
-
 void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
 {
 	
@@ -136,7 +124,6 @@ void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
 	}
 
 }
-
 void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 {
 	Students* st = ST;
@@ -147,58 +134,6 @@ void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 	}
 
 }
-
-
-
-
-
-
-void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideStudent * & Outsider, Classes * & Class) {
-  Students * curST = student;
-  while (curST != NULL) {
-    RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
-    DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
-	DeleteScoreBoardOfCourse(curST, courseID);
-    /*CheckinCourse* curCk= curST->checkincourse;
-    while(curCk!= NULL)
-      if(curCk->courseID== courseID)curCk->status=0;*/
-    curST = curST ->  next;
-  }
-
-  Classes * curCL = Class;
-  while (Outsider != NULL) {
-    int k = CheckStatusStudent(Outsider ->  studentID, Outsider ->  classID, Class);
-    if (k < 1) {
-      Outsider = Outsider ->  next;
-      curCL = Class;
-      continue;
-    }
-    while (curCL != NULL && Outsider != NULL)
-      if (curCL ->  classID == Outsider ->  classID) {
-
-        curST = Class ->  students;
-        while (curST != NULL && curST ->  Status == 1)
-
-          if (curST ->  studentID == Outsider ->  studentID)
-
-        {
-          RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
-          DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
-		  DeleteScoreBoardOfCourse(curST, courseID);
-
-          break;
-        } else
-          curST = curST ->  next;
-
-        Outsider = Outsider ->  next;
-        curCL = Class;
-        break;
-      }
-    else
-      curCL = curCL ->  next;
-  }
-}
-
 void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classID) {
   Classes * curCL = Class;
   while (curCL != NULL) {
