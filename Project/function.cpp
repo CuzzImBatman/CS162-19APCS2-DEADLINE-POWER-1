@@ -62,13 +62,6 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 #pragma region Add
 
 
-void AddScoreBoardCourse(Students*& st, string courseID)
-{
-	Scoreboards* newcourse = new Scoreboards;
-	newcourse->courseName = courseID;
-	newcourse->next = st->scoreboards;
-	st->scoreboards = newcourse;
-}
 void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
 	
 	Students* curST = Class->students;

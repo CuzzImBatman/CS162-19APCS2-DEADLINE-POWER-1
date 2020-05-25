@@ -46,6 +46,7 @@ void Tick(Students* student) {
 	return ;
 
 }
+
 void viewCheckIn(CheckinCourse* checkincourse) {
 	
 	while (checkincourse != NULL) {
@@ -116,6 +117,7 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
+
 void AddCheckInCourse(Students*& st, string courseID)
 {
 	CheckinCourse* newcourse = new CheckinCourse;
@@ -124,6 +126,13 @@ void AddCheckInCourse(Students*& st, string courseID)
 	newcourse->next = st->checkincourse;
 	st->checkincourse = newcourse;
 
+}
+void AddScoreBoardCourse(Students*& st, string courseID)
+{
+	Scoreboards* newcourse = new Scoreboards;
+	newcourse->courseName = courseID;
+	newcourse->next = st->scoreboards;
+	st->scoreboards = newcourse;
 }
 void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth) {
 
@@ -142,6 +151,7 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
 	ST->scoreboards = SB;
 
 }
+
 void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID, Classes*& Class) {
 	Classes* curCL = findClass(Class, classID);
 
@@ -231,6 +241,7 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 	cin >> curCL->endDate.year;
 
 }
+
 void DeleleScoreBoardStudent(Students*& ST)
 {
 	while (ST->scoreboards)
