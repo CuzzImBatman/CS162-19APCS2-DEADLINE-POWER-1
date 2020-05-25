@@ -150,12 +150,6 @@ void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 
 
 
-void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
-	for (int i = 0; i < 6; i++)
-		for (int j = 0; j < 4; j++)
-			if (schedule[i][j] == courseID)
-				schedule[i][j] = "//";
-}
 
 
 
