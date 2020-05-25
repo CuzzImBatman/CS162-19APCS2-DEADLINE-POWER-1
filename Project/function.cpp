@@ -61,15 +61,6 @@ int CheckStatusStudent(string studentID, string classID, Classes * & Class) {
 
 #pragma region Add
 
-void AddCheckInCourse(Students*& st, string courseID)
-{
-	CheckinCourse* newcourse = new CheckinCourse;
-	newcourse->courseID = courseID;
-	newcourse->bitweek = 0;
-	newcourse->next = st->checkincourse;
-	st->checkincourse = newcourse;
-
-}
 
 void AddScoreBoardCourse(Students*& st, string courseID)
 {
@@ -159,74 +150,6 @@ void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth
 
 
 #pragma region EditCourse
-void EditScheduleCourseOfClass(Courses * & course, string classID, string courseID, Classes * & Class) {
-  Classes * curCL = findClass(Class,classID);
- 
-  Courses* curCourse = findCourse(course, courseID);
-
-  CourseClass * courseclass = curCourse ->  courseclass;
-  while (courseclass ->  classID != classID)
-    courseclass = courseclass ->  next;
-
-  int day, nth, day0, nth0, i, j;
-  cout << "Day in week: ";
-  cin >> day0;
-  cout << "nth: ";
-  cin >> nth0;
-  //change schedule
-
-  for (i = 1; i <= 6; i++)
-    for (j = 1; j <= 4; j++)
-      if (curCL ->  schedule[i][j] == courseID) {
-        curCL ->  schedule[i][j] == "//";
-        day = i;
-        nth = j;
-        break;
-      }
-  curCL ->  schedule[day0][nth0] = courseID;
-
-  Students * curST = Class ->  students;
-  while (curST != NULL) {
-    curST ->  schedule[i][j] = "//";
-    curST ->  schedule[day0][nth0] = courseID;
-    curST = curST ->  next;
-  }
-
-  /// change schedule chechou
-  OutsideStudent * Outsider = courseclass ->  Outsider;
-  curCL = Class;
-  while (Outsider != NULL) {
-    int k = CheckStatusStudent(Outsider ->  studentID, Outsider ->  classID, Class);
-    if (k < 1) {
-      Outsider = Outsider ->  next;
-      curCL = Class;
-      continue;
-    }
-    while (curCL != NULL)
-      if (curCL ->  classID == Outsider ->  classID) {
-
-        curST = Class ->  students;
-        while (curST != NULL && curST ->  Status) {
-
-          if (curST ->  studentID == Outsider ->  studentID)
-
-          {
-            curST ->  schedule[i][j] = "//";
-            curST ->  schedule[day0][nth0] = courseID;
-            curCL = Class;
-            Outsider = Outsider ->  next;
-            k = 1;
-            break;
-          }
-          curST = curST ->  next;
-        }
-
-      }
-    else
-      curCL = curCL ->  next;
-  }
-
-}
 void EditCourseId(Courses * & course, string NewID, string OldID) {
   Courses * cur = course;
   while (cur ->  courseID != OldID)
@@ -266,18 +189,7 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 #pragma endregion
 
 #pragma region Delete
-void DeleleScoreBoardStudent(Students*& ST)
-{
-	while (ST->scoreboards)
-	{
-		Scoreboards* SB = ST->scoreboards;
-		SB = ST->scoreboards->next;
-		ST->scoreboards = NULL;
-		ST->scoreboards = SB;
 
-	}
-
-}
 
 
 
@@ -329,26 +241,7 @@ void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID) {
 				schedule[i][j] = "//";
 }
 
-void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
-  if (checkincourse ->  courseID == courseID) {
-    CheckinCourse * tmp = checkincourse;
-    checkincourse = checkincourse ->  next;
-    tmp = NULL;
-  }
-  return;
-  CheckinCourse * tmp;
-  CheckinCourse * cur = checkincourse;
-  while (cur != NULL) {
-    if (cur ->  courseID == courseID) {
-      tmp ->  next = cur ->  next;
-      CheckinCourse * del = cur;
-      cur = cur ->  next;
-      del = NULL;
-    }
-    tmp = cur;
-    cur = cur ->  next;
-  }
-}
+
 
 void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideStudent * & Outsider, Classes * & Class) {
   Students * curST = student;
