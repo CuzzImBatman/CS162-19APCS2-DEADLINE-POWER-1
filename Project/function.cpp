@@ -163,13 +163,6 @@ void EditCourseroom(Courses * & course, string courseID, string room) {
     cur ->  next;
   cur ->  room = room;
 }
-void EditCourseLecture(Courses * & course, string name, string courseID) {
-  Courses * cur = course;
-  while (cur ->  courseID != courseID)
-    cur ->  next;
-  cur ->  LectureName = name;
-
-}
 
 void EditDateOfCL(Courses*& course, string classID, string courseID)
 {

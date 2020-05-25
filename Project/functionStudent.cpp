@@ -210,6 +210,13 @@ void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID
 	}
 
 }
+void EditCourseLecture(Courses*& course, string name, string courseID) {
+	Courses* cur = course;
+	while (cur->courseID != courseID)
+		cur->next;
+	cur->LectureName = name;
+
+}
 void DeleleScoreBoardStudent(Students*& ST)
 {
 	while (ST->scoreboards)
