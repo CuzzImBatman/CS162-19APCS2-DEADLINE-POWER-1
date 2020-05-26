@@ -1,9 +1,12 @@
 #include "function.h"
 
 int main() {
+	string fileName = "Test.txt";
+	char* c = const_cast<char*>(fileName.c_str());
+	remove(c);
 	AcademicYears* academicYear = nullptr;
 	academicYearInit(academicYear);
-
+	
 	char loginchoice;
 	cout << "Login? [Y/N] ";
 	cin >> loginchoice;
