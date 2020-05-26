@@ -359,7 +359,7 @@ void EditCourseId(Courses*& course, string NewID, string OldID) {
 	cur->courseID = NewID;
 }
 
-void DeleleScoreBoardStudent(Students*& ST)
+void DeleteScoreBoardStudent(Students*& ST)
 {
 	while (ST->scoreboards)
 	{

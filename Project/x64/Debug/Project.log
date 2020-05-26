@@ -1,15 +1,1 @@
-﻿  function.cpp
-  functionAllRoles.cpp
-  functionFinalization.cpp
-  functionInitialization.cpp
-  functionLecturer.cpp
-  functionStaff.cpp
-  functionStudent.cpp
-  main.cpp
-  pointersDeletion.cpp
-  sha256.cpp
-D:\CS162_Project\Project\functionAllRoles.cpp(455,6): warning C4101: 'choice': unreferenced local variable
-  functionIExport.cpp
-  Generating Code...
-D:\CS162_Project\Project\sha256.cpp(116,57): warning C4244: '=': conversion from 'unsigned __int64' to 'BYTE', possible loss of data
-  Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe
+﻿  Project.vcxproj -> C:\Users\thduo\Documents\GitHub\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
