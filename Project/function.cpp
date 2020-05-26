@@ -97,33 +97,6 @@ void EditCourseroom(Courses * & course, string courseID, string room) {
 #pragma endregion
 
 #pragma region Delete
-void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
-{
-	
-	Scoreboards* SB = ST->scoreboards, * pre = SB;
-	if (SB->courseName == courseID)
-	{
-		Scoreboards* tmp = ST->scoreboards->next;
-		ST->scoreboards = NULL;
-		ST->scoreboards = tmp;
-		return;
-	}
-	while (!SB)
-	{
-		if (SB->courseName == courseID)
-		{
-			pre->next = SB->next;
-			Scoreboards* tmp = SB->next;
-			SB = NULL;
-			SB = tmp;
-
-		}
-		pre = SB;
-		SB = SB->next;
-
-	}
-
-}
 void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 {
 	Students* st = ST;
