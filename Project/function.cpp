@@ -2,17 +2,32 @@
 
  using namespace std;
 
-/*int numberOfDay(Date x, Date y) {
-  if (x.month < 3) {
-    x.year--;
-    x.month += 12;
+int numberOfDay(Date x) {
+	int j = 1, day = 0, month = 0, year = 0;
+	for (int i = x.day.length() - 1; i >= 0; i--)
+	{
+		day += (x.day[i] - 48) * j;
+		j *= 10;
+	}
+	j = 1;
+	for (int i = x.month.length() - 1; i >= 0; i--)
+	{
+		month += (x.month[i] - 48) * j;
+		j *= 10;
+	}
+	j = 1;
+	for (int i = x.year.length() - 1; i >= 0; i--)
+	{
+		year += (x.year[i] - 48) * j;
+		j *= 10;
+	}
+  if (month < 3) {
+    year--;
+    month += 12;
   }
-  if (y.month < 3) {
-    y.year--;
-    y.month += 12;
-  }
-  return 365 * x.year + x.year / 4 - x.year / 100 + x.year / 400 + (153 * x.month - 457) / 5 + x.day - 307 - (365 * y.year + y.year / 4 - y.year / 100 + y.year / 400 + (153 * y.month - 457) / 5 + y.day - 307) + 1;
-}*/
+  
+  return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 307;
+}
 
 void UpdateBitAttend(string classID, Courses*& course) {
 	Courses* curCS = course;
@@ -78,12 +93,12 @@ void AddScoreBoardCourse(Students*& st, string courseID)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
+void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth,int check) {
 	
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, courseID, DayInWeek, AtNth,check);
+		AddCourseToStudent(curST, course, DayInWeek, AtNth,check);
 		curST = curST->next;
 	}
 
@@ -129,7 +144,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		i++;
 		curST = curST->next;
 	}
-	AddCourseToClass(curCL, courseID, DayInWeek, AtNth,0);
+	AddCourseToClass(curCL, curCS, DayInWeek, AtNth,0);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;
@@ -138,18 +153,19 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
-void AddCourseToStudent(Students*& ST, string courseID, int DayInWeek, int AtNth,int check) {
+void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth,int check) {
 
-	ST->  schedule[DayInWeek][AtNth] = courseID;
+	ST->  schedule[DayInWeek][AtNth] = course->courseID;
 
   CheckinCourse * newcourse = new CheckinCourse;
-  newcourse ->  courseID = courseID;
+  newcourse ->  courseID =course-> courseID;
   newcourse ->  bitweek = 0;
   newcourse ->  next = ST->checkincourse;
   ST->checkincourse = newcourse;
   if (check)return;
   Scoreboards* SB = new Scoreboards;
-  SB->courseName = courseID;
+  SB->courseName = course->courseName;
+  SB->courseID = course->courseID;
   SB->next = ST->scoreboards;
   ST->scoreboards = SB;
 
@@ -176,8 +192,8 @@ void EditScheduleCourseOfClass(Courses * & course, string classID, string course
   cin >> nth0;
   //change schedule
 
-  for (i = 1; i <= 6; i++)
-    for (j = 1; j <= 4; j++)
+  for (i = 0; i < 6; i++)
+    for (j = 0; j < 4; j++)
       if (curCL ->  schedule[i][j] == courseID) {
         curCL ->  schedule[i][j] == "//";
         day = i;
@@ -188,7 +204,7 @@ void EditScheduleCourseOfClass(Courses * & course, string classID, string course
 
   Students * curST = Class ->  students;
   while (curST != NULL) {
-    curST ->  schedule[i][j] = "//";
+	  if (i < 6 && j < 4 && i >= 0 && j >= 0)curST->schedule[i][j] = "//";
     curST ->  schedule[day0][nth0] = courseID;
     curST = curST ->  next;
   }
@@ -228,11 +244,103 @@ void EditScheduleCourseOfClass(Courses * & course, string classID, string course
   }
 
 }
-void EditCourseId(Courses * & course, string NewID, string OldID) {
-  Courses * cur = course;
-  while (cur ->  courseID != OldID)
-    cur ->  next;
-  cur ->  courseID = NewID;
+void Edit_CourseID_Student(Students* st, string NewID, string OldID)
+{
+	for (int i = 0; i < 6; i++)
+		for (int j = 0; j < 4; j++)
+			if (st->schedule[i][j] == OldID)st->schedule[i][j] = NewID;
+	CheckinCourse* ck = st->checkincourse;
+	while (ck)
+		if (ck->courseID == OldID)
+		{
+			ck->courseID = NewID;
+			break;
+		}
+		else ck = ck->next;
+	Scoreboards* sb = st->scoreboards;
+	while (sb)
+	{
+		if (sb->courseID == OldID)
+		{
+			sb-> courseID = NewID;
+			break;
+		}
+		else sb = sb->next;
+	}
+}
+void Edit_CourseID_Class(Classes*& Class, string NewID,string OldID)
+{
+	
+	for (int i = 0; i < 6; i++)
+		for (int j = 0; j < 4; j++)
+			if (Class->schedule[i][j] == OldID)Class->schedule[i][j] = NewID;
+	Students* st = Class->students;
+	while (st)
+	{
+		Edit_CourseID_Student(st, NewID, OldID);
+		st = st->next;
+	}
+}
+void EditCourseId(Courses * & course, string NewID, Classes*& Class) {
+  CourseClass * cur = course->courseclass;
+  while (cur)
+  {
+	  Classes* cl = findClass(Class, cur->classID);
+	  if (cl)Edit_CourseID_Class(cl, NewID, course->courseID);
+	  OutsideStudent* OS = cur->Outsider;
+	  while (OS)
+	  {
+		  cl = findClass(Class, OS->classID);
+		  if (cl)
+		  {
+			  Students* st = findStudent(cl->students, OS->studentID);
+			  if (st)Edit_CourseID_Student(st, NewID, course->courseID);
+			  OS = OS->next;
+		  }
+	  }
+	  cur = cur->next;
+  }
+  course->  courseID = NewID;
+}
+void Edit_CourseName_Student(Students* st, string NewName, string OldName)
+{
+	
+	Scoreboards* sb = st->scoreboards;
+	while (sb)
+	{
+		if (sb->courseName == OldName)
+		{
+			sb-> courseName = NewName;
+			break;
+		}
+		else sb = sb->next;
+	}
+}
+void EditCourseName(Courses*& course, string NewName, Classes*& Class) {
+	CourseClass* cur = course->courseclass;
+	Classes* cl;
+	while (cur)
+	{
+		Students* st = cur->students;
+		while (st)
+		{
+			Edit_CourseName_Student(st, NewName, course->courseName);
+			st = st->next;
+		}
+		OutsideStudent* OS = cur->Outsider;
+		while (OS)
+		{
+			cl = findClass(Class, OS->classID);
+			if (cl)
+			{
+				 st = findStudent(cl->students, OS->studentID);
+				if (st)Edit_CourseName_Student(st, NewName, course->courseName);
+				OS = OS->next;
+			}
+		}
+		cur = cur->next;
+	}
+	course->courseName = NewName;
 }
 void EditCourseroom(Courses * & course, string courseID, string room) {
   Courses * cur = course;
@@ -248,19 +356,150 @@ void EditCourseLecture(Courses * & course, string name, string courseID) {
   cur ->  LectureName = name;
 
 }
+bool bigger(int a, int b)
+{
+	if (a > b)return true;
+	return false;
+}
+bool smaller(int a, int b)
+{
+	if (a > b)return false;
+	return true;
+}
+bool checkDay(string &a, int x, bool(*compare)(int,int))
+{
+	int j = 1, sum = 0;
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		sum += (a[i] - 48) * j;
+		j *= 10;
+	}
+	if (compare(sum, x) || j==0)return  false;
+	else
+		while (a[0] == '0')a.erase(0, 1);
 
-void EditDateOfCL(Courses*& course, string classID, string courseID)
+	
+	return true;
+}
+bool checkMonth(Date a)
+{
+	int j = 1, day = 0,month=0;
+	for (int i = a.day.length() - 1; i >= 0; i--)
+	{
+		day += (a.day[i] - 48) * j;
+		j *= 10;
+	}
+	j = 1;
+	for (int i = a.month.length() - 1; i >= 0; i--)
+	{
+		month += (a.month[i] - 48) * j;
+		j *= 10;
+	}
+	if (day == 31)
+		if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)return false;
+	if (day == 30)
+		if (month == 2)return false;
+	return true;
+}
+bool checkYear(Date a)
+{
+	int j = 1, day = 0, month = 0,year=0;
+	for (int i = a.day.length() - 1; i >= 0; i--)
+	{
+		day += (a.day[i] - 48) * j;
+		j *= 10;
+	}
+	j = 1;
+	for (int i = a.month.length() - 1; i >= 0; i--)
+	{
+		month += (a.month[i] - 48) * j;
+		j *= 10;
+	}
+	j = 1;
+	for (int i = a.year.length() - 1; i >= 0; i--)
+	{
+		year += (a.year[i] - 48) * j;
+		j *= 10;
+	}
+	if (year % 100 == 0)year /= 100;
+	if (day == 29 && month == 2)
+		if (year % 4)return false;
+	
+	          
+		
+			
+	return true;
+
+}
+void EditDateOfCL(Courses*& course, string classID, string courseID,  string year)
 {
 	Courses* curCS = findCourse(course, courseID);
 	CourseClass* curCL = findCL(curCS->courseclass, classID);
-	cout << "Start date: ";
-	cin >> curCL->startDate.day;
-	cin >> curCL->startDate.month;
-	cin >> curCL->startDate.year;
-	cout << "End date: ";
-	cin >> curCL->endDate.day;
-	cin >> curCL->endDate.month;
-	cin >> curCL->endDate.year;
+	int YEAR = 0, j = 1;
+	for (int i = year.length()-1; i >= 0; i--)
+	{
+		YEAR += (year[i] - 48) * j;
+		j *= 10;
+	}
+	cout << "Start date: "<<endl;
+	
+	do
+	{
+		cout << "Day : " ; 
+		cin >> curCL->startDate.day;
+		if (!checkDay(curCL->startDate.day, 31,bigger))cout << "Invalid day, please enter again. " << endl;
+	} while (!checkDay(curCL->startDate.day, 31, bigger));
+	do
+	{
+		cout << "month: ";
+		cin >> curCL->startDate.month;
+		if (!checkDay(curCL->startDate.month, 12, bigger)) {
+			cout << "Invalid month, please enter again. " << endl; 
+			continue;
+		}
+		if(!checkMonth(curCL->startDate))cout << "Invalid month, please enter again. " << endl;
+	} while (!checkDay(curCL->startDate.month, 12, bigger) || !checkMonth(curCL->startDate));
+	
+	do
+	{
+		cout << "year: ";
+		cin >> curCL->startDate.year;
+		if (!checkDay(curCL->startDate.year, YEAR, smaller))
+		{
+			cout << "Invalid year, please enter again. " << endl;
+			continue;
+		}
+		if(!checkYear(curCL->startDate))cout << "Invalid year, please enter again. " << endl;
+	} while (!checkDay(curCL->startDate.year, YEAR, smaller) || !checkYear(curCL->startDate));
+	cout << "End date: "<<endl;
+	do
+	{
+		cout << "Day : ";
+		cin >> curCL->endDate.day;
+		if (!checkDay(curCL->endDate.day, 31, bigger))cout << "Invalid day, please enter again. " << endl;
+	} while (!checkDay(curCL->endDate.day, 31, bigger));
+	do
+	{
+		cout << "month: ";
+		cin >> curCL->endDate.month;
+		if (!checkDay(curCL->endDate.month, 12, bigger)) {
+			cout << "Invalid month, please enter again. " << endl;
+			continue;
+		}
+		if (!checkMonth(curCL->endDate))cout << "Invalid month, please enter again. " << endl;
+	} while (!checkDay(curCL->endDate.month, 12, bigger) || !checkMonth(curCL->endDate));
+
+	do
+	{
+		cout << "year: ";
+		cin >> curCL->endDate.year;
+		if (numberOfDay(curCL->endDate)- numberOfDay(curCL->startDate)<=0)
+		{
+			cout << "Invalid year, please enter again. " << endl;
+			continue;
+		}
+		if (!checkYear(curCL->endDate))cout << "Invalid year, please enter again. " << endl;
+	} while ((numberOfDay(curCL->endDate) - numberOfDay(curCL->startDate) <= 0) || !checkYear(curCL->endDate));
 
 }
 
@@ -358,11 +597,11 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 }
 
 
-void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
+void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName)
 {
 	
 	Scoreboards* SB = ST->scoreboards, * pre = SB;
-	if (SB->courseName == courseID)
+	if (SB->courseName == courseName)
 	{
 		Scoreboards* tmp = ST->scoreboards->next;
 		ST->scoreboards = NULL;
@@ -371,7 +610,7 @@ void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
 	}
 	while (!SB)
 	{
-		if (SB->courseName == courseID)
+		if (SB->courseName == courseName)
 		{
 			pre->next = SB->next;
 			Scoreboards* tmp = SB->next;
@@ -386,12 +625,12 @@ void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID)
 
 }
 
-void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
+void DeleteScoreBoardOfCourse(Students* &ST, string courseName)
 {
 	Students* st = ST;
 	while (st)
 	{
-		DeleteScoreBoardOfCourseStudent(st, courseID);
+		DeleteScoreBoardOfCourseStudent(st, courseName);
 		st = st->next;
 	}
 
@@ -427,12 +666,12 @@ void DeleteCourseOfCheckin(CheckinCourse * & checkincourse, string courseID) {
   }
 }
 
-void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideStudent * & Outsider, Classes * & Class) {
+void DeleteCourseScheduleStudent(Students * & student, Courses*& course, OutsideStudent * & Outsider, Classes * & Class) {
   Students * curST = student;
   while (curST != NULL) {
-    RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
-    DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
-	DeleteScoreBoardOfCourse(curST, courseID);
+    RemoveCourseOfScheduleStudent(curST ->  schedule,course-> courseID);
+    DeleteCourseOfCheckin(curST ->  checkincourse, course->courseID);
+	DeleteScoreBoardOfCourse(curST, course->courseName);
     /*CheckinCourse* curCk= curST->checkincourse;
     while(curCk!= NULL)
       if(curCk->courseID== courseID)curCk->status=0;*/
@@ -456,9 +695,9 @@ void DeleteCourseScheduleStudent(Students * & student, string courseID, OutsideS
           if (curST ->  studentID == Outsider ->  studentID)
 
         {
-          RemoveCourseOfScheduleStudent(curST ->  schedule, courseID);
-          DeleteCourseOfCheckin(curST ->  checkincourse, courseID);
-		  DeleteScoreBoardOfCourse(curST, courseID);
+          RemoveCourseOfScheduleStudent(curST ->  schedule, course->courseID);
+          DeleteCourseOfCheckin(curST ->  checkincourse, course->courseID);
+		  DeleteScoreBoardOfCourse(curST, course->courseName);
 
           break;
         } else
@@ -503,7 +742,7 @@ void RemoveFile(string s)
 	char* c = const_cast<char*>(s.c_str());
 	remove(c);
 }
-Semesters* FindSemester(AcademicYears* AY)
+Semesters* FindSemester(AcademicYears* &AY, AcademicYears* &ay)
 {
 	string year;
 	AcademicYears* y = NULL;
@@ -517,6 +756,7 @@ Semesters* FindSemester(AcademicYears* AY)
 				else y = y->next;
 			if (!y)cout << "Invalid Academic Year, please enter again." << endl;
 	}
+	ay = y;
 	Semesters* s = NULL;
 	char sems;
 	while (!s)
@@ -525,7 +765,7 @@ Semesters* FindSemester(AcademicYears* AY)
 		cin >> sems;
 		s = y->semesters;
 		while (s)
-			if (strcmp((const char*)s->semesterNo, (const char*)sems) == 0)break;
+			if (sems - s->semesterNo == 0)break;
 			else s = s->next;
 		if(!s)cout << "Invalid semester, please enter again." << endl;		
 	}

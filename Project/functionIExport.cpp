@@ -1,16 +1,5 @@
    #include "function.h"
-void ScoreBoardEXport(Students* st,  char semes, string year)
-{
-	Scoreboards* SB = st->scoreboards;
-	ofstream out("Yr" + year + "_Sem" + semes + "_StudentID" + st->studentID + "ScoreBoard.txt");
-	
-	while (SB)
-	{
-		out << SB->courseName << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
-		SB = SB->next;
-	}
 
-}
 void CourseExport(Courses* course, char semes, string year)
 {
 	ofstream out;

@@ -51,6 +51,7 @@ struct Accounts
 struct Scoreboards
 {
     string courseName; //the course that this list belongs to
+	string courseID;
 	string midtermScore = "//", finalScore = "//", labScore = "//", bonusScore = "//";
     Scoreboards* next = NULL;
 };
@@ -242,25 +243,26 @@ void viewLecturer(AcademicYears* year);
 #pragma endregion
 
 #pragma region Course
-void EditCourse(Courses*& course,Classes *&Class);
-void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class);
-void AddStudentToCourseClass(Courses*& course,Classes * &Class );
-void DeleteCourse(Courses*& course,Classes * &Class);
-void AddCourse(Courses *&course,Classes* Class);
+void EditCourse(AcademicYears* year);
+void RemovedStudentFromCourseClass(AcademicYears* year);
+void AddStudentToCourseClass(AcademicYears* year);
+void DeleteCourse(AcademicYears* year);
+void AddCourse(AcademicYears* &year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST,string courseID,int DayInWeek,int AtNth, int check);
-void AddCourseToClass(Classes*& Class,string courseID,int DayInWeek,int AtNth,int check);
+void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth, int check);
+void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth,int check);
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
-void EditCourseId(Courses*& course,string NewID,string  OldID);
+void EditCourseId(Courses*& course,string NewID, Classes*& Class);
+void EditCourseName(Courses*& course, string NewName, Classes*& Class);
 void EditCourseroom(Courses*& course,string courseID,string room);
 void EditCourseLecture(Courses*& course,string name,string courseID);
-void EditDateOfCL(Courses*& course, string classID, string courseID);
+void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
-void DeleteCourseScheduleStudent(Students *&student,string courseID,OutsideStudent* &Outsider,Classes *&Class);
+void DeleteCourseScheduleStudent(Students *&student, Courses*& course,OutsideStudent* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
 void UpdateBitAttend(string classID, Courses*& course);
 
@@ -272,12 +274,12 @@ void viewCourseOfSemester(AcademicYears* AcaYear);
 
 #pragma region Scoreboard
 void DeleteScoreBoardOfCourse(Students* &ST, string courseID);
-void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseID);
+void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName);
 #pragma endregion
 
 #pragma region Attendance list
-void View_StudentList_Course(Courses* course, Classes* Class);
-void View_Attendance_List(Courses* course, Classes* Class);
+void View_StudentList_Course(AcademicYears* AcaYear);
+void View_Attendance_List(AcademicYears* AcaYear);
 #pragma endregion
 
 #pragma endregion
@@ -298,6 +300,7 @@ void FillCheckinCourse(Students*& student);
 Classes* findClass(Classes* Class, string ClassID);
 Students* findStudent(Students* st, string stID);
 Semesters* findSemester(Semesters* semes, char no);
+Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
 Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);

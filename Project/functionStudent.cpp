@@ -99,8 +99,8 @@ void viewScoreCourse(Students* student) {
 	cin >> courseID;
 	Scoreboards* scoreboard = student->scoreboards;
 	while (scoreboard != NULL)
-		if (scoreboard->courseName == courseID) {
-			cout << courseID << endl;
+		if (scoreboard->courseID == courseID) {
+			cout << courseID <<" "<< scoreboard->courseName<<endl;
 			cout << setw(20) << "midtermScore";
 			cout << setw(20) << "finalScore";
 			cout << setw(20) << "labScore";
