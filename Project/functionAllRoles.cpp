@@ -338,11 +338,11 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 3: {
-
+				View_StudentList_Course(year);
 				break;
 			}
 			case 4: {
-
+				View_Attendance_List(year);
 				break;
 			}
 			case 5: {

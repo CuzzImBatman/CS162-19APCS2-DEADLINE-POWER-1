@@ -45,9 +45,6 @@
     <ClCompile Include="pointersDeletion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="functionIExport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h">

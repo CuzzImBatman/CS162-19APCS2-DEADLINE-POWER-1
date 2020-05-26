@@ -671,10 +671,11 @@ void viewScoreboardOfACourse(Courses* course) {
 #pragma endregion
 
 #pragma region Attendance List
+//void edit
 
 void View_Attendance_List(AcademicYears* year)
 {
-	string courseID;
+	string courseID,classID;
 	string Year;
 	AcademicYears* y = NULL;
 	while (!y)
@@ -704,11 +705,81 @@ void View_Attendance_List(AcademicYears* year)
 		if (!s)cout << "Invalid course ID, please enter again." << endl;
 	}
 
-	cout << "Students List of " << courseID << endl;;
-	CourseClass* CL = course->courseclass;
-	while (CL)
-		cout << setw(3) << CL->classID << endl;
-	//not done yet;
+	CourseClass* CL = NULL;
+	
+	while (!CL)
+	{
+		cout << "Please enter class ID: ";
+		cin >> classID;
+		CL = findCL(course->courseclass,classID);
+		if(!CL)cout << "Invalid class ID, please enter again." << endl;
+	}
+	Students* st = CL->students;
+	int bit = CL->BitAttend;
+	cout << setw(20) << "Last name" << setw(20) << "first name" << setw(20) << "student ID";
+	for (int i = 0; i < 11; i++)cout << setw(10) << "Week " << i+1;
+	int i = 0;
+	cout << endl;
+	while (st)
+	{
+		if ((bit >> i) % 2 == 1 && st->Status)
+		{
+			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
+			CheckinCourse* ck = st->checkincourse;
+			while (ck)
+				if (ck->courseID == course->courseID)break;
+				else ck = ck->next;
+			int check = 0;
+			for (int j = 0; j < 11; j++) {
+				int BIT = (ck->bitweek) >> j;
+				if (BIT % 2) {
+					check = 1;
+					cout << setw(11) << "V";
+				}
+				else if (check || ck->bitweek == 0)
+					cout << setw(11) << "-";
+				else if (!check)
+					cout << setw(11) << "X";
+			}
+			cout << endl;
+		}
+		i++;
+		st = st->next;
+	}
+	OutsideStudent* OS = CL->Outsider;
+	while (OS)
+	{
+		Class = findClass(y->classes, OS->studentID);
+		st = findStudent(Class->students, OS->studentID);
+		if (st->Status)
+		{
+			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(1200) << st->studentID;
+			CheckinCourse* ck = st->checkincourse;
+			while (ck)
+				if (ck->courseID == course->courseID)break;
+				else ck = ck->next;
+			int check = 0;
+			for (int j = 0; j < 11; j++) {
+				int BIT = (ck->bitweek) >> j;
+				if (BIT % 2) {
+					check = 1;
+					cout << setw(11) << "V";
+				}
+				else if (check || ck->bitweek == 0)
+					cout << setw(11) << "-";
+				else if (!check)
+					cout << setw(11) << "X";
+			}
+			cout << endl;
+		}
+		
+
+		
+		OS = OS->next;
+}
+	
+
+
 
 }
 void View_StudentList_Course(AcademicYears* year)
