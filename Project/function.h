@@ -285,7 +285,9 @@ void View_Attendance_List(AcademicYears* AcaYear);
 #pragma endregion
 
 #pragma region Lecturer
-
+void Edit_Attend_List(AcademicYears* year);
+void Edit_ScoreBoard_Student(AcademicYears* year);
+void View_Scoreboard(AcademicYears* year);
 #pragma endregion
 
 #pragma region Student
@@ -303,6 +305,7 @@ Semesters* findSemester(Semesters* semes, char no);
 Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
 Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
+AcademicYears* inputYear(AcademicYears* year, Courses* &course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
 void AddCheckInCourse(Students*& st, string courseID);
 void AddScoreBoardCourse(Students*& st, string courseID);

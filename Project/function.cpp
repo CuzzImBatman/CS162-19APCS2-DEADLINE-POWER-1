@@ -376,7 +376,7 @@ bool checkDay(string &a, int x, bool(*compare)(int,int))
 	}
 	if (compare(sum, x) || j==0)return  false;
 	else
-		while (a[0] == '0')a.erase(0, 1);
+		while (a[0] == '0'&& a.length()>2)a.erase(0, 1);
 
 	
 	return true;
@@ -771,4 +771,37 @@ Semesters* FindSemester(AcademicYears* &AY, AcademicYears* &ay)
 	}
 	return s;
 
+}
+AcademicYears *inputYear(AcademicYears* year,Courses* &course)
+{
+
+	string courseID, classID;
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	
+	Semesters* s = NULL;
+	while (!s)
+	{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		s = y->semesters;
+		while (s)
+		{
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+	return y;
 }

@@ -121,6 +121,7 @@ void showClassOptions(AcademicYears*& year) {
 void showCourseOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
+	AcademicYears* y = NULL;
 	while (variableName) {
 		cout << endl << "Sub menu: What do you want to do? " << endl;
 		cout << "[1] Create/update/delete/view academic years, and semesters." << endl;
@@ -146,7 +147,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 3: {
-			//input(year,year->semesters)
+			
 		    AddCourse(year);
 			break;
 		}
@@ -255,7 +256,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
-
+			View_Attendance_List(year);
 			break;
 		}
 		case 3: variableName = 0;
@@ -334,27 +335,27 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 2: {
-
+               View_StudentList_Course(year);
 				break;
 			}
 			case 3: {
-				View_StudentList_Course(year);
-				break;
-			}
-			case 4: {
 				View_Attendance_List(year);
 				break;
 			}
+			case 4: {
+				Edit_Attend_List(year);
+				break;
+			}
 			case 5: {
-
+				Edit_ScoreBoard_Student(year);
 				break;
 			}
 			case 6: {
-
+				Edit_ScoreBoard_Student(year);
 				break;
 			}
 			case 7: {
-
+				View_Scoreboard(year);
 				break;
 			}
 			case 8: variableName = 0;

@@ -58,12 +58,12 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			int bit = checkincourse->bitweek >> i;
 			if (bit % 2) {
 				check = 1;
-				cout << setw(10) << "V";
+				cout << setw(11) << "V";
 			}
 			else if (check || checkincourse->bitweek == 0)
-				cout << setw(10) << "-";
+				cout << setw(11) << "-";
 			else if ( !check)
-				cout << setw(10) << "X";
+				cout << setw(11) << "X";
 		}
 		cout << endl << endl;
 		checkincourse = checkincourse->next;
