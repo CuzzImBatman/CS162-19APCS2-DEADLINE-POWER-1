@@ -55,10 +55,12 @@ void writeStaffs(Staffs* staff, char semes, string year) {
 	staffOut.close();
 }
 void writeSemesters(Semesters* semes, string year) {
+	Semesters* tempSemes = semes;
 	for (char n = 49; n < 52; n++) {
-		writeStaffs(semes->staffs, n, year);
-		writeLecturers(semes->lecturers, n, year);
-		writeCourses(semes->courses, n, year);
+		writeStaffs(tempSemes->staffs, n, year);
+		writeLecturers(tempSemes->lecturers, n, year);
+		writeCourses(tempSemes->courses, n, year);
+		tempSemes = tempSemes->next;
 	}
 }
 
@@ -118,12 +120,11 @@ void writeAcademicYears(AcademicYears* year) {
 		yearOut << n << endl;
 		tempYear = year;
 		while (tempYear) {
-			yearOut << year->year << endl;
-			writeClasses(year->classes, year->year);
-			writeSemesters(year->semesters, year->year);
+			yearOut << tempYear->year << endl;
+			writeClasses(tempYear->classes, tempYear->year);
+			writeSemesters(tempYear->semesters, tempYear->year);
 			tempYear = tempYear->next;
 		}
 	}
 	yearOut.close();
-	
 }

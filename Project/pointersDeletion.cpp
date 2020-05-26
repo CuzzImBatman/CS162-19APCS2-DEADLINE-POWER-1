@@ -1,10 +1,4 @@
 #include "function.h"
-
-void deleteAccounts(Accounts*& acc) {
-	Accounts* tempAcc = acc;
-		acc->doB = nullptr;
-}
-
 void deleteCourses(Courses*& course) {
 	//SpookyFish->SunFLower
 }
@@ -31,9 +25,9 @@ void deleteStaffs(Staffs*& staff) {
 void deleteSemesters(Semesters*& semes) {
 	Semesters* tempSemes = semes;
 	while (tempSemes) {
-		deleteStaffs(semes->staffs);
-		deleteLecturers(semes->lecturers);
-		deleteCourses(semes->courses);
+		deleteStaffs(tempSemes->staffs);
+		deleteLecturers(tempSemes->lecturers);
+		deleteCourses(tempSemes->courses);
 		Semesters* newTemp = tempSemes;
 		tempSemes = tempSemes->next;
 		delete newTemp;
@@ -53,7 +47,7 @@ void deleteStudents(Students*& st) {
 void deleteClasses(Classes*& Class) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		deleteStudents(Class->students);
+		deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
 		tempClass = tempClass->next;
 		delete newTemp;

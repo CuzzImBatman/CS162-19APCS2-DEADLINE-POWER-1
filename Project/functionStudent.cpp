@@ -71,7 +71,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 void viewSchedule(Students* student) {
 
 	cout << setw(10);
-	cout << "Monay";
+	cout << "Monday";
 	cout << setw(10);
 	cout << "Tueseday";
 	cout << setw(10);
