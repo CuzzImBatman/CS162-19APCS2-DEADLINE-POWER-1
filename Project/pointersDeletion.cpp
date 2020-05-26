@@ -1,4 +1,8 @@
 #include "function.h"
+
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteScoreBoardStudent(Students*& ST);
+
 void deleteOutsider(OutsideStudent* OS)
 {
 	while (OS)
