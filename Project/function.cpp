@@ -26,12 +26,6 @@
 
 
 #pragma region EditCourse
-void EditCourseId(Courses * & course, string NewID, string OldID) {
-  Courses * cur = course;
-  while (cur ->  courseID != OldID)
-    cur ->  next;
-  cur ->  courseID = NewID;
-}
 void EditCourseroom(Courses * & course, string courseID, string room) {
   Courses * cur = course;
 

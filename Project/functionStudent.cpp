@@ -352,6 +352,12 @@ void EditDateOfCL(Courses*& course, string classID, string courseID)
 	cin >> curCL->endDate.year;
 
 }
+void EditCourseId(Courses*& course, string NewID, string OldID) {
+	Courses* cur = course;
+	while (cur->courseID != OldID)
+		cur->next;
+	cur->courseID = NewID;
+}
 
 void DeleleScoreBoardStudent(Students*& ST)
 {
