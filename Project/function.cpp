@@ -107,21 +107,6 @@ void DeleteScoreBoardOfCourse(Students* &ST, string courseID)
 	}
 
 }
-void DeleteCourseScheduleClass(Classes * & Class, string courseID, string classID) {
-  Classes * curCL = Class;
-  while (curCL != NULL) {
-    if (curCL ->  classID == classID) {
-      for (int i = 1; i <= 6; i++)
-        for (int j = 1; j <= 4; j++)
-          if (curCL ->  schedule[i][j] == courseID)
-            curCL ->  schedule[i][j] = "//";
-      
-      return;
-    }
-    curCL = curCL ->  next;
-  }
-
-}
 #pragma endregion
 
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
