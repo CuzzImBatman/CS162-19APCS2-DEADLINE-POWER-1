@@ -4,9 +4,31 @@ void deleteAccounts(Accounts*& acc) {
 	Accounts* tempAcc = acc;
 		acc->doB = nullptr;
 }
+void deleteOutsider(OutsideStudent* OS)
+{
+	while (OS)
+	{
+		OutsideStudent* tmp = OS;
+		OS = OS->next;
+		delete tmp;
+	}
+}
 
 void deleteCourses(Courses*& course) {
-	//SpookyFish->SunFLower
+	while (course)
+	{
+		CourseClass* CL = course->courseclass;
+		while (CL)
+		{
+			deleteOutsider(CL->Outsider);
+			CourseClass* tmpCL = CL;
+			CL = CL->next;
+			delete tmpCL;
+		}
+		Courses* tmpCS = course;
+		course = course->next;
+		delete tmpCS;
+	}
 }
 void deleteLecturers(Lecturers*& lect) {
 	Lecturers* tempLect = lect;
@@ -31,9 +53,9 @@ void deleteStaffs(Staffs*& staff) {
 void deleteSemesters(Semesters*& semes) {
 	Semesters* tempSemes = semes;
 	while (tempSemes) {
-		deleteStaffs(semes->staffs);
-		deleteLecturers(semes->lecturers);
-		deleteCourses(semes->courses);
+		deleteStaffs(tempSemes->staffs);
+		deleteLecturers(tempSemes->lecturers);
+		deleteCourses(tempSemes->courses);
 		Semesters* newTemp = tempSemes;
 		tempSemes = tempSemes->next;
 		delete newTemp;
@@ -45,6 +67,9 @@ void deleteStudents(Students*& st) {
 	while (tempSt) {
 		delete tempSt->account->doB;
 		delete tempSt->account;
+		DeleteCheckinCourseStudent(tempSt);
+		DeleteScoreBoardStudent(tempSt);
+
 		Students* newTemp = tempSt;
 		tempSt = tempSt->next;
 		delete newTemp;
@@ -53,10 +78,11 @@ void deleteStudents(Students*& st) {
 void deleteClasses(Classes*& Class) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		deleteStudents(Class->students);
+		if (tempClass->students)deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
 		tempClass = tempClass->next;
 		delete newTemp;
+		newTemp = NULL;
 	}
 }
 

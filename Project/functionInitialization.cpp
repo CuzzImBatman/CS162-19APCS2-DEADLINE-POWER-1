@@ -5,12 +5,12 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		acc = new Accounts;
 	int test;
 	
-	fin >> test;
+	fin >>hex>> test;
 	if(test!= 0)
 	{
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
-			fin >> acc->pwd.state[i];
+			fin >>hex>> acc->pwd.state[i];
 
 	}
 	fin >> acc->firstname;
@@ -373,7 +373,8 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 	while (curST != NULL) {
 
 		if (curST->Status == 1)
-			courseclass->BitAttend += 1 >> i;
+			if (!i)courseclass->BitAttend = 1;
+			else courseclass->BitAttend +=( 1 << i);
 		i++;
 		curST = curST->next;
 	}

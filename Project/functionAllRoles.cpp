@@ -98,11 +98,11 @@ void showClassOptions(AcademicYears*& year) {
 			break;
 		}
 		case 4: {
-			removeAStudent(year->classes);
+			removeAStudent(year->classes,  year->semesters->courses,year->semesters->semesterNo,year->year);
 			break;
 		}
 		case 5: {
-			changeClassForStudents(year->classes,year->semesters->courses);
+			changeClassForStudents(year->classes,year->semesters->courses, year->semesters->semesterNo, year->year);
 			break;
 		}
 		case 6: {
@@ -147,6 +147,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 3: {
+			//input(year,year->semesters)
 		    AddCourse(year->semesters->courses, year->classes);
 			break;
 		}
@@ -428,10 +429,9 @@ void changePwd(Accounts*& acc) {
 	{
 		cout << "Type in your new password again to confirm." << endl;
 		cin >> conPwd;
-		if(newPwd == conPwd)
+		if(newPwd != conPwd)
 		cout << endl << "The new password does not match with confirm password." << endl;
 	} while (newPwd != conPwd);
-	
 	
 	sha256_init(&acc->pwd);
 	sha256_update(&acc->pwd, conPwd, conPwd.length());

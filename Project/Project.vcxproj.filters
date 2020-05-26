@@ -42,10 +42,10 @@
     <ClCompile Include="sha256.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="functionImport.cpp">
+    <ClCompile Include="pointersDeletion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pointersDeletion.cpp">
+    <ClCompile Include="functionIExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
