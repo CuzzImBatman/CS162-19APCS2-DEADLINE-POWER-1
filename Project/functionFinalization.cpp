@@ -2,17 +2,68 @@
 
 void writeAccounts(ofstream& fout, Accounts* acc){
 	fout << acc->uName << endl;
-	//SpookyFish: cout << cais gif maf soos 0 cuar m ddaays SunFLower
+	for (int i = 0; i < 8; i++)
+		fout << hex << setw(8) << setfill('0') << acc->pwd.state[i]<<endl;
 	fout << acc->firstname << endl;
 	fout << acc->lastname << endl;
 	fout << acc->gender << endl;
 	fout << acc->doB->day << endl;
 	fout << acc->doB->month << endl;
-	fout << acc->doB->year << endl;
+	fout << acc->doB->year << endl<<endl;
 }
 
 void writeCourses(Courses* course, char semes, string year) {
-	//SpookyFish: import cc gif cuar SunFlower
+	ofstream out;
+	string Cout = "Yr" + year + "_Sem" + semes + "_CourseDB_TEST.txt";
+	out.open(Cout);
+
+	int i = 0;
+	Courses* cs = course;
+	while (cs)
+	{
+		i++;
+		cs = cs->next;
+	}
+	out << i << endl;
+	while (course)
+	{
+		out << course->courseID << endl;
+		out << course->courseName << endl;
+		out << course->LectureName << endl;
+		CourseClass* CL = course->courseclass;
+		i = 0;
+		while (CL)
+		{
+			i++;
+			CL = CL->next;
+		}
+		out << i << endl;
+		CL = course->courseclass;
+		while (CL)
+		{
+			out << CL->classID<<endl;
+			out << CL->BitAttend<<endl;
+			OutsideStudent* OS = CL->Outsider;
+			i = 0;
+			while (OS)
+			{
+				i++;
+				OS = OS->next;
+			}
+			out << i << endl;
+			OS = CL->Outsider;
+			while (OS)
+			{
+				out << OS->studentID<<endl;
+				out << OS->classID<<endl;
+				OS = OS->next;
+			}
+			CL = CL->next;
+
+		}
+		out << course->room << endl << endl;;
+		course = course->next;
+	}
 }
 void writeLecturers(Lecturers* lect, char semes, string year) {
 	Lecturers* tempLect = lect;
@@ -65,10 +116,10 @@ void writeSemesters(Semesters* semes, string year) {
 }
 
 void writeStudents(Students* st, string Class, string year) {
-	//SpookyFish->Sunflower
-	/*Students* tempSt = st;
+
+	Students* tempSt = st;
 	ofstream stOut;
-	string fileOut = "Yr" + year + "_Cl" + Class + "_StudentDB.txt";
+	string fileOut = "Yr" + year + "_Cl" + Class + "_StudentDB_TEST.txt";
 	stOut.open(fileOut);
 	if (stOut.is_open()) {
 		int n = 0;
@@ -83,7 +134,7 @@ void writeStudents(Students* st, string Class, string year) {
 			tempSt = tempSt->next;
 		}
 	}
-	stOut.close();*/
+	stOut.close();
 }
 void writeClasses(Classes* Class, string year) {
 	Classes* tempClass = Class;
@@ -100,6 +151,12 @@ void writeClasses(Classes* Class, string year) {
 		tempClass = Class;
 		while (tempClass) {
 			classOut << tempClass->classID << endl;
+			for (int j = 0; j < 4; j++)
+			{
+				for (int i = 0; i < 6; i++)
+					classOut << tempClass->schedule[i][j] << " ";
+				classOut << endl;
+			}
 			writeStudents(tempClass->students, tempClass->classID, year);
 			tempClass = tempClass->next;
 		}

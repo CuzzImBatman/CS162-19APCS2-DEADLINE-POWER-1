@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <string>
 #include "sha256.h"
+#include<stdio.h>
+
 using namespace std;
 
 #pragma region Naming rule
@@ -104,8 +106,7 @@ struct OutsideStudent
     OutsideStudent* next=NULL;
 
 };
-
-int numberOfDay(Date x, Date y);
+//int numberOfDay(Date x, Date y);
 
 struct CourseClass
 {
@@ -129,7 +130,7 @@ struct Courses
     string room;
     string LectureName;
     Courses* next = NULL;
-   
+
 };
 
 struct Classes
@@ -216,8 +217,8 @@ int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 void importAClassFromCsvFile(Classes*& aClass);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
-void removeAStudent(Classes*& aClass);
-void changeClassForStudents(Classes*& classes, Courses*& course);
+void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
+void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year);
 void viewListOfClasses(Classes* aClass);
 void viewListOfStudentsInAClass(Classes* aClass);
 

@@ -1,5 +1,5 @@
 #include "function.h"
-
+#include<stdio.h>
 Students* findStudent(Students* st, string stID);
 Classes* findClass(Classes* Class, string ClassID);
 
@@ -159,7 +159,7 @@ void editAStudent(Classes*& aClass) {
 		cin >> choice;
 	}
 }
-void removeAStudent(Classes*& aClass) {
+void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year) {
 	cout << endl << "Enter the class from which you want to remove a student: ";
 	string Class;
 	cin >> Class;
@@ -176,7 +176,7 @@ void removeAStudent(Classes*& aClass) {
 	cout << "Enter the student's ID: ";
 	string studentToRemove;
 	cin >> studentToRemove;
-	Students* tmpSt = nullptr;
+	Students* tmpSt = nullptr, * tmp = tmpClass->students;
 	while (true) {
 		tmpSt = findStudent(tmpClass->students, studentToRemove);
 		if (tmpSt && tmpSt->Status==1)
@@ -185,8 +185,50 @@ void removeAStudent(Classes*& aClass) {
 		cout << "Enter the student's ID: ";
 		cin >> studentToRemove;
 	}
-	tmpSt->Status = -2;
-	cout << "The student is successfully removed." << endl;
+	tmpSt = tmpClass->students;
+	if (tmpSt->studentID == studentToRemove)
+	{
+		string s = "Yr" + year + "_Sem" + semes + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+		RemoveFile(s);
+		DeleteScoreBoardStudent(tmpSt);
+		DeleteCheckinCourseStudent(tmpSt);
+		DeleteStudentFromCourses(tmpSt->studentID, tmpClass->classID, course);
+		tmpClass->students = tmpClass->students->next;
+		delete tmpSt->account->doB;
+		delete tmpSt->account;
+		delete tmpSt;
+		tmpSt = NULL;
+		cout << "The student is successfully removed." << endl;
+		return;
+
+	}
+	tmp = tmpClass->students;
+	while (tmpSt)
+	{
+		if (tmpSt->studentID == studentToRemove)
+		{
+			DeleteScoreBoardStudent(tmpSt);
+			DeleteCheckinCourseStudent(tmpSt);
+			DeleteStudentFromCourses(tmpSt->studentID, tmpClass->classID, course);
+			Students* del = tmpSt;
+			tmp->next = tmpSt->next;
+			tmpSt = tmpSt->next;
+			delete del->account->doB;
+			delete del->account;
+			delete del;
+			del = NULL;
+			cout << "The student is successfully removed." << endl;
+			return;
+		}
+
+		tmp = tmpSt;
+		tmpSt = tmpSt->next;
+	}
+
+
+	/*tmpSt->Status = -2;
+	cout << "The student is successfully removed." << endl;*/
+
 	/*cout << "Enter the student's ID: ";
 	string studentToRemove;
 	cin >> studentToRemove;*/
@@ -201,7 +243,7 @@ void removeAStudent(Classes*& aClass) {
 		tmp = tmp->next;*/
 	
 }
-void changeClassForStudents(Classes*& classes, Courses*& course) {
+void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year) {
 	cout << endl << "Enter the class from which you want to change the students: ";
 	string classA;
 	cin >> classA;
@@ -238,9 +280,40 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 		cout << "Enter the student's ID: ";
 		cin >> studentToChange;
 	}
-	tmpSt->Status = -1;
+	string s = "Yr" + year + "_Sem" + semes + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+	RemoveFile(s);
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
+	AddSt->studentID = tmpSt->studentID;
+	if (tmpSt->studentID == studentToChange)
+	{
+		DeleteScoreBoardStudent(tmpSt);
+		DeleteCheckinCourseStudent(tmpSt);
+		DeleteStudentFromCourses(tmpSt->studentID, tmpClassA->classID, course);
+		tmpClassA->students = tmpClassA->students->next;
+		delete tmpSt;
+		tmpSt = NULL;
+	}
+	Students*  tmp = tmpClassA->students;
+	while (tmpSt)
+	{
+		if (tmpSt->studentID == studentToChange)
+		{
+			DeleteScoreBoardStudent(tmpSt);
+			DeleteCheckinCourseStudent(tmpSt);
+			DeleteStudentFromCourses(tmpSt->studentID, tmpClassA->classID, course);
+			Students* del = tmpSt;
+			tmp->next = tmpSt->next;
+			tmpSt = tmpSt->next;
+			delete del;
+			del = NULL;
+			break;
+		}
+
+		tmp = tmpSt;
+		tmpSt = tmpSt->next;
+	}
+	
 	
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
@@ -253,7 +326,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course) {
 			}
 		}
 	
-	AddSt->studentID = tmpSt->studentID;
+	
 	AddSt->Status = 1;
 	FillCheckinCourse(AddSt);
 	AddSt->next = tmpClassB->students;
@@ -715,7 +788,7 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	{
 		cout << "Class ID of Student: ";
 		cin >> classSTID;
-		curCL = findClass(curCL, classSTID);
+		curCL = findClass(Class, classSTID);
 		if (!curCL)cout << "invalid class ID. Please enter agian." << endl;
 		else break;
 	}
@@ -732,7 +805,6 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 	{
 		cout << "Class ID of course you want to add student: " << endl;
 		cin >> classID;
-		CourseClass* courseclass = NULL;
 		courseclass = findCL(curCourse->courseclass, classID);
 		if(!courseclass)cout << "invalid class ID. Please enter agian." << endl;
 	}
@@ -756,9 +828,9 @@ void AddStudentToCourseClass(Courses*& course, Classes*& Class) {
 			curST = curST->next;
 
 	///
-	if (!curST) return;
+	if (curST) return;
 	OutsideStudent* Outsider = new OutsideStudent;
-	Outsider->classID = classID;
+	Outsider->classID = classSTID;
 	Outsider->studentID = studentID;
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
