@@ -1,24 +1,2 @@
-﻿  function.cpp
-D:\CS162_Project\Project\function.cpp(7,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(13,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(19,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(372,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(387,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(393,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(407,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(413,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162_Project\Project\function.cpp(419,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  functionAllRoles.cpp
-  functionFinalization.cpp
-  functionInitialization.cpp
-  functionLecturer.cpp
-  functionStaff.cpp
-  functionStudent.cpp
-  main.cpp
-  pointersDeletion.cpp
-  sha256.cpp
-D:\CS162_Project\Project\function.cpp(439,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  functionIExport.cpp
-  Generating Code...
-D:\CS162_Project\Project\sha256.cpp(116,57): warning C4244: '=': conversion from 'unsigned __int64' to 'BYTE', possible loss of data
+﻿  functionFinalization.cpp
   Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe
