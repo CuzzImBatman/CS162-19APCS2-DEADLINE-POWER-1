@@ -20,17 +20,6 @@
 
 
 #pragma region Add
-void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth,int check) {
-	
-	Students* curST = Class->students;
-	while (curST != NULL)
-	{
-		AddCourseToStudent(curST, courseID, DayInWeek, AtNth,check);
-		curST = curST->next;
-	}
-
-	
-}
 void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
 
 	Courses* curCS =findCourse(course,courseID);
