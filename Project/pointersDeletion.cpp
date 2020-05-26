@@ -1,9 +1,4 @@
 #include "function.h"
-
-void deleteAccounts(Accounts*& acc) {
-	Accounts* tempAcc = acc;
-		acc->doB = nullptr;
-}
 void deleteOutsider(OutsideStudent* OS)
 {
 	while (OS)

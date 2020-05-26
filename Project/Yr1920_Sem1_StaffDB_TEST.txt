@@ -1,7 +1,6 @@
 3
 httu
 <<<<<<< HEAD
-=======
 8d6e9bcc
 ac8aed38
 7ad341a7
@@ -10,7 +9,8 @@ a17a9337
 bb45a4e4
 8cbf4354
 26fc3551
->>>>>>> NewJoey
+=======
+>>>>>>> master
 Tu
 Hoang Thanh
 F
@@ -18,8 +18,6 @@ F
 01
 1989
 <<<<<<< HEAD
-ntmphuc
-=======
 
 ntmphuc
 ade063e3
@@ -30,7 +28,9 @@ f09b24eb
 0cedd2cc
 0eecfd8a
 6bf418dc
->>>>>>> NewJoey
+=======
+ntmphuc
+>>>>>>> master
 Phuc
 Nguyen Thi Minh
 F
@@ -38,8 +38,6 @@ F
 02
 1990
 <<<<<<< HEAD
-ltathao
-=======
 
 ltathao
 5cfffa11
@@ -50,7 +48,9 @@ faed3d87
 5bcb0097
 1f45d5f8
 101fb629
->>>>>>> NewJoey
+=======
+ltathao
+>>>>>>> master
 Thao
 Le Thi Anh
 F
@@ -58,6 +58,6 @@ F
 03
 1991
 <<<<<<< HEAD
-=======
 
->>>>>>> NewJoey
+=======
+>>>>>>> master
