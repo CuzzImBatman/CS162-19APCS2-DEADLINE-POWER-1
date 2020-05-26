@@ -306,7 +306,6 @@ CourseClass* findCL(CourseClass* CL, string classID);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
 void AddCheckInCourse(Students*& st, string courseID);
 void AddScoreBoardCourse(Students*& st, string courseID);
-void DeleleScoreBoardStudent(Students*& ST);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 void DeleteScoreBoardStudent(Students * &ST);
 void DeleteCheckinCourseStudent(Students*& St);
@@ -328,7 +327,6 @@ void writeAcademicYears(AcademicYears* year);
 #pragma endregion
 
 #pragma region PointersDeletion
-void deleteAccounts(Accounts*& acc);
 void deleteCourses(Courses*& course);
 void deleteLecturers(Lecturers*& lect);
 void deleteStaffs(Staffs*& staff);
