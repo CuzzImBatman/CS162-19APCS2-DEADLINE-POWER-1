@@ -93,7 +93,6 @@ void sha256_update(SHA256_CTX* ctx, string data, size_t len)
 			ctx->datalen = 0;
 		}
 	}
-
 	i = ctx->datalen;
 
 
@@ -111,12 +110,12 @@ void sha256_update(SHA256_CTX* ctx, string data, size_t len)
 
 	}
 
-	ctx->bitlen += (unsigned long long)ctx->datalen *(unsigned long long) 8;
+	ctx->bitlen += ctx->datalen * 8;
 
 
-	for (i = 0; i < 8; i++)ctx->data[63 - i] = (BYTE)ctx->bitlen >> (8 * i);
+	for (i = 0; i < 8; i++)ctx->data[63 - i] = ctx->bitlen >> (8 * i);
 
 	sha256_transform(ctx, ctx->data);
-
 }
+
 
