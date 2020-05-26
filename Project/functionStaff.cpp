@@ -386,13 +386,6 @@ void createAcademicYear(AcademicYears*& year)
 	
 	newYear->next = year;
 	year = newYear;
-
-	AcademicYears* tmp = year;
-	while (tmp)
-	{
-		cout << tmp->year;
-		tmp = tmp->next;
-	}
 }
 
 void updateAcademicYear(AcademicYears* year)
@@ -436,8 +429,8 @@ void updateAcademicYear(AcademicYears* year)
 void staff_deleteClasses(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB.txt";
-		remove(const_cast<char*>(fileName.c_str()));
+		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB_TEST.txt";
+		RemoveFile(fileName);
 		deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
 		tempClass = tempClass->next;
@@ -473,20 +466,16 @@ void staff_deleteAcademicYear(AcademicYears*& year)
 	staff_deleteClasses(tempYear->classes, tempYear->year);
 	deleteSemesters(tempYear->semesters);
 	string fileName;
-	fileName = "Yr" + year->year + "_ClassDB_TEST.txt";
-	remove(const_cast<char*>(fileName.c_str()));
-	char* c;
+	fileName = "Yr" + tempYear->year + "_ClassDB_TEST.txt";
+	RemoveFile(fileName);
 	for (int i = 49; i < 53; i++)
 	{
-		fileName = "Yr" + year->year + "_Sem" + (char)i + "_LecturerDB_TEST.txt";
-		c = const_cast<char*>(fileName.c_str());
-		remove(c);
-		fileName = "Yr" + year->year + "_Sem" + (char)i + "_StaffDB_TEST.txt";
-		c = const_cast<char*>(fileName.c_str());
-		remove(c);
-		fileName = "Yr" + year->year + "_Sem" + (char)i + "_CourseDB_TEST.txt";
-		c = const_cast<char*>(fileName.c_str());
-		remove(c);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_LecturerDB_TEST.txt";
+		RemoveFile(fileName);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_StaffDB_TEST.txt";
+		RemoveFile(fileName);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_CourseDB_TEST.txt";
+		RemoveFile(fileName);
 	}
 	delete tempYear;
 }

@@ -303,9 +303,12 @@ void deleteSemesters(Semesters*& semes);
 void deleteStudents(Students*& st);
 void deleteClasses(Classes*& Class);
 void deleteAcademicYears(AcademicYears*& year);
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteScoreBoardStudent(Students*& ST);
+void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 #pragma endregion
 #pragma endregion
-
+void RemoveFile(string s);
 #pragma region Tasks
 /*
 All roles
