@@ -1,5 +1,4 @@
 #include "function.h"
-
 int login(AcademicYears* year, Accounts*& acc, string pwd) {
 	if (acc->uName[0] <= 57) {
 		//student
@@ -452,10 +451,6 @@ void viewProfile(Accounts* acc) {
 	}
 	cout << "Username: " << acc->uName << endl;
 	cout << endl;
-	int choice;
-	bool variableName = 1;
-
-	
 }
 
 void logout(Accounts*& acc) {

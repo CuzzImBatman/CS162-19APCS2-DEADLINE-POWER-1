@@ -1,9 +1,4 @@
 #include "function.h"
-
-void deleteAccounts(Accounts*& acc) {
-	Accounts* tempAcc = acc;
-		acc->doB = nullptr;
-}
 void deleteOutsider(OutsideStudent* OS)
 {
 	while (OS)
@@ -78,7 +73,7 @@ void deleteStudents(Students*& st) {
 void deleteClasses(Classes*& Class) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		if (tempClass->students)deleteStudents(tempClass->students);
+		deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
 		tempClass = tempClass->next;
 		delete newTemp;

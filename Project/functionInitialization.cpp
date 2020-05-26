@@ -4,7 +4,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	if (!acc)
 		acc = new Accounts;
 	int test;
-	
+
 	fin >>hex>> test;
 	if(test!= 0)
 	{
@@ -21,14 +21,14 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	fin >> acc->doB->day;
 	fin >> acc->doB->month;
 	fin >> acc->doB->year;
-	if (test)return;
+	if (test) return;
 	string pwd = acc->doB->day + acc->doB->month + acc->uName;
 	sha256_init(&acc->pwd);
 	sha256_update(&acc->pwd ,pwd, pwd.length());
 }
 
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
-	
+
 	int check = 0;
 	Classes* cl = Class;
 	Students* st;
@@ -37,7 +37,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 		int k = 0;
 		st = cl->students;
 		while (st)
-		{     
+		{
 			if (st->Status >= 0)
 			{
 				k = 1;
@@ -62,10 +62,10 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 		if (k)break;
 		cl = cl->next;
 	}
-	
 
 
-	
+
+
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
@@ -86,10 +86,10 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 					InitClassToCourse(Class, courseIn, tempCourse,check);
 				tempCourse->next = course;
 				course = tempCourse;
-			
+
 			n--;
 		}
-		
+
 	}
 	courseIn.close();
 }
@@ -163,7 +163,7 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class){
 			staffInit(semes->staffs, semes->semesterNo, year);
 			lecturerInit(semes->lecturers, semes->semesterNo, year);
 			courseInit(semes->courses, semes->semesterNo, year, Class);
-			
+
 			tempSemes = semes;
 		}
 		else {
@@ -199,7 +199,7 @@ void studentInit(Students*& st, string Class, string year) {
 					for (int j = 0; j < 4; j++)
 						st->schedule[i][j] = "//";
 				tempSt = st;
-				
+
 			}
 			else {
 				tempSt->next = new Students;
@@ -211,7 +211,7 @@ void studentInit(Students*& st, string Class, string year) {
 				for (int i = 0; i < 6; i++)
 					for (int j = 0; j < 4; j++)
 						tempSt->next->schedule[i][j] = "//";
-				
+
 				tempSt = tempSt->next;
 			}
 			n--;
@@ -288,7 +288,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 
 
 	CourseClass* courseclass = new CourseClass;
-	
+
 	courseIn >> courseclass->startDate.day;
 	courseIn >> courseclass->startDate.month;
 	courseIn >> courseclass->startDate.year;
