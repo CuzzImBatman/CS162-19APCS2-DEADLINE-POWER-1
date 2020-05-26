@@ -1,5 +1,5 @@
 #include "function.h"
-#include<stdio.h>
+#include <stdio.h>
 Students* findStudent(Students* st, string stID);
 Classes* findClass(Classes* Class, string ClassID);
 

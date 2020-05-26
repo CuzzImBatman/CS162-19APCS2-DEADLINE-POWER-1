@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <string>
 #include "sha256.h"
-#include<stdio.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -290,7 +290,6 @@ void writeClasses(Classes* Class, string year);
 void writeAcademicYears(AcademicYears* year);
 #pragma endregion
 #pragma region Pointers Deletion
-void deleteAccounts(Accounts*& acc);
 void deleteCourses(Courses*& course);
 void deleteLecturers(Lecturers*& lect);
 void deleteStaffs(Staffs*& staff);
