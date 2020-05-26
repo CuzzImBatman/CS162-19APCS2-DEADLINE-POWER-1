@@ -1,5 +1,6 @@
 3
 httu
+<<<<<<< HEAD
 8d6e9bcc
 ac8aed38
 7ad341a7
@@ -8,12 +9,15 @@ a17a9337
 bb45a4e4
 8cbf4354
 26fc3551
+=======
+>>>>>>> master
 Tu
 Hoang Thanh
 F
 01
 01
 1989
+<<<<<<< HEAD
 
 ntmphuc
 ade063e3
@@ -24,12 +28,16 @@ f09b24eb
 0cedd2cc
 0eecfd8a
 6bf418dc
+=======
+ntmphuc
+>>>>>>> master
 Phuc
 Nguyen Thi Minh
 F
 02
 02
 1990
+<<<<<<< HEAD
 
 ltathao
 5cfffa11
@@ -40,10 +48,16 @@ faed3d87
 5bcb0097
 1f45d5f8
 101fb629
+=======
+ltathao
+>>>>>>> master
 Thao
 Le Thi Anh
 F
 03
 03
 1991
+<<<<<<< HEAD
 
+=======
+>>>>>>> master

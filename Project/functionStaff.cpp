@@ -871,7 +871,7 @@ void AddStudentToCourseClass(AcademicYears* year) {
 	}
 	///
 	int i = 0;
-	 curST = courseclass->students;
+	curST = courseclass->students;
 	while (curST != NULL)
 		if (curST->studentID == studentID)
 			if ((courseclass->BitAttend >> i) % 2)
