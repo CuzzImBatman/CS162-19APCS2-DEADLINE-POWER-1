@@ -133,7 +133,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pointersDeletion.cpp" />
     <ClCompile Include="sha256.cpp" />
-    <ClCompile Include="functionIExport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h" />

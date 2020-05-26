@@ -114,7 +114,18 @@ void writeSemesters(Semesters* semes, string year) {
 		tempSemes = tempSemes->next;
 	}
 }
+void writeScoreBoard(Students* st, string year)
+{
+	Scoreboards* SB = st->scoreboards;
+	ofstream out;
+	out.open("Yr" + year + "_StudentID" + st->studentID + "ScoreBoard.txt");
+	while (SB)
+	{
+		out << SB->courseName << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
+		SB = SB->next;
+	}
 
+}
 void writeStudents(Students* st, string Class, string year) {
 
 	Students* tempSt = st;
@@ -131,6 +142,7 @@ void writeStudents(Students* st, string Class, string year) {
 		tempSt = st;
 		while (tempSt) {
 			writeAccounts(stOut, tempSt->account);
+			writeScoreBoard(tempSt, year);
 			tempSt = tempSt->next;
 		}
 	}

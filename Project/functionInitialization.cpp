@@ -41,14 +41,14 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 			if (st->Status >= 0)
 			{
 				k = 1;
-				ifstream SBinit("Yr" + year + "_Sem" + semes + "_StudentID" + st->studentID + "ScoreBoard.txt");
+				ifstream SBinit("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
 				if (SBinit.is_open())
 				{
-					string courseID;
-					while (SBinit >> courseID)
+					string coursename;
+					while (SBinit >> coursename)
 					{
 						Scoreboards* SB = new Scoreboards;
-						SB->courseName = courseID;
+						SB->courseName = coursename;
 						SBinit >> SB->labScore;
 						SBinit >> SB->midtermScore;
 						SBinit >> SB->finalScore;
@@ -224,7 +224,7 @@ void scheduleInit(string schedule[6][4],ifstream& in)
 
 	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 6; i++)
-			in >> schedule[i][j];
+			 schedule[i][j]="//";
 }
 void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
@@ -348,7 +348,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 		courseclass->Outsider = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course->courseID, courseclass->DayInWeek, courseclass->AtNth,check);
+		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,check);
 
 	}
 	courseIn >> course->room;
@@ -380,7 +380,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 	}
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course->courseID, DayInWeek, AtNth, check);
+	AddCourseToClass(curCL, course, DayInWeek, AtNth, check);
 
 
 }
