@@ -241,6 +241,11 @@ void viewLecturer(AcademicYears* year);
 #pragma endregion
 
 #pragma region Course
+void createAcademicYear(AcademicYears*& year);
+void updateAcademicYear(AcademicYears* year);
+void staff_deleteAcademicYear(AcademicYears*& year);
+void viewAcademicYear(AcademicYears* year);
+
 void EditCourse(Courses*& course,Classes *&Class);
 void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class);
 void AddStudentToCourseClass(Courses*& course,Classes * &Class );

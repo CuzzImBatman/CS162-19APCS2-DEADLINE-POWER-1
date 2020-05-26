@@ -118,9 +118,9 @@ void writeAcademicYears(AcademicYears* year) {
 		yearOut << n << endl;
 		tempYear = year;
 		while (tempYear) {
-			yearOut << year->year << endl;
-			writeClasses(year->classes, year->year);
-			writeSemesters(year->semesters, year->year);
+			yearOut << tempYear->year << endl;
+			writeClasses(tempYear->classes, tempYear->year);
+			writeSemesters(tempYear->semesters, tempYear->year);
 			tempYear = tempYear->next;
 		}
 	}
