@@ -218,6 +218,50 @@ void AddCourseToClass(Classes*& Class, string courseID, int DayInWeek, int AtNth
 
 
 }
+void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
+
+	Courses* curCS = findCourse(course, courseID);
+
+
+	CourseClass* courseclass = new CourseClass;
+	courseclass->classID = classID;
+
+	cout << "Start Day: ";
+	cin >> courseclass->startDate.day;
+	cin >> courseclass->startDate.month;
+	cin >> courseclass->startDate.year;
+	cout << "End Day: ";
+	cin >> courseclass->endDate.day;
+	cin >> courseclass->endDate.month;
+	cin >> courseclass->endDate.year;
+	cout << "Day in Week: ";
+	cin >> courseclass->DayInWeek;
+	cout << "Nth class: ";
+	cin >> courseclass->AtNth;
+	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
+	//int week= 3;/// just EX
+
+	Classes* curCL = findClass(Class, classID);
+
+	curCL->schedule[DayInWeek][AtNth] = courseID;
+
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+	int i = 0;
+	while (curST != NULL) {
+
+		if (curST->Status == 1)
+			courseclass->BitAttend += 1 >> i;
+		i++;
+		curST = curST->next;
+	}
+	AddCourseToClass(curCL, courseID, DayInWeek, AtNth, 0);
+
+	courseclass->next = curCS->courseclass;
+	curCS->courseclass = courseclass;
+
+}
 
 void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID, Classes*& Class) {
 	Classes* curCL = findClass(Class, classID);
