@@ -64,7 +64,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			else if ( !check)
 				cout << setw(10) << "X";
 		}
-		cout << endl;
+		cout << endl << endl;
 		checkincourse = checkincourse->next;
 	}
 
