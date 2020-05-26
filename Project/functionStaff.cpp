@@ -376,6 +376,142 @@ void viewListOfStudentsInAClass(Classes* aClass) {
 #pragma endregion
 
 #pragma region Course
+void createAcademicYear(AcademicYears*& year)
+{
+	ofstream out;
+	AcademicYears* newYear = new AcademicYears;
+	cout << "Please enter the academic year: ";
+	cin >> newYear->year;
+	newYear->semesters = new Semesters;
+	newYear->classes = nullptr;
+	newYear->semesters->courses = nullptr;
+	newYear->semesters->lecturers = nullptr;
+	newYear->semesters->staffs = nullptr;
+
+	out.close();
+	
+	newYear->next = year;
+	year = newYear;
+
+	AcademicYears* tmp = year;
+	while (tmp)
+	{
+		cout << tmp->year;
+		tmp = tmp->next;
+	}
+}
+
+void updateAcademicYear(AcademicYears* year)
+{
+	if (year == nullptr)
+	{
+		cout << "No year to update!\n";
+		return;
+	}
+	string updateYear;
+	cout << "Please enter year that needs updating: ";
+	cin >> updateYear;
+	while (year != nullptr && year->year != updateYear)
+		year = year->next;
+	if (year == nullptr)
+	{
+		cout << "Can't find year!\n";
+		return;
+	}
+	int choice;
+	cout << "What do you want to update?\n"
+		"[1] Year.\n"
+		"[2] Lecturers.\n"
+		"[3] Students. \n"
+		"Your choice: ";
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:
+		cout << "Please enter new year: ";
+		cin >> year->year;
+		break;
+	case 2:
+		updateLecturer(year);
+		break;
+	case 3:
+		editAStudent(year->classes);
+		break;
+	}
+}
+void staff_deleteClasses(Classes*& Class, string year) {
+	Classes* tempClass = Class;
+	while (tempClass) {
+		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB.txt";
+		remove(const_cast<char*>(fileName.c_str()));
+		deleteStudents(tempClass->students);
+		Classes* newTemp = tempClass;
+		tempClass = tempClass->next;
+		delete newTemp;
+	}
+}
+void staff_deleteAcademicYear(AcademicYears*& year)
+{
+	if (year == nullptr)
+	{
+		cout << "No year to delete!\n";
+		return;
+	}
+	AcademicYears* prev = nullptr;
+	AcademicYears* tempYear = year;
+	cout << "Please enter year to delete: ";
+	string deletingYear;
+	cin >> deletingYear;
+	while (tempYear != nullptr && tempYear->year != deletingYear)
+	{
+		prev = year;
+		tempYear = tempYear->next;
+	}
+	if (tempYear == nullptr)
+	{
+		cout << "Can't find academic year " << deletingYear << endl;
+		return;
+	}
+		
+	else if (tempYear == year) year = year->next;
+	else prev->next = tempYear->next;
+
+	staff_deleteClasses(tempYear->classes, tempYear->year);
+	deleteSemesters(tempYear->semesters);
+	string fileName;
+	fileName = "Yr" + year->year + "_ClassDB_TEST.txt";
+	remove(const_cast<char*>(fileName.c_str()));
+	char* c;
+	for (int i = 49; i < 53; i++)
+	{
+		fileName = "Yr" + year->year + "_Sem" + (char)i + "_LecturerDB_TEST.txt";
+		c = const_cast<char*>(fileName.c_str());
+		remove(c);
+		fileName = "Yr" + year->year + "_Sem" + (char)i + "_StaffDB_TEST.txt";
+		c = const_cast<char*>(fileName.c_str());
+		remove(c);
+		fileName = "Yr" + year->year + "_Sem" + (char)i + "_CourseDB_TEST.txt";
+		c = const_cast<char*>(fileName.c_str());
+		remove(c);
+	}
+	delete tempYear;
+}
+
+void viewAcademicYear(AcademicYears* year)
+{
+	if (year == nullptr)
+	{
+		cout << "No year to view!\n";
+		return;
+	}
+	while (year)
+	{
+		cout << "Academic year:\n";
+		cout << year->year << endl;
+		year = year->next;
+	}
+}
+
 bool input(AcademicYears* AcaYear, Semesters*& semes, string& year)
 {
 	cout << "\nPlease enter Academic Year (1920/2021): ";
