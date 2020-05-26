@@ -2,6 +2,12 @@
 #include<stdio.h>
 Students* findStudent(Students* st, string stID);
 Classes* findClass(Classes* Class, string ClassID);
+void RemoveFile(string s);
+int DeleteABit(int bit, int x);
+void DeleteScoreBoardStudent(Students*& ST);
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
+
 
 #pragma region Class
 void importAClassFromCsvFile(Classes*& aClass) {
