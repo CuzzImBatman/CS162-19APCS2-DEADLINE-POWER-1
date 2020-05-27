@@ -317,23 +317,22 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 #pragma endregion
 
 #pragma region Tasks
-bool check;
 /*
 All roles
-*/check/*	1. Login
-*/check/*	2. Show menu
-*/check/*	3. View profile info
-*/check/*	4. Change password
-*/check/*	5. Logout
+			1. Login
+			2. Show menu
+			3. View profile info
+			4. Change password
+			5. Logout
 Academic staff:
 	Class
-*/check/*	6. Import students from a csv file.
-*/check/*	7. Manually add a new student to a class.
-*/check/*	8. Edit an existing student.
-*/check/*   9. Remove a student.
-*/check/*   10. Change students from class A to class B
-*/check/*	11. View list of classes.
-*/check/*	12. View list of students in a class.
+			6. Import students from a csv file.
+			7. Manually add a new student to a class.
+			8. Edit an existing student.
+		    9. Remove a student.
+		    10. Change students from class A to class B
+			11. View list of classes.
+			12. View list of students in a class.
 	Course
 			13. Create / update / delete / view academic years (2018-2019), and semesters (Fall).
 			14. From a semester, import courses such as CTT008, CTT010 from a csv file.
