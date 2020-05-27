@@ -114,6 +114,7 @@ void writeSemesters(Semesters* semes, string year) {
 		tempSemes = tempSemes->next;
 	}
 }
+
 void writeScoreBoard(Students* st, string year)
 {
 	Scoreboards* SB = st->scoreboards;

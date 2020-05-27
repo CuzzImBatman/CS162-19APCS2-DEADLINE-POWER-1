@@ -85,7 +85,7 @@ void showClassOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
+			importAClassFromCsvFile(year->classes);
 			break;
 		}
 		case 2: {
@@ -97,19 +97,19 @@ void showClassOptions(AcademicYears*& year) {
 			break;
 		}
 		case 4: {
-			removeAStudent(year->classes,  year->semesters->courses,year->semesters->semesterNo,year->year);
+			removeAStudent(year->classes, year->semesters->courses, year->semesters->semesterNo, year->year);
 			break;
 		}
 		case 5: {
-			changeClassForStudents(year->classes,year->semesters->courses, year->semesters->semesterNo, year->year);
+			changeClassForStudents(year->classes, year->semesters->courses, year->semesters->semesterNo, year->year);
 			break;
 		}
 		case 6: {
-			viewListOfClasses(year->classes);
+			viewListOfClasses(year);
 			break;
 		}
 		case 7: {
-			viewListOfStudentsInAClass(year->classes);
+			viewListOfStudentsInAClass(year);
 			break;
 		}
 		case 8: variableName = 0;
