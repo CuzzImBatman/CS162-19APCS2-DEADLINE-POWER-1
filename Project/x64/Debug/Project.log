@@ -1,7 +1,2 @@
-﻿functionAllRoles.obj : error LNK2019: unresolved external symbol "void __cdecl removeAStudent(struct Classes * &,struct Courses * &,char,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?removeAStudent@@YAXAEAPEAUClasses@@AEAPEAUCourses@@DV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) referenced in function "void __cdecl showClassOptions(struct AcademicYears * &)" (?showClassOptions@@YAXAEAPEAUAcademicYears@@@Z)
-    Hint on symbols that are defined and could potentially match:
-      "void __cdecl removeAStudent(struct Classes * &)" (?removeAStudent@@YAXAEAPEAUClasses@@@Z)
-functionAllRoles.obj : error LNK2019: unresolved external symbol "void __cdecl changeClassForStudents(struct Classes * &,struct Courses * &,char,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?changeClassForStudents@@YAXAEAPEAUClasses@@AEAPEAUCourses@@DV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) referenced in function "void __cdecl showClassOptions(struct AcademicYears * &)" (?showClassOptions@@YAXAEAPEAUAcademicYears@@@Z)
-    Hint on symbols that are defined and could potentially match:
-      "void __cdecl changeClassForStudents(struct Classes * &,struct Courses * &)" (?changeClassForStudents@@YAXAEAPEAUClasses@@AEAPEAUCourses@@@Z)
-C:\Users\thduo\Documents\APCS material\CS162\Projects\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe : fatal error LNK1120: 2 unresolved externals
+﻿  functionStudent.cpp
+  Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe

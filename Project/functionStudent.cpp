@@ -1,5 +1,5 @@
 #include "function.h"
-
+#include <stdio.h>
 using namespace std;
 /*Classes* findClass(Classes* Class, string ClassID) {
 	Classes* temp = Class;
@@ -23,10 +23,10 @@ Courses* findCourse(Courses* course, string ID) {
 void Tick(Students* student) {
 	CheckinCourse* cur = student->checkincourse;
 	cout << "Current week : ";
-	int week;
+	int week; 
 	cin >> week;
 	string courseID;
-	cout << "the ID of course you want to checkin this week" << endl;
+	cout << "the ID of course you want to checkin this week"<<endl;
 	cin >> courseID;
 	while (cur != NULL)
 	{
@@ -43,13 +43,12 @@ void Tick(Students* student) {
 	}
 
 	cout << "Cannot check  in Course";
-	return;
+	return ;
 
 }
 
 
 void viewCheckIn(CheckinCourse* checkincourse) {
-	
 	while (checkincourse != NULL) {
 		int check = 0;
 		int bit = checkincourse->bitweek;
@@ -65,7 +64,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			else if ( !check)
 				cout << setw(10) << "X";
 		}
-		cout << endl;
+		cout << endl << endl;
 		checkincourse = checkincourse->next;
 	}
 
@@ -101,8 +100,8 @@ void viewScoreCourse(Students* student) {
 	cin >> courseID;
 	Scoreboards* scoreboard = student->scoreboards;
 	while (scoreboard != NULL)
-		if (scoreboard->courseName == courseID) {
-			cout << courseID << endl;
+		if (scoreboard->courseID == courseID) {
+			cout << courseID <<" "<< scoreboard->courseName<<endl;
 			cout << setw(20) << "midtermScore";
 			cout << setw(20) << "finalScore";
 			cout << setw(20) << "labScore";
@@ -118,3 +117,7 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
+
+
+
+//CheckStatusStudent

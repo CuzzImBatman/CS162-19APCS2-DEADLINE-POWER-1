@@ -1,6 +1,5 @@
 2
 dbtien
-<<<<<<< HEAD
 d63e9ed1
 07b5838f
 0a407a33
@@ -9,15 +8,12 @@ d63e9ed1
 0ae7aaef
 4330fd77
 1a83c8b6
-=======
->>>>>>> master
 Tien
 Dinh Ba
 M
 01
 01
 1990
-<<<<<<< HEAD
 
 nhanh
 76b628ea
@@ -28,16 +24,10 @@ e445c269
 c11178b7
 c4924213
 a750e75f
-=======
-nhanh
->>>>>>> master
 Anh
 Nguyen Huu
 M
 02
 02
 1991
-<<<<<<< HEAD
 
-=======
->>>>>>> master
