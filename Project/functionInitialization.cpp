@@ -29,10 +29,6 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 
-	int check = 0;
-	
-
-
 	ifstream courseIn;
 	char no = '1';
 	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
@@ -50,7 +46,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
-					InitClassToCourse(Class, courseIn, tempCourse,check,year);
+					InitClassToCourse(Class, courseIn, tempCourse,year);
 				tempCourse->next = course;
 				course = tempCourse;
 
@@ -251,7 +247,7 @@ void academicYearInit(AcademicYears*& year) {
 	}
 	yearIn.close();
 }
-void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int check,  string year) {
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  string year) {
 
 
 	CourseClass* courseclass = new CourseClass;
@@ -315,7 +311,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 		courseclass->Outsider = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,check,year);
+		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,year);
 
 	}
 	courseIn >> course->room;
@@ -347,7 +343,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 	}
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course, DayInWeek, AtNth, check,year);
+	AddCourseToClass(curCL, course, DayInWeek, AtNth,year);
 
 
 }
