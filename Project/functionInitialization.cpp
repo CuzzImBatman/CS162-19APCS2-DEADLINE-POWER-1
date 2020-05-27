@@ -30,41 +30,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 
 	int check = 0;
-	Classes* cl = Class;
-	Students* st;
-	while (cl)
-	{
-		int k = 0;
-		st = cl->students;
-		while (st)
-		{
-			if (st->Status >= 0)
-			{
-				k = 1;
-				ifstream SBinit;
-				SBinit.open("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
-				if (SBinit.is_open())
-				{
-					string courseID;
-					while (SBinit >> courseID)
-					{
-						Scoreboards* SB = new Scoreboards;
-						SB->courseID = courseID;
-						SBinit >> SB->labScore;
-						SBinit >> SB->midtermScore;
-						SBinit >> SB->finalScore;
-						SBinit >> SB->bonusScore;
-					}
-					check = 1;
-				}
-			}
-			st = st->next;
-		}
-		if (k)break;
-		cl = cl->next;
-	}
-
-
+	
 
 
 	ifstream courseIn;
@@ -84,7 +50,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
-					InitClassToCourse(Class, courseIn, tempCourse,check);
+					InitClassToCourse(Class, courseIn, tempCourse,check,year);
 				tempCourse->next = course;
 				course = tempCourse;
 
@@ -285,7 +251,7 @@ void academicYearInit(AcademicYears*& year) {
 	}
 	yearIn.close();
 }
-void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int check) {
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int check,  string year) {
 
 
 	CourseClass* courseclass = new CourseClass;
@@ -349,7 +315,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 		courseclass->Outsider = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,check);
+		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,check,year);
 
 	}
 	courseIn >> course->room;
@@ -381,7 +347,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 	}
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course, DayInWeek, AtNth, check);
+	AddCourseToClass(curCL, course, DayInWeek, AtNth, check,year);
 
 
 }

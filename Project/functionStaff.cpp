@@ -879,7 +879,7 @@ void AddCourse(AcademicYears*& year) {
 				continue;
 			}
 			cin >> classID;
-			AddClassToCourse(Class, classID, course, course->courseID);
+			AddClassToCourse(Class, classID, course, course->courseID,year->year);
 			break;
 		}
 	} while (n != 2);
@@ -956,7 +956,7 @@ void AddStudentToCourseClass(AcademicYears* year) {
 			}
 			else {
 				courseclass->BitAttend += 1 << i;
-				AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0);
+				AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0,year->year);
 				cout << "Added" << endl;
 				break;
 			}
@@ -965,13 +965,21 @@ void AddStudentToCourseClass(AcademicYears* year) {
 
 	///
 	if (curST) return;
+	OutsideStudent* test = courseclass->Outsider;
+	while (test)
+		if (test->studentID == studentID)
+		{
+			cout << "Student's already in the course" << endl;
+			return;
+		}
+		else test = test->next;
 	OutsideStudent* Outsider = new OutsideStudent;
 	Outsider->classID = classSTID;
 	Outsider->studentID = studentID;
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
 	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0);
+	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0,year->year);
 	cout << "Added" << endl;
 	return ;
 }

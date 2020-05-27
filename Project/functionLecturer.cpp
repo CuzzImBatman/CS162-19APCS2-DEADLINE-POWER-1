@@ -41,7 +41,7 @@ void Edit_Attend_List(AcademicYears* year)
 	while (ck)
 		if (ck->courseID == courseID)break;
 		else ck = ck->next;
-	cout << "week";
+	cout << "week: "<<endl;
 	int week;
 	cin >> week;
 	int n = 0;
@@ -58,7 +58,7 @@ void Edit_Attend_List(AcademicYears* year)
 			else
 			{
 				ck->bitweek += 1 << (week - 1);
-				cout << "Checked in";
+				cout << "Checked in"<<endl;
 			}
 		}
 		if (n == 2)
@@ -68,7 +68,7 @@ void Edit_Attend_List(AcademicYears* year)
 			else
 			{
 				ck->bitweek -= 1 << (week - 1);
-				cout << "Un checked-in";
+				cout << "Un checked-in"<<endl;
 			}
 		}
 
@@ -95,16 +95,33 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 	}
 
 	Students* st = NULL;
-	Classes* cl = NULL;
+	CourseClass* cl = NULL;
+	OutsideStudent* os;
+	Classes* Class = year->classes;
 	while (!cl)
 	{
-		Classes* cl = year->classes;
+		 cl = course->courseclass;
 		cout << "Please enter student ID: ";
 		cin >> studentID;
 		while (cl)
 		{
 			st = findStudent(cl->students, studentID);
 			if (st && st->Status)break;
+			os = cl->Outsider;
+			while (os)
+				if (os->studentID == studentID)break;
+				else os = os->next;
+			if (os)
+			{
+				while (Class)
+				{
+					st = findStudent(Class->students, studentID);
+					if (st)break;
+					Class = Class->next;
+				}
+				break;
+			}
+
 			cl = cl->next;
 		}
 		if (st) break;
@@ -115,16 +132,21 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 	while (sb)
 		if (sb->courseID == courseID)break;
 		else sb = sb->next;
-	cout << "1.Lab score" << endl << "2.Midterm score" << endl << "3.Final score" << endl << "4.Bonus score: " << endl;
-	string sc,Grade;
-	cin.ignore();
-	getline(cin, sc);
+	//if (!sb)return;
+	cout << "1.Lab score." << endl << "2.Midterm score." << endl << "3.Final score." << endl << "4.Bonus score. " <<endl;
+	int sc;
+	string Grade;
+	cin >> sc;
 	cout << "Grade: ";
-	cin >> Grade;
-	if (sc == "1")sb->labScore = Grade;
-	if (sc == "2") sb->midtermScore = Grade;
-	if (sc == "3")sb->finalScore = Grade;
-	if (sc == "4")sb->bonusScore = Grade;
+	///cin >> Grade;
+	//sb null
+	if (sc == 1) {
+		sb->labScore = ""; 
+		cin >> sb->labScore;// = Grade;
+	}
+	if (sc == 2)cin >> sb->midtermScore;// = Grade;
+	if (sc == 3)cin >> sb->finalScore;// = Grade;
+	if (sc == 4)cin >> sb->bonusScore;// = Grade;
 	
 
 
