@@ -248,11 +248,11 @@ void updateAcademicYear(AcademicYears* year);
 void staff_deleteAcademicYear(AcademicYears*& year);
 void viewAcademicYear(AcademicYears* year);
 
-void EditCourse(Courses*& course,Classes *&Class);
-void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class);
-void AddStudentToCourseClass(Courses*& course,Classes * &Class );
-void DeleteCourse(Courses*& course,Classes * &Class);
-void AddCourse(Courses *&course,Classes* Class);
+void EditCourse(AcademicYears* year);
+void RemovedStudentFromCourseClass(AcademicYears* year);
+void AddStudentToCourseClass(AcademicYears* year);
+void DeleteCourse(AcademicYears* year);
+void AddCourse(AcademicYears*& year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
@@ -405,3 +405,4 @@ Student:
 		37. View schedules.
 		38. View his/her scores of a course.
 */
+#endif
