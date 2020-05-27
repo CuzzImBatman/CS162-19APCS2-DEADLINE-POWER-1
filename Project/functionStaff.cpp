@@ -65,9 +65,11 @@ void addAStudentToAClass(Classes*& aClass) {
 			}
 		}
 	Students* tmp = tmpClass->students;
-	if (tmp == nullptr)
-		// Joey: Doesn't work yet
+	if (tmp == nullptr) {
+		// Joey: The original code and this code doesn't work yet
+		tmp = new Students;
 		tmp = aStudent;
+	}
 	else {
 		while (tmp->next != nullptr)
 			tmp = tmp->next;
