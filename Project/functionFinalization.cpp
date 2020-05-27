@@ -163,12 +163,6 @@ void writeClasses(Classes* Class, string year) {
 		tempClass = Class;
 		while (tempClass) {
 			classOut << tempClass->classID << endl;
-			for (int j = 0; j < 4; j++)
-			{
-				for (int i = 0; i < 6; i++)
-					classOut << tempClass->schedule[i][j] << " ";
-				classOut << endl;
-			}
 			writeStudents(tempClass->students, tempClass->classID, year);
 			tempClass = tempClass->next;
 		}

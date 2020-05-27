@@ -1196,7 +1196,7 @@ void EditCourse(AcademicYears* year) {
 
 		case 6:
 			cout << "New course name: ";
-			getline(cin, NewID);
+			cin.ignore();
 			getline(cin, NewID);
 			EditCourseName(course, NewID, Class);
 			break;
