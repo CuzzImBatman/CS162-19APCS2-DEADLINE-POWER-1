@@ -121,9 +121,10 @@ void writeScoreBoard(Students* st, string year)
 	out.open("Yr" + year + "_StudentID" + st->studentID + "ScoreBoard.txt");
 	while (SB)
 	{
-		out << SB->courseName << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
+		out << SB->courseID << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
 		SB = SB->next;
 	}
+	out.close();
 
 }
 void writeStudents(Students* st, string Class, string year) {

@@ -121,10 +121,44 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	cin >> courseclass->endDate.day;
 	cin >> courseclass->endDate.month;
 	cin >> courseclass->endDate.year;
-	cout << "Day in Week: ";
-	cin >> courseclass->DayInWeek;
-	cout << "Nth class: ";
-	cin >> courseclass->AtNth;
+	string temp;
+	cin >> temp;
+	switch (temp[1]) { //Mo Tu We Th Fr Sa
+	case 'o':
+		courseclass->DayInWeek = 0;
+		break;
+	case 'u':
+		courseclass->DayInWeek = 1;
+		break;
+	case 'e':
+		courseclass->DayInWeek = 2;
+		break;
+	case 'h':
+		courseclass->DayInWeek = 3;
+		break;
+	case 'r':
+		courseclass->DayInWeek = 4;
+		break;
+	case 'a':
+		courseclass->DayInWeek = 5;
+		break;
+	}
+	int hour, minute;
+	cin >> hour >> minute;
+	switch (hour) {
+	case 7:
+		courseclass->AtNth = 0;
+		break;
+	case 9:
+		courseclass->AtNth = 1;
+		break;
+	case 13:
+		courseclass->AtNth = 2;
+		break;
+	case 15:
+		courseclass->AtNth = 3;
+		break;
+	}
 	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
 	//int week= 3;/// just EX
 
@@ -162,9 +196,12 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
   newcourse ->  bitweek = 0;
   newcourse ->  next = ST->checkincourse;
   ST->checkincourse = newcourse;
-  if (check)return;
+
   Scoreboards* SB = new Scoreboards;
-  SB->courseName = course->courseName;
+  if (check) {
+	  SB->courseName = course->courseName;
+	  return;
+  }
   SB->courseID = course->courseID;
   SB->next = ST->scoreboards;
   ST->scoreboards = SB;
