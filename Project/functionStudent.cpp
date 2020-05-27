@@ -1,5 +1,5 @@
 #include "function.h"
-
+#include <stdio.h>
 using namespace std;
 /*Classes* findClass(Classes* Class, string ClassID) {
 	Classes* temp = Class;
@@ -49,7 +49,6 @@ void Tick(Students* student) {
 
 
 void viewCheckIn(CheckinCourse* checkincourse) {
-	
 	while (checkincourse != NULL) {
 		int check = 0;
 		int bit = checkincourse->bitweek;
