@@ -36,3 +36,6 @@
 *.ipch
 *.db
 .vs/CS162_Project/v16/.suo
+*.ipch
+*.db
+.vs/CS162_Project/v16/.suo
