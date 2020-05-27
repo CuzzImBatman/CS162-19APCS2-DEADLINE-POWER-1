@@ -273,7 +273,9 @@ void View_Attendance_List(AcademicYears* AcaYear);
 
 #pragma endregion
 #pragma region Lecturer
-
+void Edit_Attend_List(AcademicYears* year);
+void Edit_ScoreBoard_Student(AcademicYears* year);
+void View_Scoreboard(AcademicYears* year);
 #pragma endregion
 #pragma region Student
 void viewScoreCourse(Students *student);
