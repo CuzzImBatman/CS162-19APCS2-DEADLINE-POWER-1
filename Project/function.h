@@ -12,14 +12,16 @@
 #include <stdio.h>
 
 using namespace std;
-/* Naming rule:
+#pragma region Naming rule
+/*
 struct: StructName
-variable, function: variableName, functionName
+variables, functions: variableName, functionName
 const: CONST
-plural to indicate a list, single to indicate an attribute of a subject, structs are plural;
+plural form to indicate a list, singular fomr to indicate an attribute of a subject, structs are plural;
 */
-/*  Database Structure
-
+#pragma endregion
+#pragma region Database Structure
+/*
 							  +-->[Staffs]
 							  |
 							  +-->[Lecturers]
@@ -33,10 +35,13 @@ plural to indicate a list, single to indicate an attribute of a subject, structs
 			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
 Outsider
 */
+#pragma endregion
+
+
+#pragma region Structs
 struct Date {
 	string day, month, year;
 };
-
 struct Accounts
 {
 
@@ -62,49 +67,11 @@ struct Staffs
     Staffs* next = NULL;
 
 };
-
 struct Lecturers
 {
     Accounts* account = NULL;
     Lecturers* next = NULL;
 };
-
-/*struct SessionStatus
-{
-    short int sessionNo; //11 12 21 22 31 32  week_session
-    bool status;
-    SessionStatus* next = NULL;
-};
-/*
-struct WeeklyStatus {
-	SessionStatus* sessions = nullptr;
-	WeeklyStatus* next = nullptr;
-};*/
-/*struct AttendanceStatus
-{
-    string courseName;
-    SessionStatus* sessions = NULL; //the amount of sessions will be academicYear->semester->course->dateOfWeek(1) * 11
-    AttendanceStatus* next = NULL;
-    //WeeklyStatus week[11];
-    //short int present, absent;
-
-
-
-    //Khi input: academicYear->semester->course->courseclass      student->AttendanceStatus->sessions->status = true;
-    /*Khi truy xuat:
-        temp = academicYear->semester->course->       student
-        while (temp->next != nullptr){
-    		temp2 = temp->AttendanceStatus->sessions;
-    		while (temp2->next != nullptr){
-    			cout << temp2->sessionNo << ': ' << temp2->sessionStatus << endl;
-    			temp2=temp2->next;
-    		}
-    		temp= temp->next;
-    	}
-
-};
-*/
-
 
 struct CheckinCourse
 {
@@ -137,7 +104,6 @@ struct OutsideStudent
     OutsideStudent* next=NULL;
 
 };
-//int numberOfDay(Date x, Date y);
 
 struct CourseClass
 {
@@ -172,9 +138,6 @@ struct Classes
     string schedule[6][4];
 };
 
-struct CourseClass0 {
-	short int no, classNo, courseNo, studentNo;
-};
 struct Semesters
 {
     char semesterNo;
@@ -182,7 +145,6 @@ struct Semesters
     Lecturers* lecturers = NULL;
     Staffs* staffs = NULL;
     Semesters* next = NULL;
-
 };
 
 struct AcademicYears
@@ -191,9 +153,10 @@ struct AcademicYears
     Semesters* semesters = NULL;
     Classes* classes = NULL;
     AcademicYears* next = NULL;
-
 };
+#pragma endregion
 
+#pragma region Function Prototypes
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
 
@@ -209,6 +172,24 @@ void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,in
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
+#pragma region tool
+Classes* findClass(Classes* Class, string ClassID);
+Students* findStudent(Students* st, string stID);
+Semesters* findSemester(Semesters* semes, char no);
+Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
+Courses* findCourse(Courses* course, string ID);
+CourseClass* findCL(CourseClass* CL, string classID);
+AcademicYears* inputYear(AcademicYears* year, Courses*& course);
+int CheckStatusStudent(string studentID, string classID, Classes*& Class);
+void AddCheckInCourse(Students*& st, string courseID);
+void AddScoreBoardCourse(Students*& st, string courseID);
+bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
+void DeleteScoreBoardStudent(Students*& ST);
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
+int DeleteABit(int bit, int x);
+void RemoveFile(string s);
+#pragma endregion
 
 #pragma region All roles
 int login(AcademicYears* year, Accounts*& acc, string pwd);
@@ -221,7 +202,6 @@ void changePwd(Accounts*& acc);
 void viewProfile(Accounts* acc);
 void logout(Accounts*& acc);
 #pragma endregion
-
 #pragma region Academic Staff
 int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 
@@ -232,8 +212,8 @@ void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
 void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
 void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year);
-void viewListOfClasses(Classes* aClass);
-void viewListOfStudentsInAClass(Classes* aClass);
+void viewListOfClasses(AcademicYears* aYear);
+void viewListOfStudentsInAClass(AcademicYears* aYear);
 
 void createLecturer(AcademicYears* year);
 void updateLecturer(AcademicYears* year);
@@ -288,13 +268,11 @@ void View_Attendance_List(AcademicYears* AcaYear);
 #pragma endregion
 
 #pragma endregion
-
 #pragma region Lecturer
 void Edit_Attend_List(AcademicYears* year);
 void Edit_ScoreBoard_Student(AcademicYears* year);
 void View_Scoreboard(AcademicYears* year);
 #pragma endregion
-
 #pragma region Student
 void viewScoreCourse(Students *student);
 void viewSchedule(Students* student);
@@ -303,109 +281,93 @@ void Tick(Students* student);
 void FillCheckinCourse(Students*& student);
 #pragma endregion
 
-#pragma region tool
-Classes* findClass(Classes* Class, string ClassID);
-Students* findStudent(Students* st, string stID);
-Semesters* findSemester(Semesters* semes, char no);
-Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
-Courses* findCourse(Courses* course, string ID);
-CourseClass* findCL(CourseClass* CL, string classID);
-AcademicYears* inputYear(AcademicYears* year, Courses* &course);
-int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void AddCheckInCourse(Students*& st, string courseID);
-void AddScoreBoardCourse(Students*& st, string courseID);
-bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
-void DeleteScoreBoardStudent(Students * &ST);
-void DeleteCheckinCourseStudent(Students*& St);
-void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
-int DeleteABit(int bit, int x);
-void RemoveFile(string s);
-
-#pragma endregion
-
 #pragma region Finalization
 void writeAccounts(ofstream& fout, Accounts* acc);
+
 void writeCourses(Courses* course, char semes, string year);
 void writeLecturers(Lecturers* lect, char semes, string year);
 void writeStaffs(Staffs* staff, char semes, string year);
 void writeSemesters(Semesters* semes, string year);
+
+void writeScoreBoard(Students* st, string year);
 void writeStudents(Students* st, string Class, string year);
 void writeClasses(Classes* Class, string year);
+
 void writeAcademicYears(AcademicYears* year);
 #pragma endregion
-
 #pragma region PointersDeletion
 void deleteCourses(Courses*& course);
 void deleteLecturers(Lecturers*& lect);
 void deleteStaffs(Staffs*& staff);
 void deleteSemesters(Semesters*& semes);
+
 void deleteStudents(Students*& st);
 void deleteClasses(Classes*& Class);
+
 void deleteAcademicYears(AcademicYears*& year);
+
 void DeleteCheckinCourseStudent(Students*& St);
 void DeleteScoreBoardStudent(Students*& ST);
 void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 #pragma endregion
 #pragma endregion
-void RemoveFile(string s);
+
 #pragma region Tasks
 /*
-
 All roles
-	1. Login
-	2. Show menu
-	3. View profile info
-	4. Change password
-	5. Logout
+			1. Login
+			2. Show menu
+			3. View profile info
+			4. Change password
+			5. Logout
 Academic staff:
 	Class
-		6. Import students from a csv file.     -> void InputStudents(ifstream& f,    close right after importing
-				Remember to create student accounts based on their Student ID and their DoB.
-		7. Manually add a new student to a class.
-				For example, there is a new student enrolled in 18CLC6. Remember to create a student account based on his/her Student ID and their DoB.
-		8. Edit an existing student.
-		9. Remove a student.
-		10. Change students from class A to class B
-		11. View list of classes.
-		12. View list of students in a class.
+			6. Import students from a csv file.
+			7. Manually add a new student to a class.
+			8. Edit an existing student.
+		    9. Remove a student.
+		    10. Change students from class A to class B
+			11. View list of classes.
+			12. View list of students in a class.
 	Course
-		13. Create / update / delete / view academic years (2018-2019), and semesters (Fall).
-		14. From a semester, import courses such as CTT008, CTT010 from a csv file.
-			The csv file should include columns such as No (1), Course ID (CTT008),
-			Course Name (Programming Techniques), Class (18CLC6),
-			LecturerAccount (nhminh), Start Date (2019-01-07), End Date
-			(2019-04-13), Day of Week (Wed), Start Hour:Minute (08:00), and End Hour:Minute (11:00), Room (I33).
-			By default, all students in the mentioned classes will be enrolled to imported courses.
-		15. Manually add a new course.
-		16. Edit an existing course.
-		17. Remove a course.
-		18. Remove a specific student from a course.
-			For example, by default all students of 18CLC are enrolled in course
-			CTT008, but because of a private reason, student Nguyen Van A is dropped from CTT008.
-		19. Add a specific student to a course.
-			For example, student 1753001 enrolls in CTT008 to improve his previous result.
-		20. View list of courses in the current semester.
-		21. View list of students of a course.
-		22. View attendance list of a course.
-		23. Create / update / delete / view all lecturers.
+			13. Create / update / delete / view academic years (2018-2019), and semesters (Fall).
+			14. From a semester, import courses such as CTT008, CTT010 from a csv file.
+				The csv file should include columns such as No (1), Course ID (CTT008),
+				Course Name (Programming Techniques), Class (18CLC6),
+				LecturerAccount (nhminh), Start Date (2019-01-07), End Date
+				(2019-04-13), Day of Week (Wed), Start Hour:Minute (08:00), and End Hour:Minute (11:00), Room (I33).
+				By default, all students in the mentioned classes will be enrolled to imported courses.
+			15. Manually add a new course.
+			16. Edit an existing course.
+			17. Remove a course.
+			18. Remove a specific student from a course.
+				For example, by default all students of 18CLC are enrolled in course
+				CTT008, but because of a private reason, student Nguyen Van A is dropped from CTT008.
+			19. Add a specific student to a course.
+				For example, student 1753001 enrolls in CTT008 to improve his previous result.
+			20. View list of courses in the current semester.
+			21. View list of students of a course.
+			22. View attendance list of a course.
+			23. Create / update / delete / view all lecturers.
 	Scoreboard:
-		24. Search and view the scoreboard of a course.
-		25. Export a scoreboard to a csv file.
+			24. Search and view the scoreboard of a course.
+			25. Export a scoreboard to a csv file.
 	Attendance list:
-		26. Search and view attendance list of a course.
-		27. Export a attendance list to a csv file.
+			26. Search and view attendance list of a course.
+			27. Export a attendance list to a csv file.
 Lecturer:
-		28. View list of courses in the current semester.
-		29. View list of students of a course.
-		30. View attendance list of a course.
-		31. Edit an attendance.
-		32. Import scoreboard of a course (midterm, final, lab, bonus) from a csv file.
-		33. Edit grade of a student
-		34. View a scoreboard
+			28. View list of courses in the current semester.
+			29. View list of students of a course.
+			30. View attendance list of a course.
+			31. Edit an attendance.
+			32. Import scoreboard of a course (midterm, final, lab, bonus) from a csv file.
+			33. Edit grade of a student
+			34. View a scoreboard
 Student:
-		35. Check-in.
-		36. View check-in result.
-		37. View schedules.
-		38. View his/her scores of a course.
+			35. Check-in.
+			36. View check-in result.
+			37. View schedules.
+			38. View his/her scores of a course.
 */
+#pragma endregion
 #endif
