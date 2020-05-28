@@ -86,10 +86,11 @@ void AddCheckInCourse(Students*& st, string courseID)
 
 }
 
-void AddScoreBoardCourse(Students*& st, string courseID)
+void AddScoreBoardCourse(Students*& st, string courseID, string courseName)
 {
 	Scoreboards* newcourse = new Scoreboards;
-	newcourse->courseName = courseID;
+	newcourse->courseName = courseName;
+	newcourse->courseID = courseID;
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
@@ -165,7 +166,12 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	Classes* curCL = findClass(Class, classID);
 
 	curCL->schedule[DayInWeek][AtNth] = courseID;
-
+	CourseDetail* CD = new CourseDetail;
+	CD->courseID = course->courseID;
+	CD->coursename = course->courseName;
+	CD->room = course->room;
+	CD->next = curCL->CD;
+	curCL->CD = CD;
 	Students* curST = curCL->students;
 	courseclass->students = curCL->students;
 
@@ -193,9 +199,11 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 	ifstream CKinit;
 	string init = "Yr" + year + "_StudentID" + ST->studentID + "_CheckIn.txt";
 	CKinit.open(init);
+    
 	if (!CKinit.is_open())
 	{
 		CheckinCourse* newcourse = new CheckinCourse;
+		newcourse->room = course->room;
 		newcourse->courseID = course->courseID;
 		newcourse->bitweek = 0;
 		newcourse->next = ST->checkincourse;
@@ -208,6 +216,7 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 		if (!n)
 		{
 			CheckinCourse* newcourse = new CheckinCourse;
+			newcourse->room = course->room;
 			newcourse->courseID = course->courseID;
 			newcourse->bitweek = 0;
 			newcourse->next = ST->checkincourse;
@@ -224,6 +233,7 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 				for (int i = 0; i < n; i++)
 				{
 					CheckinCourse* newcourse = new CheckinCourse;
+					CKinit >> newcourse->room;
 					CKinit >> newcourse->courseID;
 					CKinit >> newcourse->bitweek;
 					newcourse->next = ST->checkincourse;
@@ -233,6 +243,7 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 			if (test && !ST->checkincourse)
 			{
 				CheckinCourse* newcourse = new CheckinCourse;
+				newcourse->room = course->room;
 				newcourse->courseID = course->courseID;
 				newcourse->bitweek = 0;
 				newcourse->next = ST->checkincourse;
@@ -242,8 +253,9 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 
 	}
 
-  ifstream SBinit;
+  
   string in = "Yr" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
+  ifstream SBinit;
   SBinit.open(in);
   if (!SBinit.is_open())//initial definitely
   {
@@ -277,6 +289,8 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 			 for (int i = 0; i < n; i++)
 			  {
 				  Scoreboards* SB = new Scoreboards;
+				  getline(SBinit, SB->courseName);
+				  getline(SBinit, SB->courseName);
 				  SBinit >> SB->courseID;
 				  SBinit >> SB->labScore;
 				  SBinit >> SB->midtermScore;
@@ -473,12 +487,23 @@ void EditCourseName(Courses*& course, string NewName, Classes*& Class) {
 	}
 	course->courseName = NewName;
 }
-void EditCourseroom(Courses * & course, string courseID, string room) {
-  Courses * cur = course;
+void EditCourseroom(Courses * & course, string courseID, string room, Classes*& Class) {
 
-  while (cur ->  courseID != courseID)
-    cur ->  next;
-  cur ->  room = room;
+  course->  room = room;
+  CourseClass* CL = course->courseclass;
+  while (CL)
+  {
+	  OutsideStudent* OS = CL->Outsider;
+	  Classes* cl = findClass(Class, OS->classID);
+	  if (cl && findStudent(cl->students, OS->studentID))
+	  {
+		  Students* st = findStudent(cl->students, OS->studentID);
+		  CheckinCourse* ck = st->checkincourse;
+		  while (ck)
+			  if (ck->courseID == courseID)ck->room = course->room;
+	  }
+	  CL = CL->next;
+  }
 }
 void EditCourseLecture(Courses * & course, string name, string courseID) {
   Courses * cur = course;
