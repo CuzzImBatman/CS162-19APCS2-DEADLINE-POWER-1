@@ -979,11 +979,13 @@ void AddCourse(AcademicYears*& year) {
 	cout << "courseID: ";
 	cin >> newcourse->courseID;
 	cout << "coursename: ";
-	cin >> newcourse->courseName;
+	cin.ignore();
+	getline(cin, newcourse->courseName);
 	cout << "Room: ";
 	cin >> newcourse->room;
 	cout << "Lecture's name: ";
-	cin >> newcourse->LectureName;
+	cin.ignore();
+	getline(cin, newcourse->LectureName);
 	newcourse->next = course;
 	course = newcourse;
 	course->courseclass = NULL;
@@ -992,22 +994,25 @@ void AddCourse(AcademicYears*& year) {
 
 	do {
 		string classID;
-		cout << "1.Add Class.";
-		cout << "2.Stop.";
+		cout << "[1] Add Class.\n";
+		cout << "[2] Stop.\n";
 		cin >> n;
 		if (n == 1)
 		{
 			cout << "classID :";
+			cin >> classID;
 			if (!findClass(Class, classID))
 			{
 				cout << "invalid Class ID.";
 				continue;
 			}
-			cin >> classID;
 			AddClassToCourse(Class, classID, course, course->courseID);
 			break;
 		}
 	} while (n != 2);
+
+	newcourse->next = s->courses;
+	s->courses = newcourse;
 }
 
 void AddStudentToCourseClass(AcademicYears* year) {
