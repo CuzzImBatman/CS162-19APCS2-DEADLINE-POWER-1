@@ -1,7 +1,7 @@
 //Lecturer's first function is the same with Staff's eighth function
 //-> no declaration or definition for first function
 #include"function.h"
-void Edit_Attend_List(AcademicYears* year)
+void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 {
 	string courseID, classID, studentID;
 	Courses* course = NULL;
@@ -15,7 +15,15 @@ void Edit_Attend_List(AcademicYears* year)
 		{
 			course = findCourse(s->courses, courseID);
 			if (!course)s = s->next;
-			else break;
+			else
+			{  
+				if (course->LectureName == acc->uName)
+				{
+					cout << "You don't have permission to edit this course."; 
+					return;
+				}
+				break;
+			}
 		}
 		if (!s)cout << "Invalid course ID, please enter again." << endl;
 	}
@@ -75,7 +83,7 @@ void Edit_Attend_List(AcademicYears* year)
 	} while (n);
 
 }
-void Edit_ScoreBoard_Student(AcademicYears* year)
+void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 {
 	string courseID, classID, studentID;
 	Courses* course = NULL;
@@ -89,14 +97,21 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 		{
 			course = findCourse(s->courses, courseID);
 			if (!course)s = s->next;
-			else break;
+			{
+				if (course->LectureName == acc->uName)
+				{
+					cout << "You don't have permission to edit this course.";
+					return;
+				}
+				break;
+			}
 		}
 		if (!s)cout << "Invalid course ID, please enter again." << endl;
 	}
 
 	Students* st = NULL;
 	CourseClass* cl = NULL;
-	OutsideStudent* os;
+	StudentCourse* os;
 	Classes* Class = year->classes;
 	while (!cl)
 	{
@@ -105,8 +120,6 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 		cin >> studentID;
 		while (cl)
 		{
-			st = findStudent(cl->students, studentID);
-			if (st && st->Status)break;
 			os = cl->Outsider;
 			while (os)
 				if (os->studentID == studentID)break;
@@ -134,7 +147,7 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 		else sb = sb->next;
 	//if (!sb)return;
 	int sc = 1;
-	while (sc)
+	while (sc != 5);
 	{
 		cout << "1.Lab score." << endl << "2.Midterm score." << endl << "3.Final score." << endl << "4.Bonus score. " << endl << "5. Back. " << endl;
 		int sc;
@@ -181,22 +194,17 @@ void View_Scoreboard(AcademicYears* year)
 	cout << setw(16) << "finalScore";
 	cout << setw(16) << "labScore";
 	cout << setw(16) << "bonusScore" << endl;
-	Students* st = CL->students;
+	Students* st ;
 	int i = 0;
-	int bit = CL->BitAttend;
-	while (st)
-	{
-		
-		if (st->Status && (bit >> i) % 2)View_Scoreboard_Student(st, course->courseID);
-		i++;
-		st = st->next;
-	}
-	OutsideStudent* OS = CL->Outsider;
+	StudentCourse* OS = CL->Outsider;
 	while (OS)
 	{
 		Classes* cl = findClass(y->classes, OS->classID);
-		if (cl)st = findStudent(cl->students, OS->studentID);
-		if(st)View_Scoreboard_Student(st, course->courseID);
+		if (cl && findStudent(cl->students, OS->studentID))
+		{
+			st = findStudent(cl->students, OS->studentID);
+			View_Scoreboard_Student(st, course->courseID);
+		}
 		OS = OS->next;
 	}
 }

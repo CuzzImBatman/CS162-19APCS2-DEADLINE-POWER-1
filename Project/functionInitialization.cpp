@@ -299,12 +299,32 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 
 	int no;
 	courseIn >> courseclass->classID;
-	courseIn >> courseclass->BitAttend;
 	courseIn >> no;
 	courseclass->Outsider = NULL;
+
+	Classes* curCL = Class;
+	while (curCL != NULL)
+		if (curCL->classID == courseclass->classID)break;
+		else curCL = curCL->next;
+
+	if (!no)
+	{
+		AddCourseToClass(curCL, course, courseclass->DayInWeek, courseclass->AtNth, year);
+		Students* st = curCL->students;
+		while (st)
+		{
+			StudentCourse* OS = new StudentCourse;
+			OS->studentID = st->studentID;
+			OS->classID = curCL->classID;
+			OS->next = courseclass->Outsider;
+			courseclass->Outsider = OS;
+			st = st->next;
+		}
+
+	}
 	for (int i = 0; i < no; i++)
 	{
-		OutsideStudent* OS = new OutsideStudent;
+		StudentCourse* OS = new StudentCourse;
 		courseIn >> OS->studentID;
 		courseIn >> OS->classID;
 		OS->next = courseclass->Outsider;
@@ -316,17 +336,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 	}
 	courseIn >> course->room;
 
-
-
-	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
-
-
-	Classes* curCL = Class;
-	while (curCL != NULL)
-		if (curCL->classID == courseclass->classID)break;
-		else curCL = curCL->next;
-
-	curCL->schedule[DayInWeek][AtNth] = course->courseID;
+	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
 	CourseDetail* CD = new CourseDetail;
 	CD->courseID = course->courseID;
 	CD->coursename = course->courseName;
@@ -336,19 +346,8 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 	Students* curST = curCL->students;
 	courseclass->students = curCL->students;
 
-	int i = 0;
-	if (courseclass->BitAttend < 0)
-	while (curST != NULL) {
-
-		if (curST->Status == 1)
-			if (!i)courseclass->BitAttend = 1;
-			else courseclass->BitAttend +=( 1 << i);
-		i++;
-		curST = curST->next;
-	}
+	
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course, DayInWeek, AtNth,year);
-
 
 }

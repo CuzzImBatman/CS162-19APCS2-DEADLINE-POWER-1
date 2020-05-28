@@ -103,11 +103,12 @@ struct Students
     Students* next = NULL;
 
 };
-struct OutsideStudent
+// StudentCourse
+struct StudentCourse
 {
     string studentID;
     string classID;
-    OutsideStudent* next=NULL;
+	StudentCourse* next=NULL;
 
 };
 
@@ -118,7 +119,7 @@ struct CourseClass
     long int BitAttend=0;
     Date startDate, endDate;
     CourseClass *next = NULL;
-    OutsideStudent* Outsider=NULL;
+	StudentCourse* Outsider=NULL;
     int DayInWeek;
     int AtNth;
 };
@@ -188,7 +189,7 @@ Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void AddCheckInCourse(Students*& st, string courseID);
+void AddCheckInCourse(Students*& st, string courseID,string room);
 void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 void DeleteScoreBoardStudent(Students*& ST);
@@ -254,7 +255,7 @@ void EditCourseroom(Courses*& course,string courseID,string room, Classes*& Clas
 void EditCourseLecture(Courses*& course,string name,string courseID);
 void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
-void DeleteCourseScheduleStudent(Students *&student, Courses*& course,OutsideStudent* &Outsider,Classes *&Class);
+void DeleteCourseScheduleStudent( Courses*& course, StudentCourse* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
 void UpdateBitAttend(string classID, Courses*& course);
 
@@ -276,8 +277,8 @@ void View_Attendance_List(AcademicYears* AcaYear);
 
 #pragma endregion
 #pragma region Lecturer
-void Edit_Attend_List(AcademicYears* year);
-void Edit_ScoreBoard_Student(AcademicYears* year);
+void Edit_Attend_List(AcademicYears* year, Accounts*& acc);
+void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc);
 void View_Scoreboard(AcademicYears* year);
 #pragma endregion
 #pragma region Student

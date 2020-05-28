@@ -175,7 +175,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	CourseDetail* CD = tmpClass->CD;
 	while (CD)
 	{
-		AddCheckInCourse(aStudent,CD->courseID);
+		AddCheckInCourse(aStudent,CD->courseID,CD->room);
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
@@ -443,7 +443,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
-		AddCheckInCourse(AddSt, CD->courseID);
+		AddCheckInCourse(AddSt, CD->courseID,CD->room);
 		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
 		CD = CD->next;
 	}
@@ -957,36 +957,8 @@ void View_Attendance_List(AcademicYears* year)
 		CL = findCL(course->courseclass,classID);
 		if(!CL)cout << "Invalid class ID, please enter again." << endl;
 	}
-	Students* st = CL->students;
-	int bit = CL->BitAttend;
-	cout << setw(20) << "Last name" << setw(20) << "first name" << setw(20) << "student ID";
-	for (int i = 0; i < 11; i++)cout << setw(10) << "Week " << i+1;
-	int i = 0;
-	cout << endl;
-	while (st)
-	{
-		if ((bit >> i) % 2 == 1 && st->Status)
-		{
-			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
-			CheckinCourse* ck = st->checkincourse;
-			while (ck)
-				if (ck->courseID == course->courseID)break;
-				else ck = ck->next;
-			for (int i = 0; i < 11; i++) {
-				int BIT = ck->bitweek >> i;
-				if (BIT % 2)
-					cout << setw(11) << "V";
-				else if (ck->bitweek == 0)
-					cout << setw(11) << "-";
-				else if (BIT)
-					cout << setw(11) << "X";
-			}
-			cout << endl;
-		}
-		i++;
-		st = st->next;
-	}
-	OutsideStudent* OS = CL->Outsider;
+	Students* st;
+	StudentCourse* OS = CL->Outsider;
 	while (OS)
 	{
 		Class = findClass(y->classes, OS->studentID);
@@ -998,28 +970,20 @@ void View_Attendance_List(AcademicYears* year)
 			while (ck)
 				if (ck->courseID == course->courseID)break;
 				else ck = ck->next;
-			int check = 0;
-			for (int j = 0; j < 11; j++) {
-				int BIT = (ck->bitweek) >> j;
-				if (BIT % 2) {
-					check = 1;
+			for (int i = 0; i < 11; i++) {
+				int bit = st->checkincourse->bitweek >> i;
+				if (bit % 2)
 					cout << setw(11) << "V";
-				}
-				else if (check || ck->bitweek == 0)
+				else if (st->checkincourse->bitweek == 0)
 					cout << setw(11) << "-";
-				else if (!check)
+				else if (bit)
 					cout << setw(11) << "X";
 			}
 			cout << endl;
 		}
 
-
-
 		OS = OS->next;
 	}
-
-
-
 
 }
 void View_StudentList_Course(AcademicYears* year)
@@ -1059,15 +1023,8 @@ void View_StudentList_Course(AcademicYears* year)
 	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID"<<endl;
 	while (CL )
 	{
-		Students* ST = CL->students;
-		OutsideStudent* OS = CL->Outsider;
-		int i = 0;
-		while (ST != NULL)
-		{
-			if (ST->Status && (CL->BitAttend) % 2)
-				cout << setw(3) << ST->account->lastname << setw(10) << ST->account->firstname << setw(10) << ST->studentID << setw(10) << CL->classID << endl;
-			ST = ST->next;
-		}
+		
+		StudentCourse* OS = CL->Outsider;
 		while (OS != NULL)
 		{
 			Classes* tempCL = findClass(Class, OS->classID);
@@ -1187,26 +1144,8 @@ void AddStudentToCourseClass(AcademicYears* year) {
 	}
 	///
 	int i = 0;
-	curST = courseclass->students;
-	while (curST != NULL)
-		if (curST->studentID == studentID)
-			if ((courseclass->BitAttend >> i) % 2)
-			{
-				cout << "Student's already in the course" << endl;
-				return;
-			}
-			else {
-				courseclass->BitAttend += 1 << i;
-				AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
-				cout << "Added" << endl;
-				break;
-			}
-		else
-			curST = curST->next;
 
-	///
-	if (curST) return;
-	OutsideStudent* test = courseclass->Outsider;
+	StudentCourse* test = courseclass->Outsider;
 	while (test)
 		if (test->studentID == studentID)
 		{
@@ -1214,11 +1153,11 @@ void AddStudentToCourseClass(AcademicYears* year) {
 			return;
 		}
 		else test = test->next;
-	OutsideStudent* Outsider = new OutsideStudent;
-	Outsider->classID = classSTID;
-	Outsider->studentID = studentID;
-	Outsider->next = courseclass->Outsider;
-	courseclass->Outsider = Outsider;
+	StudentCourse* st = new StudentCourse;
+	st->classID = classSTID;
+	st->studentID = studentID;
+	st->next = courseclass->Outsider;
+	courseclass->Outsider = st;
 	curST = findStudent(curCL->students, studentID);
 	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
 	cout << "Added" << endl;
@@ -1378,35 +1317,21 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 
 	int i = 0;
 	Students* students = NULL;
-	OutsideStudent* OS = NULL;
-	while (!students && !OS)
+	StudentCourse* OS = NULL;
+	while (!OS)
 	{
 		cout << "Student ID: ";
 		cin >> studentID;
-		students = findStudent(courseclass->students, studentID);
 		OS = courseclass->Outsider;
 		while (OS)
 			if (OS->studentID == studentID)break;
 			else OS->next;
-		if (!students && !OS)cout << "invalid student ID. Please enter againn." << endl;
+		if (!OS)cout << "invalid student ID. Please enter again." << endl;
 		else break;
 	}
 	students = courseclass->students;
 
-	while (students)
-	{
-		if (students->studentID == studentID)break;
-		students = students->next;
-		i++;
-	}
-	if (students)
-	{
-		courseclass->BitAttend -= 1 >> i;
-		DeleteCourseOfCheckin(students->checkincourse, courseID);
-		RemoveCourseOfScheduleStudent(students->schedule, courseID);
-		DeleteScoreBoardOfCourseStudent(students, course->courseName);
-		return;
-	}
+
 	///
 	OS = courseclass->Outsider;
 	if (OS->classID == classID && OS->studentID == studentID)
@@ -1415,7 +1340,6 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 		if (CL)students = findStudent(CL->students, OS->studentID);
 		if (students)
 		{
-			courseclass->BitAttend -= 1 >> i;
 			DeleteCourseOfCheckin(students->checkincourse, courseID);
 			RemoveCourseOfScheduleStudent(students->schedule, courseID);
 			DeleteScoreBoardOfCourseStudent(students, course->courseName);
@@ -1424,7 +1348,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 		OS = NULL;
 
 	}
-	OutsideStudent* pre = OS, * tmp;
+	StudentCourse* pre = OS, * tmp;
 
 	while (OS)
 	{
@@ -1496,7 +1420,7 @@ void DeleteCourse(AcademicYears* year) {
 		CourseClass* courseclass = cur->courseclass;
 
 		while (courseclass) {
-			DeleteCourseScheduleStudent(courseclass->students, cur, courseclass->Outsider, Class);
+			DeleteCourseScheduleStudent( cur, courseclass->Outsider, Class);
 			DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
 			courseclass = courseclass->next;
 		}
@@ -1513,7 +1437,7 @@ void DeleteCourse(AcademicYears* year) {
 			CourseClass* courseclass = cur->courseclass;
 
 			while (courseclass != NULL) {
-				DeleteCourseScheduleStudent(courseclass->students, cur, courseclass->Outsider, Class);
+				DeleteCourseScheduleStudent( cur, courseclass->Outsider, Class);
 				DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
 				courseclass = courseclass->next;
 			}

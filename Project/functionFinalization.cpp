@@ -42,8 +42,7 @@ void writeCourses(Courses* course, char semes, string year) {
 		while (CL)
 		{
 			out << CL->classID<<endl;
-			out << CL->BitAttend<<endl;
-			OutsideStudent* OS = CL->Outsider;
+			StudentCourse* OS = CL->Outsider;
 			i = 0;
 			while (OS)
 			{
@@ -54,7 +53,7 @@ void writeCourses(Courses* course, char semes, string year) {
 			OS = CL->Outsider;
 			while (OS)
 			{
-				out << OS->studentID<<endl;
+				out << OS->studentID<<" ";
 				out << OS->classID<<endl;
 				OS = OS->next;
 			}

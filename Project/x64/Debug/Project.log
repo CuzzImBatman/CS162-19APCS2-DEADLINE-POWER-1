@@ -1,2 +1,30 @@
-﻿  functionFinalization.cpp
+﻿  function.cpp
+D:\CS162_Project\Project\function.cpp(7,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(13,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(19,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(285,12): warning C4101: 'nth': unreferenced local variable
+D:\CS162_Project\Project\function.cpp(285,7): warning C4101: 'day': unreferenced local variable
+D:\CS162_Project\Project\function.cpp(450,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(465,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(471,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(485,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(491,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\function.cpp(497,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  functionAllRoles.cpp
+  functionFinalization.cpp
+  functionInitialization.cpp
+  functionLecturer.cpp
+  functionStaff.cpp
+D:\CS162_Project\Project\function.cpp(517,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(55,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(56,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(61,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(66,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  functionStudent.cpp
+  main.cpp
+  pointersDeletion.cpp
+  sha256.cpp
+D:\CS162_Project\Project\functionStaff.cpp(71,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+D:\CS162_Project\Project\sha256.cpp(116,57): warning C4244: '=': conversion from 'unsigned __int64' to 'BYTE', possible loss of data
   Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe

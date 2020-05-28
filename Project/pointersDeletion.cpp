@@ -1,9 +1,9 @@
 #include "function.h"
-void deleteOutsider(OutsideStudent* OS)
+void deleteStudentCourse(StudentCourse* OS)
 {
 	while (OS)
 	{
-		OutsideStudent* tmp = OS;
+		StudentCourse* tmp = OS;
 		OS = OS->next;
 		delete tmp;
 	}
@@ -15,7 +15,7 @@ void deleteCourses(Courses*& course) {
 		CourseClass* CL = course->courseclass;
 		while (CL)
 		{
-			deleteOutsider(CL->Outsider);
+			deleteStudentCourse(CL->Outsider);
 			CourseClass* tmpCL = CL;
 			CL = CL->next;
 			delete tmpCL;

@@ -1,0 +1,9 @@
+4
+Calculus I
+MTH251 // // // //
+Introduction to Computer Science 1
+CS161 // // // //
+Introduction to Computer Science 2
+CS162 10 // // 10
+Calculus II
+MTH252 // // // //
