@@ -41,7 +41,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 			if (st->Status >= 0)
 			{
 				k = 1;
-				ifstream SBinit("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
+				ifstream SBinit;
+				SBinit.open("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
 				if (SBinit.is_open())
 				{
 					string courseID;
