@@ -75,7 +75,7 @@ struct Lecturers
 
 struct CheckinCourse
 {
-    int bitweek;
+    int bitweek=0;
     string courseID;
     CheckinCourse *next=NULL;
 };
@@ -168,7 +168,7 @@ void scheduleInit(string schedule[6][4], ifstream& in);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,int check);
+void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course ,string year);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
@@ -236,9 +236,9 @@ void AddCourse(AcademicYears*& year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth, int check);
-void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth,int check);
-void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
+void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth , string year);
+void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth, string year);
+void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID,string year);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
 void EditCourseId(Courses*& course,string NewID, Classes*& Class);
@@ -290,6 +290,7 @@ void writeStaffs(Staffs* staff, char semes, string year);
 void writeSemesters(Semesters* semes, string year);
 
 void writeScoreBoard(Students* st, string year);
+void writeCheckIn(Students* st, string year);
 void writeStudents(Students* st, string Class, string year);
 void writeClasses(Classes* Class, string year);
 

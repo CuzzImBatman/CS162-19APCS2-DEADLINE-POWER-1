@@ -93,19 +93,19 @@ void AddScoreBoardCourse(Students*& st, string courseID)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth,int check) {
+void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year) {
 	
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, course, DayInWeek, AtNth,check);
+		AddCourseToStudent(curST, course, DayInWeek, AtNth,year);
 		curST = curST->next;
 	}
 
 	
 }
 
-void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID) {
+void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID, string year) {
 
 	Courses* curCS =findCourse(course,courseID);
 	
@@ -178,7 +178,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		i++;
 		curST = curST->next;
 	}
-	AddCourseToClass(curCL, curCS, DayInWeek, AtNth,0);
+	AddCourseToClass(curCL, curCS, DayInWeek, AtNth,year);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;
@@ -187,24 +187,119 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 
 
-void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth,int check) {
+void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year) {
 
 	ST->  schedule[DayInWeek][AtNth] = course->courseID;
-
-	CheckinCourse* newcourse = new CheckinCourse;;
-	newcourse->courseID = course->courseID;
-	newcourse->bitweek = 0;
-	newcourse->next = ST->checkincourse;
-	ST->checkincourse = newcourse;
-  
-	Scoreboards* SB = new Scoreboards;;
-	if (check) {
-		SB->courseName = course->courseName;
-		return;
+	ifstream CKinit;
+	string init = "Yr" + year + "_StudentID" + ST->studentID + "_CheckIn.txt";
+	CKinit.open(init);
+	if (!CKinit.is_open())
+	{
+		CheckinCourse* newcourse = new CheckinCourse;
+		newcourse->courseID = course->courseID;
+		newcourse->bitweek = 0;
+		newcourse->next = ST->checkincourse;
+		ST->checkincourse = newcourse;
 	}
-	SB->courseID = course->courseID;
-	SB->next = ST->scoreboards;
-	ST->scoreboards = SB;
+	else
+	{
+		int n;
+		CKinit >> n;
+		if (!n)
+		{
+			CheckinCourse* newcourse = new CheckinCourse;
+			newcourse->courseID = course->courseID;
+			newcourse->bitweek = 0;
+			newcourse->next = ST->checkincourse;
+			ST->checkincourse = newcourse;
+		}
+		else
+		{
+			CheckinCourse* test = ST->checkincourse;
+			while (test)
+				if (test->courseID == course->courseID)break;
+				else test = test->next;
+			if (test == NULL && ST->checkincourse == NULL)
+			{
+				for (int i = 0; i < n; i++)
+				{
+					CheckinCourse* newcourse = new CheckinCourse;
+					CKinit >> newcourse->courseID;
+					CKinit >> newcourse->bitweek;
+					newcourse->next = ST->checkincourse;
+					ST->checkincourse = newcourse;
+				}
+			}
+			if (test && !ST->checkincourse)
+			{
+				CheckinCourse* newcourse = new CheckinCourse;
+				newcourse->courseID = course->courseID;
+				newcourse->bitweek = 0;
+				newcourse->next = ST->checkincourse;
+				ST->checkincourse = newcourse;
+			}
+		}
+
+	}
+
+  ifstream SBinit;
+  string in = "Yr" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
+  SBinit.open(in);
+  if (!SBinit.is_open())//initial definitely
+  {
+	  Scoreboards* SB = new Scoreboards;
+	  SB->courseName = course->courseName;
+	  SB->courseID = course->courseID;
+	  SB->next = ST->scoreboards;
+	  ST->scoreboards = SB;
+  }
+  else
+  {
+	  int n;
+	  SBinit >> n;
+	  if (!n)
+	  {
+		  Scoreboards* SB = new Scoreboards;
+		  SB->courseName = course->courseName;
+		  SB->courseID = course->courseID;
+		  SB->next = ST->scoreboards;
+		  ST->scoreboards = SB;
+
+	  }
+	  else
+	  {
+		  Scoreboards* test = ST->scoreboards;
+		  while (test)
+			  if (test->courseID == course->courseID)break;
+			  else test = test->next;
+		  if (test==NULL  && ST->scoreboards==NULL )
+		  {
+			 for (int i = 0; i < n; i++)
+			  {
+				  Scoreboards* SB = new Scoreboards;
+				  SBinit >> SB->courseID;
+				  SBinit >> SB->labScore;
+				  SBinit >> SB->midtermScore;
+				  SBinit >> SB->finalScore;
+				  SBinit >> SB->bonusScore;
+				  SB->next = ST->scoreboards;
+				  ST->scoreboards = SB;
+			  }
+		  }
+		  
+		  else if (!test && ST->scoreboards)
+		  {
+			  Scoreboards* SB = new Scoreboards;
+			  SB->courseName = course->courseName;
+			  SB->courseID = course->courseID;
+			  SB->next = ST->scoreboards;
+			  ST->scoreboards = SB;
+		  }
+	  }
+	
+	 
+  }
+ 
 }
 #pragma endregion
 //void EditScheduleCourseOfStudent()

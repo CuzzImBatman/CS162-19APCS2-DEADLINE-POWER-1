@@ -968,16 +968,13 @@ void View_Attendance_List(AcademicYears* year)
 			while (ck)
 				if (ck->courseID == course->courseID)break;
 				else ck = ck->next;
-			int check = 0;
-			for (int j = 0; j < 11; j++) {
-				int BIT = (ck->bitweek) >> j;
-				if (BIT % 2) {
-					check = 1;
+			for (int i = 0; i < 11; i++) {
+				int BIT = ck->bitweek >> i;
+				if (BIT % 2)
 					cout << setw(11) << "V";
-				}
-				else if (check || ck->bitweek == 0)
+				else if (ck->bitweek == 0)
 					cout << setw(11) << "-";
-				else if (!check)
+				else if (BIT)
 					cout << setw(11) << "X";
 			}
 			cout << endl;
@@ -1119,7 +1116,8 @@ void AddCourse(AcademicYears*& year) {
 				cout << "invalid Class ID.";
 				continue;
 			}
-			AddClassToCourse(Class, classID, course, course->courseID);
+			cin >> classID;
+			AddClassToCourse(Class, classID, course, course->courseID,year->year);
 			break;
 		}
 	} while (n != 2);
@@ -1196,7 +1194,7 @@ void AddStudentToCourseClass(AcademicYears* year) {
 			}
 			else {
 				courseclass->BitAttend += 1 << i;
-				AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0);
+				AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
 				cout << "Added" << endl;
 				break;
 			}
@@ -1205,13 +1203,21 @@ void AddStudentToCourseClass(AcademicYears* year) {
 
 	///
 	if (curST) return;
+	OutsideStudent* test = courseclass->Outsider;
+	while (test)
+		if (test->studentID == studentID)
+		{
+			cout << "Student's already in the course" << endl;
+			return;
+		}
+		else test = test->next;
 	OutsideStudent* Outsider = new OutsideStudent;
 	Outsider->classID = classSTID;
 	Outsider->studentID = studentID;
 	Outsider->next = courseclass->Outsider;
 	courseclass->Outsider = Outsider;
 	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,0);
+	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
 	cout << "Added" << endl;
 	return ;
 }

@@ -65,6 +65,7 @@ void writeCourses(Courses* course, char semes, string year) {
 		course = course->next;
 	}
 }
+
 void writeLecturers(Lecturers* lect, char semes, string year) {
 	Lecturers* tempLect = lect;
 	ofstream lectOut;
@@ -118,15 +119,47 @@ void writeSemesters(Semesters* semes, string year) {
 void writeScoreBoard(Students* st, string year)
 {
 	Scoreboards* SB = st->scoreboards;
+	int i = 0;
+	
+	while (SB)
+	{
+		i++;
+		SB = SB->next;
+	}
+	SB = st->scoreboards;
 	ofstream out;
-	out.open("Yr" + year + "_StudentID" + st->studentID + "ScoreBoard.txt");
+	string output = "Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt";
+	out.open("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
+	out << i << endl;
 	while (SB)
 	{
 		out << SB->courseID << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
 		SB = SB->next;
 	}
-	out.close();
+//	out.close();
 
+}
+void writeCheckIn(Students* st, string year)
+{
+	CheckinCourse* CK = st->checkincourse;
+	int i = 0;
+
+	while (CK)
+	{
+		i++;
+		CK = CK->next;
+	}
+	CK = st->checkincourse;
+	ofstream out;
+	string output = "Yr" + year + "_StudentID" + st->studentID + "_CheckIn.txt";
+	out.open(output);
+	out << i << endl;
+	while (CK)
+	{
+		out << CK->courseID << " " <<CK->bitweek<< endl;
+		CK = CK->next;
+	}
+	//	out.close();
 }
 void writeStudents(Students* st, string Class, string year) {
 
@@ -145,6 +178,7 @@ void writeStudents(Students* st, string Class, string year) {
 		while (tempSt) {
 			writeAccounts(stOut, tempSt->account);
 			writeScoreBoard(tempSt, year);
+			writeCheckIn(tempSt, year);
 			tempSt = tempSt->next;
 		}
 	}

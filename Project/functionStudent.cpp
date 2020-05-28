@@ -21,15 +21,22 @@ Courses* findCourse(Courses* course, string ID) {
 	return temp;
 }*/
 void Tick(Students* student) {
-	CheckinCourse* cur = student->checkincourse;
+	CheckinCourse* cur = NULL;
+	string courseID;
 	cout << "Current week : ";
 	int week; 
 	cin >> week;
-	string courseID;
-	cout << "the ID of course you want to checkin this week"<<endl;
-	cin >> courseID;
-	while (cur != NULL)
+	while (!cur)
 	{
+		
+		cout << "the ID of course you want to checkin this week" << endl;
+		cin >> courseID;
+		cur = student->checkincourse;
+		while (cur)
+			if (cur->courseID == courseID)break;
+			else cur = cur->next;
+		if (!cur)cout << "Invalid course ID, please enter again.";
+	}
 		if (cur->courseID == courseID)
 			if ((cur->bitweek >> (week - 1)) % 2) {
 				cout << "Cannot check  in Course";
@@ -37,12 +44,12 @@ void Tick(Students* student) {
 			}
 			else {
 				cur->bitweek += 1 << (week - 1);
+				cout << "Checked";
 				return;
 			}
-		cur = cur->next;
-	}
 
-	cout << "Cannot check  in Course";
+
+	
 	return ;
 
 }
@@ -50,18 +57,15 @@ void Tick(Students* student) {
 
 void viewCheckIn(CheckinCourse* checkincourse) {
 	while (checkincourse != NULL) {
-		int check = 0;
-		int bit = checkincourse->bitweek;
+
 		cout << setw(10) << checkincourse->courseID;
 		for (int i = 0; i < 11; i++) {
 			int bit = checkincourse->bitweek >> i;
-			if (bit % 2) {
-				check = 1;
+			if (bit % 2)
 				cout << setw(11) << "V";
-			}
-			else if (check || checkincourse->bitweek == 0)
+			else if (checkincourse->bitweek == 0)
 				cout << setw(11) << "-";
-			else if ( !check)
+			else if (bit)
 				cout << setw(11) << "X";
 		}
 		cout << endl << endl;
