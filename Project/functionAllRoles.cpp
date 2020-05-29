@@ -153,7 +153,6 @@ void showCourseOptions(AcademicYears*& year) {
 				createAcademicYear(year);
 				break;
 			}
-
 			case 2: {
 				updateAcademicYear(year);
 				break;
@@ -170,7 +169,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
-
+			// ...
 			break;
 		}
 		case 3: {

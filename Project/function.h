@@ -228,6 +228,7 @@ void updateAcademicYear(AcademicYears* year);
 void staff_deleteAcademicYear(AcademicYears*& year);
 void viewAcademicYear(AcademicYears* year);
 
+void importACourseFromCsvFile(Courses* listCourse);
 void EditCourse(AcademicYears* year);
 void RemovedStudentFromCourseClass(AcademicYears* year);
 void AddStudentToCourseClass(AcademicYears* year);

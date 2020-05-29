@@ -56,6 +56,12 @@ void Tick(Students* student) {
 
 
 void viewCheckIn(CheckinCourse* checkincourse) {
+	cout << setw(22);
+	for (int i = 1; i < 12; i++)
+	{
+		cout << "Week " << i << setw(10);
+	}
+	cout << "\n";
 	while (checkincourse != NULL) {
 
 		cout << setw(10) << checkincourse->courseID;
@@ -63,7 +69,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			int bit = checkincourse->bitweek >> i;
 			if (bit % 2)
 				cout << setw(11) << "V";
-			else if (checkincourse->bitweek == 0)
+			else if (!bit || checkincourse->bitweek == 0)
 				cout << setw(11) << "-";
 			else if (bit)
 				cout << setw(11) << "X";

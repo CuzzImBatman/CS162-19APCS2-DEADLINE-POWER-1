@@ -121,6 +121,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	cin >> courseclass->endDate.day;
 	cin >> courseclass->endDate.month;
 	cin >> courseclass->endDate.year;
+	cout << "Day in week (Monday/Tuesday/...): ";
 	string temp;
 	cin >> temp;
 	switch (temp[1]) { //Mo Tu We Th Fr Sa
@@ -143,6 +144,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		courseclass->DayInWeek = 5;
 		break;
 	}
+	cout << "Sesseion in day (7 30/9 00/...): ";
 	int hour, minute;
 	cin >> hour >> minute;
 	switch (hour) {
