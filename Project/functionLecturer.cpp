@@ -29,17 +29,26 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 	}
 
 	Students* st = NULL;
-	Classes* cl = NULL;
-	while (!cl)
+	CourseClass* CL = NULL;
+	while (!CL)
 	{
-		Classes* cl = year->classes;
+		 CL = course->courseclass;
 		cout << "Please enter student ID: ";
 		cin >> studentID;
-		while (cl)
+		while (CL)
 		{
-			st = findStudent(cl->students, studentID);
+			StudentCourse* curST = CL->Outsider;
+			while (curST)
+				if (curST->studentID == studentID)
+				{
+					Classes* cl = findClass(year->classes, curST->classID);
+					if (cl && findStudent(cl->students, studentID))
+						st = findStudent(cl->students, studentID);
+					break;
+				}
+				else curST = curST->next;
 			if (st && st->Status)break;
-			cl = cl->next;
+			CL = CL->next;
 		}
 		if (st) break;
 		else cout << "Invalid student ID, please enter again." << endl;
@@ -110,32 +119,26 @@ void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 	}
 
 	Students* st = NULL;
-	CourseClass* cl = NULL;
-	StudentCourse* os;
-	Classes* Class = year->classes;
-	while (!cl)
+	CourseClass* CL = NULL;
+	while (!CL)
 	{
-		 cl = course->courseclass;
+		CL = course->courseclass;
 		cout << "Please enter student ID: ";
 		cin >> studentID;
-		while (cl)
+		while (CL)
 		{
-			os = cl->Outsider;
-			while (os)
-				if (os->studentID == studentID)break;
-				else os = os->next;
-			if (os)
-			{
-				while (Class)
+			StudentCourse* curST = CL->Outsider;
+			while (curST)
+				if (curST->studentID == studentID)
 				{
-					st = findStudent(Class->students, studentID);
-					if (st)break;
-					Class = Class->next;
+					Classes* cl = findClass(year->classes, curST->classID);
+					if (cl && findStudent(cl->students, studentID))
+						st = findStudent(cl->students, studentID);
+					break;
 				}
-				break;
-			}
-
-			cl = cl->next;
+				else curST = curST->next;
+			if (st && st->Status)break;
+			CL = CL->next;
 		}
 		if (st) break;
 		else cout << "Invalid student ID, please enter again." << endl;

@@ -174,7 +174,16 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	CD->next = curCL->CD;
 	curCL->CD = CD;
 	Students* curST = curCL->students;
-	courseclass->students = curCL->students;
+	courseclass->Outsider = NULL;
+	while (curST)
+	{
+		StudentCourse* st = new StudentCourse;
+		st->studentID = curST->studentID;
+		st->classID = classID;
+		st->next = courseclass->Outsider;
+		courseclass->Outsider = st;
+		curST = curST->next;
+	}
 
 	
 	AddCourseToClass(curCL, curCS, DayInWeek, AtNth,year);

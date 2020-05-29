@@ -974,7 +974,7 @@ void View_Attendance_List(AcademicYears* year)
 				int bit = st->checkincourse->bitweek >> i;
 				if (bit % 2)
 					cout << setw(11) << "V";
-				else if (st->checkincourse->bitweek == 0)
+				else if (!bit || st->checkincourse->bitweek == 0)
 					cout << setw(11) << "-";
 				else if (bit)
 					cout << setw(11) << "X";
