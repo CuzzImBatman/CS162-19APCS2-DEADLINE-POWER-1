@@ -37,7 +37,7 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 		cin >> studentID;
 		while (CL)
 		{
-			StudentCourse* curST = CL->Outsider;
+			StudentCourse* curST = CL->studentcourse;
 			while (curST)
 				if (curST->studentID == studentID)
 				{
@@ -127,7 +127,7 @@ void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 		cin >> studentID;
 		while (CL)
 		{
-			StudentCourse* curST = CL->Outsider;
+			StudentCourse* curST = CL->studentcourse;
 			while (curST)
 				if (curST->studentID == studentID)
 				{
@@ -199,7 +199,7 @@ void View_Scoreboard(AcademicYears* year)
 	cout << setw(16) << "bonusScore" << endl;
 	Students* st ;
 	int i = 0;
-	StudentCourse* OS = CL->Outsider;
+	StudentCourse* OS = CL->studentcourse;
 	while (OS)
 	{
 		Classes* cl = findClass(y->classes, OS->classID);

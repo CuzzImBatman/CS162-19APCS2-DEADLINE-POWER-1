@@ -29,20 +29,7 @@ int numberOfDay(Date x) {
   return 365 * year + year / 4 - year / 100 + year / 400 + (153 * month - 457) / 5 + day - 307;
 }
 
-void UpdateBitAttend(string classID, Courses*& course) {
-	Courses* curCS = course;
-	while (curCS != NULL) {
-		CourseClass* cur = curCS->courseclass;
-		while (cur != NULL)
-			if (cur->classID == classID) {
-				cur->BitAttend =( (cur->BitAttend) >> 1) + 1;
-				break;
-			}
-			else
-				cur = cur->next;
-		curCS = curCS->next;
-	}
-}
+
 void FillCheckinCourse(Students*& student) {
 	for (int i = 0; i <= 5; i++)
 		for (int j = 0; j <= 3; j++)
@@ -174,14 +161,14 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	CD->next = curCL->CD;
 	curCL->CD = CD;
 	Students* curST = curCL->students;
-	courseclass->Outsider = NULL;
+	courseclass->studentcourse = NULL;
 	while (curST)
 	{
 		StudentCourse* st = new StudentCourse;
 		st->studentID = curST->studentID;
 		st->classID = classID;
-		st->next = courseclass->Outsider;
-		courseclass->Outsider = st;
+		st->next = courseclass->studentcourse;
+		courseclass->studentcourse = st;
 		curST = curST->next;
 	}
 
@@ -291,25 +278,59 @@ void EditScheduleCourseOfClass(Courses * & course, string classID, string course
   while (courseclass ->  classID != classID)
     courseclass = courseclass ->  next;
 
-  int day, nth, day0, nth0, i, j;
-  cout << "Day in week: ";
-  cin >> day0;
-  cout << "nth: ";
-  cin >> nth0;
-  //change schedule
-
-  for (i = 0; i < 6; i++)
+  string temp;
+  cout << "Day in week";
+  cin >> temp;
+  switch (temp[1]) { //Mo Tu We Th Fr Sa
+  case 'o':
+	  courseclass->DayInWeek = 0;
+	  break;
+  case 'u':
+	  courseclass->DayInWeek = 1;
+	  break;
+  case 'e':
+	  courseclass->DayInWeek = 2;
+	  break;
+  case 'h':
+	  courseclass->DayInWeek = 3;
+	  break;
+  case 'r':
+	  courseclass->DayInWeek = 4;
+	  break;
+  case 'a':
+	  courseclass->DayInWeek = 5;
+	  break;
+  }
+  int hour, minute;
+  cout << "Time: ";
+  cin>> hour >> minute;
+  switch (hour) {
+  case 7:
+	  courseclass->AtNth = 0;
+	  break;
+  case 9:
+	  courseclass->AtNth = 1;
+	  break;
+  case 13:
+	  courseclass->AtNth = 2;
+	  break;
+  case 15:
+	  courseclass->AtNth = 3;
+	  break;
+  }
+  int i, j;
+  for ( i = 0; i < 6; i++)
     for (j = 0; j < 4; j++)
       if (curCL ->  schedule[i][j] == courseID) {
         curCL ->  schedule[i][j] == "//";
         break;
       }
-  curCL ->  schedule[day0][nth0] = courseID;
+  curCL ->  schedule[courseclass->DayInWeek][courseclass->AtNth] = courseID;
 
   Students* curST = NULL;
 
   /// change schedule chechou
-  StudentCourse* st = courseclass ->  Outsider;
+  StudentCourse* st = courseclass ->studentcourse;
  
   while (st != NULL) {
     int k = CheckStatusStudent(st->  studentID, st->  classID, Class);
@@ -320,7 +341,7 @@ void EditScheduleCourseOfClass(Courses * & course, string classID, string course
           {
 			  curST = findStudent(curCL->students, st->studentID);
               curST ->  schedule[i][j] = "//";
-              curST ->  schedule[day0][nth0] = courseID;
+              curST ->schedule[courseclass->DayInWeek][courseclass->AtNth] = courseID;
            
           }
       }
@@ -366,7 +387,7 @@ void EditCourseId(Courses * & course, string NewID, Classes*& Class) {
   {
 	  Classes* cl = findClass(Class, cur->classID);
 	  if (cl)Edit_CourseID_Class(cl, NewID, course->courseID);
-	  StudentCourse* OS = cur->Outsider;
+	  StudentCourse* OS = cur->studentcourse;
 	  while (OS)
 	  {
 		  cl = findClass(Class, OS->classID);
@@ -400,7 +421,7 @@ void EditCourseName(Courses*& course, string NewName, Classes*& Class) {
 	Classes* cl;
 	while (cur)
 	{
-		StudentCourse* OS = cur->Outsider;
+		StudentCourse* OS = cur->studentcourse;
 		while (OS)
 		{
 			cl = findClass(Class, OS->classID);
@@ -421,7 +442,7 @@ void EditCourseroom(Courses * & course, string courseID, string room, Classes*& 
   CourseClass* CL = course->courseclass;
   while (CL)
   {
-	  StudentCourse* OS = CL->Outsider;
+	  StudentCourse* OS = CL->studentcourse;
 	  Classes* cl = findClass(Class, OS->classID);
 	  if (cl && findStudent(cl->students, OS->studentID))
 	  {
@@ -634,26 +655,11 @@ void DeleteCheckinCourseStudent(Students*& St)
 void DeleteStudentFromCourses(string studentID, string classID, Courses*& course)
 {
 	Courses* cs = course;
-	CourseClass* CL = findCL(course->courseclass, classID);
-	if (CL)
-	{
-		Students*& st = CL->students;
-		int i = 0;
-		while (st)
-			if (st->studentID == studentID)
-			{
-				CL->BitAttend = DeleteABit(CL->BitAttend, i);
-			}
-			else
-			{
-				i++;
-				st = st->next;
-			}
-	}
+	CourseClass* CL;
 	while (cs)
 	{
 		CL = cs->courseclass;
-		StudentCourse* OS = CL->Outsider;
+		StudentCourse* OS = CL->studentcourse;
 		StudentCourse* tmp = OS;
 		if (OS && OS->studentID == studentID)
 		{

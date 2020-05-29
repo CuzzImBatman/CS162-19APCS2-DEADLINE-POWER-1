@@ -40,7 +40,7 @@ Outsider
 
 #pragma region Structs
 struct Date {
-	string day, month, year;
+	string day = "", month = "", year = "";
 };
 struct Accounts
 {
@@ -116,10 +116,9 @@ struct CourseClass
 {
     string classID;
     Students* students = NULL;
-    long int BitAttend=0;
     Date startDate, endDate;
     CourseClass *next = NULL;
-	StudentCourse* Outsider=NULL;
+	StudentCourse* studentcourse=NULL;
     int DayInWeek;
     int AtNth;
 };
@@ -127,11 +126,11 @@ struct Courses
 {
 
     string courseno;
-    string courseID;	//them course id
-    string courseName;
+    string courseID="";	//them course id
+    string courseName="";
     CourseClass *courseclass;
-    string room;
-    string LectureName;
+    string room="";
+    string LectureName="";
     Courses* next = NULL;
 
 };
@@ -257,7 +256,7 @@ void EditDateOfCL(Courses*& course, string classID, string courseID,string year)
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
 void DeleteCourseScheduleStudent( Courses*& course, StudentCourse* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
-void UpdateBitAttend(string classID, Courses*& course);
+
 
 void viewCourseOfSemester(AcademicYears* AcaYear);
 //void viewStudentsOfCourse();
@@ -319,6 +318,11 @@ void DeleteCheckinCourseStudent(Students*& St);
 void DeleteScoreBoardStudent(Students*& ST);
 void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 #pragma endregion
+#pragma region Import
+void ImportCourse(AcademicYears* year);
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region Tasks

@@ -453,7 +453,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 	FillCheckinCourse(AddSt);
 	AddSt->next = tmpClassB->students;
 	tmpClassB->students = AddSt;
-	UpdateBitAttend(tmpClassB->classID, course);
+
 	cout << "Changed.";
 	/// scoreborad
 }
@@ -958,14 +958,14 @@ void View_Attendance_List(AcademicYears* year)
 		if(!CL)cout << "Invalid class ID, please enter again." << endl;
 	}
 	Students* st;
-	StudentCourse* OS = CL->Outsider;
+	StudentCourse* OS = CL->studentcourse;
 	while (OS)
 	{
-		Class = findClass(y->classes, OS->studentID);
+		Class = findClass(y->classes, OS->classID);
 		st = findStudent(Class->students, OS->studentID);
 		if (st->Status)
 		{
-			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(1200) << st->studentID;
+			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
 			CheckinCourse* ck = st->checkincourse;
 			while (ck)
 				if (ck->courseID == course->courseID)break;
@@ -1024,7 +1024,7 @@ void View_StudentList_Course(AcademicYears* year)
 	while (CL )
 	{
 		
-		StudentCourse* OS = CL->Outsider;
+		StudentCourse* OS = CL->studentcourse;
 		while (OS != NULL)
 		{
 			Classes* tempCL = findClass(Class, OS->classID);
@@ -1145,7 +1145,7 @@ void AddStudentToCourseClass(AcademicYears* year) {
 	///
 	int i = 0;
 
-	StudentCourse* test = courseclass->Outsider;
+	StudentCourse* test = courseclass->studentcourse;
 	while (test)
 		if (test->studentID == studentID)
 		{
@@ -1156,8 +1156,8 @@ void AddStudentToCourseClass(AcademicYears* year) {
 	StudentCourse* st = new StudentCourse;
 	st->classID = classSTID;
 	st->studentID = studentID;
-	st->next = courseclass->Outsider;
-	courseclass->Outsider = st;
+	st->next = courseclass->studentcourse;
+	courseclass->studentcourse = st;
 	curST = findStudent(curCL->students, studentID);
 	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
 	cout << "Added" << endl;
@@ -1322,7 +1322,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 	{
 		cout << "Student ID: ";
 		cin >> studentID;
-		OS = courseclass->Outsider;
+		OS = courseclass->studentcourse;
 		while (OS)
 			if (OS->studentID == studentID)break;
 			else OS->next;
@@ -1333,7 +1333,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 
 
 	///
-	OS = courseclass->Outsider;
+	OS = courseclass->studentcourse;
 	if (OS->classID == classID && OS->studentID == studentID)
 	{
 		Classes* CL = findClass(Class, OS->classID);
@@ -1344,7 +1344,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 			RemoveCourseOfScheduleStudent(students->schedule, courseID);
 			DeleteScoreBoardOfCourseStudent(students, course->courseName);
 		}
-		courseclass->Outsider = courseclass->Outsider->next;
+		courseclass->studentcourse = courseclass->studentcourse->next;
 		OS = NULL;
 
 	}
@@ -1358,7 +1358,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 			if (CL)students = findStudent(CL->students, OS->studentID);
 			if (students)
 			{
-				courseclass->BitAttend -= 1 >> i;
+				
 				DeleteCourseOfCheckin(students->checkincourse, courseID);
 				RemoveCourseOfScheduleStudent(students->schedule, courseID);
 				DeleteScoreBoardOfCourseStudent(students,  course->courseName);
@@ -1420,7 +1420,7 @@ void DeleteCourse(AcademicYears* year) {
 		CourseClass* courseclass = cur->courseclass;
 
 		while (courseclass) {
-			DeleteCourseScheduleStudent( cur, courseclass->Outsider, Class);
+			DeleteCourseScheduleStudent( cur, courseclass->studentcourse, Class);
 			DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
 			courseclass = courseclass->next;
 		}
@@ -1437,7 +1437,7 @@ void DeleteCourse(AcademicYears* year) {
 			CourseClass* courseclass = cur->courseclass;
 
 			while (courseclass != NULL) {
-				DeleteCourseScheduleStudent( cur, courseclass->Outsider, Class);
+				DeleteCourseScheduleStudent( cur, courseclass->studentcourse, Class);
 				DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
 				courseclass = courseclass->next;
 			}
@@ -1455,5 +1455,188 @@ void DeleteCourse(AcademicYears* year) {
 	return;
 
 }
+
+#pragma endregion
+
+#pragma region Export
+
+void Export_Scoreboard_Student(Students* st, string courseID,ofstream &out)
+{
+  
+	Scoreboards* SB = st->scoreboards;
+	while (SB)
+		if (SB->courseID == courseID)break;
+		else SB = SB->next;
+	out<< st->account->lastname << ","<< st->account->firstname << "," << st->studentID;
+	out <<"," << SB->midtermScore;
+	out <<"," << SB->finalScore;
+	out << "," << SB->labScore;
+	out <<"," << SB->bonusScore << endl;
+
+
+}
+void Export_ScoreBoard(AcademicYears* year)
+{
+	Courses* course = NULL;
+	string classID;
+	AcademicYears* y = inputYear(year, course);
+	CourseClass* CL = NULL;
+	while (!CL)
+	{
+		cout << "Please enter class ID: ";
+		cin >> classID;
+		CL = findCL(course->courseclass, classID);
+		if (!CL)cout << "Invalid class ID, please enter again." << endl;
+	}
+	string name = "Yr" + year->year + "_CourseID_" + classID + "_ClassID.csv";
+	ofstream out;
+	out.open(name);
+	cout <<"No"<< "," << "Last name" << "," << "first name" << "," << "student ID";
+	cout << "," << "midtermScore";
+	cout << "," << "finalScore";
+	cout << "," << "labScore";
+	cout << "," << "bonusScore" << endl;
+	Students* st;
+	int i = 0;
+	StudentCourse* OS = CL->studentcourse;
+	while (OS)
+	{
+		Classes* cl = findClass(y->classes, OS->classID);
+		if (cl && findStudent(cl->students, OS->studentID))
+		{
+			out << i << ",";
+			st = findStudent(cl->students, OS->studentID);
+			Export_Scoreboard_Student(st, course->courseID, out);
+			i++;
+		}
+		OS = OS->next;
+	}
+}
+
+#pragma endregion
+
+#pragma region Import
+void ImportCourse(AcademicYears* year)
+{
+	string Year;
+	char semes;
+	AcademicYears* y = NULL;
+	Semesters* s = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	while (!s)
+	{
+		cout << "\nPlease enter semester: ";
+		cin >> semes;
+		s = findSemester(y->semesters, semes);
+		if (!s)cout << "Invalid semester, please enter again." << endl;
+
+	}
+	string name= "Yr"+y->year+"_Sem"+semes+"_Courses.csv";
+	ifstream in;
+	in.open(name);
+	int i = 0;
+
+		getline(in, name);
+		getline(in, name, ',');
+		while (!in.eof())
+		{
+			int check = 1;
+			Courses* course = new Courses;
+			course->courseclass = NULL;
+			getline(in, course->courseID, ',');
+			getline(in, course->courseName, ',');
+			getline(in, course->LectureName, ',');
+			getline(in, course->room, ',');
+			string test = "";
+			while (!in.eof() && test == "")
+			{
+				if(!check)for (int j = 0; j < 4; j++)getline(in, test, ',');
+				check = 0;
+				CourseClass* CL = new CourseClass;
+				getline(in, CL->startDate.day, '/');
+				getline(in, CL->startDate.month, '/');
+				getline(in, CL->startDate.year, ',');
+				getline(in, CL->endDate.day, '/');
+				getline(in, CL->endDate.month, '/');
+				getline(in, CL->endDate.year, ',');
+
+
+				string temp;
+				getline(in, temp, ',');
+				switch (temp[1]) { //Mo Tu We Th Fr Sa
+				case 'o':
+					CL->DayInWeek = 0;
+					break;
+				case 'u':
+					CL->DayInWeek = 1;
+					break;
+				case 'e':
+					CL->DayInWeek = 2;
+					break;
+				case 'h':
+					CL->DayInWeek = 3;
+					break;
+				case 'r':
+					CL->DayInWeek = 4;
+					break;
+				case 'a':
+					CL->DayInWeek = 5;
+					break;
+				}
+				string hour;
+				getline(in, hour, ',');
+				int num = 0;
+				int j = 0;
+				while (hour[j] != ':')num = num * 10 + hour[j++] - 48;
+				switch (num) {
+				case 7:
+					CL->AtNth = 0;
+					break;
+				case 9:
+					CL->AtNth = 1;
+					break;
+				case 13:
+					CL->AtNth = 2;
+					break;
+				case 15:
+					CL->AtNth = 3;
+					break;
+				}
+				getline(in, CL->classID, '\,');
+				getline(in, CL->classID, '\n');
+				Classes* curCL = findClass(y->classes, CL->classID);
+
+				
+					AddCourseToClass(curCL, course, CL->DayInWeek, CL->AtNth, y->year);
+					Students* st = curCL->students;
+					while (st)
+					{
+						StudentCourse* OS = new StudentCourse;
+						OS->studentID = st->studentID;
+						OS->classID = curCL->classID;
+						OS->next = CL->studentcourse;
+						CL->studentcourse = OS;
+						st = st->next;
+					}
+
+				
+				CL->next = course->courseclass;
+				course->courseclass = CL;
+				getline(in, test, ',');
+			}
+			course->next = s->courses;
+			s->courses = course;
+		}
+}
+
 
 #pragma endregion
