@@ -133,23 +133,21 @@ void Edit_ScoreBoard_Student(AcademicYears* year)
 		if (sb->courseID == courseID)break;
 		else sb = sb->next;
 	//if (!sb)return;
-	cout << "1.Lab score." << endl << "2.Midterm score." << endl << "3.Final score." << endl << "4.Bonus score. " <<endl;
-	int sc;
-	string Grade;
-	cin >> sc;
-	cout << "Grade: ";
-	///cin >> Grade;
-	//sb null
-	if (sc == 1) {
-		sb->labScore = ""; 
-		cin >> sb->labScore;// = Grade;
+	int sc = 1;
+	while (sc)
+	{
+		cout << "1.Lab score." << endl << "2.Midterm score." << endl << "3.Final score." << endl << "4.Bonus score. " << endl << "5. Back. " << endl;
+		int sc;
+		string Grade;
+		cin >> sc;
+		cout << "Grade: ";
+		///cin >> Grade;
+		//sb null
+		if (sc == 1) 	cin >> sb->labScore;// = Grade;
+		if (sc == 2)cin >> sb->midtermScore;// = Grade;
+		if (sc == 3)cin >> sb->finalScore;// = Grade;
+		if (sc == 4)cin >> sb->bonusScore;// = Grade;
 	}
-	if (sc == 2)cin >> sb->midtermScore;// = Grade;
-	if (sc == 3)cin >> sb->finalScore;// = Grade;
-	if (sc == 4)cin >> sb->bonusScore;// = Grade;
-	
-
-
 }
 void View_Scoreboard_Student(Students* st, string courseID)
 {

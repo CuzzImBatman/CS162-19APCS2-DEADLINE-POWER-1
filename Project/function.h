@@ -76,8 +76,14 @@ struct Lecturers
 struct CheckinCourse
 {
     int bitweek=0;
-    string courseID;
+    string courseID,room;
     CheckinCourse *next=NULL;
+};
+struct CourseDetail
+{
+	string courseID, coursename, room;
+	CourseDetail* next = NULL;
+
 };
 struct Students
 {
@@ -136,6 +142,7 @@ struct Classes
     Students* students = NULL;
     Classes* next = NULL;
     string schedule[6][4];
+	CourseDetail* CD=NULL;
 };
 
 struct Semesters
@@ -182,7 +189,7 @@ CourseClass* findCL(CourseClass* CL, string classID);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
 void AddCheckInCourse(Students*& st, string courseID);
-void AddScoreBoardCourse(Students*& st, string courseID);
+void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 void DeleteScoreBoardStudent(Students*& ST);
 void DeleteCheckinCourseStudent(Students*& St);
@@ -244,7 +251,7 @@ void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
 void EditCourseId(Courses*& course,string NewID, Classes*& Class);
 void EditCourseName(Courses*& course, string NewName, Classes*& Class);
-void EditCourseroom(Courses*& course,string courseID,string room);
+void EditCourseroom(Courses*& course,string courseID,string room, Classes*& Class);
 void EditCourseLecture(Courses*& course,string name,string courseID);
 void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);

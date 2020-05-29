@@ -95,12 +95,20 @@ void viewSchedule(Students* student) {
 	cout << "Saturday";
 	cout << endl;
 
-	for (int i = 0; i < 6; i++)
+	for (int j = 0; j < 4; j++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int i = 0; i < 6; i++)
+
 			cout << setw(10) << student->schedule[i][j];
 		cout << endl;
 	};
+	Scoreboards* SB = student->scoreboards;
+	CheckinCourse* CK = student->checkincourse;
+	while (SB && CK)
+	{
+		cout << SB->courseID << ": " << SB->courseName << "(" << CK->room << ")"<< endl;
+		SB = SB->next;
+	}
 
 }
 void viewScoreCourse(Students* student) {

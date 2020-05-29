@@ -327,7 +327,12 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 		else curCL = curCL->next;
 
 	curCL->schedule[DayInWeek][AtNth] = course->courseID;
-
+	CourseDetail* CD = new CourseDetail;
+	CD->courseID = course->courseID;
+	CD->coursename = course->courseName;
+	CD->next = curCL->CD;
+	CD->room = course->room;
+	curCL->CD = CD;
 	Students* curST = curCL->students;
 	courseclass->students = curCL->students;
 

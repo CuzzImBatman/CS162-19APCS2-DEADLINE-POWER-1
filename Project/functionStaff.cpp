@@ -171,14 +171,16 @@ void addAStudentToAClass(Classes*& aClass) {
 	aStudent->scoreboards = NULL;
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
-		{
 			aStudent->schedule[i][j] = tmpClass->schedule[i][j];
-			if (tmpClass->schedule[i][j] != "//")
-			{
-				AddCheckInCourse(aStudent, tmpClass->schedule[i][j]);
-				AddScoreBoardCourse(aStudent, tmpClass->schedule[i][j]);
-			}
-		}
+	CourseDetail* CD = tmpClass->CD;
+	while (CD)
+	{
+		AddCheckInCourse(aStudent,CD->courseID);
+		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
+		CD = CD->next;
+	}
+			
+
 	Students* tmp = tmpClass->students;
 	if (tmp == nullptr)
 		tmpClass->students = aStudent;
@@ -435,14 +437,16 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
-		{
+		
 			AddSt->schedule[i][j] = tmpClassB->schedule[i][j];
-			if (tmpClassB->schedule[i][j] != "//")
-			{
-				AddCheckInCourse(AddSt, tmpClassB->schedule[i][j]);
-				AddScoreBoardCourse(AddSt, tmpClassB->schedule[i][j]);
-			}
-		}
+			
+	CourseDetail* CD = tmpClassB->CD;
+	while (CD)
+	{
+		AddCheckInCourse(AddSt, CD->courseID);
+		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
+		CD = CD->next;
+	}
 
 
 	AddSt->Status = 1;
@@ -1281,7 +1285,7 @@ void EditCourse(AcademicYears* year) {
 
 			cout << "New room: ";
 			cin >> room;
-			EditCourseroom(course, courseID, room);
+			EditCourseroom(course, courseID, room,Class);
 			break;
 
 		case 3:

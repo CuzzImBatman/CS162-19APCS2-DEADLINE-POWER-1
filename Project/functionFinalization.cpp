@@ -133,6 +133,7 @@ void writeScoreBoard(Students* st, string year)
 	out << i << endl;
 	while (SB)
 	{
+		out << SB->courseName << endl;
 		out << SB->courseID << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
 		SB = SB->next;
 	}
@@ -156,6 +157,7 @@ void writeCheckIn(Students* st, string year)
 	out << i << endl;
 	while (CK)
 	{
+		out << CK->room << endl;
 		out << CK->courseID << " " <<CK->bitweek<< endl;
 		CK = CK->next;
 	}
