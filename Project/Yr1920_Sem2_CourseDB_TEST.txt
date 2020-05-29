@@ -4,8 +4,9 @@ Calculus II
 nttvan
 1
 19CTT2
-3
-0
+2
+19125079 19CTT2
+19125113 19CTT2
 F204
 
 CS162
@@ -13,7 +14,8 @@ Introduction to Computer Science 2
 dbtien
 1
 19CTT2
-3
-0
+2
+19125079 19CTT2
+19125113 19CTT2
 I41
 
