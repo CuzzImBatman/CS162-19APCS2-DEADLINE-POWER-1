@@ -11,7 +11,6 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
 			fin >>hex>> acc->pwd.state[i];
-
 	}
 	fin >> acc->firstname;
 	fin.ignore(10, '\n');
@@ -28,44 +27,6 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 }
 
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
-
-	int check = 0;
-	Classes* cl = Class;
-	Students* st;
-	while (cl)
-	{
-		int k = 0;
-		st = cl->students;
-		while (st)
-		{
-			if (st->Status >= 0)
-			{
-				k = 1;
-				ifstream SBinit;
-				SBinit.open("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
-				if (SBinit.is_open())
-				{
-					string courseID;
-					while (SBinit >> courseID)
-					{
-						Scoreboards* SB = new Scoreboards;
-						SB->courseID = courseID;
-						SBinit >> SB->labScore;
-						SBinit >> SB->midtermScore;
-						SBinit >> SB->finalScore;
-						SBinit >> SB->bonusScore;
-					}
-					check = 1;
-				}
-			}
-			st = st->next;
-		}
-		if (k)break;
-		cl = cl->next;
-	}
-
-
-
 
 	ifstream courseIn;
 	char no = '1';
@@ -84,7 +45,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				int m;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
-					InitClassToCourse(Class, courseIn, tempCourse,check);
+					InitClassToCourse(Class, courseIn, tempCourse,year);
 				tempCourse->next = course;
 				course = tempCourse;
 
@@ -220,9 +181,8 @@ void studentInit(Students*& st, string Class, string year) {
 	}
 	stIn.close();
 }
-void scheduleInit(string schedule[6][4],ifstream& in)
+void scheduleInit(string schedule[6][4], ifstream& in)
 {
-
 	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 6; i++)
 			 schedule[i][j]="//";
@@ -285,7 +245,7 @@ void academicYearInit(AcademicYears*& year) {
 	}
 	yearIn.close();
 }
-void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int check) {
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  string year) {
 
 
 	CourseClass* courseclass = new CourseClass;
@@ -337,51 +297,52 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,int
 
 	int no;
 	courseIn >> courseclass->classID;
-	courseIn >> courseclass->BitAttend;
 	courseIn >> no;
-	courseclass->Outsider = NULL;
+	courseclass->studentcourse = NULL;
+
+	Classes* curCL = findClass(Class, courseclass->classID);
+
+	if (!no)
+	{
+		AddCourseToClass(curCL, course, courseclass->DayInWeek, courseclass->AtNth, year);
+		Students* st = curCL->students;
+		while (st)
+		{
+			StudentCourse* OS = new StudentCourse;
+			OS->studentID = st->studentID;
+			OS->classID = curCL->classID;
+			OS->next = courseclass->studentcourse;
+			courseclass->studentcourse = OS;
+			st = st->next;
+		}
+
+	}
 	for (int i = 0; i < no; i++)
 	{
-		OutsideStudent* OS = new OutsideStudent;
+		StudentCourse* OS = new StudentCourse;
 		courseIn >> OS->studentID;
 		courseIn >> OS->classID;
-		OS->next = courseclass->Outsider;
-		courseclass->Outsider = OS;
+		OS->next = courseclass->studentcourse;
+		courseclass->studentcourse = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,check);
+		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,year);
 
 	}
 	courseIn >> course->room;
 
-
-
-	int DayInWeek = courseclass->DayInWeek, AtNth = courseclass->AtNth;
-
-
-	Classes* curCL = Class;
-	while (curCL != NULL)
-		if (curCL->classID == courseclass->classID)break;
-		else curCL = curCL->next;
-
-	curCL->schedule[DayInWeek][AtNth] = course->courseID;
-
+	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
+	CourseDetail* CD = new CourseDetail;
+	CD->courseID = course->courseID;
+	CD->coursename = course->courseName;
+	CD->next = curCL->CD;
+	CD->room = course->room;
+	curCL->CD = CD;
 	Students* curST = curCL->students;
 	courseclass->students = curCL->students;
 
-	int i = 0;
-	if (courseclass->BitAttend < 0)
-	while (curST != NULL) {
-
-		if (curST->Status == 1)
-			if (!i)courseclass->BitAttend = 1;
-			else courseclass->BitAttend +=( 1 << i);
-		i++;
-		curST = curST->next;
-	}
+	
 	courseclass->next = course->courseclass;
 	course->courseclass = courseclass;
-	AddCourseToClass(curCL, course, DayInWeek, AtNth, check);
-
 
 }

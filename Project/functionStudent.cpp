@@ -21,15 +21,22 @@ Courses* findCourse(Courses* course, string ID) {
 	return temp;
 }*/
 void Tick(Students* student) {
-	CheckinCourse* cur = student->checkincourse;
+	CheckinCourse* cur = NULL;
+	string courseID;
 	cout << "Current week : ";
 	int week; 
 	cin >> week;
-	string courseID;
-	cout << "the ID of course you want to checkin this week"<<endl;
-	cin >> courseID;
-	while (cur != NULL)
+	while (!cur)
 	{
+		
+		cout << "the ID of course you want to checkin this week" << endl;
+		cin >> courseID;
+		cur = student->checkincourse;
+		while (cur)
+			if (cur->courseID == courseID)break;
+			else cur = cur->next;
+		if (!cur)cout << "Invalid course ID, please enter again.";
+	}
 		if (cur->courseID == courseID)
 			if ((cur->bitweek >> (week - 1)) % 2) {
 				cout << "Cannot check  in Course";
@@ -37,31 +44,34 @@ void Tick(Students* student) {
 			}
 			else {
 				cur->bitweek += 1 << (week - 1);
+				cout << "Checked";
 				return;
 			}
-		cur = cur->next;
-	}
 
-	cout << "Cannot check  in Course";
+
+	
 	return ;
 
 }
 
 
 void viewCheckIn(CheckinCourse* checkincourse) {
+	cout << setw(22);
+	for (int i = 1; i < 12; i++)
+	{
+		cout << "Week " << i << setw(10);
+	}
+	cout << "\n";
 	while (checkincourse != NULL) {
-		int check = 0;
-		int bit = checkincourse->bitweek;
+
 		cout << setw(10) << checkincourse->courseID;
 		for (int i = 0; i < 11; i++) {
 			int bit = checkincourse->bitweek >> i;
-			if (bit % 2) {
-				check = 1;
+			if (bit % 2)
 				cout << setw(11) << "V";
-			}
-			else if (check || checkincourse->bitweek == 0)
+			else if (!bit || checkincourse->bitweek == 0)
 				cout << setw(11) << "-";
-			else if ( !check)
+			else if (bit)
 				cout << setw(11) << "X";
 		}
 		cout << endl << endl;
@@ -85,13 +95,20 @@ void viewSchedule(Students* student) {
 	cout << "Saturday";
 	cout << endl;
 
-	for (int i = 0; i < 6; i++)
+	for (int j = 0; j < 4; j++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int i = 0; i < 6; i++)
 
 			cout << setw(10) << student->schedule[i][j];
 		cout << endl;
 	};
+	Scoreboards* SB = student->scoreboards;
+	CheckinCourse* CK = student->checkincourse;
+	while (SB && CK)
+	{
+		cout << SB->courseID << ": " << SB->courseName << "(" << CK->room << ")"<< endl;
+		SB = SB->next;
+	}
 
 }
 void viewScoreCourse(Students* student) {

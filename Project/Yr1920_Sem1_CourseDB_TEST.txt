@@ -4,8 +4,14 @@ Introduction to Computer Science 1
 forgothername
 1
 19CTT2
+<<<<<<< HEAD
 3
 0
+=======
+2
+19125079 19CTT2
+19125113 19CTT2
+>>>>>>> master
 F203
 
 MTH251
@@ -13,7 +19,13 @@ Calculus I
 nhanh
 1
 19CTT2
+<<<<<<< HEAD
 3
 0
+=======
+2
+19125079 19CTT2
+19125113 19CTT2
+>>>>>>> master
 I23
 

@@ -1,2 +1,10 @@
-﻿  functionFinalization.cpp
+﻿  functionInitialization.cpp
+  functionStaff.cpp
+D:\CS162_Project\Project\functionStaff.cpp(55,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(56,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(61,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(66,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(71,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+D:\CS162_Project\Project\functionStaff.cpp(1614,30): warning C4129: ',': unrecognized character escape sequence
   Project.vcxproj -> D:\CS162_Project\x64\Debug\Project.exe
