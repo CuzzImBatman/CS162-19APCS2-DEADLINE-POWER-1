@@ -40,7 +40,7 @@ Outsider
 
 #pragma region Structs
 struct Date {
-	string day, month, year;
+	string day = "", month = "", year = "";
 };
 struct Accounts
 {
@@ -75,9 +75,15 @@ struct Lecturers
 
 struct CheckinCourse
 {
-    int bitweek;
-    string courseID;
+    int bitweek=0;
+    string courseID,room;
     CheckinCourse *next=NULL;
+};
+struct CourseDetail
+{
+	string courseID, coursename, room;
+	CourseDetail* next = NULL;
+
 };
 struct Students
 {
@@ -97,11 +103,12 @@ struct Students
     Students* next = NULL;
 
 };
-struct OutsideStudent
+// StudentCourse
+struct StudentCourse
 {
     string studentID;
     string classID;
-    OutsideStudent* next=NULL;
+	StudentCourse* next=NULL;
 
 };
 
@@ -109,10 +116,9 @@ struct CourseClass
 {
     string classID;
     Students* students = NULL;
-    long int BitAttend=0;
     Date startDate, endDate;
     CourseClass *next = NULL;
-    OutsideStudent* Outsider=NULL;
+	StudentCourse* studentcourse=NULL;
     int DayInWeek;
     int AtNth;
 };
@@ -120,11 +126,11 @@ struct Courses
 {
 
     string courseno;
-    string courseID;	//them course id
-    string courseName;
+    string courseID="";	//them course id
+    string courseName="";
     CourseClass *courseclass;
-    string room;
-    string LectureName;
+    string room="";
+    string LectureName="";
     Courses* next = NULL;
 
 };
@@ -136,6 +142,7 @@ struct Classes
     Students* students = NULL;
     Classes* next = NULL;
     string schedule[6][4];
+	CourseDetail* CD=NULL;
 };
 
 struct Semesters
@@ -168,7 +175,7 @@ void scheduleInit(string schedule[6][4], ifstream& in);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,int check);
+void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course ,string year);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
@@ -181,8 +188,8 @@ Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void AddCheckInCourse(Students*& st, string courseID);
-void AddScoreBoardCourse(Students*& st, string courseID);
+void AddCheckInCourse(Students*& st, string courseID,string room);
+void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 void DeleteScoreBoardStudent(Students*& ST);
 void DeleteCheckinCourseStudent(Students*& St);
@@ -207,7 +214,7 @@ int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 
 
 #pragma region Class
-void importAClassFromCsvFile(Classes*& aClass);
+void importAClassFromCsvFile(Classes*& classList);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
 void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
@@ -228,6 +235,7 @@ void updateAcademicYear(AcademicYears* year);
 void staff_deleteAcademicYear(AcademicYears*& year);
 void viewAcademicYear(AcademicYears* year);
 
+void importACourseFromCsvFile(Courses* listCourse);
 void EditCourse(AcademicYears* year);
 void RemovedStudentFromCourseClass(AcademicYears* year);
 void AddStudentToCourseClass(AcademicYears* year);
@@ -236,20 +244,20 @@ void AddCourse(AcademicYears*& year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth, int check);
-void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth,int check);
-void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID);
+void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth , string year);
+void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth, string year);
+void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID,string year);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
 void EditCourseId(Courses*& course,string NewID, Classes*& Class);
 void EditCourseName(Courses*& course, string NewName, Classes*& Class);
-void EditCourseroom(Courses*& course,string courseID,string room);
+void EditCourseroom(Courses*& course,string courseID,string room, Classes*& Class);
 void EditCourseLecture(Courses*& course,string name,string courseID);
 void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
 void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
-void DeleteCourseScheduleStudent(Students *&student, Courses*& course,OutsideStudent* &Outsider,Classes *&Class);
+void DeleteCourseScheduleStudent( Courses*& course, StudentCourse* &Outsider,Classes *&Class);
 void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
-void UpdateBitAttend(string classID, Courses*& course);
+
 
 void viewCourseOfSemester(AcademicYears* AcaYear);
 //void viewStudentsOfCourse();
@@ -269,8 +277,8 @@ void View_Attendance_List(AcademicYears* AcaYear);
 
 #pragma endregion
 #pragma region Lecturer
-void Edit_Attend_List(AcademicYears* year);
-void Edit_ScoreBoard_Student(AcademicYears* year);
+void Edit_Attend_List(AcademicYears* year, Accounts*& acc);
+void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc);
 void View_Scoreboard(AcademicYears* year);
 #pragma endregion
 #pragma region Student
@@ -290,6 +298,7 @@ void writeStaffs(Staffs* staff, char semes, string year);
 void writeSemesters(Semesters* semes, string year);
 
 void writeScoreBoard(Students* st, string year);
+void writeCheckIn(Students* st, string year);
 void writeStudents(Students* st, string Class, string year);
 void writeClasses(Classes* Class, string year);
 
@@ -310,8 +319,14 @@ void DeleteCheckinCourseStudent(Students*& St);
 void DeleteScoreBoardStudent(Students*& ST);
 void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 #pragma endregion
+#pragma region Import
+void ImportCourse(AcademicYears* year);
 #pragma endregion
 
+
+#pragma endregion
+void RemoveFile(string s);
+#endif
 #pragma region Tasks
 /*
 All roles
@@ -370,4 +385,3 @@ Student:
 			38. View his/her scores of a course.
 */
 #pragma endregion
-#endif

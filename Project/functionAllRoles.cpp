@@ -153,7 +153,6 @@ void showCourseOptions(AcademicYears*& year) {
 				createAcademicYear(year);
 				break;
 			}
-
 			case 2: {
 				updateAcademicYear(year);
 				break;
@@ -170,7 +169,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
-
+			ImportCourse(year);
 			break;
 		}
 		case 3: {
@@ -203,7 +202,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 10: {
-			View_Attendance_List(year);// still not understand difference (Attendancelist and Stulist)
+			View_Attendance_List(year);
 			break;
 		}
 		case 11: {
@@ -254,7 +253,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
+			View_Scoreboard(year);
 			break;
 		}
 		case 2: {
@@ -370,15 +369,15 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 4: {
-				Edit_Attend_List(year);
+				Edit_Attend_List(year,acc);
 				break;
 			}
 			case 5: {
-				Edit_ScoreBoard_Student(year);
+				
 				break;
 			}
 			case 6: {
-				Edit_ScoreBoard_Student(year);
+				Edit_ScoreBoard_Student(year,acc);
 				break;
 			}
 			case 7: {
