@@ -215,7 +215,7 @@ int CheckStatusStudent(string studentID,string classID, Classes* &Class);
 
 
 #pragma region Class
-void importAClassFromCsvFile(Classes*& aClass);
+void importAClassFromCsvFile(Classes*& classList);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
 void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);

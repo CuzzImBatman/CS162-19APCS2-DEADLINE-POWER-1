@@ -40,94 +40,174 @@ CourseClass* findCL(CourseClass* CL, string classID) {
 #pragma endregion 
 
 #pragma region Class
-void importAClassFromCsvFile(Classes*& aClass) {
-	Students* st = aClass->students;
-	Students* tempSt = st;
-	cout << "Enter path to the csv file: ";
-	string fileIn;
-	cin >> fileIn;
-	ifstream fin{ fileIn };
-	if (fin.is_open()) {
-		fin.ignore(1000,'\n');
-		while (!fin.eof()) {
-			string student;
-			getline(fin, student);
-			int comma = student.find(',');
-			int nextComma = student.find(',', comma + 1);
 
-			string id = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string lastname = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string firstname = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string sex = student.substr(comma + 1, nextComma - comma + 1);
-			char gender;
-			if (sex[0] == 'P')
-				gender = 'O';
-			else gender = sex[0];
-
-			string date = student.substr(nextComma, 10);
-			string year = date.substr(0, 4);
-			string month = date.substr(6, 2);
-			string day = date.substr(8, 2);
-
-			if (!st) {
-				st = new Students;
-				st->studentID = id;
-				st->account = new Accounts;
-				st->account->uName = st->studentID;
-				st->account->role = 1;
-				st->account->firstname = firstname;
-				st->account->lastname = lastname;
-				st->account->gender = gender;
-				st->account->doB = new Date;
-				st->account->doB->day = day;
-				st->account->doB->month = month;
-				st->account->doB->year = year;
-
-				string pwd = st->account->doB->day + st->account->doB->month + st->account->uName;
-				sha256_init(&st->account->pwd);
-				sha256_update(&st->account->pwd, pwd, pwd.length());
-				for (int i = 0; i < 6; i++)
-					for (int j = 0; j < 4; j++)
-						st->schedule[i][j] = "//";
-				tempSt = st;
+Students* listStudentsFromFile(string path)
+{
+	Students* studentList = nullptr;
+	Students* tmp = nullptr;
+	ifstream in(path);
+	bool firstRead = true;
+	if (in.is_open())
+	{
+		string pwd;
+		string dob;
+		string gender;
+		string no;
+		while (true)
+		{
+			if (firstRead)
+			{
+				//  Read first line
+				string tmp;
+				firstRead = false;
+				getline(in, tmp, '\n');
 			}
-			else {
-				tempSt->next = new Students;
-				tempSt->next->studentID = id;
-				tempSt->next->account = new Accounts;
-				tempSt->next->account->uName = st->studentID;
-				tempSt->next->account->role = 1;
-				tempSt->next->account->firstname = firstname;
-				tempSt->next->account->lastname = lastname;
-				tempSt->next->account->gender = gender;
-				tempSt->next->account->doB = new Date;
-				tempSt->next->account->doB->day = day;
-				tempSt->next->account->doB->month = month;
-				tempSt->next->account->doB->year = year;
-				string pwd = tempSt->next->account->doB->day + tempSt->next->account->doB->month + tempSt->next->account->uName;
-				sha256_init(&tempSt->next->account->pwd);
-				sha256_update(&tempSt->next->account->pwd, pwd, pwd.length());
-				for (int i = 0; i < 6; i++)
-					for (int j = 0; j < 4; j++)
-						tempSt->next->schedule[i][j] = "//";
-				tempSt = tempSt->next;
+			else
+			{
+				getline(in, no, ',');
+				if (in.eof())
+					break;
+				if (!studentList)
+				{
+					studentList = new Students;
+					studentList->account = new Accounts;
+					studentList->account->doB = new Date;
+					studentList->account->role = 1;
+					getline(in, studentList->account->uName, ',');
+					studentList->studentID = studentList->account->uName;
+					getline(in, studentList->account->lastname, ',');
+					getline(in, studentList->account->firstname, ',');
+					getline(in, gender, ',');
+					studentList->account->gender = gender[0];
+					getline(in, dob, '\n');
+					studentList->account->doB->day = dob.substr(8, 2);
+					studentList->account->doB->month = dob.substr(5, 2);
+					studentList->account->doB->year = dob.substr(0, 4);
+					tmp = studentList;
+					pwd = studentList->account->doB->day
+						+ studentList->account->doB->month
+						+ studentList->account->uName;
+					sha256_init(&(studentList->account->pwd));
+					sha256_update(&(studentList->account->pwd), pwd, pwd.length());
+				}
+				else
+				{
+					tmp->next = new Students;
+					tmp = tmp->next;
+					tmp->account = new Accounts;
+					tmp->account->doB = new Date;
+					tmp->account->role = 1;
+					getline(in, tmp->account->uName, ',');
+					tmp->studentID = tmp->account->uName;
+					getline(in, tmp->account->lastname, ',');
+					getline(in, tmp->account->firstname, ',');
+					getline(in, gender, ',');
+					tmp->account->gender = gender[0];
+					getline(in, dob, '\n');
+					tmp->account->doB->day = dob.substr(8, 2);
+					tmp->account->doB->month = dob.substr(5, 2);
+					tmp->account->doB->year = dob.substr(0, 4);
+					pwd = tmp->account->doB->day
+						+ tmp->account->doB->month
+						+ tmp->account->uName;
+					sha256_init(&(tmp->account->pwd));
+					sha256_update(&(tmp->account->pwd), pwd, pwd.length());
+				}
 			}
 		}
 	}
-	fin.close();
-	cout << "Class imported successfully." << endl;
+	in.close();
+	return studentList;
+}
+
+void importAClassFromCsvFile(Classes*& classList) {
+	cout << "Enter path to the csv file: ";
+	Classes* tmp = classList;
+	string path;
+	cin >> path;
+	Students* studentList = listStudentsFromFile(path);
+	if (studentList)
+	{
+		if (classList != nullptr)
+		{
+			short int no;
+			int choice;
+			cout << "[1] Create a new class.\n"
+				<< "[2] Import into existing class.\n"
+				<< "Your choice: ";
+			cin >> choice;
+			while (choice != 1 && choice != 2)
+			{
+				cout << "Invalid choice. Please choose again: ";
+				cin >> choice;
+			}
+			switch (choice)
+			{
+			case 1:
+				
+				while (tmp->next != nullptr) tmp = tmp->next;
+				tmp->next = new Classes;
+				no = tmp->classno;
+				tmp = tmp->next;
+				tmp->students = studentList;
+				cout << "Please enter class ID: ";
+				cin >> tmp->classID;
+				tmp->classno = ++no;
+				tmp->next = nullptr;
+				for (int i = 0; i < 6; i++)
+					for (int j = 0; j < 4; j++)
+						tmp->schedule[i][j] = "//";
+				break;
+			case 2:
+				string classID;
+				cout << "Class ID you want to import: ";
+				cin >> classID;
+				Classes* aClass = findClass(tmp, classID);
+				while (!(aClass = findClass(tmp, classID)))
+				{
+					cout << "Can't find class. Please enter class again: ";
+					cin >> classID;
+				}
+				Students* list = aClass->students; // list of current students in the selected class
+				if (list == nullptr)
+					aClass->students = studentList; // assign the new list for the empty class
+				else
+				{
+					//	Merge 2 lists of students
+					while (list->next != nullptr) list = list->next;
+					list->next = studentList;
+
+					//	Initialize schedule for new students in the class
+					Students* tmpSt = studentList;
+					while (tmpSt)
+					{
+						for (int i = 0; i < 6; i++)
+							for (int j = 0; j < 4; j++)
+								tmpSt->schedule[i][j] = list->schedule[i][j];
+						tmpSt = tmpSt->next;
+					}
+					//	For Sunflower: please initialize the attendance lists for the new students for Emblema :D
+				}
+				break;
+			}
+		}
+		else
+		{
+			cout << "There is no class in the list. Creating a new class.\n";
+			classList = new Classes;
+			short int no = 1;
+			classList = classList->next;
+			classList->students = studentList;
+			cout << "Please enter class ID: ";
+			cin >> classList->classID;
+			classList->classno = ++no;
+			classList->next = nullptr;
+			for (int i = 0; i < 6; i++)
+				for (int j = 0; j < 4; j++)
+					classList->schedule[i][j] = "//";
+		}
+	}
+	else cout << "Can't open file!\n";
 }
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;

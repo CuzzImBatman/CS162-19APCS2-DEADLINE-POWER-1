@@ -11,7 +11,6 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
 			fin >>hex>> acc->pwd.state[i];
-
 	}
 	fin >> acc->firstname;
 	fin.ignore(10, '\n');
@@ -182,9 +181,8 @@ void studentInit(Students*& st, string Class, string year) {
 	}
 	stIn.close();
 }
-void scheduleInit(string schedule[6][4],ifstream& in)
+void scheduleInit(string schedule[6][4], ifstream& in)
 {
-
 	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 6; i++)
 			 schedule[i][j]="//";
