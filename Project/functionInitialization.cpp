@@ -298,12 +298,9 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 	int no;
 	courseIn >> courseclass->classID;
 	courseIn >> no;
-	courseclass->Outsider = NULL;
+	courseclass->studentcourse = NULL;
 
-	Classes* curCL = Class;
-	while (curCL != NULL)
-		if (curCL->classID == courseclass->classID)break;
-		else curCL = curCL->next;
+	Classes* curCL = findClass(Class, courseclass->classID);
 
 	if (!no)
 	{
@@ -314,8 +311,8 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 			StudentCourse* OS = new StudentCourse;
 			OS->studentID = st->studentID;
 			OS->classID = curCL->classID;
-			OS->next = courseclass->Outsider;
-			courseclass->Outsider = OS;
+			OS->next = courseclass->studentcourse;
+			courseclass->studentcourse = OS;
 			st = st->next;
 		}
 
@@ -325,8 +322,8 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 		StudentCourse* OS = new StudentCourse;
 		courseIn >> OS->studentID;
 		courseIn >> OS->classID;
-		OS->next = courseclass->Outsider;
-		courseclass->Outsider = OS;
+		OS->next = courseclass->studentcourse;
+		courseclass->studentcourse = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
 		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,year);

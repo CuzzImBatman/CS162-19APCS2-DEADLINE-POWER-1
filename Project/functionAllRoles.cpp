@@ -169,7 +169,7 @@ void showCourseOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
-			// ...
+			ImportCourse(year);
 			break;
 		}
 		case 3: {
@@ -253,7 +253,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
+			View_Scoreboard(year);
 			break;
 		}
 		case 2: {
