@@ -8,8 +8,8 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include "sha256.h"
 #include <stdio.h>
+#include "sha256.h"
 
 using namespace std;
 #pragma region Naming rule
@@ -28,12 +28,13 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 							  |
 [AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
 			   |					   	   		                |
-			   +<-----------------------------------------------+
 			   |
-			   |                            	          +-->[AttendanceStatus]
-			   |			      	                      |
-			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
-Outsider
+			   |
+			   |                          +-->[ChechinCourse]+-->[CoursesID]
+	           |     	                  |
+			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->[CourseID]
+			                |
+							+-->[Schedule]
 */
 #pragma endregion
 
@@ -44,13 +45,12 @@ struct Date {
 };
 struct Accounts
 {
-
 	SHA256_CTX pwd;
     string uName;
     short int role;
     string lastname, firstname;
     char gender; //Female Male, Prefer not to say -> F,M,O
-    Date* doB = NULL;
+    Date* doB = nullptr;
 };
 
 struct Scoreboards
@@ -58,33 +58,32 @@ struct Scoreboards
     string courseName; //the course that this list belongs to
 	string courseID;
 	string midtermScore = "//", finalScore = "//", labScore = "//", bonusScore = "//";
-    Scoreboards* next = NULL;
+    Scoreboards* next = nullptr;
 };
 
 struct Staffs
 {
-    Accounts* account = NULL;
-    Staffs* next = NULL;
+    Accounts* account = nullptr;
+    Staffs* next = nullptr;
 
 };
 struct Lecturers
 {
-    Accounts* account = NULL;
-    Lecturers* next = NULL;
+    Accounts* account = nullptr;
+    Lecturers* next = nullptr;
 };
 
 struct CheckinCourse
 {
     int bitweek;
     string courseID;
-    CheckinCourse *next=NULL;
+    CheckinCourse *next = nullptr;
 };
 struct Students
 {
     string studentID;
-    Accounts* account = NULL;
-    Scoreboards* scoreboards = NULL;
-    // AttendanceStatus* attendanceStatus = NULL;
+    Accounts* account = nullptr;
+    Scoreboards* scoreboards = nullptr;
 
     int Status = 1;
     ///1  in class
@@ -93,49 +92,48 @@ struct Students
     ///-2 kicked
 
     string schedule[6][4];
-    CheckinCourse *checkincourse=NULL;
-    Students* next = NULL;
+    CheckinCourse *checkincourse = nullptr;
+    Students* next = nullptr;
 
 };
 struct OutsideStudent
 {
+	string classID;
     string studentID;
-    string classID;
-    OutsideStudent* next=NULL;
-
+    OutsideStudent* next = nullptr;
 };
 
 struct CourseClass
 {
     string classID;
-    Students* students = NULL;
-    long int BitAttend=0;
+    Students* students = nullptr; //Students from [classID]
+	OutsideStudent* Outsider = nullptr; //Students not from [classID]
+	
+	//Course attributes shared with classID and class of OutsideStudent:
+	long int BitAttend = 0;
     Date startDate, endDate;
-    CourseClass *next = NULL;
-    OutsideStudent* Outsider=NULL;
     int DayInWeek;
     int AtNth;
+	//end
+
+	CourseClass* next = nullptr;
 };
 struct Courses
 {
-
-    string courseno;
     string courseID;	//them course id
     string courseName;
     CourseClass *courseclass;
     string room;
     string LectureName;
-    Courses* next = NULL;
-
+    Courses* next = nullptr;
 };
 
 struct Classes
 {
-    short int classno;
     string classID;
-    Students* students = NULL;
-    Classes* next = NULL;
-    string schedule[6][4];
+    Students* students = nullptr;
+	string schedule[6][4];
+    Classes* next = nullptr;
 };
 
 struct CourseClass0 {
@@ -144,22 +142,36 @@ struct CourseClass0 {
 struct Semesters
 {
     char semesterNo;
+<<<<<<< Updated upstream
     Courses* courses = NULL;
     Lecturers* lecturers = NULL;
     Staffs* staffs = NULL;
     Semesters* next = NULL;
 
+=======
+    Courses* courses = nullptr;
+    Lecturers* lecturers = nullptr;
+    Staffs* staffs = nullptr;
+    Semesters* next = nullptr;
+>>>>>>> Stashed changes
 };
 
 struct AcademicYears
 {
     string year;  //Ex: 1920 2021;
+<<<<<<< Updated upstream
     Semesters* semesters = NULL;
     Classes* classes = NULL;
     AcademicYears* next = NULL;
 
+=======
+    Semesters* semesters = nullptr;
+    Classes* classes = nullptr;
+    AcademicYears* next = nullptr;
+>>>>>>> Stashed changes
 };
 #pragma endregion
+
 
 #pragma region Function Prototypes
 #pragma region Initialization
@@ -177,7 +189,7 @@ void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course,in
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
-#pragma region tool
+#pragma region Tools
 Classes* findClass(Classes* Class, string ClassID);
 Students* findStudent(Students* st, string stID);
 Semesters* findSemester(Semesters* semes, char no);

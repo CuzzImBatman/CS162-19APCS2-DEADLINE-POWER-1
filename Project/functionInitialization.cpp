@@ -239,7 +239,6 @@ void classInit(Classes*& Class, string year) {
 		while (n) {
 			if (!Class) {
 				Class = new Classes;
-				Class->classno = no++;
 				classIn >> Class->classID;
 				scheduleInit(Class->schedule,classIn);
 				studentInit(Class->students, Class->classID, year);
@@ -247,7 +246,6 @@ void classInit(Classes*& Class, string year) {
 			}
 			else {
 				tempClass->next = new Classes;
-				tempClass->next->classno = no++;
 				classIn >> tempClass->next->classID;
 				scheduleInit(tempClass->next->schedule, classIn);
 				studentInit(tempClass->next->students, tempClass->next->classID,year);

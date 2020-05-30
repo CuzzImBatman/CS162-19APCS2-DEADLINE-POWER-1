@@ -121,7 +121,7 @@ void showClassOptions(AcademicYears*& year) {
 void showCourseOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
-	AcademicYears* y = NULL;
+	AcademicYears* y = nullptr;
 	while (variableName) {
 		cout << endl << "Sub menu: What do you want to do? " << endl;
 		cout << "[1] Create/update/delete/view academic years, and semesters." << endl;

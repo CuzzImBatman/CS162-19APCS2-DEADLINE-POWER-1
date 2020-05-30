@@ -892,7 +892,7 @@ void viewLecturer(AcademicYears* acaYear)
 
 #pragma region Scoreboard
 void viewScoreboardOfACourse(Courses* course) {
-	cout << "What course whose scoreboard you want to view? ";
+	cout << "Enter the course whose scoreboard you want to view? ";
 	string courseID;
 	cin >> courseID;
 
@@ -902,7 +902,7 @@ void viewScoreboardOfACourse(Courses* course) {
 		if (tmpCourse)
 			break;
 		else cout << "Course does not exist." << endl;
-		cout << "What course whose scoreboard you want to view? ";
+		cout << "Enter the course whose scoreboard you want to view? ";
 		cin >> courseID;
 	}
 	//not finished
