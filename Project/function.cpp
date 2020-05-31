@@ -180,7 +180,10 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 
 }
 
-
+bool Is_empty(ifstream& in)
+{
+	return in.peek() == ifstream::traits_type::eof();
+}
 
 void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year) {
 
@@ -220,16 +223,15 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 		}
 
 	}
-  string in = "Yr" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
+  string in = "Yr" + year + "_StudentID" + ST->studentID + "_ScoreBoard.csv";
   ifstream SBinit;
   SBinit.open(in);
   if (!SBinit.is_open())//initial definitely
 	  AddScoreBoardCourse(ST, course->courseID, course->courseName);
   else
   {
-	  int n;
-	  SBinit >> n;
-	  if (!n)
+	  
+	  if (Is_empty(SBinit))
 		  AddScoreBoardCourse(ST, course->courseID, course->courseName);
 	  else
 	  {
@@ -239,18 +241,20 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 			  else test = test->next;
 		  if (test==NULL  && ST->scoreboards==NULL )
 		  {
-			 for (int i = 0; i < n; i++)
+			 
+			 while(!SBinit.eof())
 			  {
 				  Scoreboards* SB = new Scoreboards;
-				  getline(SBinit, SB->courseName);
-				  getline(SBinit, SB->courseName);
-				  SBinit >> SB->courseID;
-				  SBinit >> SB->labScore;
-				  SBinit >> SB->midtermScore;
-				  SBinit >> SB->finalScore;
-				  SBinit >> SB->bonusScore;
+				  getline(SBinit, SB->courseName, ',');
+				  getline(SBinit, SB->courseID,',');
+				  getline(SBinit, SB->labScore,',');
+				  getline(SBinit, SB->midtermScore,',');
+				  getline(SBinit, SB->finalScore,',');
+				  getline(SBinit, SB->bonusScore,'\n');
+				  
 				  SB->next = ST->scoreboards;
 				  ST->scoreboards = SB;
+				  if (Is_empty(SBinit))break;
 			  }
 		  }
 		  
