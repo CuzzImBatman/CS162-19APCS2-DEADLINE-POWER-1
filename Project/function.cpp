@@ -636,7 +636,6 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 
 void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName)
 {
-	
 	Scoreboards* SB = ST->scoreboards, * pre = SB;
 	if (SB->courseName == courseName)
 	{

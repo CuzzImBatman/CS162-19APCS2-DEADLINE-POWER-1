@@ -108,7 +108,7 @@ struct CourseClass
     string classID;
     Students* students = nullptr; //Students from [classID]
 	OutsideStudent* Outsider = nullptr; //Students not from [classID]
-	
+
 	//Course attributes shared with classID and class of OutsideStudent:
 	long int BitAttend = 0;
     Date startDate, endDate;
@@ -136,39 +136,21 @@ struct Classes
     Classes* next = nullptr;
 };
 
-struct CourseClass0 {
-	short int no, classNo, courseNo, studentNo;
-};
 struct Semesters
 {
     char semesterNo;
-<<<<<<< Updated upstream
-    Courses* courses = NULL;
-    Lecturers* lecturers = NULL;
-    Staffs* staffs = NULL;
-    Semesters* next = NULL;
-
-=======
     Courses* courses = nullptr;
     Lecturers* lecturers = nullptr;
     Staffs* staffs = nullptr;
     Semesters* next = nullptr;
->>>>>>> Stashed changes
 };
 
 struct AcademicYears
 {
     string year;  //Ex: 1920 2021;
-<<<<<<< Updated upstream
-    Semesters* semesters = NULL;
-    Classes* classes = NULL;
-    AcademicYears* next = NULL;
-
-=======
     Semesters* semesters = nullptr;
     Classes* classes = nullptr;
     AcademicYears* next = nullptr;
->>>>>>> Stashed changes
 };
 #pragma endregion
 
@@ -196,6 +178,7 @@ Semesters* findSemester(Semesters* semes, char no);
 Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
 Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
+AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
 void AddCheckInCourse(Students*& st, string courseID);
 void AddScoreBoardCourse(Students*& st, string courseID);
@@ -244,11 +227,11 @@ void updateAcademicYear(AcademicYears* year);
 void staff_deleteAcademicYear(AcademicYears*& year);
 void viewAcademicYear(AcademicYears* year);
 
-void EditCourse(Courses*& course,Classes *&Class);
-void RemovedStudentFromCourseClass(Courses*& course, Classes*& Class);
-void AddStudentToCourseClass(Courses*& course,Classes * &Class );
-void DeleteCourse(Courses*& course,Classes * &Class);
-void AddCourse(Courses *&course,Classes* Class);
+void EditCourse(AcademicYears* year);
+void RemovedStudentFromCourseClass(AcademicYears* year);
+void AddStudentToCourseClass(AcademicYears* year);
+void DeleteCourse(AcademicYears* year);
+void AddCourse(AcademicYears*& year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
