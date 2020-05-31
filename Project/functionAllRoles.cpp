@@ -257,6 +257,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
+			Export_ScoreBoard(year);
 
 			break;
 		}
@@ -278,11 +279,11 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
+			View_Attendance_List(year);
 			break;
 		}
 		case 2: {
-			View_Attendance_List(year);
+			exportAttendanceListOfCourse(year);
 			break;
 		}
 		case 3: variableName = 0;
@@ -373,7 +374,7 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 5: {
-				
+			    ImportScoreBoard( year,acc);
 				break;
 			}
 			case 6: {

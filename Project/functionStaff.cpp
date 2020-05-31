@@ -1047,14 +1047,13 @@ void View_Attendance_List(AcademicYears* year)
 		{
 			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
 			CheckinCourse* ck = st->checkincourse;
-			while (ck)
-				if (ck->courseID == course->courseID)break;
-				else ck = ck->next;
+			while (ck && ck->courseID != course->courseID)
+				ck = ck->next;
 			for (int i = 0; i < 11; i++) {
-				int bit = st->checkincourse->bitweek >> i;
+				int bit = ck->bitweek >> i;
 				if (bit % 2)
 					cout << setw(11) << "V";
-				else if (!bit || st->checkincourse->bitweek == 0)
+				else if (!bit || ck->bitweek == 0)
 					cout << setw(11) << "-";
 				else if (bit)
 					cout << setw(11) << "X";
@@ -1561,39 +1560,96 @@ void Export_ScoreBoard(AcademicYears* year)
 	Courses* course = NULL;
 	string classID;
 	AcademicYears* y = inputYear(year, course);
-	CourseClass* CL = NULL;
-	while (!CL)
+	CourseClass* CL = course->courseclass;
+	while (CL)
 	{
-		cout << "Please enter class ID: ";
-		cin >> classID;
-		CL = findCL(course->courseclass, classID);
-		if (!CL)cout << "Invalid class ID, please enter again." << endl;
-	}
-	string name = "Yr" + year->year + "_CourseID_" + classID + "_ClassID.csv";
-	ofstream out;
-	out.open(name);
-	cout <<"No"<< "," << "Last name" << "," << "first name" << "," << "student ID";
-	cout << "," << "midtermScore";
-	cout << "," << "finalScore";
-	cout << "," << "labScore";
-	cout << "," << "bonusScore" << endl;
-	Students* st;
-	int i = 0;
-	StudentCourse* OS = CL->studentcourse;
-	while (OS)
-	{
-		Classes* cl = findClass(y->classes, OS->classID);
-		if (cl && findStudent(cl->students, OS->studentID))
+		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		ofstream out;
+		out.open(name);
+		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
+		out << "," << "midtermScore";
+		out << "," << "finalScore";
+		out << "," << "labScore";
+		out << "," << "bonusScore" << endl;
+		Students* st;
+		int i = 0;
+		StudentCourse* OS = CL->studentcourse;
+		while (OS)
 		{
-			out << i << ",";
-			st = findStudent(cl->students, OS->studentID);
-			Export_Scoreboard_Student(st, course->courseID, out);
-			i++;
+			Classes* cl = findClass(y->classes, OS->classID);
+			if (cl && findStudent(cl->students, OS->studentID))
+			{
+				out << i << ",";
+				st = findStudent(cl->students, OS->studentID);
+				Export_Scoreboard_Student(st, course->courseID, out);
+				i++;
+			}
+			OS = OS->next;
 		}
-		OS = OS->next;
+		CL = CL->next;
 	}
 }
 
+
+void exportAttendanceListOfCourse(AcademicYears* year)
+{
+	ofstream out;
+	string yr;
+	Semesters* semes;
+	if (input(year, semes, yr))
+	{
+		string courseID;
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		Courses* course = findCourse(semes->courses, courseID);
+		if (!course)
+		{
+			cout << "Can't find course!\n";
+			return;
+		}
+		CourseClass* CL = course->courseclass;
+		while (CL)
+		{
+			out.open("Yr" + yr + "_Sem" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.csv");
+			if (out.is_open())
+			{
+				out << "Student ID,Last name,First name,";
+				for (int i = 0; i < 11; i++)
+				{
+					out << "Week " << i + 1;
+					if (i + 1 != 11)
+						out << ",";
+				}
+				out << endl;
+				CheckinCourse* ck;
+
+
+				Students* studentList = CL->students;
+				while (studentList)
+				{
+					out << studentList->studentID << "," 
+						<< studentList->account->lastname << "," << studentList->account->firstname << ",";
+					ck = studentList->checkincourse;
+					while (ck && ck->courseID != course->courseID) ck = ck->next;
+					for (int i = 0; i < 11; i++) {
+						int bit = ck->bitweek >> i;
+						if (bit % 2)
+							out << "V";
+						else if (!bit || ck->bitweek == 0)
+							out << ",";
+						else if (bit)
+							out << "X";
+						if (i + 1 != 11)
+							out << ",";
+					}
+					out << endl;
+					studentList = studentList->next;
+				}
+				CL = CL->next;
+			}
+		}
+	}
+}
 #pragma endregion
 
 #pragma region Import

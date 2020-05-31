@@ -57,7 +57,7 @@ struct Scoreboards
 {
     string courseName; //the course that this list belongs to
 	string courseID;
-	string midtermScore = "//", finalScore = "//", labScore = "//", bonusScore = "//";
+	string midtermScore = "", finalScore = "", labScore = "", bonusScore = "";
     Scoreboards* next = NULL;
 };
 
@@ -196,6 +196,7 @@ void DeleteCheckinCourseStudent(Students*& St);
 void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 int DeleteABit(int bit, int x);
 void RemoveFile(string s);
+bool Is_empty(ifstream& in);
 #pragma endregion
 
 #pragma region All roles
@@ -280,6 +281,7 @@ void View_Attendance_List(AcademicYears* AcaYear);
 void Edit_Attend_List(AcademicYears* year, Accounts*& acc);
 void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc);
 void View_Scoreboard(AcademicYears* year);
+void ImportScoreBoard(AcademicYears* year, Accounts*& acc);
 #pragma endregion
 #pragma region Student
 void viewScoreCourse(Students *student);
@@ -322,8 +324,10 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 #pragma region Import
 void ImportCourse(AcademicYears* year);
 #pragma endregion
-
-
+#pragma region Export
+void Export_ScoreBoard(AcademicYears* year);
+void exportAttendanceListOfCourse(AcademicYears* year);
+#pragma endregion
 #pragma endregion
 void RemoveFile(string s);
 #endif
