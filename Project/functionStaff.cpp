@@ -1047,14 +1047,13 @@ void View_Attendance_List(AcademicYears* year)
 		{
 			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
 			CheckinCourse* ck = st->checkincourse;
-			while (ck)
-				if (ck->courseID == course->courseID)break;
-				else ck = ck->next;
+			while (ck && ck->courseID != course->courseID)
+				ck = ck->next;
 			for (int i = 0; i < 11; i++) {
-				int bit = st->checkincourse->bitweek >> i;
+				int bit = ck->bitweek >> i;
 				if (bit % 2)
 					cout << setw(11) << "V";
-				else if (!bit || st->checkincourse->bitweek == 0)
+				else if (!bit || ck->bitweek == 0)
 					cout << setw(11) << "-";
 				else if (bit)
 					cout << setw(11) << "X";
@@ -1591,6 +1590,57 @@ void Export_ScoreBoard(AcademicYears* year)
 	}
 }
 
+
+void exportAttendanceListOfCourse(AcademicYears* year)
+{
+	string yr;
+	Semesters* semes;
+	if (input(year, semes, yr))
+	{
+		string courseID;
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		Courses* course = findCourse(semes->courses, courseID);
+		if (!course)
+		{
+			cout << "Can't find course!\n";
+			return;
+		}
+		ofstream out("Yr" + yr + "_Sem" + semes->semesterNo + "_" + course->courseID + "_AttendanceList.csv");
+		if (out.is_open())
+		{
+			out << "Student ID,";
+			for (int i = 0; i < 11; i++)
+			{
+				out << "Week " << i + 1;
+				if (i + 1 != 11)
+					out << ",";
+			}
+			out << endl;
+			CheckinCourse* ck;
+			Students* studentList = course->courseclass->students;
+			while (studentList)
+			{
+				out << studentList->studentID << ",";
+				ck = studentList->checkincourse;
+				while (ck && ck->courseID != course->courseID) ck = ck->next;
+				for (int i = 0; i < 11; i++) {
+					int bit = ck->bitweek >> i;
+					if (bit % 2)
+						out << "V";
+					else if (!bit || ck->bitweek == 0)
+						out << ",";
+					else if (bit)
+						out << "X";
+					if (i + 1 != 11)
+						out << ",";
+				}
+				out << endl;
+				studentList = studentList->next;
+			}
+		}
+	}
+}
 #pragma endregion
 
 #pragma region Import

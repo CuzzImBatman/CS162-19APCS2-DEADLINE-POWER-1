@@ -803,8 +803,6 @@ bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
 	for (int i = 0; i < 8; i++)
 		if (a.state[i] != b.state[i])return false;
 	return true;
-
-
 }
 void RemoveFile(string s)
 {

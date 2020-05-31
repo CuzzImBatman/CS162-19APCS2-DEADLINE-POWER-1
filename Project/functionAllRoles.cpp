@@ -279,11 +279,11 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-
+			View_Attendance_List(year);
 			break;
 		}
 		case 2: {
-			View_Attendance_List(year);
+			exportAttendanceListOfCourse(year);
 			break;
 		}
 		case 3: variableName = 0;

@@ -326,6 +326,7 @@ void ImportCourse(AcademicYears* year);
 #pragma endregion
 #pragma region Export
 void Export_ScoreBoard(AcademicYears* year);
+void exportAttendanceListOfCourse(AcademicYears* year);
 #pragma endregion
 #pragma endregion
 void RemoveFile(string s);
