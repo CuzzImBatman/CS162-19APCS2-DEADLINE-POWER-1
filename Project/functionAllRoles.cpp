@@ -166,6 +166,7 @@ void showCourseOptions(AcademicYears*& year) {
 				viewAcademicYear(year);
 				break;
 			}
+			default: break;
 			}
 			break;
 		}

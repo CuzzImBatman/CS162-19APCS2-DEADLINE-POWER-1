@@ -41,44 +41,55 @@ CourseClass* findCL(CourseClass* CL, string classID) {
 
 #pragma region Class
 void importAClassFromCsvFile(Classes*& aClass) {
-	Students* st = aClass->students;
+	string Class;
+	cout << endl << "Enter the class to add the students to: ";
+	cin >> Class;
+	Classes* tmpClass = nullptr;
+	while (true) {
+		tmpClass = findClass(aClass, Class);
+		if (tmpClass)
+			break;
+		else cout << "Class does not exist." << endl;
+		cout << "Enter the class to add the student to: ";
+		cin >> Class;
+	}
+	Students* st = tmpClass->students;
 	Students* tempSt = st;
 	cout << "Enter path to the csv file: ";
 	string fileIn;
 	cin >> fileIn;
 	ifstream fin{ fileIn };
 	if (fin.is_open()) {
-		fin.ignore(1000,'\n');
-		while (!fin.eof()) {
-			string student;
-			getline(fin, student);
+		fin.ignore(1000, '\n');
+		string student;
+		while (getline(fin, student)) {
 			int comma = student.find(',');
 			int nextComma = student.find(',', comma + 1);
 
-			string id = student.substr(comma + 1, nextComma - comma + 1);
+			string id = student.substr(comma + 1, nextComma - comma - 1);
 
 			comma = nextComma;
 			nextComma = student.find(',', comma + 1);
 
-			string lastname = student.substr(comma + 1, nextComma - comma + 1);
+			string lastname = student.substr(comma + 1, nextComma - comma - 1);
 
 			comma = nextComma;
 			nextComma = student.find(',', comma + 1);
 
-			string firstname = student.substr(comma + 1, nextComma - comma + 1);
+			string firstname = student.substr(comma + 1, nextComma - comma - 1);
 
 			comma = nextComma;
 			nextComma = student.find(',', comma + 1);
 
-			string sex = student.substr(comma + 1, nextComma - comma + 1);
+			string sex = student.substr(comma + 1, nextComma - comma - 1);
 			char gender;
 			if (sex[0] == 'P')
 				gender = 'O';
 			else gender = sex[0];
 
-			string date = student.substr(nextComma, 10);
+			string date = student.substr(nextComma + 1, 10);
 			string year = date.substr(0, 4);
-			string month = date.substr(6, 2);
+			string month = date.substr(5, 2);
 			string day = date.substr(8, 2);
 
 			if (!st) {
@@ -116,6 +127,7 @@ void importAClassFromCsvFile(Classes*& aClass) {
 				tempSt->next->account->doB->day = day;
 				tempSt->next->account->doB->month = month;
 				tempSt->next->account->doB->year = year;
+
 				string pwd = tempSt->next->account->doB->day + tempSt->next->account->doB->month + tempSt->next->account->uName;
 				sha256_init(&tempSt->next->account->pwd);
 				sha256_update(&tempSt->next->account->pwd, pwd, pwd.length());
@@ -125,9 +137,11 @@ void importAClassFromCsvFile(Classes*& aClass) {
 				tempSt = tempSt->next;
 			}
 		}
+		cout << "Class imported successfully." << endl;
 	}
+	else
+		cout << "File not found." << endl;
 	fin.close();
-	cout << "Class imported successfully." << endl;
 }
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;
