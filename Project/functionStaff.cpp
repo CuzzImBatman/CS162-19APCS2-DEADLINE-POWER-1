@@ -37,7 +37,7 @@ CourseClass* findCL(CourseClass* CL, string classID) {
 		temp = temp->next;
 	return temp;
 }
-#pragma endregion 
+#pragma endregion
 
 #pragma region Class
 
@@ -144,7 +144,7 @@ void importAClassFromCsvFile(Classes*& classList) {
 			switch (choice)
 			{
 			case 1:
-				
+
 				while (tmp->next != nullptr) tmp = tmp->next;
 				tmp->next = new Classes;
 				no = tmp->classno;
@@ -259,7 +259,7 @@ void addAStudentToAClass(Classes*& aClass) {
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
-			
+
 
 	Students* tmp = tmpClass->students;
 	if (tmp == nullptr)
@@ -517,9 +517,9 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
-		
+
 			AddSt->schedule[i][j] = tmpClassB->schedule[i][j];
-			
+
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
@@ -976,7 +976,7 @@ void viewLecturer(AcademicYears* acaYear)
 
 #pragma region Scoreboard
 void viewScoreboardOfACourse(Courses* course) {
-	cout << "What course whose scoreboard you want to view? ";
+	cout << "Enter the course whose scoreboard you want to view? ";
 	string courseID;
 	cin >> courseID;
 
@@ -986,7 +986,7 @@ void viewScoreboardOfACourse(Courses* course) {
 		if (tmpCourse)
 			break;
 		else cout << "Course does not exist." << endl;
-		cout << "What course whose scoreboard you want to view? ";
+		cout << "Enter the course whose scoreboard you want to view? ";
 		cin >> courseID;
 	}
 	//not finished
@@ -1102,7 +1102,7 @@ void View_StudentList_Course(AcademicYears* year)
 	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID"<<endl;
 	while (CL )
 	{
-		
+
 		StudentCourse* OS = CL->studentcourse;
 		while (OS != NULL)
 		{
@@ -1438,7 +1438,7 @@ void RemovedStudentFromCourseClass(AcademicYears* year) {
 			if (CL)students = findStudent(CL->students, OS->studentID);
 			if (students)
 			{
-				
+
 				DeleteCourseOfCheckin(students->checkincourse, courseID);
 				RemoveCourseOfScheduleStudent(students->schedule, courseID);
 				DeleteScoreBoardOfCourseStudent(students,  course->courseName);
@@ -1542,7 +1542,7 @@ void DeleteCourse(AcademicYears* year) {
 
 void Export_Scoreboard_Student(Students* st, string courseID,ofstream &out)
 {
-  
+
 	Scoreboards* SB = st->scoreboards;
 	while (SB)
 		if (SB->courseID == courseID)break;
@@ -1627,7 +1627,7 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 				Students* studentList = CL->students;
 				while (studentList)
 				{
-					out << studentList->studentID << "," 
+					out << studentList->studentID << ","
 						<< studentList->account->lastname << "," << studentList->account->firstname << ",";
 					ck = studentList->checkincourse;
 					while (ck && ck->courseID != course->courseID) ck = ck->next;
@@ -1752,7 +1752,7 @@ void ImportCourse(AcademicYears* year)
 				getline(in, CL->classID, '\n');
 				Classes* curCL = findClass(y->classes, CL->classID);
 
-				
+
 					AddCourseToClass(curCL, course, CL->DayInWeek, CL->AtNth, y->year);
 					Students* st = curCL->students;
 					while (st)
@@ -1765,7 +1765,7 @@ void ImportCourse(AcademicYears* year)
 						st = st->next;
 					}
 
-				
+
 				CL->next = course->courseclass;
 				course->courseclass = CL;
 				getline(in, test, ',');

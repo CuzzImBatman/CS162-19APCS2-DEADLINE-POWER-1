@@ -36,6 +36,16 @@
 *.ipch
 *.db
 .vs/CS162_Project/v16/.suo
+<<<<<<< Updated upstream
+=======
 *.ipch
 *.db
 .vs/CS162_Project/v16/.suo
+.vs/CS162_Project/v16/.suo
+*.db
+*.opendb
+>>>>>>> Stashed changes
+.vs/CS162_Project/v16/.suo
+.vs/CS162_Project/v16/.suo
+*.db
+*.obj

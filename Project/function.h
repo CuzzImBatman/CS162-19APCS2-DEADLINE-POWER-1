@@ -8,8 +8,8 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include "sha256.h"
 #include <stdio.h>
+#include "sha256.h"
 
 using namespace std;
 #pragma region Naming rule
@@ -28,12 +28,13 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 							  |
 [AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
 			   |					   	   		                |
-			   +<-----------------------------------------------+
 			   |
-			   |                            	          +-->[AttendanceStatus]
-			   |			      	                      |
-			   +-->[Classes]+------------------>[Students]+-->[Scoreboard]
-Outsider
+			   |
+			   |                          +-->[ChechinCourse]+-->[CoursesID]
+	           |     	                  |
+			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->[CourseID]
+			                |
+							+-->[Schedule]
 */
 #pragma endregion
 
@@ -44,13 +45,12 @@ struct Date {
 };
 struct Accounts
 {
-
 	SHA256_CTX pwd;
     string uName;
     short int role;
     string lastname, firstname;
     char gender; //Female Male, Prefer not to say -> F,M,O
-    Date* doB = NULL;
+    Date* doB = nullptr;
 };
 
 struct Scoreboards
@@ -58,26 +58,26 @@ struct Scoreboards
     string courseName; //the course that this list belongs to
 	string courseID;
 	string midtermScore = "", finalScore = "", labScore = "", bonusScore = "";
-    Scoreboards* next = NULL;
+    Scoreboards* next = nullptr;
 };
 
 struct Staffs
 {
-    Accounts* account = NULL;
-    Staffs* next = NULL;
+    Accounts* account = nullptr;
+    Staffs* next = nullptr;
 
 };
 struct Lecturers
 {
-    Accounts* account = NULL;
-    Lecturers* next = NULL;
+    Accounts* account = nullptr;
+    Lecturers* next = nullptr;
 };
 
 struct CheckinCourse
 {
     int bitweek=0;
     string courseID,room;
-    CheckinCourse *next=NULL;
+    CheckinCourse *next=nullptr;
 };
 struct CourseDetail
 {
@@ -88,9 +88,8 @@ struct CourseDetail
 struct Students
 {
     string studentID;
-    Accounts* account = NULL;
-    Scoreboards* scoreboards = NULL;
-    // AttendanceStatus* attendanceStatus = NULL;
+    Accounts* account = nullptr;
+    Scoreboards* scoreboards = nullptr;
 
     int Status = 1;
     ///1  in class
@@ -99,28 +98,30 @@ struct Students
     ///-2 kicked
 
     string schedule[6][4];
-    CheckinCourse *checkincourse=NULL;
-    Students* next = NULL;
+    CheckinCourse *checkincourse = nullptr;
+    Students* next = nullptr;
 
 };
 // StudentCourse
 struct StudentCourse
 {
-    string studentID;
-    string classID;
-	StudentCourse* next=NULL;
-
+	string classID;
+  string studentID;
+	StudentCourse* next=nullptr;
 };
 
 struct CourseClass
 {
     string classID;
-    Students* students = NULL;
+    Students* students = nullptr;
     Date startDate, endDate;
-    CourseClass *next = NULL;
-	StudentCourse* studentcourse=NULL;
+    CourseClass *next = nullptr;
+	StudentCourse* studentcourse = nullptr;
     int DayInWeek;
     int AtNth;
+	//end
+
+	CourseClass* next = nullptr;
 };
 struct Courses
 {
@@ -131,37 +132,37 @@ struct Courses
     CourseClass *courseclass;
     string room="";
     string LectureName="";
-    Courses* next = NULL;
+    Courses* next =  nullptr;
 
 };
 
 struct Classes
 {
-    short int classno;
     string classID;
-    Students* students = NULL;
-    Classes* next = NULL;
+    Students* students = nullptr;
+    Classes* next = nullptr;
     string schedule[6][4];
-	CourseDetail* CD=NULL;
+		CourseDetail* CD= nullptr;
 };
 
 struct Semesters
 {
     char semesterNo;
-    Courses* courses = NULL;
-    Lecturers* lecturers = NULL;
-    Staffs* staffs = NULL;
-    Semesters* next = NULL;
+    Courses* courses = nullptr;
+    Lecturers* lecturers = nullptr;
+    Staffs* staffs = nullptr;
+    Semesters* next = nullptr;
 };
 
 struct AcademicYears
 {
     string year;  //Ex: 1920 2021;
-    Semesters* semesters = NULL;
-    Classes* classes = NULL;
-    AcademicYears* next = NULL;
+    Semesters* semesters = nullptr;
+    Classes* classes = nullptr;
+    AcademicYears* next = nullptr;
 };
 #pragma endregion
+
 
 #pragma region Function Prototypes
 #pragma region Initialization
@@ -179,7 +180,7 @@ void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course ,s
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
-#pragma region tool
+#pragma region Tools
 Classes* findClass(Classes* Class, string ClassID);
 Students* findStudent(Students* st, string stID);
 Semesters* findSemester(Semesters* semes, char no);
