@@ -64,7 +64,6 @@ void writeCourses(Courses* course, char semes, string year) {
 		course = course->next;
 	}
 }
-
 void writeLecturers(Lecturers* lect, char semes, string year) {
 	Lecturers* tempLect = lect;
 	ofstream lectOut;

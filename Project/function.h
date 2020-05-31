@@ -7,11 +7,9 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <string>
 #include <stdio.h>
 #include "sha256.h"
 
-using namespace std;
 #pragma region Naming rule
 /*
 struct: StructName
@@ -22,19 +20,29 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 #pragma endregion
 #pragma region Database Structure
 /*
-							  +-->[Staffs]
+							  +-->[Staffs]+-->[Accounts]
 							  |
-							  +-->[Lecturers]
-							  |
-[AcademicYears]+-->[Semesters]+-->[Courses]+-->[CourseClass]----+
-			   |					   	   		                |
-			   |
-			   |
-			   |                          +-->[ChechinCourse]+-->[CoursesID]
+							  +-->[Lecturers]+-->[Accounts]
+							  |                             +-->(ClassID)
+							  |								|
+               +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
+			   |					   	   		            |				   |	
+			   |                                            +-->[StudentCourse]+-->(ClassID)
+[AcademicYears]+
+			   |                          +-->[ChechinCourse]+-->(CoursesID)
 	           |     	                  |
-			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->[CourseID]
-			                |
-							+-->[Schedule]
+			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->(CourseID)
+			                |			  |
+							|			  +-->[Accounts]
+							|			  |
+							|			  +-->(StudentID)
+							|
+							+-->[CourseDetail]+-->(CourseID)
+							|
+							+-->(Schedule)
+
+CourseClass is a legacy struct, CourseDetail and other relations between Classes, Students and Courses
+have rendered CourseClass pretty much useless.
 */
 #pragma endregion
 
@@ -55,103 +63,90 @@ struct Accounts
 
 struct Scoreboards
 {
-    string courseName; //the course that this list belongs to
+	string courseName; //the course that this list belongs to
 	string courseID;
 	string midtermScore = "", finalScore = "", labScore = "", bonusScore = "";
-    Scoreboards* next = nullptr;
+	Scoreboards* next = nullptr;
+};
+struct CheckinCourse
+{
+	int bitweek = 0;
+	string courseID, room;
+	CheckinCourse* next = nullptr;
+};
+struct Students
+{
+	string studentID;
+	Accounts* account = nullptr;
+	Scoreboards* scoreboards = nullptr;
+
+	int Status = 1;
+	///1  in class
+	///0  not available
+	///-1 removed to another class
+	///-2 kicked
+
+	string schedule[6][4];
+	CheckinCourse* checkincourse = nullptr;
+	Students* next = nullptr;
+};
+struct CourseDetail
+{
+	string courseID, coursename, room;
+	CourseDetail* next = nullptr;
+};
+struct Classes
+{
+	string classID;
+	Students* students = nullptr;
+	string schedule[6][4];
+	CourseDetail* CD = nullptr;
+	Classes* next = nullptr;
 };
 
 struct Staffs
 {
     Accounts* account = nullptr;
     Staffs* next = nullptr;
-
 };
 struct Lecturers
 {
     Accounts* account = nullptr;
     Lecturers* next = nullptr;
 };
-
-struct CheckinCourse
-{
-    int bitweek=0;
-    string courseID,room;
-    CheckinCourse *next=nullptr;
-};
-struct CourseDetail
-{
-	string courseID, coursename, room;
-	CourseDetail* next = NULL;
-
-};
-struct Students
-{
-    string studentID;
-    Accounts* account = nullptr;
-    Scoreboards* scoreboards = nullptr;
-
-    int Status = 1;
-    ///1  in class
-    ///0  not available
-    ///-1 removed to another class
-    ///-2 kicked
-
-    string schedule[6][4];
-    CheckinCourse *checkincourse = nullptr;
-    Students* next = nullptr;
-
-};
-// StudentCourse
 struct StudentCourse
 {
 	string classID;
-  string studentID;
-	StudentCourse* next=nullptr;
+    string studentID;
+	StudentCourse* next = nullptr;
 };
-
 struct CourseClass
 {
     string classID;
     Students* students = nullptr;
     Date startDate, endDate;
-    CourseClass *next = nullptr;
 	StudentCourse* studentcourse = nullptr;
     int DayInWeek;
     int AtNth;
-	//end
-
 	CourseClass* next = nullptr;
 };
 struct Courses
 {
-
-    string courseno;
-    string courseID="";	//them course id
+   // string courseno;
+    string courseID="";
     string courseName="";
     CourseClass *courseclass;
     string room="";
     string LectureName="";
     Courses* next =  nullptr;
-
-};
-
-struct Classes
-{
-    string classID;
-    Students* students = nullptr;
-    Classes* next = nullptr;
-    string schedule[6][4];
-		CourseDetail* CD= nullptr;
-};
-
+}; 
 struct Semesters
 {
-    char semesterNo;
-    Courses* courses = nullptr;
-    Lecturers* lecturers = nullptr;
-    Staffs* staffs = nullptr;
-    Semesters* next = nullptr;
+	char semesterNo;
+	Courses* courses = nullptr;
+	Lecturers* lecturers = nullptr;
+	Staffs* staffs = nullptr;
+	Semesters* next = nullptr;
 };
 
 struct AcademicYears
@@ -168,6 +163,7 @@ struct AcademicYears
 #pragma region Initialization
 void accountInit(ifstream& fin, Accounts*& acc);
 
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course, string year);
 void courseInit(Courses*& course, char semes, string year, Classes*& Class);
 void lecturerInit(Lecturers*& lec, char semes, string year);
 void staffInit(Staffs*& staff, char semes, string year);
@@ -176,45 +172,87 @@ void scheduleInit(string schedule[6][4], ifstream& in);
 
 void studentInit(Students*& st, string Class, string year);
 void classInit(Classes*& Class, string year);
-void InitClassToCourse(Classes*& Class,  ifstream& courseIn, Courses*& course ,string year);
 
 void academicYearInit(AcademicYears*& year);
 #pragma endregion
-#pragma region Tools
+#pragma region Subroutines
 Classes* findClass(Classes* Class, string ClassID);
 Students* findStudent(Students* st, string stID);
 Semesters* findSemester(Semesters* semes, char no);
-Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
+AcademicYears* findYear(AcademicYears* acaYear, string year);
 Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
+bool smaller(int a, int b);
+bool bigger(int a, int b);
+bool checkDay(string& a, int x, bool(*compare)(int, int));
+bool checkMonth(Date a);
+bool checkYear(Date a);
+int numberOfDay(Date x);
+bool input(AcademicYears* AcaYear, Semesters*& semes, string& year);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
-int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void AddCheckInCourse(Students*& st, string courseID,string room);
-void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
-bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
-void DeleteScoreBoardStudent(Students*& ST);
-void DeleteCheckinCourseStudent(Students*& St);
-void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
 int DeleteABit(int bit, int x);
-void RemoveFile(string s);
 bool Is_empty(ifstream& in);
-#pragma endregion
 
-#pragma region All roles
-int login(AcademicYears* year, Accounts*& acc, string pwd);
+
 void showClassOptions(AcademicYears*& year);
 void showCourseOptions(AcademicYears*& year);
 void showScoreboardOptions(AcademicYears*& year);
 void showAttendanceListOptions(AcademicYears*& year);
+
+bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
+
+Students* listStudentsFromFile(string path);
+
+void DeleteScoreBoardStudent(Students*& ST);
+void DeleteCheckinCourseStudent(Students*& St);
+void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
+
+void FillCheckinCourse(Students*& student);
+
+void RemoveFile(string s);
+void staff_deleteClasses(Classes*& Class, string year);
+
+Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
+void AddScoreBoardCourse(Students*& st, string courseID, string courseName);
+void AddCheckInCourse(Students*& st, string courseID, string room);
+void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year);
+void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year);
+void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID, string year);
+
+void Edit_CourseName_Student(Students* st, string NewName, string OldName);
+void EditCourseName(Courses*& course, string NewName, Classes*& Class);
+void EditDateOfCL(Courses*& course, string classID, string courseID, string year);
+void EditCourseLecture(Courses*& course, string name, string courseID);
+int CheckStatusStudent(string studentID, string classID, Classes*& Class);
+void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID, Classes*& Class);
+void EditCourseroom(Courses*& course, string courseID, string room, Classes*& Class);
+void Edit_CourseID_Student(Students* st, string NewID, string OldID);
+void Edit_CourseID_Class(Classes*& Class, string NewID, string OldID);
+void EditCourseId(Courses*& course, string NewID, Classes*& Class);
+
+void DeleteCourseScheduleClass(Classes*& Class, string courseID, string classID);
+void DeleteScoreBoardOfCourse(Students*& ST, string courseName);
+void DeleteCourseOfCheckin(CheckinCourse*& checkincourse, string courseID);
+void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID);
+void DeleteCourseScheduleStudent(Courses*& course, StudentCourse*& Outsider, Classes*& Class);
+
+void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName);
+
+void View_Scoreboard_Student(Students* st, string courseID);
+
+void Export_Scoreboard_Student(Students* st, string courseID, ofstream& out);
+#pragma endregion
+
+
+#pragma region All roles
+int login(AcademicYears* year, Accounts*& acc, string pwd);
 void showMenu(Accounts*& acc, AcademicYears*& year);
 void changePwd(Accounts*& acc);
 void viewProfile(Accounts* acc);
 void logout(Accounts*& acc);
 #pragma endregion
+
 #pragma region Academic Staff
-int CheckStatusStudent(string studentID,string classID, Classes* &Class);
-
-
 #pragma region Class
 void importAClassFromCsvFile(Classes*& classList);
 void addAStudentToAClass(Classes*& aClass);
@@ -223,74 +261,55 @@ void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
 void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year);
 void viewListOfClasses(AcademicYears* aYear);
 void viewListOfStudentsInAClass(AcademicYears* aYear);
+#pragma endregion
+#pragma region Course
+void createAcademicYear(AcademicYears*& year);
+void updateAcademicYear(AcademicYears* year);
+void deleteAcademicYear(AcademicYears*& year);
+void viewAcademicYear(AcademicYears* year);
+
+void ImportCourseFromCsv(AcademicYears* year);
+void AddCourse(AcademicYears*& year);
+void EditCourse(AcademicYears* year);
+void DeleteCourse(AcademicYears* year);
+void RemovedStudentFromCourseClass(AcademicYears* year);
+void AddStudentToCourseClass(AcademicYears* year);
+void viewCourseOfSemester(AcademicYears* acaYear);
+void View_StudentList_Course(AcademicYears* year);
+void View_Attendance_List(AcademicYears* year);
 
 void createLecturer(AcademicYears* year);
 void updateLecturer(AcademicYears* year);
 void deleteLecturer(AcademicYears* year);
 void viewLecturer(AcademicYears* year);
-
 #pragma endregion
-
-#pragma region Course
-void createAcademicYear(AcademicYears*& year);
-void updateAcademicYear(AcademicYears* year);
-void staff_deleteAcademicYear(AcademicYears*& year);
-void viewAcademicYear(AcademicYears* year);
-
-void importACourseFromCsvFile(Courses* listCourse);
-void EditCourse(AcademicYears* year);
-void RemovedStudentFromCourseClass(AcademicYears* year);
-void AddStudentToCourseClass(AcademicYears* year);
-void DeleteCourse(AcademicYears* year);
-void AddCourse(AcademicYears*& year);
-//void InitCourse(Courses *&course,Classes* Class);
-
-///
-void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth , string year);
-void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth, string year);
-void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID,string year);
-void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
-void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
-void EditCourseId(Courses*& course,string NewID, Classes*& Class);
-void EditCourseName(Courses*& course, string NewName, Classes*& Class);
-void EditCourseroom(Courses*& course,string courseID,string room, Classes*& Class);
-void EditCourseLecture(Courses*& course,string name,string courseID);
-void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
-void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
-void DeleteCourseScheduleStudent( Courses*& course, StudentCourse* &Outsider,Classes *&Class);
-void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
-
-
-void viewCourseOfSemester(AcademicYears* AcaYear);
-//void viewStudentsOfCourse();
-
-
-#pragma endregion
-
 #pragma region Scoreboard
-void DeleteScoreBoardOfCourse(Students* &ST, string courseID);
-void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName);
-#pragma endregion
-
-#pragma region Attendance list
-void View_StudentList_Course(AcademicYears* AcaYear);
-void View_Attendance_List(AcademicYears* AcaYear);
-#pragma endregion
-
-#pragma endregion
-#pragma region Lecturer
-void Edit_Attend_List(AcademicYears* year, Accounts*& acc);
-void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc);
 void View_Scoreboard(AcademicYears* year);
+void Export_ScoreBoard(AcademicYears* year);
+#pragma endregion
+#pragma region Attendance list
+void ViewAttendanceList(AcademicYears* year);
+void exportAttendanceListOfCourse(AcademicYears* year);
+#pragma endregion
+#pragma endregion
+
+#pragma region Lecturer
+void viewCourseOfASemester(AcademicYears* acaYear);
+void ViewStudentListOfACourse(AcademicYears* year);
+void ViewAttendanceListOfACourse(AcademicYears* year);
+void Edit_Attend_List(AcademicYears* year, Accounts*& acc);
 void ImportScoreBoard(AcademicYears* year, Accounts*& acc);
+void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc);
+void ViewAScoreboard(AcademicYears* year);
 #pragma endregion
+
 #pragma region Student
-void viewScoreCourse(Students *student);
-void viewSchedule(Students* student);
-void viewCheckIn(CheckinCourse *checkincourse);
 void Tick(Students* student);
-void FillCheckinCourse(Students*& student);
+void viewCheckIn(CheckinCourse* checkincourse);
+void viewSchedule(Students* student);
+void viewScoreCourse(Students* student);
 #pragma endregion
+
 
 #pragma region Finalization
 void writeAccounts(ofstream& fout, Accounts* acc);
@@ -308,6 +327,7 @@ void writeClasses(Classes* Class, string year);
 void writeAcademicYears(AcademicYears* year);
 #pragma endregion
 #pragma region PointersDeletion
+void deleteStudentCourse(StudentCourse* OS);
 void deleteCourses(Courses*& course);
 void deleteLecturers(Lecturers*& lect);
 void deleteStaffs(Staffs*& staff);
@@ -317,21 +337,8 @@ void deleteStudents(Students*& st);
 void deleteClasses(Classes*& Class);
 
 void deleteAcademicYears(AcademicYears*& year);
-
-void DeleteCheckinCourseStudent(Students*& St);
-void DeleteScoreBoardStudent(Students*& ST);
-void DeleteStudentFromCourses(string studentID, string classID, Courses*& course);
-#pragma endregion
-#pragma region Import
-void ImportCourse(AcademicYears* year);
-#pragma endregion
-#pragma region Export
-void Export_ScoreBoard(AcademicYears* year);
-void exportAttendanceListOfCourse(AcademicYears* year);
 #pragma endregion
 #pragma endregion
-void RemoveFile(string s);
-#endif
 #pragma region Tasks
 /*
 All roles
@@ -345,8 +352,8 @@ Academic staff:
 			6. Import students from a csv file.
 			7. Manually add a new student to a class.
 			8. Edit an existing student.
-		    9. Remove a student.
-		    10. Change students from class A to class B
+			9. Remove a student.
+			10. Change students from class A to class B
 			11. View list of classes.
 			12. View list of students in a class.
 	Course
@@ -390,3 +397,4 @@ Student:
 			38. View his/her scores of a course.
 */
 #pragma endregion
+#endif

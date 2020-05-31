@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\</FILEPATH>
+      <FILENAME>function.h</FILENAME>
+      <LINE>62</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Accounts::pwd' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Accounts::{ctor}</FUNCTION>
+    <DECORATED>??0Accounts@@QEAA@XZ</DECORATED>
+    <FUNCLINE>62</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Accounts::pwd</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\</FILEPATH>
+      <FILENAME>function.h</FILENAME>
+      <LINE>62</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Accounts::role' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Accounts::{ctor}</FUNCTION>
+    <DECORATED>??0Accounts@@QEAA@XZ</DECORATED>
+    <FUNCLINE>62</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Accounts::role</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\</FILEPATH>
+      <FILENAME>function.h</FILENAME>
+      <LINE>62</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Accounts::gender' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Accounts::{ctor}</FUNCTION>
+    <DECORATED>??0Accounts@@QEAA@XZ</DECORATED>
+    <FUNCLINE>62</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Accounts::gender</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>
