@@ -1561,36 +1561,33 @@ void Export_ScoreBoard(AcademicYears* year)
 	Courses* course = NULL;
 	string classID;
 	AcademicYears* y = inputYear(year, course);
-	CourseClass* CL = NULL;
-	while (!CL)
+	CourseClass* CL = course->courseclass;
+	while (CL)
 	{
-		cout << "Please enter class ID: ";
-		cin >> classID;
-		CL = findCL(course->courseclass, classID);
-		if (!CL)cout << "Invalid class ID, please enter again." << endl;
-	}
-	string name = "Yr" + year->year + "_CourseID_" + classID + "_ClassID.csv";
-	ofstream out;
-	out.open(name);
-	cout <<"No"<< "," << "Last name" << "," << "first name" << "," << "student ID";
-	cout << "," << "midtermScore";
-	cout << "," << "finalScore";
-	cout << "," << "labScore";
-	cout << "," << "bonusScore" << endl;
-	Students* st;
-	int i = 0;
-	StudentCourse* OS = CL->studentcourse;
-	while (OS)
-	{
-		Classes* cl = findClass(y->classes, OS->classID);
-		if (cl && findStudent(cl->students, OS->studentID))
+		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		ofstream out;
+		out.open(name);
+		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
+		out << "," << "midtermScore";
+		out << "," << "finalScore";
+		out << "," << "labScore";
+		out << "," << "bonusScore" << endl;
+		Students* st;
+		int i = 0;
+		StudentCourse* OS = CL->studentcourse;
+		while (OS)
 		{
-			out << i << ",";
-			st = findStudent(cl->students, OS->studentID);
-			Export_Scoreboard_Student(st, course->courseID, out);
-			i++;
+			Classes* cl = findClass(y->classes, OS->classID);
+			if (cl && findStudent(cl->students, OS->studentID))
+			{
+				out << i << ",";
+				st = findStudent(cl->students, OS->studentID);
+				Export_Scoreboard_Student(st, course->courseID, out);
+				i++;
+			}
+			OS = OS->next;
 		}
-		OS = OS->next;
+		CL = CL->next;
 	}
 }
 

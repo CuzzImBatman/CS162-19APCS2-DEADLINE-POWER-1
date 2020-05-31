@@ -257,6 +257,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 			break;
 		}
 		case 2: {
+			Export_ScoreBoard(year);
 
 			break;
 		}
@@ -373,7 +374,7 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 5: {
-				
+			    ImportScoreBoard( year,acc);
 				break;
 			}
 			case 6: {

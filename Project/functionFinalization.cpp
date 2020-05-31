@@ -119,21 +119,17 @@ void writeScoreBoard(Students* st, string year)
 {
 	Scoreboards* SB = st->scoreboards;
 	int i = 0;
-	
-	while (SB)
-	{
-		i++;
-		SB = SB->next;
-	}
+
+
 	SB = st->scoreboards;
 	ofstream out;
-	string output = "Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt";
-	out.open("Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt");
-	out << i << endl;
+	string output = "Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.csv";
+	out.open(output);
+
 	while (SB)
 	{
-		out << SB->courseName << endl;
-		out << SB->courseID << " " << SB->labScore << " " << SB->midtermScore << " " << SB->finalScore << " " << SB->bonusScore << endl;
+		out << SB->courseName << ",";
+		out << SB->courseID << "," << SB->labScore << "," << SB->midtermScore << "," << SB->finalScore << "," << SB->bonusScore << endl;
 		SB = SB->next;
 	}
 //	out.close();
