@@ -1593,6 +1593,7 @@ void Export_ScoreBoard(AcademicYears* year)
 
 void exportAttendanceListOfCourse(AcademicYears* year)
 {
+	ofstream out;
 	string yr;
 	Semesters* semes;
 	if (input(year, semes, yr))
@@ -1606,37 +1607,45 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 			cout << "Can't find course!\n";
 			return;
 		}
-		ofstream out("Yr" + yr + "_Sem" + semes->semesterNo + "_" + course->courseID + "_AttendanceList.csv");
-		if (out.is_open())
+		CourseClass* CL = course->courseclass;
+		while (CL)
 		{
-			out << "Student ID,";
-			for (int i = 0; i < 11; i++)
+			out.open("Yr" + yr + "_Sem" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.csv");
+			if (out.is_open())
 			{
-				out << "Week " << i + 1;
-				if (i + 1 != 11)
-					out << ",";
-			}
-			out << endl;
-			CheckinCourse* ck;
-			Students* studentList = course->courseclass->students;
-			while (studentList)
-			{
-				out << studentList->studentID << ",";
-				ck = studentList->checkincourse;
-				while (ck && ck->courseID != course->courseID) ck = ck->next;
-				for (int i = 0; i < 11; i++) {
-					int bit = ck->bitweek >> i;
-					if (bit % 2)
-						out << "V";
-					else if (!bit || ck->bitweek == 0)
-						out << ",";
-					else if (bit)
-						out << "X";
+				out << "Student ID,Last name,First name,";
+				for (int i = 0; i < 11; i++)
+				{
+					out << "Week " << i + 1;
 					if (i + 1 != 11)
 						out << ",";
 				}
 				out << endl;
-				studentList = studentList->next;
+				CheckinCourse* ck;
+
+
+				Students* studentList = CL->students;
+				while (studentList)
+				{
+					out << studentList->studentID << "," 
+						<< studentList->account->lastname << "," << studentList->account->firstname << ",";
+					ck = studentList->checkincourse;
+					while (ck && ck->courseID != course->courseID) ck = ck->next;
+					for (int i = 0; i < 11; i++) {
+						int bit = ck->bitweek >> i;
+						if (bit % 2)
+							out << "V";
+						else if (!bit || ck->bitweek == 0)
+							out << ",";
+						else if (bit)
+							out << "X";
+						if (i + 1 != 11)
+							out << ",";
+					}
+					out << endl;
+					studentList = studentList->next;
+				}
+				CL = CL->next;
 			}
 		}
 	}
