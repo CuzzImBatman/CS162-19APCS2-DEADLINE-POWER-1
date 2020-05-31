@@ -9,6 +9,7 @@ dbtien
 Tue
 7 30
 19CTT2
+-1
 0
 I41
 
@@ -22,5 +23,6 @@ nttvan
 Wed
 7 30
 19CTT2
+-1
 0
 F204

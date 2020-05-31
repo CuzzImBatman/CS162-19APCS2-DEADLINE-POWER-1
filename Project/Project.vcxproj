@@ -123,7 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="function.cpp" />
     <ClCompile Include="functionAllRoles.cpp" />
     <ClCompile Include="functionFinalization.cpp" />
     <ClCompile Include="functionInitialization.cpp" />
@@ -133,6 +132,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pointersDeletion.cpp" />
     <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="subroutines.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h" />

@@ -1,25 +1,5 @@
 #include "function.h"
-#include <stdio.h>
-using namespace std;
-/*Classes* findClass(Classes* Class, string ClassID) {
-	Classes* temp = Class;
-	while (temp && temp->classID != ClassID)
-		temp = temp->next;
-	return temp;
-}
-Students* findStudent(Students* st, string stID) {
-	Students* temp = st;
-	while (temp && temp->studentID != stID)
-		temp = temp->next;
-	return temp;
-}
 
-Courses* findCourse(Courses* course, string ID) {
-	Courses* temp = course;
-	while (temp && temp->courseID != ID)
-		temp = temp->next;
-	return temp;
-}*/
 void Tick(Students* student) {
 	CheckinCourse* cur = NULL;
 	string courseID;
@@ -53,8 +33,6 @@ void Tick(Students* student) {
 	return ;
 
 }
-
-
 void viewCheckIn(CheckinCourse* checkincourse) {
 	cout << setw(22);
 	for (int i = 1; i < 12; i++)
@@ -80,7 +58,6 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 
 }
 void viewSchedule(Students* student) {
-
 	cout << setw(10);
 	cout << "Monday";
 	cout << setw(10);
@@ -134,7 +111,3 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
-
-
-
-//CheckStatusStudent

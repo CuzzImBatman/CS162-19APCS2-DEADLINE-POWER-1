@@ -1,7 +1,44 @@
-﻿  functionStaff.cpp
-D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(66,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(67,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(72,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(77,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(82,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+﻿  functionAllRoles.cpp
+  functionFinalization.cpp
+  functionInitialization.cpp
+  functionLecturer.cpp
+  functionStaff.cpp
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(14,14): warning C4101: 'no': unreferenced local variable
+  functionStudent.cpp
+  main.cpp
+  pointersDeletion.cpp
+  sha256.cpp
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(683,29): warning C4129: ',': unrecognized character escape sequence
+  subroutines.cpp
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\sha256.cpp(116,57): warning C4244: '=': conversion from 'unsigned __int64' to 'BYTE', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(53,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(68,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(74,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(88,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(94,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(100,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(117,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(123,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(129,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Compiling...
+  Generating Code...
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(657,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Project.vcxproj -> D:\CS162\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionAllRoles.cpp(320): warning C6011: Dereferencing NULL pointer 'st'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(62): warning C26495: Variable 'Accounts::pwd' is uninitialized. Always initialize a member variable (type.6).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(132): warning C26495: Variable 'CourseClass::DayInWeek' is uninitialized. Always initialize a member variable (type.6).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(142): warning C26495: Variable 'Courses::courseclass' is uninitialized. Always initialize a member variable (type.6).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\function.h(150): warning C26495: Variable 'Semesters::semesterNo' is uninitialized. Always initialize a member variable (type.6).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionLecturer.cpp(61): warning C6287: Redundant code:  the left and right sub-expressions are identical.
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionLecturer.cpp(123): warning C6011: Dereferencing NULL pointer 'ck'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionLecturer.cpp(217): warning C6011: Dereferencing NULL pointer 'ck'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionLecturer.cpp(363): warning C6011: Dereferencing NULL pointer 'sb'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(1178): warning C6287: Redundant code:  the left and right sub-expressions are identical.
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(1240): warning C6011: Dereferencing NULL pointer 'ck'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(1282): warning C26451: Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(1583): warning C6011: Dereferencing NULL pointer 'ck'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(1639): warning C6011: Dereferencing NULL pointer 'ck'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\sha256.cpp(113): warning C26451: Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(821): warning C6011: Dereferencing NULL pointer 'st'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(1008): warning C6011: Dereferencing NULL pointer 'SB'. 
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(1024): warning C6011: Dereferencing NULL pointer 'SB'. 
