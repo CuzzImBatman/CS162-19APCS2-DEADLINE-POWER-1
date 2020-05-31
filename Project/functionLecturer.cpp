@@ -17,9 +17,9 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 			if (!course)s = s->next;
 			else
 			{  
-				if (course->LectureName == acc->uName)
+				if (course->LectureName != acc->uName)
 				{
-					cout << "You don't have permission to edit this course."; 
+					cout << "You don't have permission to edit this course."<<endl; 
 					return;
 				}
 				break;
@@ -106,10 +106,11 @@ void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 		{
 			course = findCourse(s->courses, courseID);
 			if (!course)s = s->next;
+			else
 			{
-				if (course->LectureName == acc->uName)
+				if (course->LectureName != acc->uName)
 				{
-					cout << "You don't have permission to edit this course.";
+					cout << "You don't have permission to edit this course." << endl;
 					return;
 				}
 				break;
@@ -150,16 +151,17 @@ void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 		else sb = sb->next;
 	//if (!sb)return;
 	int sc = 1;
-	while (sc != 5);
+	while (sc != 5)
 	{
 		cout << "1.Lab score." << endl << "2.Midterm score." << endl << "3.Final score." << endl << "4.Bonus score. " << endl << "5. Back. " << endl;
 		int sc;
 		string Grade;
 		cin >> sc;
+		if (sc == 5)break;
 		cout << "Grade: ";
 		///cin >> Grade;
 		//sb null
-		if (sc == 1) 	cin >> sb->labScore;// = Grade;
+		if (sc == 1)cin >> sb->labScore;// = Grade;
 		if (sc == 2)cin >> sb->midtermScore;// = Grade;
 		if (sc == 3)cin >> sb->finalScore;// = Grade;
 		if (sc == 4)cin >> sb->bonusScore;// = Grade;
@@ -209,5 +211,68 @@ void View_Scoreboard(AcademicYears* year)
 			View_Scoreboard_Student(st, course->courseID);
 		}
 		OS = OS->next;
+	}
+}
+
+void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
+{
+	Courses* course = NULL;
+	AcademicYears* y = inputYear(year, course);
+	if (course->LectureName != acc->uName)
+	{
+		cout << "You don't have permission to import this course." << endl;
+		return;
+	}
+	CourseClass* CL = course->courseclass;
+	Students* st = NULL;
+	while (CL)
+	{
+
+		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		string studentID;
+		ifstream in;
+		in.open(name);
+		if (!in.is_open()) {
+			CL = CL->next;
+			continue;
+		}
+		getline(in, name);
+		getline(in, name, ',');
+		while (!Is_empty(in))
+		{
+			getline(in, name, ',');
+			getline(in, name, ',');
+			getline(in, studentID, ',');
+			StudentCourse* sc = CL->studentcourse;
+			Classes* cl = y->classes;
+			while (cl)
+			{
+				st = findStudent(cl->students, studentID);
+				if (st)break;
+				cl = cl->next;
+			}
+			if (!st)
+			{
+				string temp;
+				getline(in, temp);
+				continue;
+			}
+			Scoreboards* sb = st->scoreboards;
+			while (sb)
+				if (sb->courseID == course->courseID)break;
+				else sb = sb->next;
+			if (!sb)
+			{
+				string temp;
+				getline(in, temp);
+				continue;
+			}
+			getline(in, sb->midtermScore, ',');
+			getline(in, sb->finalScore, ',');
+			getline(in, sb->labScore, ',');
+			getline(in, sb->bonusScore, '\n');
+
+		}
+		CL = CL->next;;
 	}
 }

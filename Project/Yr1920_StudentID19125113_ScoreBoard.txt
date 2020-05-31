@@ -1,13 +1,13 @@
 6
-Programming Techniques
-CTT008 // // // //
-Data Structures
-CS163 // // // //
-Calculus II
-MTH252 // // // //
-Introduction to Computer Science 2
-CS162 // // // //
-Introduction to Computer Science 1
-CS161 // // // //
 Calculus I
 MTH251 // // // //
+Introduction to Computer Science 1
+CS161 // // // //
+Introduction to Computer Science 2
+CS162 // // // //
+Calculus II
+MTH252 // // // //
+Data Structures
+CS163 // // // //
+Programming Techniques
+CTT008 // // // //
