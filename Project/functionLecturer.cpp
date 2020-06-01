@@ -240,7 +240,7 @@ void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
 	while (CL)
 	{
 
-		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		string name = "./DATABASE/Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.txt";
 		string studentID;
 		ifstream in;
 		in.open(name);

@@ -12,7 +12,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		for (int i = 1; i < 8; i++)
 			fin >>hex>> acc->pwd.state[i];
 	}
-	fin >> acc->firstname;
+	fin >> dec >> acc->firstname;
 	fin.ignore(10, '\n');
 	getline(fin, acc->lastname);
 	fin >> acc->gender;
@@ -131,8 +131,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 
 	ifstream courseIn;
 	char no = '1';
-	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
-	courseIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_CourseDB.txt";
+	courseIn.open("./DATABASE/" + fileIn);
 	if (courseIn.is_open()) {
 		int n;
 		courseIn >> n;
@@ -159,8 +159,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 void lecturerInit(Lecturers*& lec, char semes, string year) {
 	Lecturers* tempLec = lec;
 	ifstream lecIn;
-	string fileIn = "Yr" + year + "_Sem" + semes + "_LecturerDB.txt";
-	lecIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_LecturerDB.txt";
+	lecIn.open("./DATABASE/"+fileIn);
 	if (lecIn.is_open()) {
 		int n;
 		lecIn >> n;
@@ -189,8 +189,8 @@ void lecturerInit(Lecturers*& lec, char semes, string year) {
 void staffInit(Staffs*& staff, char semes, string year) {
 	Staffs* tempStaff = staff;
 	ifstream staffIn;
-	string fileIn = "Yr" + year + "_Sem" + semes + "_StaffDB.txt";
-	staffIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_StaffDB.txt";
+	staffIn.open("./DATABASE/" + fileIn);
 	if (staffIn.is_open()) {
 		int n;
 		staffIn >> n;
@@ -244,8 +244,8 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class){
 void studentInit(Students*& st, string Class, string year) {
 	Students* tempSt = st;
 	ifstream stIn;
-	string fileIn = "Yr" + year + "_Cl" + Class + "_StudentDB.txt";
-	stIn.open(fileIn);
+	string fileIn = "Year" + year + "_Class" + Class + "_StudentDB.txt";
+	stIn.open("./DATABASE/" + fileIn);
 	if (stIn.is_open()) {
 		int n;
 		stIn >> n;
@@ -292,8 +292,8 @@ void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	int no = 1;
 	ifstream classIn;
-	string fileIn = "Yr" + year + "_ClassDB.txt";
-	classIn.open(fileIn);
+	string fileIn = "Year" + year + "_ClassDB.txt";
+	classIn.open("./DATABASE/" + fileIn);
 	if (classIn.is_open()) {
 		int n;
 		classIn >> n;
@@ -322,7 +322,7 @@ void classInit(Classes*& Class, string year) {
 void academicYearInit(AcademicYears*& year) {
 	AcademicYears* tempYear = year;
 	ifstream yearIn;
-	yearIn.open("AcademicYearDB.txt");
+	yearIn.open("./DATABASE/AcademicYearDB.txt");
 	int n;
 	yearIn >> n;
 	while (n) {

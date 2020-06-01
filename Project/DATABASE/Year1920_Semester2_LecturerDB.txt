@@ -1,0 +1,47 @@
+5
+
+dbtien
+0
+Tien
+Dinh Ba
+M
+01
+01
+1990
+
+nhnha
+0
+Nha
+Nguyen Huu
+M
+01 
+01 
+1990
+
+nttvan
+0
+Van
+Nguyen Thi Thu
+M
+01 
+01 
+1990
+
+nqhuy
+0
+Huy
+Ngo Quang
+M
+01
+01
+1990
+
+dctrang
+0
+Trang
+Dang Cong
+M
+01
+01
+1990
+

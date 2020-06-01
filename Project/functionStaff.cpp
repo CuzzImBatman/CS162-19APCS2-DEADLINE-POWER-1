@@ -266,7 +266,7 @@ void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year)
 	tmpSt = tmpClass->students;
 	if (tmpSt->studentID == studentToRemove)
 	{
-		string s = "Yr" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+		string s = "./DATABASE/Year" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
 		RemoveFile(s);
 		DeleteScoreBoardStudent(tmpSt);
 		DeleteCheckinCourseStudent(tmpSt);
@@ -358,7 +358,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 		cout << "Enter the student's ID: ";
 		cin >> studentToChange;
 	}
-	string s = "Yr" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+	string s = "./DATABASE/Year" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
 	RemoveFile(s);
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
@@ -557,16 +557,16 @@ void deleteAcademicYear(AcademicYears*& year)
 	staff_deleteClasses(tempYear->classes, tempYear->year);
 	deleteSemesters(tempYear->semesters);
 	string fileName;
-	fileName = "Yr" + tempYear->year + "_ClassDB.txt";
-	RemoveFile(fileName);
+	fileName = "Year" + tempYear->year + "_ClassDB.txt";
+	RemoveFile("./DATABASE/" + fileName);
 	for (int i = 49; i < 53; i++)
 	{
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_LecturerDB.txt";
-		RemoveFile(fileName);
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_StaffDB.txt";
-		RemoveFile(fileName);
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_CourseDB.txt";
-		RemoveFile(fileName);
+		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_LecturerDB.txt";
+		RemoveFile("./DATABASE/" + fileName);
+		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_StaffDB.txt";
+		RemoveFile("./DATABASE/" + fileName);
+		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_CourseDB.txt";
+		RemoveFile("./DATABASE/" + fileName);
 	}
 	delete tempYear;
 }
@@ -609,7 +609,9 @@ void ImportCourseFromCsv(AcademicYears* year)
 		if (!s)cout << "Invalid semester, please enter again." << endl;
 
 	}
-	string name = "Yr" + y->year + "_Sem" + semes + "_Courses.csv";
+	string name;
+	cout << "Enter path to the csv file: ";
+	cin >> name;
 	ifstream in;
 	in.open(name);
 	int i = 0;
@@ -1498,9 +1500,9 @@ void Export_ScoreBoard(AcademicYears* year)
 	CourseClass* CL = course->courseclass;
 	while (CL)
 	{
-		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		string name = "Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.txt";
 		ofstream out;
-		out.open(name);
+		out.open("./DATABASE/" + name);
 		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
 		out << "," << "midtermScore";
 		out << "," << "finalScore";
@@ -1614,7 +1616,7 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 		CourseClass* CL = course->courseclass;
 		while (CL)
 		{
-			out.open("Yr" + yr + "_Sem" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.csv");
+			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.txt");
 			if (out.is_open())
 			{
 				out << "Student ID,Last name,First name,";

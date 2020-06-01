@@ -383,8 +383,8 @@ void RemoveFile(string s)
 void staff_deleteClasses(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB_TEST.txt";
-		RemoveFile(fileName);
+		string fileName = "Year" + year + "_Class" + tempClass->classID + "_StudentDB.txt";
+		RemoveFile("./DATABASE/" + fileName);
 		deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
 		tempClass = tempClass->next;
@@ -445,8 +445,8 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 
 	ST->schedule[DayInWeek][AtNth] = course->courseID;
 	ifstream CKinit;
-	string init = "Yr" + year + "_StudentID" + ST->studentID + "_CheckIn.txt";
-	CKinit.open(init);
+	string init = "Year" + year + "_StudentID" + ST->studentID + "_CheckIn.txt";
+	CKinit.open("./DATABASE/" + init);
 	if (!CKinit.is_open())
 		AddCheckInCourse(ST, course->courseID, course->room);
 	else
@@ -477,9 +477,9 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 				AddCheckInCourse(ST, course->courseID, course->room);
 		}
 	}
-	string in = "Yr" + year + "_StudentID" + ST->studentID + "_ScoreBoard.csv";
+	string in = "Year" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
 	ifstream SBinit;
-	SBinit.open(in);
+	SBinit.open("./DATABASE/" + in);
 	if (!SBinit.is_open())//initial definitely
 		AddScoreBoardCourse(ST, course->courseID, course->courseName);
 	else
