@@ -528,17 +528,6 @@ void updateAcademicYear(AcademicYears* year)
 		break;
 	}
 }
-void staff_deleteClasses(Classes*& Class, string year) {
-	Classes* tempClass = Class;
-	while (tempClass) {
-		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB.txt";
-		RemoveFile(fileName);
-		deleteStudents(tempClass->students);
-		Classes* newTemp = tempClass;
-		tempClass = tempClass->next;
-		delete newTemp;
-	}
-}
 
 void deleteAcademicYear(AcademicYears*& year)
 {
