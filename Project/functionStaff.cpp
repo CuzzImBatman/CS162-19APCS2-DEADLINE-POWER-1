@@ -528,6 +528,7 @@ void updateAcademicYear(AcademicYears* year)
 		break;
 	}
 }
+
 void deleteAcademicYear(AcademicYears*& year)
 {
 	if (year == nullptr)
