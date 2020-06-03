@@ -1,26 +1,21 @@
 2
+MTH252
+Calculus II
+nttvan
+1
+19CTT2
+2
+19125079 19CTT2
+19125113 19CTT2
+F204
 
 CS162
 Introduction to Computer Science 2
 dbtien
 1
-20 02 2020
-20 06 2020
-Tue
-7 30
 19CTT2
-0
+2
+19125079 19CTT2
+19125113 19CTT2
 I41
 
-
-MTH252
-Calculus II
-nttvan
-1
-20 02 2020
-20 06 2020
-Wed
-7 30
-19CTT2
-0
-F204

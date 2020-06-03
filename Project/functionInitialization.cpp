@@ -3,7 +3,7 @@
 void accountInit(ifstream& fin, Accounts*& acc) {
 	if (!acc)
 		acc = new Accounts;
-	int test;
+	long long int test;
 
 	fin >>hex>> test;
 	if(test!= 0)

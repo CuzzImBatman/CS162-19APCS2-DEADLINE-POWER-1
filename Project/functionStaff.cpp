@@ -655,7 +655,7 @@ void updateAcademicYear(AcademicYears* year)
 void staff_deleteClasses(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	while (tempClass) {
-		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB_TEST.txt";
+		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB.txt";
 		RemoveFile(fileName);
 		deleteStudents(tempClass->students);
 		Classes* newTemp = tempClass;
@@ -692,15 +692,15 @@ void staff_deleteAcademicYear(AcademicYears*& year)
 	staff_deleteClasses(tempYear->classes, tempYear->year);
 	deleteSemesters(tempYear->semesters);
 	string fileName;
-	fileName = "Yr" + tempYear->year + "_ClassDB_TEST.txt";
+	fileName = "Yr" + tempYear->year + "_ClassDB.txt";
 	RemoveFile(fileName);
 	for (int i = 49; i < 53; i++)
 	{
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_LecturerDB_TEST.txt";
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_LecturerDB.txt";
 		RemoveFile(fileName);
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_StaffDB_TEST.txt";
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_StaffDB.txt";
 		RemoveFile(fileName);
-		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_CourseDB_TEST.txt";
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_CourseDB.txt";
 		RemoveFile(fileName);
 	}
 	delete tempYear;
