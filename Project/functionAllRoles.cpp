@@ -117,11 +117,10 @@ void showClassOptions(AcademicYears*& year) {
 		}
 	}
 }
-
 void showCourseOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
-	AcademicYears* y = NULL;
+	AcademicYears* y = nullptr;
 	while (variableName) {
 		cout << endl << "Sub menu: What do you want to do? " << endl;
 		cout << "[1] Create/update/delete/view academic years, and semesters." << endl;
@@ -158,22 +157,22 @@ void showCourseOptions(AcademicYears*& year) {
 				break;
 			}
 			case 3: {
-				staff_deleteAcademicYear(year);
+				deleteAcademicYear(year);
 				break;
 			}
 			case 4: {
 				viewAcademicYear(year);
 				break;
 			}
+			default: break;
 			}
 			break;
 		}
 		case 2: {
-			ImportCourse(year);
+			ImportCourseFromCsv(year);
 			break;
 		}
 		case 3: {
-			
 		    AddCourse(year);
 			break;
 		}
@@ -232,6 +231,7 @@ void showCourseOptions(AcademicYears*& year) {
 				viewLecturer(year);
 				break;
 			}
+			default: break;
 			}
 			break;
 		}
@@ -240,7 +240,6 @@ void showCourseOptions(AcademicYears*& year) {
 		}
 	}
 }
-
 void showScoreboardOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
@@ -258,7 +257,6 @@ void showScoreboardOptions(AcademicYears*& year) {
 		}
 		case 2: {
 			Export_ScoreBoard(year);
-
 			break;
 		}
 		case 3: variableName = 0;
@@ -266,7 +264,6 @@ void showScoreboardOptions(AcademicYears*& year) {
 		}
 	}
 }
-
 void showAttendanceListOptions(AcademicYears*& year) {
 	int choice;
 	bool variableName = 1;
@@ -279,7 +276,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			View_Attendance_List(year);
+			ViewAttendanceList(year);
 			break;
 		}
 		case 2: {
@@ -291,10 +288,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		}
 	}
 }
-//Emblema: need to add param academicYear for some functions to work...
-
 void showMenu(Accounts*& acc, AcademicYears*& year) {
-
 	Classes* cl = year->classes;
 	Students* st=cl->students;
 	while (cl)
@@ -358,15 +352,15 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				viewCourseOfSemester(year);
+				viewCourseOfASemester(year);
 				break;
 			}
 			case 2: {
-               View_StudentList_Course(year);
+				ViewStudentListOfACourse(year);
 				break;
 			}
 			case 3: {
-				View_Attendance_List(year);
+				ViewAttendanceListOfACourse(year);
 				break;
 			}
 			case 4: {
@@ -382,7 +376,7 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 				break;
 			}
 			case 7: {
-				View_Scoreboard(year);
+				ViewAScoreboard(year);
 				break;
 			}
 			case 8: variableName = 0;
@@ -432,6 +426,12 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 	}
 }
 
+bool ComparePwd(SHA256_CTX a, SHA256_CTX b)
+{
+	for (int i = 0; i < 8; i++)
+		if (a.state[i] != b.state[i])return false;
+	return true;
+}
 void changePwd(Accounts*& acc) {
 	SHA256_CTX confirm;
 	string oldPwd, newPwd, conPwd;

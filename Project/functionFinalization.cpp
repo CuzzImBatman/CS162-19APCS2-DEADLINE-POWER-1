@@ -14,8 +14,8 @@ void writeAccounts(ofstream& fout, Accounts* acc){
 
 void writeCourses(Courses* course, char semes, string year) {
 	ofstream out;
-	string Cout = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
-	out.open(Cout);
+	string Cout = "Year" + year + "_Semester" + semes + "_CourseDB.txt";
+	out.open("./DATABASE/" + Cout);
 
 	int i = 0;
 	Courses* cs = course;
@@ -41,6 +41,43 @@ void writeCourses(Courses* course, char semes, string year) {
 		CL = course->courseclass;
 		while (CL)
 		{
+			out << CL->startDate.day << ' ' << CL->startDate.month << ' ' << CL->startDate.year << endl;
+			out << CL->endDate.day << ' ' << CL->endDate.month << ' ' << CL->endDate.year << endl;
+			switch (CL->DayInWeek) {
+			case 0: 
+				out << "Mon" << endl;
+				break;
+			case 1:
+				out << "Tue" << endl;
+				break;
+			case 2:
+				out << "Wed" << endl;
+				break;
+			case 3:
+				out << "Thu" << endl;
+				break;
+			case 4:
+				out << "Fri" << endl;
+				break;
+			case 5:
+				out << "Sat" << endl;
+				break;
+			}
+			switch (CL->AtNth) {
+			case 0: 
+				out << "7 ";
+				break;
+			case 1:
+				out << "9 ";
+				break;
+			case 2: 
+				out << "13 ";
+				break;
+			case 3: 
+				out << "15 ";
+				break;
+			}
+			out << 30 << endl;
 			out << CL->classID<<endl;
 			StudentCourse* OS = CL->studentcourse;
 			i = 0;
@@ -64,12 +101,11 @@ void writeCourses(Courses* course, char semes, string year) {
 		course = course->next;
 	}
 }
-
 void writeLecturers(Lecturers* lect, char semes, string year) {
 	Lecturers* tempLect = lect;
 	ofstream lectOut;
-	string fileOut = "Yr" + year + "_Sem" + semes + "_LecturerDB.txt";
-	lectOut.open(fileOut);
+	string fileOut = "Year" + year + "_Semester" + semes + "_LecturerDB.txt";
+	lectOut.open("./DATABASE/" + fileOut);
 	if (lectOut.is_open()) {
 		int n = 0;
 		while (tempLect) {
@@ -88,8 +124,8 @@ void writeLecturers(Lecturers* lect, char semes, string year) {
 void writeStaffs(Staffs* staff, char semes, string year) {
 	Staffs* tempStaff = staff;
 	ofstream staffOut;
-	string fileOut = "Yr" + year + "_Sem" + semes + "_StaffDB.txt";
-	staffOut.open(fileOut);
+	string fileOut = "Year" + year + "_Semester" + semes + "_StaffDB.txt";
+	staffOut.open("./DATABASE/" + fileOut);
 	if (staffOut.is_open()) {
 		int n = 0;
 		while (tempStaff) {
@@ -123,8 +159,8 @@ void writeScoreBoard(Students* st, string year)
 
 	SB = st->scoreboards;
 	ofstream out;
-	string output = "Yr" + year + "_StudentID" + st->studentID + "_ScoreBoard.csv";
-	out.open(output);
+	string output = "Year" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt";
+	out.open("./DATABASE/" + output);
 
 	while (SB)
 	{
@@ -147,8 +183,8 @@ void writeCheckIn(Students* st, string year)
 	}
 	CK = st->checkincourse;
 	ofstream out;
-	string output = "Yr" + year + "_StudentID" + st->studentID + "_CheckIn.txt";
-	out.open(output);
+	string output = "Year" + year + "_StudentID" + st->studentID + "_CheckIn.txt";
+	out.open("./DATABASE/" + output);
 	out << i << endl;
 	while (CK)
 	{
@@ -162,8 +198,8 @@ void writeStudents(Students* st, string Class, string year) {
 
 	Students* tempSt = st;
 	ofstream stOut;
-	string fileOut = "Yr" + year + "_Cl" + Class + "_StudentDB.txt";
-	stOut.open(fileOut);
+	string fileOut = "Year" + year + "_Class" + Class + "_StudentDB.txt";
+	stOut.open("./DATABASE/" + fileOut);
 	if (stOut.is_open()) {
 		int n = 0;
 		while (tempSt) {
@@ -184,8 +220,8 @@ void writeStudents(Students* st, string Class, string year) {
 void writeClasses(Classes* Class, string year) {
 	Classes* tempClass = Class;
 	ofstream classOut;
-	string fileOut = "Yr" + year + "_ClassDB.txt";
-	classOut.open(fileOut);
+	string fileOut = "Year" + year + "_ClassDB.txt";
+	classOut.open("./DATABASE/" + fileOut);
 	if (classOut.is_open()) {
 		int n = 0;
 		while (tempClass) {
@@ -206,7 +242,7 @@ void writeClasses(Classes* Class, string year) {
 void writeAcademicYears(AcademicYears* year) {
 	AcademicYears* tempYear = year;
 	ofstream yearOut;
-	yearOut.open("AcademicYearDB.txt");
+	yearOut.open("./DATABASE/AcademicYearDB.txt");
 	if (yearOut.is_open()) {
 		int n = 0;
 		while (tempYear) {
