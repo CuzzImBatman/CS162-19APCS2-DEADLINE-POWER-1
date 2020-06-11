@@ -44,6 +44,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn >> tempCourse->LectureName;
 				tempCourse->courseclass = NULL;
 				int m;
+				courseIn >> tempCourse->room;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
 					InitClassToCourse(Class, courseIn, tempCourse,year);
@@ -280,8 +281,10 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 		courseclass->DayInWeek = 5;
 		break;
 	}
-	int hour, minute;
-	courseIn >> hour >> minute;
+	
+	courseIn >> courseclass->startTime;
+	courseIn >> courseclass->endTime;
+	int hour = (courseclass->startTime[0]-48) * 10 + courseclass->startTime[1]-48;
 	switch (hour) {
 	case 7:
 		courseclass->AtNth = 0;
@@ -298,6 +301,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 	}
 
 	int no;
+	
 	courseIn >> courseclass->classID;
 	courseIn >> no;
 	courseclass->studentcourse = NULL;
@@ -306,7 +310,7 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 
 	if (!no)
 	{
-		AddCourseToClass(curCL, course, courseclass->DayInWeek, courseclass->AtNth, year);
+		AddCourseToClass(curCL, course, courseclass, year);
 		Students* st = curCL->students;
 		while (st)
 		{
@@ -328,10 +332,10 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 		courseclass->studentcourse = OS;
 		Classes* cl = findClass(Class, OS->classID);
 		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth,year);
+		AddCourseToStudent(st, course, courseclass,year);
 
 	}
-	courseIn >> course->room;
+	
 
 	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
 	CourseDetail* CD = new CourseDetail;
@@ -339,6 +343,10 @@ void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  s
 	CD->coursename = course->courseName;
 	CD->next = curCL->CD;
 	CD->room = course->room;
+	CD->StartTime = courseclass->startTime;
+	CD->endTime = courseclass->endTime;
+	CD->startDate =courseclass->startDate;
+	CD->endDate= courseclass->endDate;
 	curCL->CD = CD;
 	Students* curST = curCL->students;
 	courseclass->students = curCL->students;

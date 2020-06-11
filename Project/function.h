@@ -10,7 +10,8 @@
 #include <string>
 #include "sha256.h"
 #include <stdio.h>
-
+#include <chrono>
+#include <ctime>  
 using namespace std;
 #pragma region Naming rule
 /*
@@ -76,12 +77,14 @@ struct Lecturers
 struct CheckinCourse
 {
     int bitweek=0;
-    string courseID,room;
+    string courseID,room, startTime, endTime;
+	Date startDate, endDate;
     CheckinCourse *next=NULL;
 };
 struct CourseDetail
 {
-	string courseID, coursename, room;
+	string courseID, coursename, room, StartTime, endTime;
+	Date startDate, endDate;
 	CourseDetail* next = NULL;
 
 };
@@ -119,6 +122,7 @@ struct CourseClass
     Date startDate, endDate;
     CourseClass *next = NULL;
 	StudentCourse* studentcourse=NULL;
+	string startTime, endTime;
     int DayInWeek;
     int AtNth;
 };
@@ -188,7 +192,7 @@ Courses* findCourse(Courses* course, string ID);
 CourseClass* findCL(CourseClass* CL, string classID);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void AddCheckInCourse(Students*& st, string courseID,string room);
+void AddCheckInCourse(Students*& st, string courseID,string room,string starTime,string endTime,Date startDate,Date endDate);
 void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 void DeleteScoreBoardStudent(Students*& ST);
@@ -197,6 +201,10 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 int DeleteABit(int bit, int x);
 void RemoveFile(string s);
 bool Is_empty(ifstream& in);
+int numberOfDay(Date x);
+void takeString(string& take, string& s);
+int takeTimeNumber(string time);
+
 #pragma endregion
 
 #pragma region All roles
@@ -244,8 +252,8 @@ void AddCourse(AcademicYears*& year);
 //void InitCourse(Courses *&course,Classes* Class);
 
 ///
-void AddCourseToStudent(Students* &ST, Courses*& course,int DayInWeek,int AtNth , string year);
-void AddCourseToClass(Classes*& Class, Courses*& course,int DayInWeek,int AtNth, string year);
+void AddCourseToStudent(Students* &ST, Courses*& course, CourseClass*& CL, string year);
+void AddCourseToClass(Classes*& Class, Courses*& course,CourseClass *& CL, string year);
 void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID,string year);
 void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
 void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);

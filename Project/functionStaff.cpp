@@ -175,7 +175,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	CourseDetail* CD = tmpClass->CD;
 	while (CD)
 	{
-		AddCheckInCourse(aStudent,CD->courseID,CD->room);
+		AddCheckInCourse(aStudent,CD->courseID,CD->room,CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
@@ -443,7 +443,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
-		AddCheckInCourse(AddSt, CD->courseID,CD->room);
+		AddCheckInCourse(AddSt, CD->courseID,CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
 		CD = CD->next;
 	}
@@ -988,7 +988,7 @@ void View_Attendance_List(AcademicYears* year)
 }
 void View_StudentList_Course(AcademicYears* year)
 {
-	string courseID;
+	string courseID,classID;
 	string Year;
 	AcademicYears* y = NULL;
 	while (!y)
@@ -1002,7 +1002,7 @@ void View_StudentList_Course(AcademicYears* year)
 		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
 	}
 	Courses* course=NULL;
-	Classes* Class = y->classes;
+	CourseClass* CL = NULL;
 	Semesters* s = NULL;
 	while (!s)
 	{
@@ -1017,24 +1017,27 @@ void View_StudentList_Course(AcademicYears* year)
 		}
 		if (!s)cout << "Invalid course ID, please enter again." << endl;
 	}
-
-	 cout << "Students List of " << courseID << endl;;
-	CourseClass* CL = course->courseclass;
-	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<< setw(10) << "class ID"<<endl;
-	while (CL )
+	while (!CL)
 	{
-		
+		cout << "Please enter class ID: ";
+		cin >> classID;
+		CL = findCL(course->courseclass, classID);
+		if(!CL)cout << "Invalid class ID, please enter again." << endl;
+	}
+	 cout << "Students List of " << courseID << endl;;
+	
+	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<<endl;
+	
 		StudentCourse* OS = CL->studentcourse;
 		while (OS != NULL)
 		{
-			Classes* tempCL = findClass(Class, OS->classID);
+			Classes* tempCL = findClass(y->classes, OS->classID);
 			Students* tempST = findStudent(tempCL->students, OS->studentID);
-			if(tempST->Status && tempST->Status)
-				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
+			if(tempST->Status )
+				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << endl;
 			OS = OS->next;
 		}
-		CL = CL->next;
-	}
+	
 
 }
 #pragma endregion
@@ -1159,7 +1162,7 @@ void AddStudentToCourseClass(AcademicYears* year) {
 	st->next = courseclass->studentcourse;
 	courseclass->studentcourse = st;
 	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth,year->year);
+	AddCourseToStudent(curST, course, courseclass ,year->year);
 	cout << "Added" << endl;
 	return ;
 }
@@ -1589,11 +1592,13 @@ void ImportCourse(AcademicYears* year)
 					CL->DayInWeek = 5;
 					break;
 				}
-				string hour;
-				getline(in, hour, ',');
+				
+				getline(in, CL->startTime, ',');
 				int num = 0;
 				int j = 0;
-				while (hour[j] != ':')num = num * 10 + hour[j++] - 48;
+				while (CL->startTime[j] != ':')
+					num = num * 10 + CL->startTime[j++] - 48;
+				
 				switch (num) {
 				case 7:
 					CL->AtNth = 0;
@@ -1608,12 +1613,12 @@ void ImportCourse(AcademicYears* year)
 					CL->AtNth = 3;
 					break;
 				}
-				getline(in, CL->classID, '\,');
+				getline(in, CL->endTime, ',');
 				getline(in, CL->classID, '\n');
 				Classes* curCL = findClass(y->classes, CL->classID);
 
 				
-					AddCourseToClass(curCL, course, CL->DayInWeek, CL->AtNth, y->year);
+					AddCourseToClass(curCL, course, CL, y->year);
 					Students* st = curCL->students;
 					while (st)
 					{
