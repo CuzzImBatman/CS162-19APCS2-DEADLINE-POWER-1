@@ -9,7 +9,8 @@
 #include <iomanip>
 #include <stdio.h>
 #include "sha256.h"
-
+#include <chrono>
+#include <ctime>  
 #pragma region Naming rule
 /*
 struct: StructName
@@ -25,14 +26,14 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 							  +-->[Lecturers]+-->[Accounts]
 							  |                             +-->(ClassID)
 							  |								|
-               +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
-			   |					   	   		            |				   |	
+			   +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
+			   |					   	   		            |				   |
 			   |                                            +-->[StudentCourse]+-->(ClassID)
 [AcademicYears]+
 			   |                          +-->[ChechinCourse]+-->(CoursesID)
-	           |     	                  |
+			   |     	                  |
 			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->(CourseID)
-			                |			  |
+							|			  |
 							|			  +-->[Accounts]
 							|			  |
 							|			  +-->(StudentID)
@@ -54,11 +55,11 @@ struct Date {
 struct Accounts
 {
 	SHA256_CTX pwd;
-    string uName;
-    short int role;
-    string lastname, firstname;
-    char gender; //Female Male, Prefer not to say -> F,M,O
-    Date* doB = nullptr;
+	string uName;
+	short int role;
+	string lastname, firstname;
+	char gender; //Female Male, Prefer not to say -> F,M,O
+	Date* doB = nullptr;
 };
 
 struct Scoreboards
@@ -71,7 +72,8 @@ struct Scoreboards
 struct CheckinCourse
 {
 	int bitweek = 0;
-	string courseID, room;
+	string courseID, room, startTime, endTime;
+	Date startDate, endDate;
 	CheckinCourse* next = nullptr;
 };
 struct Students
@@ -92,7 +94,8 @@ struct Students
 };
 struct CourseDetail
 {
-	string courseID, coursename, room;
+	string courseID, coursename, room, StartTime, endTime;
+	Date startDate, endDate;
 	CourseDetail* next = nullptr;
 };
 struct Classes
@@ -106,40 +109,41 @@ struct Classes
 
 struct Staffs
 {
-    Accounts* account = nullptr;
-    Staffs* next = nullptr;
+	Accounts* account = nullptr;
+	Staffs* next = nullptr;
 };
 struct Lecturers
 {
-    Accounts* account = nullptr;
-    Lecturers* next = nullptr;
+	Accounts* account = nullptr;
+	Lecturers* next = nullptr;
 };
 struct StudentCourse
 {
 	string classID;
-    string studentID;
+	string studentID;
 	StudentCourse* next = nullptr;
 };
 struct CourseClass
 {
-    string classID;
-    Students* students = nullptr;
-    Date startDate, endDate;
+	string classID;
+	Students* students = nullptr;
+	Date startDate, endDate;
+	string startTime, endTime;
 	StudentCourse* studentcourse = nullptr;
-    int DayInWeek;
-    int AtNth;
+	int DayInWeek;
+	int AtNth;
 	CourseClass* next = nullptr;
 };
 struct Courses
 {
-   // string courseno;
-    string courseID="";
-    string courseName="";
-    CourseClass *courseclass;
-    string room="";
-    string LectureName="";
-    Courses* next =  nullptr;
-}; 
+	// string courseno;
+	string courseID = "";
+	string courseName = "";
+	CourseClass* courseclass;
+	string room = "";
+	string LectureName = "";
+	Courses* next = nullptr;
+};
 struct Semesters
 {
 	char semesterNo;
@@ -151,10 +155,10 @@ struct Semesters
 
 struct AcademicYears
 {
-    string year;  //Ex: 1920 2021;
-    Semesters* semesters = nullptr;
-    Classes* classes = nullptr;
-    AcademicYears* next = nullptr;
+	string year;  //Ex: 1920 2021;
+	Semesters* semesters = nullptr;
+	Classes* classes = nullptr;
+	AcademicYears* next = nullptr;
 };
 #pragma endregion
 
@@ -192,7 +196,9 @@ bool input(AcademicYears* AcaYear, Semesters*& semes, string& year);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int DeleteABit(int bit, int x);
 bool Is_empty(ifstream& in);
-
+int numberOfDay(Date x);
+void takeString(string& take, string& s);
+int takeTimeNumber(string time);
 
 void showClassOptions(AcademicYears*& year);
 void showCourseOptions(AcademicYears*& year);
@@ -214,9 +220,9 @@ void staff_deleteClasses(Classes*& Class, string year);
 
 Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
 void AddScoreBoardCourse(Students*& st, string courseID, string courseName);
-void AddCheckInCourse(Students*& st, string courseID, string room);
-void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year);
-void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year);
+void AddCheckInCourse(Students*& st, string courseID, string room, string starTime, string endTime, Date startDate, Date endDate);
+void AddCourseToStudent(Students*& ST, Courses*& course, CourseClass*& CL, string year);
+void AddCourseToClass(Classes*& Class, Courses*& course, CourseClass*& CL, string year);
 void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID, string year);
 
 void Edit_CourseName_Student(Students* st, string NewName, string OldName);
@@ -257,7 +263,7 @@ void logout(Accounts*& acc);
 void importAClassFromCsvFile(Classes*& classList);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
-void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
+void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year);
 void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year);
 void viewListOfClasses(AcademicYears* aYear);
 void viewListOfStudentsInAClass(AcademicYears* aYear);
@@ -284,11 +290,10 @@ void deleteLecturer(AcademicYears* year);
 void viewLecturer(AcademicYears* year);
 #pragma endregion
 #pragma region Scoreboard
-void View_Scoreboard(AcademicYears* year);
 void Export_ScoreBoard(AcademicYears* year);
 #pragma endregion
 #pragma region Attendance list
-void ViewAttendanceList(AcademicYears* year);
+
 void exportAttendanceListOfCourse(AcademicYears* year);
 #pragma endregion
 #pragma endregion

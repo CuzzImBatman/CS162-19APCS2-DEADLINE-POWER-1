@@ -1,5 +1,23 @@
 #include "function.h"
+#include <stdio.h>
+using namespace std;
+void takeString(string& take, string& s)
+{
+	take = "";
+	int i = 0;
+	while (s[i] == ' ')	i++;
 
+	s.erase(0, i);
+	i = 0;
+	while (s[i] != ' ')
+		take = take + s[i++];
+
+	s.erase(0, i);
+}
+int takeTimeNumber(string time)
+{
+	return time[0] * 1000 + time[1] * 100 + time[3] * 10 + time[4] - 48 * 1111;
+}
 void Tick(Students* student) {
 	CheckinCourse* cur = NULL;
 	string courseID;
@@ -33,13 +51,9 @@ void Tick(Students* student) {
 	return ;
 
 }
+
+
 void viewCheckIn(CheckinCourse* checkincourse) {
-	cout << setw(22);
-	for (int i = 1; i < 12; i++)
-	{
-		cout << "Week " << i << setw(10);
-	}
-	cout << "\n";
 	while (checkincourse != NULL) {
 
 		cout << setw(10) << checkincourse->courseID;
@@ -47,7 +61,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			int bit = checkincourse->bitweek >> i;
 			if (bit % 2)
 				cout << setw(11) << "V";
-			else if (!bit || checkincourse->bitweek == 0)
+			else if (!bit ||checkincourse->bitweek == 0)
 				cout << setw(11) << "-";
 			else if (bit)
 				cout << setw(11) << "X";
@@ -58,6 +72,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 
 }
 void viewSchedule(Students* student) {
+
 	cout << setw(10);
 	cout << "Monday";
 	cout << setw(10);
@@ -111,3 +126,7 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
+
+
+
+//CheckStatusStudent
