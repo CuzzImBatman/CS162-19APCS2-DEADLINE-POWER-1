@@ -431,30 +431,34 @@ void AddScoreBoardCourse(Students*& st, string courseID, string courseName)
 	newcourse->next = st->scoreboards;
 	st->scoreboards = newcourse;
 }
-void AddCheckInCourse(Students*& st, string courseID, string room)
+void AddCheckInCourse(Students * &st, string courseID, string room, string starTime, string endTime, Date startDate, Date endDate)
 {
 	CheckinCourse* newcourse = new CheckinCourse;
 	newcourse->room = room;
 	newcourse->courseID = courseID;
 	newcourse->bitweek = 0;
+	newcourse->startTime = starTime;
+	newcourse->endTime = endTime;
+	newcourse->startDate = startDate;
+	newcourse->endDate = endDate;
 	newcourse->next = st->checkincourse;
 	st->checkincourse = newcourse;
 
 }
-void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year) {
+void AddCourseToStudent(Students*& ST, Courses*& course, CourseClass*& CL, string year) {
 
-	ST->schedule[DayInWeek][AtNth] = course->courseID;
+	ST->schedule[CL->DayInWeek][CL->AtNth] = course->courseID;
 	ifstream CKinit;
 	string init = "Year" + year + "_StudentID" + ST->studentID + "_CheckIn.txt";
 	CKinit.open("./DATABASE/" + init);
 	if (!CKinit.is_open())
-		AddCheckInCourse(ST, course->courseID, course->room);
+		AddCheckInCourse(ST, course->courseID, course->room, CL->startTime, CL->endTime, CL->startDate, CL->endDate);
 	else
 	{
 		int n;
 		CKinit >> n;
 		if (!n)
-			AddCheckInCourse(ST, course->courseID, course->room);
+			AddCheckInCourse(ST, course->courseID, course->room, CL->startTime, CL->endTime, CL->startDate, CL->endDate);
 		else
 		{
 			CheckinCourse* test = ST->checkincourse;
@@ -467,6 +471,14 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 				{
 					CheckinCourse* newcourse = new CheckinCourse;
 					CKinit >> newcourse->room;
+					CKinit >> newcourse->startTime;
+					CKinit >> newcourse->endTime;
+					CKinit >> newcourse->startDate.day;
+					CKinit >> newcourse->startDate.month;
+					CKinit >> newcourse->startDate.year;
+					CKinit >> newcourse->endDate.day;
+					CKinit >> newcourse->endDate.month;
+					CKinit >> newcourse->endDate.year;
 					CKinit >> newcourse->courseID;
 					CKinit >> newcourse->bitweek;
 					newcourse->next = ST->checkincourse;
@@ -474,7 +486,7 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 				}
 			}
 			if (test && !ST->checkincourse)
-				AddCheckInCourse(ST, course->courseID, course->room);
+				AddCheckInCourse(ST, course->courseID, course->room, CL->startTime, CL->endTime, CL->startDate, CL->endDate);
 		}
 	}
 	string in = "Year" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
@@ -514,12 +526,13 @@ void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNt
 		}
 	}
 }
-void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year) {
+void AddCourseToClass(Classes*& Class, Courses*& course, CourseClass*& CL, string year) {
+	
 
 	Students* curST = Class->students;
 	while (curST != NULL)
 	{
-		AddCourseToStudent(curST, course, DayInWeek, AtNth, year);
+		AddCourseToStudent(curST, course, CL, year);
 		curST = curST->next;
 	}
 
@@ -564,9 +577,9 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 		courseclass->DayInWeek = 5;
 		break;
 	}
-	cout << "Sesseion in day (7 30/9 00/...): ";
-	int hour, minute;
-	cin >> hour >> minute;
+	cin >> courseclass->startTime;
+	cin >> courseclass->endTime;
+	int hour = courseclass->startTime[0] * 10 + courseclass->startTime[1] - 48 * 11;
 	switch (hour) {
 	case 7:
 		courseclass->AtNth = 0;
@@ -606,7 +619,7 @@ void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string 
 	}
 
 
-	AddCourseToClass(curCL, curCS, DayInWeek, AtNth, year);
+	AddCourseToClass(curCL, curCS, courseclass, year);
 
 	courseclass->next = curCS->courseclass;
 	curCS->courseclass = courseclass;

@@ -1,7 +1,23 @@
 #include "function.h"
 #include <stdio.h>
 using namespace std;
+void takeString(string& take, string& s)
+{
+	take = "";
+	int i = 0;
+	while (s[i] == ' ')	i++;
 
+	s.erase(0, i);
+	i = 0;
+	while (s[i] != ' ')
+		take = take + s[i++];
+
+	s.erase(0, i);
+}
+int takeTimeNumber(string time)
+{
+	return time[0] * 1000 + time[1] * 100 + time[3] * 10 + time[4] - 48 * 1111;
+}
 void Tick(Students* student) {
 	auto start = std::chrono::system_clock::now();
 	
