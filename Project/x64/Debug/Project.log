@@ -1,0 +1,185 @@
+﻿  functionAllRoles.cpp
+  functionFinalization.cpp
+D:\CS162_Project\Project\functionFinalization.cpp(54,25): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionFinalization.cpp(54,43): error C2039: 'endTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionFinalization.cpp(170,39): error C2039: 'startTime': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(170,58): error C2039: 'endTime': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(171,23): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(171,51): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(171,81): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(172,21): error C2039: 'endDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(172,47): error C2039: 'endDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionFinalization.cpp(172,75): error C2039: 'endDate': is not a member of 'CheckinCourse'
+  functionInitialization.cpp
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionInitialization.cpp(205,20): error C2039: 'classno': is not a member of 'Classes'
+D:\CS162_Project\Project\function.h(98): message : see declaration of 'Classes'
+D:\CS162_Project\Project\functionInitialization.cpp(213,30): error C2039: 'classno': is not a member of 'Classes'
+D:\CS162_Project\Project\function.h(98): message : see declaration of 'Classes'
+D:\CS162_Project\Project\functionInitialization.cpp(285,36): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(286,34): error C2039: 'endTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(287,36): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(287,73): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(313,52): error C2660: 'AddCourseToClass': function does not take 4 arguments
+D:\CS162_Project\Project\function.h(219,6): message : see declaration of 'AddCourseToClass'
+D:\CS162_Project\Project\functionInitialization.cpp(335,50): error C2660: 'AddCourseToStudent': function does not take 4 arguments
+D:\CS162_Project\Project\function.h(218,6): message : see declaration of 'AddCourseToStudent'
+D:\CS162_Project\Project\functionInitialization.cpp(346,16): error C2039: 'StartTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionInitialization.cpp(346,40): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(347,14): error C2039: 'endTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionInitialization.cpp(347,36): error C2039: 'endTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionInitialization.cpp(348,16): error C2039: 'startDate': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionInitialization.cpp(349,13): error C2039: 'endDate': is not a member of 'CourseDetail'
+  functionLecturer.cpp
+  functionStaff.cpp
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(55,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(56,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(61,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(66,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(71,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\functionStaff.cpp(178,64): error C2039: 'StartTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(178,77): error C2039: 'endTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(178,92): error C2039: 'startDate': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(178,105): error C2039: 'endDate': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(446,63): error C2039: 'StartTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(446,76): error C2039: 'endTime': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(446,91): error C2039: 'startDate': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(446,104): error C2039: 'endDate': is not a member of 'CourseDetail'
+D:\CS162_Project\Project\function.h(93): message : see declaration of 'CourseDetail'
+D:\CS162_Project\Project\functionStaff.cpp(1165,59): error C2660: 'AddCourseToStudent': function does not take 4 arguments
+D:\CS162_Project\Project\function.h(218,6): message : see declaration of 'AddCourseToStudent'
+D:\CS162_Project\Project\functionStaff.cpp(1596,30): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionStaff.cpp(1596,5): error C2672: 'getline': no matching overloaded function found
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_istream<_Elem,_Traits> &' from 'std::ifstream'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(78): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_string<_Elem,_Traits,_Alloc> &' from 'char'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(78): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2780: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem)': expects 3 arguments - 2 provided
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(72): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_istream<_Elem,_Traits> &&' from 'std::ifstream'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(66): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_string<_Elem,_Traits,_Alloc> &' from 'char'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(66): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1596,35): error C2780: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem)': expects 3 arguments - 2 provided
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(23): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1599,25): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionStaff.cpp(1600,36): error C2039: 'startTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionStaff.cpp(1616,28): error C2039: 'endTime': is not a member of 'CourseClass'
+D:\CS162_Project\Project\function.h(123): message : see declaration of 'CourseClass'
+D:\CS162_Project\Project\functionStaff.cpp(1616,5): error C2672: 'getline': no matching overloaded function found
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_istream<_Elem,_Traits> &' from 'std::ifstream'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(78): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_string<_Elem,_Traits,_Alloc> &' from 'char'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(78): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2780: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &,std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem)': expects 3 arguments - 2 provided
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(72): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_istream<_Elem,_Traits> &&' from 'std::ifstream'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(66): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2784: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &)': could not deduce template argument for 'std::basic_string<_Elem,_Traits,_Alloc> &' from 'char'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(66): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1616,33): error C2780: 'std::basic_istream<_Elem,_Traits> &std::getline(std::basic_istream<_Elem,_Traits> &&,std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem)': expects 3 arguments - 2 provided
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(23): message : see declaration of 'std::getline'
+D:\CS162_Project\Project\functionStaff.cpp(1621,49): error C2660: 'AddCourseToClass': function does not take 4 arguments
+  functionStudent.cpp
+D:\CS162_Project\Project\function.h(219,6): message : see declaration of 'AddCourseToClass'
+D:\CS162_Project\Project\functionStudent.cpp(6,20): error C3083: 'chrono': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(6,28): error C3083: 'system_clock': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(6,42): error C2039: 'now': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(20): message : see declaration of 'std'
+D:\CS162_Project\Project\functionStudent.cpp(6,45): error C3861: 'now': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(8,18): error C3083: 'chrono': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(8,26): error C3083: 'system_clock': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(8,40): error C2039: 'now': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(20): message : see declaration of 'std'
+D:\CS162_Project\Project\functionStudent.cpp(8,43): error C3861: 'now': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(10,7): error C3083: 'chrono': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(10,15): error C2039: 'duration': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(20): message : see declaration of 'std'
+D:\CS162_Project\Project\functionStudent.cpp(10,23): error C2065: 'duration': undeclared identifier
+D:\CS162_Project\Project\functionStudent.cpp(10,30): error C2062: type 'double' unexpected
+D:\CS162_Project\Project\functionStudent.cpp(11,30): error C3083: 'chrono': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(11,38): error C3083: 'system_clock': the symbol to the left of a '::' must be a type
+D:\CS162_Project\Project\functionStudent.cpp(11,52): error C2039: 'to_time_t': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\string(20): message : see declaration of 'std'
+D:\CS162_Project\Project\functionStudent.cpp(11,61): error C3861: 'to_time_t': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(14,26): error C2065: 'elapsed_seconds': undeclared identifier
+D:\CS162_Project\Project\functionStudent.cpp(20,2): error C3861: 'takeString': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(28,2): error C3861: 'takeString': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(41,2): error C3861: 'takeString': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(43,2): error C3861: 'takeString': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(45,2): error C3861: 'takeString': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(52,6): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(55,5): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(55,5): error C2039: 'endDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(55,85): error C3861: 'takeTimeNumber': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(55,5): error C2039: 'startTime': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(55,106): error C3861: 'takeTimeNumber': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(55,139): error C3861: 'takeTimeNumber': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(55,5): error C2039: 'endTime': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(55,162): error C3861: 'takeTimeNumber': identifier not found
+D:\CS162_Project\Project\functionStudent.cpp(60,46): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(113,103): error C2039: 'startTime': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(114,42): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(114,70): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(114,100): error C2039: 'startDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(115,38): error C2039: 'endDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(115,64): error C2039: 'endDate': is not a member of 'CheckinCourse'
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+D:\CS162_Project\Project\functionStudent.cpp(115,92): error C2039: 'endDate': is not a member of 'CheckinCourse'
+  main.cpp
+  pointersDeletion.cpp
+  sha256.cpp
+D:\CS162_Project\Project\function.h(71): message : see declaration of 'CheckinCourse'
+  subroutines.cpp
+D:\CS162_Project\Project\sha256.cpp(116,57): warning C4244: '=': conversion from 'unsigned __int64' to 'BYTE', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(53,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(68,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(74,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(88,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(94,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(100,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(117,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(123,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162_Project\Project\subroutines.cpp(129,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+D:\CS162_Project\Project\subroutines.cpp(657,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data

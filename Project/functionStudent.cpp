@@ -1,45 +1,71 @@
 #include "function.h"
+#include <stdio.h>
+using namespace std;
 
 void Tick(Students* student) {
-	CheckinCourse* cur = NULL;
-	string courseID;
-	cout << "Current week : ";
-	int week; 
-	cin >> week;
-	while (!cur)
-	{
-		
-		cout << "the ID of course you want to checkin this week" << endl;
-		cin >> courseID;
-		cur = student->checkincourse;
-		while (cur)
-			if (cur->courseID == courseID)break;
-			else cur = cur->next;
-		if (!cur)cout << "Invalid course ID, please enter again.";
-	}
-		if (cur->courseID == courseID)
-			if ((cur->bitweek >> (week - 1)) % 2) {
-				cout << "Cannot check  in Course";
-				return;
-			}
-			else {
-				cur->bitweek += 1 << (week - 1);
-				cout << "Checked";
-				return;
-			}
-
-
+	auto start = std::chrono::system_clock::now();
 	
+	auto end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+	std::cout << "finished computation at " << std::ctime(&end_time)
+		<< "elapsed time: " << elapsed_seconds.count() << "s\n";
+	string s = ctime(&end_time);
+	string take;
+	string time;
+	Date date;
+	int dayinweek=0;
+	takeString(take, s);
+	if (take[1] == 'o')dayinweek = 0;
+	else if (take[1] == 'u')dayinweek = 1;
+	else if (take[1] == 'e')dayinweek = 2;
+	else if (take[1] == 'h')dayinweek = 3;
+	else if (take[1] == 'r')dayinweek = 4;
+	else if (take[1] == 'a')dayinweek = 5;
+	
+	takeString(take, s);
+	if (take == "Jan")date.month = "01";
+	else if (take == "Feb")date.month = "02";
+	else if (take == "Mar")date.month = "03";
+	else if (take == "Apr")date.month = "04";
+	else if (take == "May")date.month = "05";
+	else if (take == "Jun")date.month = "06";
+	else if (take == "Jul")date.month = "07";
+	else if (take == "Aug")date.month = "08";
+	else if (take == "Sep")date.month = "09";
+	else if (take == "Oct")date.month = "10";
+	else if (take == "Nov")date.month = "11";
+	else if (take == "Dec")date.month = "12";
+	takeString(take, s);
+	date.day = take;
+	takeString(take, s);
+	time = take;
+	takeString(take, s);
+	date.year = take;
+	int check = numberOfDay(date);
+
+	CheckinCourse* CK = student->checkincourse;
+	while (CK)
+	{
+		if (dayinweek == numberOfDay(CK->startDate) % 7)return;
+		CK = CK->next;
+	}
+	if (!CK || check< numberOfDay(CK->startDate) || check> numberOfDay(CK->endDate) || takeTimeNumber(time)<takeTimeNumber(CK->startTime) || takeTimeNumber(time) > takeTimeNumber(CK->endTime))
+	{
+		cout << "No course at the current time.";
+		return;
+	}
+	int bit = (check - numberOfDay(CK->startDate)) % 7;
+	CK->bitweek += 1 >> bit;
+	cout << "Checked in";
 	return ;
 
 }
+
+
 void viewCheckIn(CheckinCourse* checkincourse) {
-	cout << setw(22);
-	for (int i = 1; i < 12; i++)
-	{
-		cout << "Week " << i << setw(10);
-	}
-	cout << "\n";
 	while (checkincourse != NULL) {
 
 		cout << setw(10) << checkincourse->courseID;
@@ -47,7 +73,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 			int bit = checkincourse->bitweek >> i;
 			if (bit % 2)
 				cout << setw(11) << "V";
-			else if (!bit || checkincourse->bitweek == 0)
+			else if (!bit ||checkincourse->bitweek == 0)
 				cout << setw(11) << "-";
 			else if (bit)
 				cout << setw(11) << "X";
@@ -58,6 +84,7 @@ void viewCheckIn(CheckinCourse* checkincourse) {
 
 }
 void viewSchedule(Students* student) {
+
 	cout << setw(10);
 	cout << "Monday";
 	cout << setw(10);
@@ -83,8 +110,11 @@ void viewSchedule(Students* student) {
 	CheckinCourse* CK = student->checkincourse;
 	while (SB && CK)
 	{
-		cout << SB->courseID << ": " << SB->courseName << "(" << CK->room << ")"<< endl;
+		cout << SB->courseID << ": " << SB->courseName << "(" << CK->room << ")"<< " time: " <<CK->startTime<<endl;
+		cout << "Start Date: " << CK->startDate.day << " " << CK->startDate.month << " " << CK->startDate.year << endl;
+		cout << "End Date: " << CK->endDate.day << " " << CK->endDate.month << " " << CK->endDate.year << endl<<endl;
 		SB = SB->next;
+		CK = CK->next;
 	}
 
 }
@@ -111,3 +141,7 @@ void viewScoreCourse(Students* student) {
 		else
 			scoreboard = scoreboard->next;
 }
+
+
+
+//CheckStatusStudent

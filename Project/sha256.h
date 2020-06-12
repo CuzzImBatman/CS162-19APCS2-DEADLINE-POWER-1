@@ -1,5 +1,5 @@
-#ifndef _SHA256_H_
-#define _SHA256_H_
+#ifndef _SHA256_H_INCLUDED_
+#define _SHA256_H_INCLUDED_
 #include <string>
 using namespace std;
 
@@ -21,4 +21,4 @@ void sha256_init(SHA256_CTX* ctx);
 void sha256_update(SHA256_CTX* ctx, string data, size_t len);
 
 
-#endif
+#endif // SHA256_H_INCLUDED

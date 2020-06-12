@@ -8,6 +8,7 @@ void deleteStudentCourse(StudentCourse* OS)
 		delete tmp;
 	}
 }
+
 void deleteCourses(Courses*& course) {
 	while (course)
 	{

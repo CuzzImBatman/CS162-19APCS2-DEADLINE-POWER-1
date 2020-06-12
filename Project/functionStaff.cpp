@@ -1,91 +1,133 @@
 #include "function.h"
+#include <stdio.h>
+#pragma region Tools
+Classes* findClass(Classes* Class, string ClassID) {
+	Classes* temp = Class;
+	while (temp && temp->classID != ClassID)
+		temp = temp->next;
+	return temp;
+}
+Students* findStudent(Students* st, string stID) {
+	Students* temp = st;
+	while (temp && temp->studentID != stID)
+		temp = temp->next;
+	return temp;
+}
+Semesters* findSemester(Semesters* semes, char no) {
+	Semesters* temp = semes;
+	while (temp && temp->semesterNo != no)
+		temp = temp->next;
+	return temp;
+}
+AcademicYears* findYear(AcademicYears* acaYear, string year) {
+	AcademicYears* temp = acaYear;
+	while (temp && temp->year != year)
+		temp = temp->next;
+	return temp;
+}
+Courses* findCourse(Courses* course, string ID) {
+	Courses* temp = course;
+	while (temp && temp->courseID != ID)
+		temp = temp->next;
+	return temp;
+}
+CourseClass* findCL(CourseClass* CL, string classID) {
+	CourseClass* temp = CL;
+	while (temp && temp->classID != classID)
+		temp = temp->next;
+	return temp;
+}
+#pragma endregion 
 
 #pragma region Class
-void importAClassFromCsvFile(Classes*& classList) {
+void importAClassFromCsvFile(Classes*& aClass) {
+	Students* st = aClass->students;
+	Students* tempSt = st;
 	cout << "Enter path to the csv file: ";
-	Classes* tmp = classList;
-	string path;
-	cin >> path;
-	Students* studentList = listStudentsFromFile(path);
-	if (studentList)
-	{
-		if (classList != nullptr)
-		{
-			short int no;
-			int choice;
-			cout << "[1] Create a new class.\n"
-				 << "[2] Import into existing class.\n"
-				 << "Your choice: ";
-			cin >> choice;
-			while (choice != 1 && choice != 2)
-			{
-				cout << "Invalid choice. Please choose again: ";
-				cin >> choice;
-			}
-			switch (choice)
-			{
-			case 1:
+	string fileIn;
+	cin >> fileIn;
+	ifstream fin{ fileIn };
+	if (fin.is_open()) {
+		fin.ignore(1000,'\n');
+		while (!fin.eof()) {
+			string student;
+			getline(fin, student);
+			int comma = student.find(',');
+			int nextComma = student.find(',', comma + 1);
 
-				while (tmp->next != nullptr) tmp = tmp->next;
-				tmp->next = new Classes;
-				tmp = tmp->next;
-				tmp->students = studentList;
-				cout << "Please enter class ID: ";
-				cin >> tmp->classID;
-				tmp->next = nullptr;
+			string id = student.substr(comma + 1, nextComma - comma + 1);
+
+			comma = nextComma;
+			nextComma = student.find(',', comma + 1);
+
+			string lastname = student.substr(comma + 1, nextComma - comma + 1);
+
+			comma = nextComma;
+			nextComma = student.find(',', comma + 1);
+
+			string firstname = student.substr(comma + 1, nextComma - comma + 1);
+
+			comma = nextComma;
+			nextComma = student.find(',', comma + 1);
+
+			string sex = student.substr(comma + 1, nextComma - comma + 1);
+			char gender;
+			if (sex[0] == 'P')
+				gender = 'O';
+			else gender = sex[0];
+
+			string date = student.substr(nextComma, 10);
+			string year = date.substr(0, 4);
+			string month = date.substr(6, 2);
+			string day = date.substr(8, 2);
+
+			if (!st) {
+				st = new Students;
+				st->studentID = id;
+				st->account = new Accounts;
+				st->account->uName = st->studentID;
+				st->account->role = 1;
+				st->account->firstname = firstname;
+				st->account->lastname = lastname;
+				st->account->gender = gender;
+				st->account->doB = new Date;
+				st->account->doB->day = day;
+				st->account->doB->month = month;
+				st->account->doB->year = year;
+
+				string pwd = st->account->doB->day + st->account->doB->month + st->account->uName;
+				sha256_init(&st->account->pwd);
+				sha256_update(&st->account->pwd, pwd, pwd.length());
 				for (int i = 0; i < 6; i++)
 					for (int j = 0; j < 4; j++)
-						tmp->schedule[i][j] = "//";
-				break;
-			case 2:
-				string classID;
-				cout << "Class ID you want to import: ";
-				cin >> classID;
-				Classes* aClass = findClass(tmp, classID);
-				while (!(aClass = findClass(tmp, classID)))
-				{
-					cout << "Can't find class. Please enter class again: ";
-					cin >> classID;
-				}
-				Students* list = aClass->students; // list of current students in the selected class
-				if (list == nullptr)
-					aClass->students = studentList; // assign the new list for the empty class
-				else
-				{
-					//	Merge 2 lists of students
-					while (list->next != nullptr) list = list->next;
-					list->next = studentList;
-
-					//	Initialize schedule for new students in the class
-					Students* tmpSt = studentList;
-					while (tmpSt)
-					{
-						for (int i = 0; i < 6; i++)
-							for (int j = 0; j < 4; j++)
-								tmpSt->schedule[i][j] = list->schedule[i][j];
-						tmpSt = tmpSt->next;
-					}
-					//	For Sunflower: please initialize the attendance lists for the new students for Emblema :D
-				}
-				break;
+						st->schedule[i][j] = "//";
+				tempSt = st;
+			}
+			else {
+				tempSt->next = new Students;
+				tempSt->next->studentID = id;
+				tempSt->next->account = new Accounts;
+				tempSt->next->account->uName = st->studentID;
+				tempSt->next->account->role = 1;
+				tempSt->next->account->firstname = firstname;
+				tempSt->next->account->lastname = lastname;
+				tempSt->next->account->gender = gender;
+				tempSt->next->account->doB = new Date;
+				tempSt->next->account->doB->day = day;
+				tempSt->next->account->doB->month = month;
+				tempSt->next->account->doB->year = year;
+				string pwd = tempSt->next->account->doB->day + tempSt->next->account->doB->month + tempSt->next->account->uName;
+				sha256_init(&tempSt->next->account->pwd);
+				sha256_update(&tempSt->next->account->pwd, pwd, pwd.length());
+				for (int i = 0; i < 6; i++)
+					for (int j = 0; j < 4; j++)
+						tempSt->next->schedule[i][j] = "//";
+				tempSt = tempSt->next;
 			}
 		}
-		else
-		{
-			cout << "There is no class in the list. Creating a new class.\n";
-			classList = new Classes;
-			short int no = 1;
-			classList = classList->next;
-			classList->students = studentList;
-			cout << "Please enter class ID: ";
-			cin >> classList->classID;
-			classList->next = nullptr;
-			for (int i = 0; i < 6; i++)
-				for (int j = 0; j < 4; j++)
-					classList->schedule[i][j] = "//";
-		}
 	}
-	else cout << "Can't open file!\n";
+	fin.close();
+	cout << "Class imported successfully." << endl;
 }
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;
@@ -133,11 +175,11 @@ void addAStudentToAClass(Classes*& aClass) {
 	CourseDetail* CD = tmpClass->CD;
 	while (CD)
 	{
-		AddCheckInCourse(aStudent,CD->courseID,CD->room);
+		AddCheckInCourse(aStudent,CD->courseID,CD->room,CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
-
+			
 
 	Students* tmp = tmpClass->students;
 	if (tmp == nullptr)
@@ -266,7 +308,7 @@ void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year)
 	tmpSt = tmpClass->students;
 	if (tmpSt->studentID == studentToRemove)
 	{
-		string s = "./DATABASE/Year" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+		string s = "Yr" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
 		RemoveFile(s);
 		DeleteScoreBoardStudent(tmpSt);
 		DeleteCheckinCourseStudent(tmpSt);
@@ -358,7 +400,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 		cout << "Enter the student's ID: ";
 		cin >> studentToChange;
 	}
-	string s = "./DATABASE/Year" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
+	string s = "Yr" + year  + "_StudentID" + tmpSt->studentID + "ScoreBoard.txt";
 	RemoveFile(s);
 	Students* AddSt = new Students;
 	AddSt->account = tmpSt->account;
@@ -395,13 +437,13 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 
 	for (int i = 0; i < 6; i++)
 		for (int j = 0; j < 4; j++)
-
+		
 			AddSt->schedule[i][j] = tmpClassB->schedule[i][j];
-
+			
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
-		AddCheckInCourse(AddSt, CD->courseID,CD->room);
+		AddCheckInCourse(AddSt, CD->courseID,CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
 		CD = CD->next;
 	}
@@ -472,6 +514,7 @@ void viewListOfStudentsInAClass(AcademicYears* aYear) {
 	}
 }
 #pragma endregion
+
 #pragma region Course
 void createAcademicYear(AcademicYears*& year)
 {
@@ -490,6 +533,7 @@ void createAcademicYear(AcademicYears*& year)
 	newYear->next = year;
 	year = newYear;
 }
+
 void updateAcademicYear(AcademicYears* year)
 {
 	if (year == nullptr)
@@ -528,8 +572,18 @@ void updateAcademicYear(AcademicYears* year)
 		break;
 	}
 }
-
-void deleteAcademicYear(AcademicYears*& year)
+void staff_deleteClasses(Classes*& Class, string year) {
+	Classes* tempClass = Class;
+	while (tempClass) {
+		string fileName = "Yr" + year + "_Cl" + tempClass->classID + "_StudentDB_TEST.txt";
+		RemoveFile(fileName);
+		deleteStudents(tempClass->students);
+		Classes* newTemp = tempClass;
+		tempClass = tempClass->next;
+		delete newTemp;
+	}
+}
+void staff_deleteAcademicYear(AcademicYears*& year)
 {
 	if (year == nullptr)
 	{
@@ -548,7 +602,7 @@ void deleteAcademicYear(AcademicYears*& year)
 	}
 	if (tempYear == nullptr)
 	{
-		cout << "Can't find academic year." << deletingYear << endl;
+		cout << "Can't find academic year " << deletingYear << endl;
 		return;
 	}
 
@@ -558,19 +612,20 @@ void deleteAcademicYear(AcademicYears*& year)
 	staff_deleteClasses(tempYear->classes, tempYear->year);
 	deleteSemesters(tempYear->semesters);
 	string fileName;
-	fileName = "Year" + tempYear->year + "_ClassDB.txt";
-	RemoveFile("./DATABASE/" + fileName);
+	fileName = "Yr" + tempYear->year + "_ClassDB_TEST.txt";
+	RemoveFile(fileName);
 	for (int i = 49; i < 53; i++)
 	{
-		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_LecturerDB.txt";
-		RemoveFile("./DATABASE/" + fileName);
-		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_StaffDB.txt";
-		RemoveFile("./DATABASE/" + fileName);
-		fileName = "Year" + tempYear->year + "_Semester" + (char)i + "_CourseDB.txt";
-		RemoveFile("./DATABASE/" + fileName);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_LecturerDB_TEST.txt";
+		RemoveFile(fileName);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_StaffDB_TEST.txt";
+		RemoveFile(fileName);
+		fileName = "Yr" + tempYear->year + "_Sem" + (char)i + "_CourseDB_TEST.txt";
+		RemoveFile(fileName);
 	}
 	delete tempYear;
 }
+
 void viewAcademicYear(AcademicYears* year)
 {
 	if (year == nullptr)
@@ -586,540 +641,34 @@ void viewAcademicYear(AcademicYears* year)
 	}
 }
 
-void ImportCourseFromCsv(AcademicYears* year)
+bool input(AcademicYears* AcaYear, Semesters*& semes, string& year)
 {
-	string Year;
-	char semes;
-	AcademicYears* y = NULL;
-	Semesters* s = NULL;
-	while (!y)
+	cout << "\nPlease enter Academic Year (1920/2021): ";
+	cin >> year;
+	while (AcaYear != nullptr && AcaYear->year != year)
+		AcaYear = AcaYear->next;
+	if (AcaYear == nullptr)
 	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+		cout << "Academic year not found!" << endl;
+		return false;
 	}
-	while (!s)
+	else
 	{
-		cout << "\nPlease enter semester: ";
-		cin >> semes;
-		s = findSemester(y->semesters, semes);
-		if (!s)cout << "Invalid semester, please enter again." << endl;
-
-	}
-	string name;
-	cout << "Enter path to the csv file: ";
-	cin >> name;
-	ifstream in;
-	in.open(name);
-	int i = 0;
-
-	getline(in, name);
-	getline(in, name, ',');
-	while (!in.eof())
-	{
-		int check = 1;
-		Courses* course = new Courses;
-		course->courseclass = NULL;
-		getline(in, course->courseID, ',');
-		getline(in, course->courseName, ',');
-		getline(in, course->LectureName, ',');
-		getline(in, course->room, ',');
-		string test = "";
-		while (!in.eof() && test == "")
+		semes = AcaYear->semesters;
+		char semester;
+		cout << "Please enter Semester: ";
+		cin >> semester;
+		while (semes != nullptr && semes->semesterNo != semester)
+			semes = semes->next;
+		if (semes == nullptr)
 		{
-			if (!check)for (int j = 0; j < 4; j++)getline(in, test, ',');
-			check = 0;
-			CourseClass* CL = new CourseClass;
-			getline(in, CL->startDate.day, '/');
-			getline(in, CL->startDate.month, '/');
-			getline(in, CL->startDate.year, ',');
-			getline(in, CL->endDate.day, '/');
-			getline(in, CL->endDate.month, '/');
-			getline(in, CL->endDate.year, ',');
-
-
-			string temp;
-			getline(in, temp, ',');
-			switch (temp[1]) { //Mo Tu We Th Fr Sa
-			case 'o':
-				CL->DayInWeek = 0;
-				break;
-			case 'u':
-				CL->DayInWeek = 1;
-				break;
-			case 'e':
-				CL->DayInWeek = 2;
-				break;
-			case 'h':
-				CL->DayInWeek = 3;
-				break;
-			case 'r':
-				CL->DayInWeek = 4;
-				break;
-			case 'a':
-				CL->DayInWeek = 5;
-				break;
-			}
-			string hour;
-			getline(in, hour, ',');
-			int num = 0;
-			int j = 0;
-			while (hour[j] != ':')num = num * 10 + hour[j++] - 48;
-			switch (num) {
-			case 7:
-				CL->AtNth = 0;
-				break;
-			case 9:
-				CL->AtNth = 1;
-				break;
-			case 13:
-				CL->AtNth = 2;
-				break;
-			case 15:
-				CL->AtNth = 3;
-				break;
-			}
-			getline(in, CL->classID, '\,');
-			getline(in, CL->classID, '\n');
-			Classes* curCL = findClass(y->classes, CL->classID);
-
-
-			AddCourseToClass(curCL, course, CL->DayInWeek, CL->AtNth, y->year);
-			Students* st = curCL->students;
-			while (st)
-			{
-				StudentCourse* OS = new StudentCourse;
-				OS->studentID = st->studentID;
-				OS->classID = curCL->classID;
-				OS->next = CL->studentcourse;
-				CL->studentcourse = OS;
-				st = st->next;
-			}
-
-
-			CL->next = course->courseclass;
-			course->courseclass = CL;
-			getline(in, test, ',');
+			cout << "Semester not found!" << endl;
+			return false;
 		}
-		course->next = s->courses;
-		s->courses = course;
+		else return true;
 	}
 }
-void AddCourse(AcademicYears*& year) {
-	AcademicYears* AY;
-	Semesters* s = FindSemester(year, AY);
-	Courses* course = s->courses;
-	Classes* Class = AY->classes;
-	Courses* newcourse = new Courses;
-	cout << "courseID: ";
-	cin >> newcourse->courseID;
-	cout << "coursename: ";
-	cin.ignore();
-	getline(cin, newcourse->courseName);
-	cout << "Room: ";
-	cin >> newcourse->room;
-	cout << "Lecture's name: ";
-	cin.ignore();
-	getline(cin, newcourse->LectureName);
-	newcourse->next = course;
-	course = newcourse;
-	course->courseclass = NULL;
 
-	int n;
-
-	do {
-		string classID;
-		cout << "[1] Add Class.\n";
-		cout << "[2] Stop.\n";
-		cin >> n;
-		if (n == 1)
-		{
-			cout << "classID :";
-			cin >> classID;
-			if (!findClass(Class, classID))
-			{
-				cout << "invalid Class ID.";
-				continue;
-			}
-			cin >> classID;
-			AddClassToCourse(Class, classID, course, course->courseID, year->year);
-			break;
-		}
-	} while (n != 2);
-	newcourse->next = s->courses;
-	s->courses = newcourse;
-}
-void EditCourse(AcademicYears* year) {
-	string Year;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-
-
-	int n = 1;
-	do {
-
-		string  room, NewID, OldID, name, classID, Lname;
-		cout << "Menu: " << endl;
-		cout << "1.Change course ID. " << endl;
-		cout << "2.change Room." << endl;
-		cout << "3.Change Schedule course of a class." << endl;
-		cout << "4.Change Course Lecture." << endl;
-		cout << "5.Edit start date, end date of a class course." << endl;
-		cout << "6.Change course name. " << endl;
-		cout << " Press 0 to stop." << endl << endl;
-
-		cin >> n;
-
-		string courseID;
-		Courses* course = NULL;
-		Classes* Class = y->classes;
-		Semesters* s = NULL;
-		CourseClass* CL = NULL;
-		if (n)while (!s)
-		{
-			s = y->semesters;
-			cout << "Please enter course ID: ";
-			cin >> courseID;
-			while (s)
-			{
-				course = findCourse(s->courses, courseID);
-				if (!course)s = s->next;
-				else break;
-			}
-			if (!s)cout << "Invalid course ID, please enter again." << endl;
-		}
-		switch (n) {
-		case 1:
-
-			cout << "New course ID: ";
-			cin >> NewID;
-			EditCourseId(course, NewID, Class);
-			break;
-		case 2:
-
-			cout << "New room: ";
-			cin >> room;
-			EditCourseroom(course, courseID, room, Class);
-			break;
-
-		case 3:
-
-			CL = NULL;
-			while (!CL)
-			{
-				cout << "Class ID: ";
-				cin >> classID;
-				CL = findCL(course->courseclass, classID);
-				if (!CL)cout << "Invalid class ID, please enter again." << endl;
-			}
-			EditScheduleCourseOfClass(course, classID, courseID, Class);
-			break;
-
-		case 4:
-			cout << "New lecture: ";
-			cin >> Lname;
-
-			EditCourseLecture(course, Lname, courseID);
-			break;
-
-		case 5:
-
-			CL = NULL;
-			while (!CL && course)
-			{
-				cout << "Class ID: ";
-				cin >> classID;
-				CL = findCL(course->courseclass, classID);
-				if (!CL)cout << "Invalid class ID, please enter again." << endl;
-			}
-			EditDateOfCL(course, classID, courseID, y->year);
-			break;
-
-		case 6:
-			cout << "New course name: ";
-			cin.ignore();
-			getline(cin, NewID);
-			EditCourseName(course, NewID, Class);
-			break;
-		}
-
-	} while (n);
-
-}
-void DeleteCourse(AcademicYears* year) {
-	string Year;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-
-	string courseID;
-	Courses* course;
-	Classes* Class = y->classes;
-	Semesters* s = NULL;
-	while (!s)
-	{
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		s = y->semesters;
-		while (s)
-		{
-
-			course = findCourse(s->courses, courseID);
-			if (!course)s = s->next;
-			else break;
-		}
-		if (!s)cout << "Invalid course ID, please enter again." << endl;
-	}
-	course = s->courses;
-	Courses* cur = course;
-	Courses* tmp = new Courses;
-	Courses* pre = new Courses;
-
-	if (cur->courseID == courseID) {
-		CourseClass* courseclass = cur->courseclass;
-
-		while (courseclass) {
-			DeleteCourseScheduleStudent(cur, courseclass->studentcourse, Class);
-			DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
-			courseclass = courseclass->next;
-		}
-
-		cur = cur->next;
-		course = NULL;
-		course = cur;
-		cout << "Removed." << endl;
-		return;
-	}
-	while (cur != NULL) {
-		if (cur->courseID == courseID) {
-
-			CourseClass* courseclass = cur->courseclass;
-
-			while (courseclass != NULL) {
-				DeleteCourseScheduleStudent(cur, courseclass->studentcourse, Class);
-				DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
-				courseclass = courseclass->next;
-			}
-
-			pre->next = cur->next;
-			Courses* tmp = cur->next;
-			cur = NULL;
-			cur = tmp;
-			cout << "Removed." << endl;
-			return;
-		}
-		pre = cur;
-		cur = cur->next;
-	}
-	return;
-
-}
-void RemovedStudentFromCourseClass(AcademicYears* year) {
-	string Year;
-	Courses* course = NULL;
-	string courseID, classID, studentID;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-	Semesters* s = NULL;
-	while (!s)
-	{
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		s = y->semesters;
-		while (s)
-		{
-
-			course = findCourse(s->courses, courseID);
-			if (!course)s = s->next;
-			else break;
-		}
-		if (!s)cout << "Invalid course ID, please enter again." << endl;
-	}
-
-	Classes* Class = y->classes;
-
-	CourseClass* courseclass = NULL;
-	while (!courseclass && course)
-	{
-		cout << "Class ID of course: ";
-		cin >> classID;
-		courseclass = findCL(course->courseclass, classID);
-		if (!courseclass)cout << "invalid class ID. Please enter agian." << endl;
-		else break;
-	}
-
-
-
-	int i = 0;
-	Students* students = NULL;
-	StudentCourse* OS = NULL;
-	while (!OS)
-	{
-		cout << "Student ID: ";
-		cin >> studentID;
-		OS = courseclass->studentcourse;
-		while (OS)
-			if (OS->studentID == studentID)break;
-			else OS->next;
-		if (!OS)cout << "invalid student ID. Please enter again." << endl;
-		else break;
-	}
-	students = courseclass->students;
-
-
-	///
-	OS = courseclass->studentcourse;
-	if (OS->classID == classID && OS->studentID == studentID)
-	{
-		Classes* CL = findClass(Class, OS->classID);
-		if (CL)students = findStudent(CL->students, OS->studentID);
-		if (students)
-		{
-			DeleteCourseOfCheckin(students->checkincourse, courseID);
-			RemoveCourseOfScheduleStudent(students->schedule, courseID);
-			DeleteScoreBoardOfCourseStudent(students, course->courseName);
-		}
-		courseclass->studentcourse = courseclass->studentcourse->next;
-		OS = NULL;
-
-	}
-	StudentCourse* pre = OS, * tmp;
-
-	while (OS)
-	{
-		if (OS->classID == classID && OS->studentID == studentID)
-		{
-			Classes* CL = findClass(Class, OS->classID);
-			if (CL)students = findStudent(CL->students, OS->studentID);
-			if (students)
-			{
-
-				DeleteCourseOfCheckin(students->checkincourse, courseID);
-				RemoveCourseOfScheduleStudent(students->schedule, courseID);
-				DeleteScoreBoardOfCourseStudent(students, course->courseName);
-			}
-			pre->next = OS->next;
-			tmp = OS->next;
-			OS = NULL;
-			OS = tmp;
-			continue;
-
-		}
-		pre = OS;
-		OS = OS->next;
-	}
-
-	//1 inside
-	//0 outsie
-}
-void AddStudentToCourseClass(AcademicYears* year) {
-	string courseID, classSTID, studentID, classID;
-	string Year;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-	Courses* course = NULL;
-	Classes* Class = y->classes;
-	Semesters* s = NULL;
-	while (!s)
-	{
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		s = y->semesters;
-		while (s)
-		{
-
-			course = findCourse(s->courses, courseID);
-			if (!course)s = s->next;
-			else break;
-		}
-		if (!s)cout << "Invalid course ID, please enter again." << endl;
-	}
-
-	Classes* curCL = NULL;
-	while (!curCL)
-	{
-		cout << "Class ID of Student: ";
-		cin >> classSTID;
-		curCL = findClass(Class, classSTID);
-		if (!curCL)cout << "invalid class ID. Please enter agian." << endl;
-		else break;
-	}
-	Students* curST = NULL;
-	while (!curST)
-	{
-		cout << "student ID: ";
-		cin >> studentID;
-		curST = findStudent(curCL->students, studentID);
-		if (!curST)cout << "invalid student ID. Please enter agian." << endl;
-	}
-	CourseClass* courseclass = NULL;
-	while (!courseclass && course)
-	{
-		cout << "Class ID of course you want to add student: " << endl;
-		cin >> classID;
-		courseclass = findCL(course->courseclass, classID);
-		if (!courseclass)cout << "invalid class ID. Please enter agian." << endl;
-	}
-	///
-	int i = 0;
-
-	StudentCourse* test = courseclass->studentcourse;
-	while (test)
-		if (test->studentID == studentID)
-		{
-			cout << "Student's already in the course" << endl;
-			return;
-		}
-		else test = test->next;
-	StudentCourse* st = new StudentCourse;
-	st->classID = classSTID;
-	st->studentID = studentID;
-	st->next = courseclass->studentcourse;
-	courseclass->studentcourse = st;
-	curST = findStudent(curCL->students, studentID);
-	AddCourseToStudent(curST, course, courseclass->DayInWeek, courseclass->AtNth, year->year);
-	cout << "Added" << endl;
-	return;
-}
 void viewCourseOfSemester(AcademicYears* acaYear)
 {
 	string year;
@@ -1134,126 +683,6 @@ void viewCourseOfSemester(AcademicYears* acaYear)
 			courseList = courseList->next;
 		}
 	}
-}
-void View_StudentList_Course(AcademicYears* year)
-{
-	string courseID;
-	string Year;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-	Courses* course = NULL;
-	Classes* Class = y->classes;
-	Semesters* s = NULL;
-	while (!s)
-	{
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		s = y->semesters;
-		while (s)
-		{
-			course = findCourse(s->courses, courseID);
-			if (!course)s = s->next;
-			else break;
-		}
-		if (!s)cout << "Invalid course ID, please enter again." << endl;
-	}
-
-	cout << "Students List of " << courseID << endl;;
-	CourseClass* CL = course->courseclass;
-	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID" << setw(10) << "class ID" << endl;
-	while (CL)
-	{
-
-		StudentCourse* OS = CL->studentcourse;
-		while (OS != NULL)
-		{
-			Classes* tempCL = findClass(Class, OS->classID);
-			Students* tempST = findStudent(tempCL->students, OS->studentID);
-			if (tempST->Status && tempST->Status)
-				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
-			OS = OS->next;
-		}
-		CL = CL->next;
-	}
-
-}
-void View_Attendance_List(AcademicYears* year)
-{
-	string courseID, classID;
-	string Year;
-	AcademicYears* y = NULL;
-	while (!y)
-	{
-		cout << "\nPlease enter Academic Year: ";
-		cin >> Year;
-		y = year;
-		while (y)
-			if (y->year == Year)break;
-			else y = y->next;
-		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
-	}
-	Courses* course = NULL;
-	Classes* Class = y->classes;
-	Semesters* s = NULL;
-	while (!s)
-	{
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		s = y->semesters;
-		while (s)
-		{
-			course = findCourse(s->courses, courseID);
-			if (!course)s = s->next;
-			else break;
-		}
-		if (!s)cout << "Invalid course ID, please enter again." << endl;
-	}
-
-	CourseClass* CL = NULL;
-
-	while (!CL)
-	{
-		cout << "Please enter class ID: ";
-		cin >> classID;
-		CL = findCL(course->courseclass, classID);
-		if (!CL)cout << "Invalid class ID, please enter again." << endl;
-	}
-	Students* st;
-	StudentCourse* OS = CL->studentcourse;
-	while (OS)
-	{
-		Class = findClass(y->classes, OS->classID);
-		st = findStudent(Class->students, OS->studentID);
-		if (st->Status)
-		{
-			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
-			CheckinCourse* ck = st->checkincourse;
-			while (ck && ck->courseID != course->courseID)
-				ck = ck->next;
-			for (int i = 0; i < 11; i++) {
-				int bit = ck->bitweek >> i;
-				if (bit % 2)
-					cout << setw(11) << "V";
-				else if (!bit || ck->bitweek == 0)
-					cout << setw(11) << "-";
-				else if (bit)
-					cout << setw(11) << "X";
-			}
-			cout << endl;
-		}
-
-		OS = OS->next;
-	}
-
 }
 
 void createLecturer(AcademicYears* acaYear)
@@ -1302,6 +731,7 @@ void createLecturer(AcademicYears* acaYear)
 		cout << "\nNew lecturer's default password: " << pwd << endl;
 	}
 }
+
 void updateLecturer(AcademicYears* acaYear)
 {
 	string year;
@@ -1392,6 +822,7 @@ void updateLecturer(AcademicYears* acaYear)
 
 	}
 }
+
 void deleteLecturer(AcademicYears* acaYear)
 {
 	string year;
@@ -1437,6 +868,7 @@ void deleteLecturer(AcademicYears* acaYear)
 
 	}
 }
+
 void viewLecturer(AcademicYears* acaYear)
 {
 	string year;
@@ -1458,80 +890,35 @@ void viewLecturer(AcademicYears* acaYear)
 
 	}
 }
+
+
 #pragma endregion
+
 #pragma region Scoreboard
-void View_Scoreboard(AcademicYears* year)
-{
-	Courses* course = NULL;
-	AcademicYears* y = inputYear(year, course);
-	CourseClass* CL = NULL;
-	while (!CL)
-	{
-		string classID;
-		cout << "Please enter class ID: ";
-		cin >> classID;
-		CL = findCL(course->courseclass, classID);
-		if (!CL)cout << "Invalid class ID, please enter again." << endl;
+void viewScoreboardOfACourse(Courses* course) {
+	cout << "What course whose scoreboard you want to view? ";
+	string courseID;
+	cin >> courseID;
+
+	Courses* tmpCourse = nullptr;
+	while (true) {
+		tmpCourse = findCourse(course, courseID);
+		if (tmpCourse)
+			break;
+		else cout << "Course does not exist." << endl;
+		cout << "What course whose scoreboard you want to view? ";
+		cin >> courseID;
 	}
-	cout << course->courseID << " " << course->courseName << endl;
-	cout << setw(20) << "Last name" << setw(20) << "first name" << setw(20) << "student ID";
-	cout << setw(16) << "midtermScore";
-	cout << setw(16) << "finalScore";
-	cout << setw(16) << "labScore";
-	cout << setw(16) << "bonusScore" << endl;
-	Students* st;
-	int i = 0;
-	StudentCourse* OS = CL->studentcourse;
-	while (OS)
-	{
-		Classes* cl = findClass(y->classes, OS->classID);
-		if (cl && findStudent(cl->students, OS->studentID))
-		{
-			st = findStudent(cl->students, OS->studentID);
-			View_Scoreboard_Student(st, course->courseID);
-		}
-		OS = OS->next;
-	}
-}
-void Export_ScoreBoard(AcademicYears* year)
-{
-	Courses* course = NULL;
-	string classID;
-	AcademicYears* y = inputYear(year, course);
-	CourseClass* CL = course->courseclass;
-	while (CL)
-	{
-		string name = "Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.txt";
-		ofstream out;
-		out.open("./DATABASE/" + name);
-		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
-		out << "," << "midtermScore";
-		out << "," << "finalScore";
-		out << "," << "labScore";
-		out << "," << "bonusScore" << endl;
-		Students* st;
-		int i = 0;
-		StudentCourse* OS = CL->studentcourse;
-		while (OS)
-		{
-			Classes* cl = findClass(y->classes, OS->classID);
-			if (cl && findStudent(cl->students, OS->studentID))
-			{
-				out << i << ",";
-				st = findStudent(cl->students, OS->studentID);
-				Export_Scoreboard_Student(st, course->courseID, out);
-				i++;
-			}
-			OS = OS->next;
-		}
-		CL = CL->next;
-	}
+	//not finished
 }
 #pragma endregion
+
 #pragma region Attendance List
-void ViewAttendanceList(AcademicYears* year)
+//void edit
+
+void View_Attendance_List(AcademicYears* year)
 {
-	string courseID, classID;
+	string courseID,classID;
 	string Year;
 	AcademicYears* y = NULL;
 	while (!y)
@@ -1567,8 +954,8 @@ void ViewAttendanceList(AcademicYears* year)
 	{
 		cout << "Please enter class ID: ";
 		cin >> classID;
-		CL = findCL(course->courseclass, classID);
-		if (!CL)cout << "Invalid class ID, please enter again." << endl;
+		CL = findCL(course->courseclass,classID);
+		if(!CL)cout << "Invalid class ID, please enter again." << endl;
 	}
 	Students* st;
 	StudentCourse* OS = CL->studentcourse;
@@ -1580,13 +967,14 @@ void ViewAttendanceList(AcademicYears* year)
 		{
 			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
 			CheckinCourse* ck = st->checkincourse;
-			while (ck && ck->courseID != course->courseID)
-				ck = ck->next;
+			while (ck)
+				if (ck->courseID == course->courseID)break;
+				else ck = ck->next;
 			for (int i = 0; i < 11; i++) {
-				int bit = ck->bitweek >> i;
+				int bit = st->checkincourse->bitweek >> i;
 				if (bit % 2)
 					cout << setw(11) << "V";
-				else if (!bit || ck->bitweek == 0)
+				else if (!bit || st->checkincourse->bitweek == 0)
 					cout << setw(11) << "-";
 				else if (bit)
 					cout << setw(11) << "X";
@@ -1598,63 +986,659 @@ void ViewAttendanceList(AcademicYears* year)
 	}
 
 }
-void exportAttendanceListOfCourse(AcademicYears* year)
+void View_StudentList_Course(AcademicYears* year)
 {
-	ofstream out;
-	string yr;
-	Semesters* semes;
-	if (input(year, semes, yr))
+	string courseID,classID;
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
 	{
-		string courseID;
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	Courses* course=NULL;
+	CourseClass* CL = NULL;
+	Semesters* s = NULL;
+	while (!s)
+	{
 		cout << "Please enter course ID: ";
 		cin >> courseID;
-		Courses* course = findCourse(semes->courses, courseID);
-		if (!course)
+		s = y->semesters;
+		while (s)
 		{
-			cout << "Can't find course!\n";
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+	while (!CL)
+	{
+		cout << "Please enter class ID: ";
+		cin >> classID;
+		CL = findCL(course->courseclass, classID);
+		if(!CL)cout << "Invalid class ID, please enter again." << endl;
+	}
+	 cout << "Students List of " << courseID << endl;;
+	
+	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<<endl;
+	
+		StudentCourse* OS = CL->studentcourse;
+		while (OS != NULL)
+		{
+			Classes* tempCL = findClass(y->classes, OS->classID);
+			Students* tempST = findStudent(tempCL->students, OS->studentID);
+			if(tempST->Status )
+				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << endl;
+			OS = OS->next;
+		}
+	
+
+}
+#pragma endregion
+
+#pragma region course
+
+void AddCourse(AcademicYears*& year) {
+	AcademicYears* AY;
+	Semesters* s = FindSemester(year,AY);
+	Courses* course = s->courses;
+	Classes* Class = AY->classes;
+	Courses* newcourse = new Courses;
+	cout << "courseID: ";
+	cin >> newcourse->courseID;
+	cout << "coursename: ";
+	cin.ignore();
+	getline(cin , newcourse->courseName);
+	cout << "Room: ";
+	cin >> newcourse->room;
+	cout << "Lecture's name: ";
+	cin.ignore();
+	getline(cin, newcourse->courseName);
+	newcourse->next = course;
+	course = newcourse;
+	course->courseclass = NULL;
+
+	int n;
+
+	do {
+		string classID;
+		cout << "1.Add Class.";
+		cout << "2.Stop.";
+		cin >> n;
+		if (n == 1)
+		{
+			cout << "classID :";
+			if (!findClass(Class, classID))
+			{
+				cout << "invalid Class ID.";
+				continue;
+			}
+			cin >> classID;
+			AddClassToCourse(Class, classID, course, course->courseID,year->year);
+			break;
+		}
+	} while (n != 2);
+	newcourse->next = s->courses;
+	s->courses = newcourse;
+}
+
+void AddStudentToCourseClass(AcademicYears* year) {
+	string courseID, classSTID, studentID,classID;
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	Courses* course = NULL;
+	Classes* Class = y->classes;
+	Semesters* s = NULL;
+	while (!s)
+	{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		s = y->semesters;
+		while (s)
+		{
+
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+
+	Classes* curCL = NULL;
+	while (!curCL)
+	{
+		cout << "Class ID of Student: ";
+		cin >> classSTID;
+		curCL = findClass(Class, classSTID);
+		if (!curCL)cout << "invalid class ID. Please enter agian." << endl;
+		else break;
+	}
+	Students* curST=NULL;
+	while (!curST)
+	{
+		cout << "student ID: ";
+		cin >> studentID;
+		curST = findStudent(curCL->students, studentID);
+		if (!curST)cout << "invalid student ID. Please enter agian." << endl;
+	}
+	CourseClass* courseclass = NULL;
+	while (!courseclass && course)
+	{
+		cout << "Class ID of course you want to add student: " << endl;
+		cin >> classID;
+		courseclass = findCL(course->courseclass, classID);
+		if(!courseclass)cout << "invalid class ID. Please enter agian." << endl;
+	}
+	///
+	int i = 0;
+
+	StudentCourse* test = courseclass->studentcourse;
+	while (test)
+		if (test->studentID == studentID)
+		{
+			cout << "Student's already in the course" << endl;
 			return;
 		}
-		CourseClass* CL = course->courseclass;
-		while (CL)
+		else test = test->next;
+	StudentCourse* st = new StudentCourse;
+	st->classID = classSTID;
+	st->studentID = studentID;
+	st->next = courseclass->studentcourse;
+	courseclass->studentcourse = st;
+	curST = findStudent(curCL->students, studentID);
+	AddCourseToStudent(curST, course, courseclass ,year->year);
+	cout << "Added" << endl;
+	return ;
+}
+
+void EditCourse(AcademicYears* year) {
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+
+
+	int n = 1;
+	do {
+
+		string  room, NewID, OldID, name, classID, Lname;
+		cout << "Menu: " << endl;
+		cout << "1.Change course ID. " << endl;
+		cout << "2.change Room." << endl;
+		cout << "3.Change Schedule course of a class." << endl;
+		cout << "4.Change Course Lecture." << endl;
+		cout << "5.Edit start date, end date of a class course." << endl;
+		cout << "6.Change course name. " << endl;
+		cout << " Press 0 to stop." << endl << endl;
+
+		cin >> n;
+
+		string courseID;
+		Courses* course = NULL;
+		Classes* Class = y->classes;
+		Semesters* s = NULL;
+		CourseClass* CL = NULL;
+		if(n)while (!s)
 		{
-			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.txt");
-			if (out.is_open())
+			s = y->semesters;
+			cout << "Please enter course ID: ";
+			cin >> courseID;
+			while (s)
 			{
-				out << "Student ID,Last name,First name,";
-				for (int i = 0; i < 11; i++)
-				{
-					out << "Week " << i + 1;
-					if (i + 1 != 11)
-						out << ",";
-				}
-				out << endl;
-				CheckinCourse* ck;
-
-
-				Students* studentList = CL->students;
-				while (studentList)
-				{
-					out << studentList->studentID << ","
-						<< studentList->account->lastname << "," << studentList->account->firstname << ",";
-					ck = studentList->checkincourse;
-					while (ck && ck->courseID != course->courseID) ck = ck->next;
-					for (int i = 0; i < 11; i++) {
-						int bit = ck->bitweek >> i;
-						if (bit % 2)
-							out << "V";
-						else if (!bit || ck->bitweek == 0)
-							out << ",";
-						else if (bit)
-							out << "X";
-						if (i + 1 != 11)
-							out << ",";
-					}
-					out << endl;
-					studentList = studentList->next;
-				}
-				CL = CL->next;
+				course = findCourse(s->courses, courseID);
+				if (!course)s = s->next;
+				else break;
 			}
+			if (!s)cout << "Invalid course ID, please enter again." << endl;
 		}
+		switch (n) {
+		case 1:
+
+			cout << "New course ID: ";
+			cin >> NewID;
+			EditCourseId(course, NewID, Class);
+			break;
+		case 2:
+
+			cout << "New room: ";
+			cin >> room;
+			EditCourseroom(course, courseID, room,Class);
+			break;
+
+		case 3:
+
+			CL = NULL;
+			while (!CL)
+			{
+				cout << "Class ID: ";
+				cin >> classID;
+				CL = findCL(course->courseclass, classID);
+				if(!CL)cout<< "Invalid class ID, please enter again." << endl;
+			}
+			EditScheduleCourseOfClass(course, classID, courseID, Class);
+			break;
+
+		case 4:
+			cout << "New lecture: ";
+			cin >> Lname;
+
+			EditCourseLecture(course, Lname, courseID);
+			break;
+
+		case 5:
+
+			CL = NULL;
+			while (!CL && course)
+			{
+				cout << "Class ID: ";
+				cin >> classID;
+				CL = findCL(course->courseclass, classID);
+				if (!CL)cout << "Invalid class ID, please enter again." << endl;
+			}
+			EditDateOfCL(course, classID, courseID,y->year);
+			break;
+
+		case 6:
+			cout << "New course name: ";
+			cin.ignore();
+			getline(cin, NewID);
+			EditCourseName(course, NewID, Class);
+			break;
+		}
+
+	} while (n);
+
+}
+void RemovedStudentFromCourseClass(AcademicYears* year) {
+	string Year;
+	Courses* course=NULL;
+	string courseID, classID, studentID;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	Semesters* s = NULL;
+	while (!s)
+		{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+			s = y->semesters;
+			while (s)
+			{
+
+				course = findCourse(s->courses, courseID);
+				if (!course)s = s->next;
+				else break;
+			}
+			if (!s)cout << "Invalid course ID, please enter again." << endl;
+		}
+
+	Classes* Class = y->classes;
+
+	CourseClass* courseclass = NULL;
+	while (!courseclass && course)
+	{
+		cout << "Class ID of course: ";
+		cin >> classID;
+		courseclass = findCL(course->courseclass, classID);
+		if (!courseclass)cout << "invalid class ID. Please enter agian." << endl;
+		else break;
+	}
+
+
+
+	int i = 0;
+	Students* students = NULL;
+	StudentCourse* OS = NULL;
+	while (!OS)
+	{
+		cout << "Student ID: ";
+		cin >> studentID;
+		OS = courseclass->studentcourse;
+		while (OS)
+			if (OS->studentID == studentID)break;
+			else OS->next;
+		if (!OS)cout << "invalid student ID. Please enter again." << endl;
+		else break;
+	}
+	students = courseclass->students;
+
+
+	///
+	OS = courseclass->studentcourse;
+	if (OS->classID == classID && OS->studentID == studentID)
+	{
+		Classes* CL = findClass(Class, OS->classID);
+		if (CL)students = findStudent(CL->students, OS->studentID);
+		if (students)
+		{
+			DeleteCourseOfCheckin(students->checkincourse, courseID);
+			RemoveCourseOfScheduleStudent(students->schedule, courseID);
+			DeleteScoreBoardOfCourseStudent(students, course->courseName);
+		}
+		courseclass->studentcourse = courseclass->studentcourse->next;
+		OS = NULL;
+
+	}
+	StudentCourse* pre = OS, * tmp;
+
+	while (OS)
+	{
+		if (OS->classID == classID && OS->studentID == studentID)
+		{
+			Classes* CL = findClass(Class, OS->classID);
+			if (CL)students = findStudent(CL->students, OS->studentID);
+			if (students)
+			{
+				
+				DeleteCourseOfCheckin(students->checkincourse, courseID);
+				RemoveCourseOfScheduleStudent(students->schedule, courseID);
+				DeleteScoreBoardOfCourseStudent(students,  course->courseName);
+			}
+			pre->next = OS->next;
+			tmp = OS->next;
+			OS = NULL;
+			OS = tmp;
+			continue;
+
+		}
+		pre = OS;
+		OS = OS->next;
+	}
+
+	//1 inside
+	//0 outsie
+}
+
+void DeleteCourse(AcademicYears* year) {
+
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+
+	string courseID;
+	Courses* course;
+	Classes* Class = y->classes;
+	Semesters* s = NULL;
+	while (!s)
+	{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		s = y->semesters;
+		while (s)
+		{
+
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+	course = s->courses;
+	Courses* cur = course;
+	Courses* tmp = new Courses;
+	Courses* pre = new Courses;
+
+	if (cur->courseID == courseID) {
+		CourseClass* courseclass = cur->courseclass;
+
+		while (courseclass) {
+			DeleteCourseScheduleStudent( cur, courseclass->studentcourse, Class);
+			DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
+			courseclass = courseclass->next;
+		}
+
+		cur = cur->next;
+		course = NULL;
+		course = cur;
+		cout << "Removed."<<endl;
+		return;
+	}
+	while (cur != NULL) {
+		if (cur->courseID == courseID) {
+
+			CourseClass* courseclass = cur->courseclass;
+
+			while (courseclass != NULL) {
+				DeleteCourseScheduleStudent( cur, courseclass->studentcourse, Class);
+				DeleteCourseScheduleClass(Class, courseID, courseclass->classID);
+				courseclass = courseclass->next;
+			}
+
+			pre->next = cur->next;
+			Courses* tmp = cur->next;
+			cur = NULL;
+			cur = tmp;
+			cout << "Removed." << endl;
+			return;
+		}
+		pre = cur;
+		cur = cur->next;
+	}
+	return;
+
+}
+
+#pragma endregion
+
+#pragma region Export
+
+void Export_Scoreboard_Student(Students* st, string courseID,ofstream &out)
+{
+  
+	Scoreboards* SB = st->scoreboards;
+	while (SB)
+		if (SB->courseID == courseID)break;
+		else SB = SB->next;
+	out<< st->account->lastname << ","<< st->account->firstname << "," << st->studentID;
+	out <<"," << SB->midtermScore;
+	out <<"," << SB->finalScore;
+	out << "," << SB->labScore;
+	out <<"," << SB->bonusScore << endl;
+
+
+}
+void Export_ScoreBoard(AcademicYears* year)
+{
+	Courses* course = NULL;
+	string classID;
+	AcademicYears* y = inputYear(year, course);
+	CourseClass* CL = course->courseclass;
+	while (CL)
+	{
+		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		ofstream out;
+		out.open(name);
+		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
+		out << "," << "midtermScore";
+		out << "," << "finalScore";
+		out << "," << "labScore";
+		out << "," << "bonusScore" << endl;
+		Students* st;
+		int i = 0;
+		StudentCourse* OS = CL->studentcourse;
+		while (OS)
+		{
+			Classes* cl = findClass(y->classes, OS->classID);
+			if (cl && findStudent(cl->students, OS->studentID))
+			{
+				out << i << ",";
+				st = findStudent(cl->students, OS->studentID);
+				Export_Scoreboard_Student(st, course->courseID, out);
+				i++;
+			}
+			OS = OS->next;
+		}
+		CL = CL->next;
 	}
 }
+
+#pragma endregion
+
+#pragma region Import
+void ImportCourse(AcademicYears* year)
+{
+	string Year;
+	char semes;
+	AcademicYears* y = NULL;
+	Semesters* s = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	while (!s)
+	{
+		cout << "\nPlease enter semester: ";
+		cin >> semes;
+		s = findSemester(y->semesters, semes);
+		if (!s)cout << "Invalid semester, please enter again." << endl;
+
+	}
+	string name= "Yr"+y->year+"_Sem"+semes+"_Courses.csv";
+	ifstream in;
+	in.open(name);
+	int i = 0;
+
+		getline(in, name);
+		getline(in, name, ',');
+		while (!in.eof())
+		{
+			int check = 1;
+			Courses* course = new Courses;
+			course->courseclass = NULL;
+			getline(in, course->courseID, ',');
+			getline(in, course->courseName, ',');
+			getline(in, course->LectureName, ',');
+			getline(in, course->room, ',');
+			string test = "";
+			while (!in.eof() && test == "")
+			{
+				if(!check)for (int j = 0; j < 4; j++)getline(in, test, ',');
+				check = 0;
+				CourseClass* CL = new CourseClass;
+				getline(in, CL->startDate.day, '/');
+				getline(in, CL->startDate.month, '/');
+				getline(in, CL->startDate.year, ',');
+				getline(in, CL->endDate.day, '/');
+				getline(in, CL->endDate.month, '/');
+				getline(in, CL->endDate.year, ',');
+
+
+				string temp;
+				getline(in, temp, ',');
+				switch (temp[1]) { //Mo Tu We Th Fr Sa
+				case 'o':
+					CL->DayInWeek = 0;
+					break;
+				case 'u':
+					CL->DayInWeek = 1;
+					break;
+				case 'e':
+					CL->DayInWeek = 2;
+					break;
+				case 'h':
+					CL->DayInWeek = 3;
+					break;
+				case 'r':
+					CL->DayInWeek = 4;
+					break;
+				case 'a':
+					CL->DayInWeek = 5;
+					break;
+				}
+				
+				getline(in, CL->startTime, ',');
+				int num = 0;
+				int j = 0;
+				while (CL->startTime[j] != ':')
+					num = num * 10 + CL->startTime[j++] - 48;
+				
+				switch (num) {
+				case 7:
+					CL->AtNth = 0;
+					break;
+				case 9:
+					CL->AtNth = 1;
+					break;
+				case 13:
+					CL->AtNth = 2;
+					break;
+				case 15:
+					CL->AtNth = 3;
+					break;
+				}
+				getline(in, CL->endTime, ',');
+				getline(in, CL->classID, '\n');
+				Classes* curCL = findClass(y->classes, CL->classID);
+
+				
+					AddCourseToClass(curCL, course, CL, y->year);
+					Students* st = curCL->students;
+					while (st)
+					{
+						StudentCourse* OS = new StudentCourse;
+						OS->studentID = st->studentID;
+						OS->classID = curCL->classID;
+						OS->next = CL->studentcourse;
+						CL->studentcourse = OS;
+						st = st->next;
+					}
+
+				
+				CL->next = course->courseclass;
+				course->courseclass = CL;
+				getline(in, test, ',');
+			}
+			course->next = s->courses;
+			s->courses = course;
+		}
+}
+
+
 #pragma endregion
