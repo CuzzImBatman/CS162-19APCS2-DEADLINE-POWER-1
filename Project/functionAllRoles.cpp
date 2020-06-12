@@ -398,7 +398,6 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 			cout << "[5] Back to main menu." << endl;
 			cout << "Your choice: ";
 			cin >> choice;
-			// Joey: Infinite loop when type in letters into "choice" (cannot escape)
 			switch (choice) {
 			case 1: {
 				showClassOptions(year);

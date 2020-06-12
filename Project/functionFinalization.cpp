@@ -30,6 +30,7 @@ void writeCourses(Courses* course, char semes, string year) {
 		out << course->courseID << endl;
 		out << course->courseName << endl;
 		out << course->LectureName << endl;
+		out << course->room << endl;
 		CourseClass* CL = course->courseclass;
 		i = 0;
 		while (CL)
@@ -72,7 +73,7 @@ void writeCourses(Courses* course, char semes, string year) {
 			CL = CL->next;
 
 		}
-		out << course->room << endl << endl;;
+		out << endl;
 		course = course->next;
 	}
 }
@@ -131,10 +132,9 @@ void writeScoreBoard(Students* st, string year)
 	Scoreboards* SB = st->scoreboards;
 	int i = 0;
 
-
 	SB = st->scoreboards;
 	ofstream out;
-	string output = "Year" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt";
+	string output = "Year" + year + "_StudentID" + st->studentID + "_ScoreBoard.csv";
 	out.open("./DATABASE/" + output);
 
 	while (SB)

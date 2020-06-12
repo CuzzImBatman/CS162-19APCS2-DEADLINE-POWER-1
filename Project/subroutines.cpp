@@ -489,7 +489,7 @@ void AddCourseToStudent(Students*& ST, Courses*& course, CourseClass*& CL, strin
 				AddCheckInCourse(ST, course->courseID, course->room, CL->startTime, CL->endTime, CL->startDate, CL->endDate);
 		}
 	}
-	string in = "Year" + year + "_StudentID" + ST->studentID + "_ScoreBoard.txt";
+	string in = "Year" + year + "_StudentID" + ST->studentID + "_ScoreBoard.csv";
 	ifstream SBinit;
 	SBinit.open("./DATABASE/" + in);
 	if (!SBinit.is_open())//initial definitely

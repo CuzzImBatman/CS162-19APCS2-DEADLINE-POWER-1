@@ -3,95 +3,92 @@
 
 
 #pragma region Class
-void importAClassFromCsvFile(Classes*& aClass) {
-	Students* st = aClass->students;
-	Students* tempSt = st;
-	cout << "Enter path to the csv file: ";
-	string fileIn;
-	cin >> fileIn;
-	ifstream fin{ fileIn };
-	if (fin.is_open()) {
-		fin.ignore(1000,'\n');
-		while (!fin.eof()) {
-			string student;
-			getline(fin, student);
-			int comma = student.find(',');
-			int nextComma = student.find(',', comma + 1);
-
-			string id = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string lastname = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string firstname = student.substr(comma + 1, nextComma - comma + 1);
-
-			comma = nextComma;
-			nextComma = student.find(',', comma + 1);
-
-			string sex = student.substr(comma + 1, nextComma - comma + 1);
-			char gender;
-			if (sex[0] == 'P')
-				gender = 'O';
-			else gender = sex[0];
-
-			string date = student.substr(nextComma, 10);
-			string year = date.substr(0, 4);
-			string month = date.substr(6, 2);
-			string day = date.substr(8, 2);
-
-			if (!st) {
-				st = new Students;
-				st->studentID = id;
-				st->account = new Accounts;
-				st->account->uName = st->studentID;
-				st->account->role = 1;
-				st->account->firstname = firstname;
-				st->account->lastname = lastname;
-				st->account->gender = gender;
-				st->account->doB = new Date;
-				st->account->doB->day = day;
-				st->account->doB->month = month;
-				st->account->doB->year = year;
-
-				string pwd = st->account->doB->day + st->account->doB->month + st->account->uName;
-				sha256_init(&st->account->pwd);
-				sha256_update(&st->account->pwd, pwd, pwd.length());
-				for (int i = 0; i < 6; i++)
-					for (int j = 0; j < 4; j++)
-						st->schedule[i][j] = "//";
-				tempSt = st;
+void importAClassFromCsvFile(Classes*& classList) {
+	cout << "Enter file name to the csv file: ";
+	Classes* tmp = classList;
+	string path;
+	cin >> path;
+	Students* studentList = listStudentsFromFile("./DATABASE/" + path);
+	if (studentList)
+	{
+		if (classList != nullptr)
+		{
+			short int no;
+			int choice;
+			cout << "[1] Create a new class.\n"
+				<< "[2] Import into existing class.\n"
+				<< "Your choice: ";
+			cin >> choice;
+			while (choice != 1 && choice != 2)
+			{
+				cout << "Invalid choice. Please choose again: ";
+				cin >> choice;
 			}
-			else {
-				tempSt->next = new Students;
-				tempSt->next->studentID = id;
-				tempSt->next->account = new Accounts;
-				tempSt->next->account->uName = st->studentID;
-				tempSt->next->account->role = 1;
-				tempSt->next->account->firstname = firstname;
-				tempSt->next->account->lastname = lastname;
-				tempSt->next->account->gender = gender;
-				tempSt->next->account->doB = new Date;
-				tempSt->next->account->doB->day = day;
-				tempSt->next->account->doB->month = month;
-				tempSt->next->account->doB->year = year;
-				string pwd = tempSt->next->account->doB->day + tempSt->next->account->doB->month + tempSt->next->account->uName;
-				sha256_init(&tempSt->next->account->pwd);
-				sha256_update(&tempSt->next->account->pwd, pwd, pwd.length());
+			switch (choice)
+			{
+			case 1:
+
+				while (tmp->next != nullptr) tmp = tmp->next;
+				tmp->next = new Classes;
+				tmp = tmp->next;
+				tmp->students = studentList;
+				cout << "Please enter class ID: ";
+				cin >> tmp->classID;
+				tmp->next = nullptr;
 				for (int i = 0; i < 6; i++)
 					for (int j = 0; j < 4; j++)
-						tempSt->next->schedule[i][j] = "//";
-				tempSt = tempSt->next;
+						tmp->schedule[i][j] = "//";
+				break;
+			case 2:
+				string classID;
+				cout << "Class ID you want to import: ";
+				cin >> classID;
+				Classes* aClass = findClass(tmp, classID);
+				while (!(aClass = findClass(tmp, classID)))
+				{
+					cout << "Can't find class. Please enter class again: ";
+					cin >> classID;
+				}
+				Students* list = aClass->students; // list of current students in the selected class
+				if (list == nullptr)
+					aClass->students = studentList; // assign the new list for the empty class
+				else
+				{
+					//	Merge 2 lists of students
+					while (list->next != nullptr) list = list->next;
+					list->next = studentList;
+
+					//	Initialize schedule for new students in the class
+					Students* tmpSt = studentList;
+					while (tmpSt)
+					{
+						for (int i = 0; i < 6; i++)
+							for (int j = 0; j < 4; j++)
+								tmpSt->schedule[i][j] = list->schedule[i][j];
+						tmpSt = tmpSt->next;
+					}
+				}
+				break;
 			}
 		}
+		else
+		{
+			cout << "There is no class in the list. Creating a new class.\n";
+			classList = new Classes;
+			short int no = 1;
+			classList = classList->next;
+			classList->students = studentList;
+			cout << "Please enter class ID: ";
+			cin >> classList->classID;
+			classList->next = nullptr;
+			for (int i = 0; i < 6; i++)
+				for (int j = 0; j < 4; j++)
+					classList->schedule[i][j] = "//";
+		}
 	}
-	fin.close();
-	cout << "Class imported successfully." << endl;
+	else cout << "Can't open file!\n";
 }
+
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;
 	cout << endl << "Enter the class to add the student to: ";
@@ -1507,9 +1504,8 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 			cin >> semes;
 			s = findSemester(y->semesters, semes);
 			if (!s)cout << "Invalid semester, please enter again." << endl;
-
 		}
-		string name = "Yr" + y->year + "_Sem" + semes + "_Courses.csv";
+		string name = "Year" + y->year + "_Semester" + semes + "_Courses.csv";
 		ifstream in;
 		in.open(name);
 		int i = 0;
