@@ -25,14 +25,14 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 							  +-->[Lecturers]+-->[Accounts]
 							  |                             +-->(ClassID)
 							  |								|
-			   +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
-			   |					   	   		            |				   |
+               +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
+			   |					   	   		            |				   |	
 			   |                                            +-->[StudentCourse]+-->(ClassID)
 [AcademicYears]+
 			   |                          +-->[ChechinCourse]+-->(CoursesID)
-			   |     	                  |
+	           |     	                  |
 			   +-->[Classes]+-->[Students]+-->[Scoreboards]+-->(CourseID)
-							|			  |
+			                |			  |
 							|			  +-->[Accounts]
 							|			  |
 							|			  +-->(StudentID)
@@ -54,11 +54,11 @@ struct Date {
 struct Accounts
 {
 	SHA256_CTX pwd;
-	string uName;
-	short int role;
-	string lastname, firstname;
-	char gender; //Female Male, Prefer not to say -> F,M,O
-	Date* doB = nullptr;
+    string uName;
+    short int role;
+    string lastname, firstname;
+    char gender; //Female Male, Prefer not to say -> F,M,O
+    Date* doB = nullptr;
 };
 
 struct Scoreboards
@@ -106,40 +106,40 @@ struct Classes
 
 struct Staffs
 {
-	Accounts* account = nullptr;
-	Staffs* next = nullptr;
+    Accounts* account = nullptr;
+    Staffs* next = nullptr;
 };
 struct Lecturers
 {
-	Accounts* account = nullptr;
-	Lecturers* next = nullptr;
+    Accounts* account = nullptr;
+    Lecturers* next = nullptr;
 };
 struct StudentCourse
 {
 	string classID;
-	string studentID;
+    string studentID;
 	StudentCourse* next = nullptr;
 };
 struct CourseClass
 {
-	string classID;
-	Students* students = nullptr;
-	Date startDate, endDate;
+    string classID;
+    Students* students = nullptr;
+    Date startDate, endDate;
 	StudentCourse* studentcourse = nullptr;
-	int DayInWeek;
-	int AtNth;
+    int DayInWeek;
+    int AtNth;
 	CourseClass* next = nullptr;
 };
 struct Courses
 {
-	// string courseno;
-	string courseID = "";
-	string courseName = "";
-	CourseClass* courseclass;
-	string room = "";
-	string LectureName = "";
-	Courses* next = nullptr;
-};
+   // string courseno;
+    string courseID="";
+    string courseName="";
+    CourseClass *courseclass;
+    string room="";
+    string LectureName="";
+    Courses* next =  nullptr;
+}; 
 struct Semesters
 {
 	char semesterNo;
@@ -151,10 +151,10 @@ struct Semesters
 
 struct AcademicYears
 {
-	string year;  //Ex: 1920 2021;
-	Semesters* semesters = nullptr;
-	Classes* classes = nullptr;
-	AcademicYears* next = nullptr;
+    string year;  //Ex: 1920 2021;
+    Semesters* semesters = nullptr;
+    Classes* classes = nullptr;
+    AcademicYears* next = nullptr;
 };
 #pragma endregion
 
@@ -257,7 +257,7 @@ void logout(Accounts*& acc);
 void importAClassFromCsvFile(Classes*& classList);
 void addAStudentToAClass(Classes*& aClass);
 void editAStudent(Classes*& aClass);
-void removeAStudent(Classes*& aClass, Courses*& course, char semes, string year);
+void removeAStudent(Classes*& aClass,Courses*& course,char semes,string year);
 void changeClassForStudents(Classes*& classes, Courses*& course, char semes, string year);
 void viewListOfClasses(AcademicYears* aYear);
 void viewListOfStudentsInAClass(AcademicYears* aYear);

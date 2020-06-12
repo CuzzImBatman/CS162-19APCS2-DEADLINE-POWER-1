@@ -1,5 +1,5 @@
 #include "function.h"
-#include "sha256.h"
+
 void accountInit(ifstream& fin, Accounts*& acc) {
 	if (!acc)
 		acc = new Accounts;
@@ -11,9 +11,8 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
 			fin >>hex>> acc->pwd.state[i];
-
 	}
-	fin >> acc->firstname;
+	fin >> dec >> acc->firstname;
 	fin.ignore(10, '\n');
 	getline(fin, acc->lastname);
 	fin >> acc->gender;
@@ -27,12 +26,113 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	sha256_update(&acc->pwd ,pwd, pwd.length());
 }
 
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course, string year) {
+
+
+	CourseClass* courseclass = new CourseClass;
+
+	courseIn >> courseclass->startDate.day;
+	courseIn >> courseclass->startDate.month;
+	courseIn >> courseclass->startDate.year;
+	courseIn >> courseclass->endDate.day;
+	courseIn >> courseclass->endDate.month;
+	courseIn >> courseclass->endDate.year;
+	string temp;
+	courseIn >> temp;
+	switch (temp[1]) { //Mo Tu We Th Fr Sa
+	case 'o':
+		courseclass->DayInWeek = 0;
+		break;
+	case 'u':
+		courseclass->DayInWeek = 1;
+		break;
+	case 'e':
+		courseclass->DayInWeek = 2;
+		break;
+	case 'h':
+		courseclass->DayInWeek = 3;
+		break;
+	case 'r':
+		courseclass->DayInWeek = 4;
+		break;
+	case 'a':
+		courseclass->DayInWeek = 5;
+		break;
+	}
+	int hour, minute;
+	courseIn >> hour >> minute;
+	switch (hour) {
+	case 7:
+		courseclass->AtNth = 0;
+		break;
+	case 9:
+		courseclass->AtNth = 1;
+		break;
+	case 13:
+		courseclass->AtNth = 2;
+		break;
+	case 15:
+		courseclass->AtNth = 3;
+		break;
+	}
+
+	int no;
+	courseIn >> courseclass->classID;
+	courseIn >> no;
+	courseclass->studentcourse = NULL;
+
+	Classes* curCL = findClass(Class, courseclass->classID);
+
+	if (!no)
+	{
+		AddCourseToClass(curCL, course, courseclass->DayInWeek, courseclass->AtNth, year);
+		Students* st = curCL->students;
+		while (st)
+		{
+			StudentCourse* OS = new StudentCourse;
+			OS->studentID = st->studentID;
+			OS->classID = curCL->classID;
+			OS->next = courseclass->studentcourse;
+			courseclass->studentcourse = OS;
+			st = st->next;
+		}
+
+	}
+	for (int i = 0; i < no; i++)
+	{
+		StudentCourse* OS = new StudentCourse;
+		courseIn >> OS->studentID;
+		courseIn >> OS->classID;
+		OS->next = courseclass->studentcourse;
+		courseclass->studentcourse = OS;
+		Classes* cl = findClass(Class, OS->classID);
+		Students* st = findStudent(cl->students, OS->studentID);
+		AddCourseToStudent(st, course, courseclass->DayInWeek, courseclass->AtNth, year);
+
+	}
+	courseIn >> course->room;
+
+	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
+	CourseDetail* CD = new CourseDetail;
+	CD->courseID = course->courseID;
+	CD->coursename = course->courseName;
+	CD->next = curCL->CD;
+	CD->room = course->room;
+	curCL->CD = CD;
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+
+	courseclass->next = course->courseclass;
+	course->courseclass = courseclass;
+
+}
 void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 
 	ifstream courseIn;
 	char no = '1';
-	string fileIn = "Yr" + year + "_Sem" + semes + "_CourseDB.txt";
-	courseIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_CourseDB.txt";
+	courseIn.open("./DATABASE/" + fileIn);
 	if (courseIn.is_open()) {
 		int n;
 		courseIn >> n;
@@ -44,7 +144,6 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn >> tempCourse->LectureName;
 				tempCourse->courseclass = NULL;
 				int m;
-				courseIn >> tempCourse->room;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
 					InitClassToCourse(Class, courseIn, tempCourse,year);
@@ -60,8 +159,8 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 void lecturerInit(Lecturers*& lec, char semes, string year) {
 	Lecturers* tempLec = lec;
 	ifstream lecIn;
-	string fileIn = "Yr" + year + "_Sem" + semes + "_LecturerDB.txt";
-	lecIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_LecturerDB.txt";
+	lecIn.open("./DATABASE/"+fileIn);
 	if (lecIn.is_open()) {
 		int n;
 		lecIn >> n;
@@ -90,8 +189,8 @@ void lecturerInit(Lecturers*& lec, char semes, string year) {
 void staffInit(Staffs*& staff, char semes, string year) {
 	Staffs* tempStaff = staff;
 	ifstream staffIn;
-	string fileIn = "Yr" + year + "_Sem" + semes + "_StaffDB.txt";
-	staffIn.open(fileIn);
+	string fileIn = "Year" + year + "_Semester" + semes + "_StaffDB.txt";
+	staffIn.open("./DATABASE/" + fileIn);
 	if (staffIn.is_open()) {
 		int n;
 		staffIn >> n;
@@ -145,8 +244,8 @@ void semesterInit(Semesters*& semes, string year, Classes*& Class){
 void studentInit(Students*& st, string Class, string year) {
 	Students* tempSt = st;
 	ifstream stIn;
-	string fileIn = "Yr" + year + "_Cl" + Class + "_StudentDB.txt";
-	stIn.open(fileIn);
+	string fileIn = "Year" + year + "_Class" + Class + "_StudentDB.txt";
+	stIn.open("./DATABASE/" + fileIn);
 	if (stIn.is_open()) {
 		int n;
 		stIn >> n;
@@ -183,9 +282,8 @@ void studentInit(Students*& st, string Class, string year) {
 	}
 	stIn.close();
 }
-void scheduleInit(string schedule[6][4],ifstream& in)
+void scheduleInit(string schedule[6][4], ifstream& in)
 {
-
 	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 6; i++)
 			 schedule[i][j]="//";
@@ -194,15 +292,14 @@ void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	int no = 1;
 	ifstream classIn;
-	string fileIn = "Yr" + year + "_ClassDB.txt";
-	classIn.open(fileIn);
+	string fileIn = "Year" + year + "_ClassDB.txt";
+	classIn.open("./DATABASE/" + fileIn);
 	if (classIn.is_open()) {
 		int n;
 		classIn >> n;
 		while (n) {
 			if (!Class) {
 				Class = new Classes;
-				Class->classno = no++;
 				classIn >> Class->classID;
 				scheduleInit(Class->schedule,classIn);
 				studentInit(Class->students, Class->classID, year);
@@ -210,7 +307,6 @@ void classInit(Classes*& Class, string year) {
 			}
 			else {
 				tempClass->next = new Classes;
-				tempClass->next->classno = no++;
 				classIn >> tempClass->next->classID;
 				scheduleInit(tempClass->next->schedule, classIn);
 				studentInit(tempClass->next->students, tempClass->next->classID,year);
@@ -226,7 +322,7 @@ void classInit(Classes*& Class, string year) {
 void academicYearInit(AcademicYears*& year) {
 	AcademicYears* tempYear = year;
 	ifstream yearIn;
-	yearIn.open("AcademicYearDB.txt");
+	yearIn.open("./DATABASE/AcademicYearDB.txt");
 	int n;
 	yearIn >> n;
 	while (n) {
@@ -247,112 +343,4 @@ void academicYearInit(AcademicYears*& year) {
 		n--;
 	}
 	yearIn.close();
-}
-void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  string year) {
-
-
-	CourseClass* courseclass = new CourseClass;
-
-	courseIn >> courseclass->startDate.day;
-	courseIn >> courseclass->startDate.month;
-	courseIn >> courseclass->startDate.year;
-	courseIn >> courseclass->endDate.day;
-	courseIn >> courseclass->endDate.month;
-	courseIn >> courseclass->endDate.year;
-	string temp;
-	courseIn >> temp;
-	switch (temp[1]) { //Mo Tu We Th Fr Sa
-	case 'o':
-		courseclass->DayInWeek = 0;
-		break;
-	case 'u':
-		courseclass->DayInWeek = 1;
-		break;
-	case 'e':
-		courseclass->DayInWeek = 2;
-		break;
-	case 'h':
-		courseclass->DayInWeek = 3;
-		break;
-	case 'r':
-		courseclass->DayInWeek = 4;
-		break;
-	case 'a':
-		courseclass->DayInWeek = 5;
-		break;
-	}
-	
-	courseIn >> courseclass->startTime;
-	courseIn >> courseclass->endTime;
-	int hour = (courseclass->startTime[0]-48) * 10 + courseclass->startTime[1]-48;
-	switch (hour) {
-	case 7:
-		courseclass->AtNth = 0;
-		break;
-	case 9:
-		courseclass->AtNth = 1;
-		break;
-	case 13:
-		courseclass->AtNth = 2;
-		break;
-	case 15:
-		courseclass->AtNth = 3;
-		break;
-	}
-
-	int no;
-	
-	courseIn >> courseclass->classID;
-	courseIn >> no;
-	courseclass->studentcourse = NULL;
-
-	Classes* curCL = findClass(Class, courseclass->classID);
-
-	if (!no)
-	{
-		AddCourseToClass(curCL, course, courseclass, year);
-		Students* st = curCL->students;
-		while (st)
-		{
-			StudentCourse* OS = new StudentCourse;
-			OS->studentID = st->studentID;
-			OS->classID = curCL->classID;
-			OS->next = courseclass->studentcourse;
-			courseclass->studentcourse = OS;
-			st = st->next;
-		}
-
-	}
-	for (int i = 0; i < no; i++)
-	{
-		StudentCourse* OS = new StudentCourse;
-		courseIn >> OS->studentID;
-		courseIn >> OS->classID;
-		OS->next = courseclass->studentcourse;
-		courseclass->studentcourse = OS;
-		Classes* cl = findClass(Class, OS->classID);
-		Students* st = findStudent(cl->students, OS->studentID);
-		AddCourseToStudent(st, course, courseclass,year);
-
-	}
-	
-
-	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
-	CourseDetail* CD = new CourseDetail;
-	CD->courseID = course->courseID;
-	CD->coursename = course->courseName;
-	CD->next = curCL->CD;
-	CD->room = course->room;
-	CD->StartTime = courseclass->startTime;
-	CD->endTime = courseclass->endTime;
-	CD->startDate =courseclass->startDate;
-	CD->endDate= courseclass->endDate;
-	curCL->CD = CD;
-	Students* curST = curCL->students;
-	courseclass->students = curCL->students;
-
-	
-	courseclass->next = course->courseclass;
-	course->courseclass = courseclass;
-
 }

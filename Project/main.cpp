@@ -1,9 +1,6 @@
 #include "function.h"
 
 int main() {
-	string fileName = "Test.txt";
-	char* c = const_cast<char*>(fileName.c_str());
-	remove(c);
 	AcademicYears* academicYear = nullptr;
 	academicYearInit(academicYear);
 	
@@ -37,7 +34,6 @@ int main() {
 			cin >> choice;
 			switch (choice) {
 			case 1: {
-				//Emblema: need to add param academicYear for some functions to work...
 				showMenu(acc, academicYear);
 				break;
 			}
@@ -58,7 +54,6 @@ int main() {
 		}
 		if (!loggedin) cout << endl << "Login again? [Y/N] ";
 		cin >> loginchoice;
-		//if(!loginchoice)
 	}
 
 	writeAcademicYears(academicYear);
