@@ -1,7 +1,19 @@
 43
+<<<<<<< HEAD
 
 19125001
 0
+=======
+19125001
+e513b0b7
+09d7f9a9
+d4298d86
+df680652
+79c8b9b4
+07d4e9a7
+40b8e8e4
+9193f3d8
+>>>>>>> Emblema
 An
 Chu Duc
 M
@@ -10,7 +22,18 @@ M
 2001
 
 19125002
+<<<<<<< HEAD
 0
+=======
+da4c5e88
+03a3e790
+609dd078
+63f0e023
+9c75a0a9
+b9846c44
+066fb0db
+447ae4b5
+>>>>>>> Emblema
 Cuong
 Nguyen Ngoc
 M
@@ -19,7 +42,18 @@ M
 2001
 
 19125003
+<<<<<<< HEAD
 0
+=======
+dd39275c
+9816c5d8
+e4da59a7
+1110338e
+9ccb0a85
+7a097983
+28fa941d
+4aba01e0
+>>>>>>> Emblema
 Dang
 Huynh Lam Hai
 M
@@ -28,7 +62,18 @@ M
 2001
 
 19125006
+<<<<<<< HEAD
 0
+=======
+6974a775
+11175b57
+6e14fbec
+10836d50
+3852e75b
+81a86980
+a177cc11
+90117e71
+>>>>>>> Emblema
 Hai
 Le Dinh
 M
@@ -37,7 +82,18 @@ M
 2020
 
 19125007
+<<<<<<< HEAD
 0
+=======
+edfdb16b
+7274534d
+3ade6f8c
+3a2a52c2
+a259c0d0
+bc46a196
+d4f8abe6
+94053d67
+>>>>>>> Emblema
 Huyen
 Le Thao
 F
@@ -46,7 +102,18 @@ F
 2001
 
 19125010
+<<<<<<< HEAD
 0
+=======
+f0d5b9fd
+938e8c32
+e59aa913
+e4d314a3
+fa8bd9ef
+64db3674
+de03c952
+bcba5c35
+>>>>>>> Emblema
 Minh
 Bui Quang
 M
@@ -55,7 +122,18 @@ M
 2001
 
 19125011
+<<<<<<< HEAD
 0
+=======
+2205bdfa
+105850e0
+b2959421
+2cbd407e
+9d09b2b6
+50608474
+b3808861
+efd45799
+>>>>>>> Emblema
 Minh
 Khau Dang Nhat
 M
@@ -64,7 +142,18 @@ M
 2001
 
 19125014
+<<<<<<< HEAD
 0
+=======
+da505723
+13dbe034
+4aee33f2
+9ca2dc23
+fe6d9ab8
+3a859837
+67172cc6
+e0254806
+>>>>>>> Emblema
 Phuong
 Ho Thi Ngoc
 F
@@ -73,7 +162,18 @@ F
 2001
 
 19125017
+<<<<<<< HEAD
 0
+=======
+100e73e8
+873d1c98
+9ed7fd13
+85ef71f2
+c408536b
+4b160646
+6b9cb56d
+77c91bd9
+>>>>>>> Emblema
 Tuong
 Nguyen Lam
 M
@@ -82,7 +182,18 @@ M
 2001
 
 19125029
+<<<<<<< HEAD
 0
+=======
+ce5a61a0
+77b156de
+3f42fcf4
+759b3d37
+796353dd
+ec36709e
+00b34919
+910213de
+>>>>>>> Emblema
 Nhi
 Nguyen Ba Van
 F
@@ -91,7 +202,18 @@ F
 2001
 
 19125031
+<<<<<<< HEAD
 0
+=======
+debe3e52
+656ca364
+d2d28d47
+acb8f026
+b6e524c3
+a52c1dfe
+906d8975
+724c3150
+>>>>>>> Emblema
 Phat
 Phan Van
 M
@@ -100,7 +222,18 @@ M
 2001
 
 19125033
+<<<<<<< HEAD
 0
+=======
+a0c5c3dc
+712c538c
+cc3f0a00
+cd31e2e5
+fc9545c4
+c9324245
+5d37feb7
+ab68058b
+>>>>>>> Emblema
 Tam
 Nguyen Ngoc Bang
 F
@@ -109,7 +242,18 @@ F
 2001
 
 19125038
+<<<<<<< HEAD
 0
+=======
+734a70bf
+49fc713d
+ec1a7c45
+422bdd57
+0c205421
+62534a0a
+25a421d2
+aed6eb0f
+>>>>>>> Emblema
 Dat
 Huynh Gia
 M
@@ -118,7 +262,18 @@ M
 2001
 
 19125043
+<<<<<<< HEAD
 0
+=======
+6d9f42fc
+aeb38d04
+a0747ed4
+a2b56602
+2b1aca58
+37e9c70c
+56e6c5a3
+3e2ee410
+>>>>>>> Emblema
 Hoang
 Vu Thien
 M
@@ -127,7 +282,18 @@ M
 2001
 
 19125046
+<<<<<<< HEAD
 0
+=======
+c99f714a
+6bad0f90
+f1252490
+85ef3e76
+9d2b667b
+c4c00214
+55642851
+374a3d07
+>>>>>>> Emblema
 Hung
 Nguyen Huu
 M
@@ -136,7 +302,18 @@ M
 2001
 
 19125050
+<<<<<<< HEAD
 0
+=======
+a6d7ae15
+97c2ec00
+b5ae5410
+ff820be7
+c55ca445
+256bc4b8
+62ccd83e
+dbcb10e8
+>>>>>>> Emblema
 Khang
 Ngo Nhat
 M
@@ -145,7 +322,18 @@ M
 2001
 
 19125051
+<<<<<<< HEAD
 0
+=======
+4d7f7902
+483af53f
+d88c76e7
+dd9cb356
+0d9e9409
+accd62f2
+435d2ef9
+1b862639
+>>>>>>> Emblema
 Khang
 Nguyen Thieu
 M
@@ -154,7 +342,18 @@ M
 2001
 
 19125052
+<<<<<<< HEAD
 0
+=======
+16484c2e
+c64765be
+131f53cc
+7ab36f88
+03cf54ea
+b846b3be
+a4868615
+b893fe86
+>>>>>>> Emblema
 Khang
 Tran Ky
 M
@@ -163,7 +362,18 @@ M
 2001
 
 19125055
+<<<<<<< HEAD
 0
+=======
+6a276bad
+ff5b8518
+bfccfbd9
+33fb4e8a
+c48b4f6c
+f7d2870d
+66dba6d0
+08e4b344
+>>>>>>> Emblema
 Kiet
 Ta Huynh Tuan
 M
@@ -172,7 +382,18 @@ M
 2001
 
 19125056
+<<<<<<< HEAD
 0
+=======
+0c22eed4
+9f97bf77
+cf71580e
+5df0e775
+c4d830fa
+425925f0
+12db8d68
+b32c5566
+>>>>>>> Emblema
 Lam
 Nguyen Pham Tung
 M
@@ -181,7 +402,18 @@ M
 2001
 
 19125063
+<<<<<<< HEAD
 0
+=======
+9bd4d7f1
+d8d7c822
+ea135033
+14279866
+d5ae5d89
+f6277ec9
+91909df3
+a4422f8e
+>>>>>>> Emblema
 Phat
 Chau Huu
 M
@@ -190,7 +422,18 @@ M
 2001
 
 19125064
+<<<<<<< HEAD
 0
+=======
+5cf1776e
+d900862d
+24ace5fb
+27ab3d73
+f8f30021
+1a271740
+e79a29dc
+e9080ab7
+>>>>>>> Emblema
 Phat
 Tu Tan
 M
@@ -199,7 +442,18 @@ M
 2001
 
 19125066
+<<<<<<< HEAD
 0
+=======
+28a01c95
+91b3e661
+049b618f
+a46718c9
+bb66ef0a
+d235b154
+8f415881
+3334e4bd
+>>>>>>> Emblema
 Quyen
 Dinh Luong
 M
@@ -208,7 +462,18 @@ M
 2001
 
 19125068
+<<<<<<< HEAD
 0
+=======
+714a72b8
+714b6a76
+a957a7ae
+5672428c
+337ff444
+559e5ff9
+73a92cf3
+b6561492
+>>>>>>> Emblema
 Thien
 Nguyen Ngoc
 M
@@ -217,7 +482,18 @@ M
 2001
 
 19125073
+<<<<<<< HEAD
 0
+=======
+5a8bd59c
+1bd32e6f
+1b3f9af5
+ac2cc40e
+c1a06199
+330afc8d
+9de0a91c
+dda61bc4
+>>>>>>> Emblema
 Tuyen
 Nguyen Quoc Khanh
 M
@@ -226,7 +502,18 @@ M
 2001
 
 19125074
+<<<<<<< HEAD
 0
+=======
+82b4a09d
+43491f74
+91dacccf
+c3855fd4
+a9afd6b9
+0f72fcaf
+8561877b
+cef7dfa4
+>>>>>>> Emblema
 Uyen
 Ha Phuong
 F
@@ -235,7 +522,18 @@ F
 2001
 
 19125075
+<<<<<<< HEAD
 0
+=======
+a1d21ec0
+8b83de25
+408a63e9
+1b8dd9a8
+e793f93f
+747de580
+01010bd9
+66140091
+>>>>>>> Emblema
 Van
 Lam Bich
 F
@@ -244,7 +542,18 @@ F
 2001
 
 19125078
+<<<<<<< HEAD
 0
+=======
+926fb997
+e4244d8a
+5603fc40
+d416f756
+f10aa34e
+bb568290
+83c10ec6
+f6d22152
+>>>>>>> Emblema
 An
 Pham Hoang
 M
@@ -253,7 +562,18 @@ M
 2001
 
 19125079
+<<<<<<< HEAD
 0
+=======
+4553771b
+96068117
+c2c787a1
+6b3bbc0a
+85dcd3a4
+fcf3b81c
+2a9cacf8
+9a146a1f
+>>>>>>> Emblema
 Bao
 Le Gia
 F
@@ -262,7 +582,18 @@ F
 2001
 
 19125085
+<<<<<<< HEAD
 0
+=======
+df45aa93
+af75f2a5
+71fbe9c4
+4affcb32
+8f81ceba
+646c376d
+f725871e
+05098256
+>>>>>>> Emblema
 Duc
 Pham Minh
 M
@@ -271,7 +602,18 @@ M
 2001
 
 19125086
+<<<<<<< HEAD
 0
+=======
+d5c06cc6
+c4c0edb4
+a11e4e88
+1424f38f
+34eacdcd
+fb8ae41a
+1a4d520d
+b012ea0d
+>>>>>>> Emblema
 Duong
 Tran Hai
 M
@@ -280,7 +622,18 @@ M
 2001
 
 19125090
+<<<<<<< HEAD
 0
+=======
+b90d9053
+bf491e1c
+90df515c
+e87f0513
+2b5c8925
+aee696b3
+9a90ea12
+ca3970b8
+>>>>>>> Emblema
 Hai
 Truong Quy
 M
@@ -289,7 +642,18 @@ M
 2001
 
 19125093
+<<<<<<< HEAD
 0
+=======
+1e14322c
+b4924caf
+59f7d06b
+9457dd7d
+5beec536
+ea8e1f21
+23ae9709
+62094acc
+>>>>>>> Emblema
 Hoang
 Nguyen Duc
 M
@@ -298,7 +662,18 @@ M
 2001
 
 19125096
+<<<<<<< HEAD
 0
+=======
+7093ea61
+0a4120ea
+cdff4a84
+a837d52a
+c3b61929
+ab6d81bd
+cf2345a8
+b51ea60b
+>>>>>>> Emblema
 Huy
 Nguyen Duc
 M
@@ -307,7 +682,18 @@ M
 2001
 
 19125102
+<<<<<<< HEAD
 0
+=======
+50643a41
+e1775c70
+ffd790f3
+855c2f7d
+035f16f5
+184ad3f6
+2426e55a
+d4a0ef48
+>>>>>>> Emblema
 Lam
 Phan Dam Tung
 M
@@ -316,7 +702,18 @@ M
 2001
 
 19125103
+<<<<<<< HEAD
 0
+=======
+3a8be1d1
+5809259c
+6c1596ea
+744d0b59
+b3ed6792
+ea88714e
+2b132a37
+b9ba78e3
+>>>>>>> Emblema
 Linh
 Nguyen Hoang
 M
@@ -325,7 +722,18 @@ M
 2001
 
 19125109
+<<<<<<< HEAD
 0
+=======
+8523fd20
+75ddd797
+997befd5
+a45c7cfa
+73207bff
+2b80da53
+7ced0eb8
+1cdf80a0
+>>>>>>> Emblema
 Nguyen
 Nguyen Khanh
 M
@@ -334,7 +742,18 @@ M
 2001
 
 19125113
+<<<<<<< HEAD
 0
+=======
+43594173
+0a80e938
+7c3e1394
+0a850aa6
+de3abb44
+e0da1d3b
+22e182cf
+cd095900
+>>>>>>> Emblema
 Phu
 Dao Thien
 M
@@ -343,7 +762,18 @@ M
 2001
 
 19125119
+<<<<<<< HEAD
 0
+=======
+404c1671
+4656f44e
+842f8238
+5c8f9def
+2ff2fd65
+168ed397
+74dab212
+bab505dd
+>>>>>>> Emblema
 Son
 Truong Lang Truong
 M
@@ -352,7 +782,18 @@ M
 2001
 
 19125122
+<<<<<<< HEAD
 0
+=======
+50184332
+c45a2727
+9bfae72a
+d8ba117d
+de80afcf
+ffd01ff9
+37276598
+68c19c08
+>>>>>>> Emblema
 Thong
 Huynh Pham Tan
 M
@@ -361,7 +802,18 @@ M
 2001
 
 19125126
+<<<<<<< HEAD
 0
+=======
+ab5ac724
+e5fa237f
+b8c4e61f
+65290563
+6489584a
+d03e17ca
+8a563d34
+7dc51c07
+>>>>>>> Emblema
 Trung
 Nguyen Ngoc
 M
@@ -370,7 +822,18 @@ M
 2001
 
 19125133
+<<<<<<< HEAD
 0
+=======
+c9b8b009
+ae4a319a
+f438c725
+7093359c
+25e0321f
+7ab69674
+411c6e9a
+c2f15086
+>>>>>>> Emblema
 Vu
 Hoang
 M
@@ -379,7 +842,18 @@ M
 2001
 
 19125134
+<<<<<<< HEAD
 0
+=======
+92e812cb
+b2935b2d
+06564cd1
+6e50018c
+bd40e0d1
+e9c07196
+8ef51d26
+425a9175
+>>>>>>> Emblema
 Long
 Tran Vinh
 M

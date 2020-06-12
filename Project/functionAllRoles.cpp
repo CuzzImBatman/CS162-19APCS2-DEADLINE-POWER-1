@@ -218,7 +218,7 @@ void showCourseOptions(AcademicYears*& year) {
 				createLecturer(year);
 				break;
 			}
-				  
+
 			case 2: {
 				updateLecturer(year);
 				break;
@@ -252,7 +252,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			View_Scoreboard(year);
+			ViewAScoreboard(year);
 			break;
 		}
 		case 2: {
@@ -276,7 +276,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			ViewAttendanceList(year);
+			ViewAttendanceListOfACourse(year);
 			break;
 		}
 		case 2: {
@@ -398,7 +398,6 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 			cout << "[5] Back to main menu." << endl;
 			cout << "Your choice: ";
 			cin >> choice;
-			// Joey: Infinite loop when type in letters into "choice" (cannot escape)
 			switch (choice) {
 			case 1: {
 				showClassOptions(year);
@@ -444,7 +443,7 @@ void changePwd(Accounts*& acc) {
 		if (!ComparePwd(confirm, acc->pwd))
 			cout << endl << "The old password does not match." << endl;
 	} while (!ComparePwd(confirm, acc->pwd));
-	
+
 	do
 	{
 		cout << "Type in your new password." << endl;
@@ -459,7 +458,7 @@ void changePwd(Accounts*& acc) {
 		if(newPwd != conPwd)
 		cout << endl << "The new password does not match with confirm password." << endl;
 	} while (newPwd != conPwd);
-	
+
 	sha256_init(&acc->pwd);
 	sha256_update(&acc->pwd, conPwd, conPwd.length());
 	cout << endl << "Password changed." << endl;

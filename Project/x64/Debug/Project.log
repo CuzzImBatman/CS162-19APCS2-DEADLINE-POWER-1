@@ -1,0 +1,3 @@
+﻿  functionStaff.cpp
+D:\Study\C++\CS162-19APCS2-DEADLINE-POWER\Project\functionStaff.cpp(16,14): warning C4101: 'no': unreferenced local variable
+  Project.vcxproj -> D:\Study\C++\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe
