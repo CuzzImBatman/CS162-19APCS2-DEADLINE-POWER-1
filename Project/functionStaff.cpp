@@ -572,6 +572,7 @@ void updateAcademicYear(AcademicYears* year)
 		break;
 	}
 }
+<<<<<<< HEAD
 void staff_deleteClasses(Classes*& Class, string year) {
 	Classes* tempClass = Class;
 	while (tempClass) {
@@ -584,6 +585,9 @@ void staff_deleteClasses(Classes*& Class, string year) {
 	}
 }
 void staff_deleteAcademicYear(AcademicYears*& year)
+=======
+void deleteAcademicYear(AcademicYears*& year)
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema
 {
 	if (year == nullptr)
 	{

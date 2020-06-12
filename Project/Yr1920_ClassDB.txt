@@ -6,5 +6,9 @@
 18CTT1
 
 18CTT2
+<<<<<<< HEAD:Project/Yr1920_ClassDB.txt
 
 18CTT3
+=======
+18CTT3
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema:Project/DATABASE/SpookyFish_backup/Year1920_ClassDB.txt
