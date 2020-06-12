@@ -1,5 +1,7 @@
 3
+
 httu
+<<<<<<< HEAD:Project/backup/Yr1920_Sem1_StaffDB_TEST.txt
 <<<<<<< HEAD
 8d6e9bcc
 ac8aed38
@@ -11,6 +13,9 @@ bb45a4e4
 26fc3551
 =======
 >>>>>>> master
+=======
+0
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema:Project/DATABASE/Year1920_Semester2_StaffDB.txt
 Tu
 Hoang Thanh
 F
@@ -20,6 +25,7 @@ F
 <<<<<<< HEAD
 
 ntmphuc
+<<<<<<< HEAD:Project/backup/Yr1920_Sem1_StaffDB_TEST.txt
 ade063e3
 81c5d8e3
 f09b24eb
@@ -31,6 +37,9 @@ f09b24eb
 =======
 ntmphuc
 >>>>>>> master
+=======
+0
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema:Project/DATABASE/Year1920_Semester2_StaffDB.txt
 Phuc
 Nguyen Thi Minh
 F
@@ -40,6 +49,7 @@ F
 <<<<<<< HEAD
 
 ltathao
+<<<<<<< HEAD:Project/backup/Yr1920_Sem1_StaffDB_TEST.txt
 5cfffa11
 79d0953f
 c8c60d1b
@@ -51,13 +61,20 @@ faed3d87
 =======
 ltathao
 >>>>>>> master
+=======
+0
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema:Project/DATABASE/Year1920_Semester2_StaffDB.txt
 Thao
 Le Thi Anh
 F
 03
 03
+<<<<<<< HEAD:Project/backup/Yr1920_Sem1_StaffDB_TEST.txt
 1991
 <<<<<<< HEAD
 
 =======
 >>>>>>> master
+=======
+1991
+>>>>>>> parent of af03825... Merge pull request #29 from spookyfiish/Emblema:Project/DATABASE/Year1920_Semester2_StaffDB.txt
