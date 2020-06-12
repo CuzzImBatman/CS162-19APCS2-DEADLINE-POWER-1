@@ -1,6 +1,140 @@
-//Lecturer's first function is the same with Staff's eighth function
-//-> no declaration or definition for first function
 #include"function.h"
+
+void viewCourseOfASemester(AcademicYears* acaYear)
+{
+	string year;
+	Semesters* semes;
+	if (input(acaYear, semes, year))
+	{
+		Courses* courseList = semes->courses;
+		cout << "List of courses in year " << year << ", semester " << semes->semesterNo << " are: " << endl;
+		while (courseList != nullptr)
+		{
+			cout << courseList->courseID << " - " << courseList->courseName << endl;
+			courseList = courseList->next;
+		}
+	}
+}
+void ViewStudentListOfACourse(AcademicYears* year)
+{
+	string courseID;
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	Courses* course = NULL;
+	Classes* Class = y->classes;
+	Semesters* s = NULL;
+	while (!s)
+	{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		s = y->semesters;
+		while (s)
+		{
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+
+	cout << "Students List of " << courseID << endl;;
+	CourseClass* CL = course->courseclass;
+	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID" << setw(10) << "class ID" << endl;
+	while (CL)
+	{
+
+		StudentCourse* OS = CL->studentcourse;
+		while (OS != NULL)
+		{
+			Classes* tempCL = findClass(Class, OS->classID);
+			Students* tempST = findStudent(tempCL->students, OS->studentID);
+			if (tempST->Status && tempST->Status)
+				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
+			OS = OS->next;
+		}
+		CL = CL->next;
+	}
+
+}
+void ViewAttendanceListOfACourse(AcademicYears* year)
+{
+	string courseID, classID;
+	string Year;
+	AcademicYears* y = NULL;
+	while (!y)
+	{
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
+	}
+	Courses* course = NULL;
+	Classes* Class = y->classes;
+	Semesters* s = NULL;
+	while (!s)
+	{
+		cout << "Please enter course ID: ";
+		cin >> courseID;
+		s = y->semesters;
+		while (s)
+		{
+			course = findCourse(s->courses, courseID);
+			if (!course)s = s->next;
+			else break;
+		}
+		if (!s)cout << "Invalid course ID, please enter again." << endl;
+	}
+
+	CourseClass* CL = NULL;
+
+	while (!CL)
+	{
+		cout << "Please enter class ID: ";
+		cin >> classID;
+		CL = findCL(course->courseclass, classID);
+		if (!CL)cout << "Invalid class ID, please enter again." << endl;
+	}
+	Students* st;
+	StudentCourse* OS = CL->studentcourse;
+	while (OS)
+	{
+		Class = findClass(y->classes, OS->classID);
+		st = findStudent(Class->students, OS->studentID);
+		if (st->Status)
+		{
+			cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
+			CheckinCourse* ck = st->checkincourse;
+			while (ck && ck->courseID != course->courseID)
+				ck = ck->next;
+			for (int i = 0; i < 11; i++) {
+				int bit = ck->bitweek >> i;
+				if (bit % 2)
+					cout << setw(11) << "V";
+				else if (!bit || ck->bitweek == 0)
+					cout << setw(11) << "-";
+				else if (bit)
+					cout << setw(11) << "X";
+			}
+			cout << endl;
+		}
+
+		OS = OS->next;
+	}
+
+}
 void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 {
 	string courseID, classID, studentID;
@@ -92,6 +226,68 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 	} while (n);
 
 }
+void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
+{
+	Courses* course = NULL;
+	AcademicYears* y = inputYear(year, course);
+	if (course->LectureName != acc->uName)
+	{
+		cout << "You don't have permission to import this course." << endl;
+		return;
+	}
+	CourseClass* CL = course->courseclass;
+	Students* st = NULL;
+	while (CL)
+	{
+
+		string name = "./DATABASE/Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.txt";
+		string studentID;
+		ifstream in;
+		in.open(name);
+		if (!in.is_open()) {
+			CL = CL->next;
+			continue;
+		}
+		getline(in, name);
+		getline(in, name, ',');
+		while (!Is_empty(in))
+		{
+			getline(in, name, ',');
+			getline(in, name, ',');
+			getline(in, studentID, ',');
+			StudentCourse* sc = CL->studentcourse;
+			Classes* cl = y->classes;
+			while (cl)
+			{
+				st = findStudent(cl->students, studentID);
+				if (st)break;
+				cl = cl->next;
+			}
+			if (!st)
+			{
+				string temp;
+				getline(in, temp);
+				continue;
+			}
+			Scoreboards* sb = st->scoreboards;
+			while (sb)
+				if (sb->courseID == course->courseID)break;
+				else sb = sb->next;
+			if (!sb)
+			{
+				string temp;
+				getline(in, temp);
+				continue;
+			}
+			getline(in, sb->midtermScore, ',');
+			getline(in, sb->finalScore, ',');
+			getline(in, sb->labScore, ',');
+			getline(in, sb->bonusScore, '\n');
+
+		}
+		CL = CL->next;;
+	}
+}
 void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 {
 	string courseID, classID, studentID;
@@ -167,20 +363,7 @@ void Edit_ScoreBoard_Student(AcademicYears* year, Accounts*& acc)
 		if (sc == 4)cin >> sb->bonusScore;// = Grade;
 	}
 }
-void View_Scoreboard_Student(Students* st, string courseID)
-{
-	Scoreboards* SB = st->scoreboards;
-	while (SB)
-		if (SB->courseID == courseID)break;
-		else SB = SB->next;
-	cout << setw(20) << st->account->lastname << setw(20) << st->account->firstname << setw(20) << st->studentID;
-	cout << setw(16) << SB->midtermScore;
-	cout << setw(16) << SB->finalScore;
-	cout << setw(16) << SB->labScore;
-	cout << setw(16) << SB->bonusScore<<endl;
-
-}
-void View_Scoreboard(AcademicYears* year)
+void ViewAScoreboard(AcademicYears* year)
 {
 	Courses* course = NULL;
 	AcademicYears* y = inputYear(year, course);
@@ -191,7 +374,7 @@ void View_Scoreboard(AcademicYears* year)
 		cout << "Please enter class ID: ";
 		cin >> classID;
 		CL = findCL(course->courseclass, classID);
-		if(!CL)cout << "Invalid class ID, please enter again." << endl;
+		if (!CL)cout << "Invalid class ID, please enter again." << endl;
 	}
 	cout << course->courseID << " " << course->courseName << endl;
 	cout << setw(20) << "Last name" << setw(20) << "first name" << setw(20) << "student ID";
@@ -199,7 +382,7 @@ void View_Scoreboard(AcademicYears* year)
 	cout << setw(16) << "finalScore";
 	cout << setw(16) << "labScore";
 	cout << setw(16) << "bonusScore" << endl;
-	Students* st ;
+	Students* st;
 	int i = 0;
 	StudentCourse* OS = CL->studentcourse;
 	while (OS)
@@ -211,68 +394,5 @@ void View_Scoreboard(AcademicYears* year)
 			View_Scoreboard_Student(st, course->courseID);
 		}
 		OS = OS->next;
-	}
-}
-
-void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
-{
-	Courses* course = NULL;
-	AcademicYears* y = inputYear(year, course);
-	if (course->LectureName != acc->uName)
-	{
-		cout << "You don't have permission to import this course." << endl;
-		return;
-	}
-	CourseClass* CL = course->courseclass;
-	Students* st = NULL;
-	while (CL)
-	{
-
-		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
-		string studentID;
-		ifstream in;
-		in.open(name);
-		if (!in.is_open()) {
-			CL = CL->next;
-			continue;
-		}
-		getline(in, name);
-		getline(in, name, ',');
-		while (!Is_empty(in))
-		{
-			getline(in, name, ',');
-			getline(in, name, ',');
-			getline(in, studentID, ',');
-			StudentCourse* sc = CL->studentcourse;
-			Classes* cl = y->classes;
-			while (cl)
-			{
-				st = findStudent(cl->students, studentID);
-				if (st)break;
-				cl = cl->next;
-			}
-			if (!st)
-			{
-				string temp;
-				getline(in, temp);
-				continue;
-			}
-			Scoreboards* sb = st->scoreboards;
-			while (sb)
-				if (sb->courseID == course->courseID)break;
-				else sb = sb->next;
-			if (!sb)
-			{
-				string temp;
-				getline(in, temp);
-				continue;
-			}
-			getline(in, sb->midtermScore, ',');
-			getline(in, sb->finalScore, ',');
-			getline(in, sb->labScore, ',');
-			getline(in, sb->bonusScore, '\n');
-
-		}
-		CL = CL->next;;
 	}
 }
