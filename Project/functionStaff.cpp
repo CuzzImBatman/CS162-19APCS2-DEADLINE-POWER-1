@@ -138,7 +138,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	CourseDetail* CD = tmpClass->CD;
 	while (CD)
 	{
-		AddCheckInCourse(aStudent,CD->courseID,CD->room);
+		AddCheckInCourse(aStudent, CD->courseID, CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
@@ -406,7 +406,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
-		AddCheckInCourse(AddSt, CD->courseID,CD->room);
+		AddCheckInCourse(AddSt, CD->courseID, CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
 		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
 		CD = CD->next;
 	}
