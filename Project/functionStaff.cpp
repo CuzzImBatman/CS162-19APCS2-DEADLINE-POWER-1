@@ -67,6 +67,7 @@ void importAClassFromCsvFile(Classes*& classList) {
 								tmpSt->schedule[i][j] = list->schedule[i][j];
 						tmpSt = tmpSt->next;
 					}
+					//	For Sunflower: please initialize the attendance lists for the new students for Emblema :D
 				}
 				break;
 			}
