@@ -9,8 +9,7 @@
 #include <iomanip>
 #include <stdio.h>
 #include "sha256.h"
-#include <chrono>
-#include <ctime>
+
 #pragma region Naming rule
 /*
 struct: StructName
@@ -27,7 +26,7 @@ plural form to indicate a list, singular fomr to indicate an attribute of a subj
 							  |                             +-->(ClassID)
 							  |								|
                +-->[Semesters]+-->[Courses]+-->[CourseClass]+-->[Students]	   +-->(StudentID)
-			   |					   	   		            |				   |
+			   |					   	   		            |				   |	
 			   |                                            +-->[StudentCourse]+-->(ClassID)
 [AcademicYears]+
 			   |                          +-->[ChechinCourse]+-->(CoursesID)
@@ -72,8 +71,7 @@ struct Scoreboards
 struct CheckinCourse
 {
 	int bitweek = 0;
-	string courseID, room, startTime, endTime;
-	Date startDate, endDate;
+	string courseID, room;
 	CheckinCourse* next = nullptr;
 };
 struct Students
@@ -94,8 +92,7 @@ struct Students
 };
 struct CourseDetail
 {
-	string courseID, coursename, room, StartTime, endTime;
-	Date startDate, endDate;
+	string courseID, coursename, room;
 	CourseDetail* next = nullptr;
 };
 struct Classes
@@ -125,10 +122,9 @@ struct StudentCourse
 };
 struct CourseClass
 {
-	string classID;
-	Students* students = nullptr;
-	Date startDate, endDate;
-	string startTime, endTime;
+    string classID;
+    Students* students = nullptr;
+    Date startDate, endDate;
 	StudentCourse* studentcourse = nullptr;
     int DayInWeek;
     int AtNth;
@@ -143,7 +139,7 @@ struct Courses
     string room="";
     string LectureName="";
     Courses* next =  nullptr;
-};
+}; 
 struct Semesters
 {
 	char semesterNo;
@@ -196,9 +192,7 @@ bool input(AcademicYears* AcaYear, Semesters*& semes, string& year);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
 int DeleteABit(int bit, int x);
 bool Is_empty(ifstream& in);
-int numberOfDay(Date x);
-void takeString(string& take, string& s);
-int takeTimeNumber(string time);
+
 
 void showClassOptions(AcademicYears*& year);
 void showCourseOptions(AcademicYears*& year);
@@ -220,9 +214,9 @@ void staff_deleteClasses(Classes*& Class, string year);
 
 Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
 void AddScoreBoardCourse(Students*& st, string courseID, string courseName);
-void AddCheckInCourse(Students*& st, string courseID, string room, string starTime, string endTime, Date startDate, Date endDate);
-void AddCourseToStudent(Students*& ST, Courses*& course, CourseClass*& CL, string year);
-void AddCourseToClass(Classes*& Class, Courses*& course, CourseClass*& CL, string year);
+void AddCheckInCourse(Students*& st, string courseID, string room);
+void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year);
+void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year);
 void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID, string year);
 
 void Edit_CourseName_Student(Students* st, string NewName, string OldName);
@@ -290,10 +284,11 @@ void deleteLecturer(AcademicYears* year);
 void viewLecturer(AcademicYears* year);
 #pragma endregion
 #pragma region Scoreboard
+void View_Scoreboard(AcademicYears* year);
 void Export_ScoreBoard(AcademicYears* year);
 #pragma endregion
 #pragma region Attendance list
-
+void ViewAttendanceList(AcademicYears* year);
 void exportAttendanceListOfCourse(AcademicYears* year);
 #pragma endregion
 #pragma endregion

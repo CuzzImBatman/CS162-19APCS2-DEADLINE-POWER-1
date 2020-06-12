@@ -1,19 +1,7 @@
 3
-<<<<<<< HEAD
 
 19125999
 0
-=======
-19125999
-93e89935
-950f7c98
-8378c1b4
-6fff7006
-56af2432
-fbf0e983
-4a575739
-2646d458
->>>>>>> Emblema
 Bao
 Bo Cu Cua
 M
@@ -22,18 +10,7 @@ M
 2001
 
 19125998
-<<<<<<< HEAD
 0
-=======
-f7809c1e
-0deb7a03
-11d55b07
-a95acef5
-f228dd3e
-ce60085e
-e612a9d5
-9673235e
->>>>>>> Emblema
 Nghia
 Tran Trong
 M
@@ -42,25 +19,10 @@ M
 2001
 
 19125998
-<<<<<<< HEAD
 0
-=======
-f7809c1e
-0deb7a03
-11d55b07
-a95acef5
-f228dd3e
-ce60085e
-e612a9d5
-9673235e
->>>>>>> Emblema
 Nhan
 Phan Nguyen Li
 M
 01
 01
-<<<<<<< HEAD
 2001
-=======
-2001
->>>>>>> Emblema

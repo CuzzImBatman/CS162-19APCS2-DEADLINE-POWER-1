@@ -5,12 +5,12 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 		acc = new Accounts;
 	long long int test;
 
-	fin >> hex >> test;
-	if (test != 0)
+	fin >>hex>> test;
+	if(test!= 0)
 	{
 		acc->pwd.state[0] = test;
 		for (int i = 1; i < 8; i++)
-			fin >> hex >> acc->pwd.state[i];
+			fin >>hex>> acc->pwd.state[i];
 	}
 	fin >> dec >> acc->firstname;
 	fin.ignore(10, '\n');
@@ -23,7 +23,7 @@ void accountInit(ifstream& fin, Accounts*& acc) {
 	if (test) return;
 	string pwd = acc->doB->day + acc->doB->month + acc->uName;
 	sha256_init(&acc->pwd);
-	sha256_update(&acc->pwd, pwd, pwd.length());
+	sha256_update(&acc->pwd ,pwd, pwd.length());
 }
 
 void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course, string year) {
@@ -137,19 +137,18 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 		int n;
 		courseIn >> n;
 		while (n) {
-			Courses* tempCourse = new Courses;
-			courseIn >> tempCourse->courseID;
-			courseIn.ignore(10, '\n');
-			getline(courseIn, tempCourse->courseName);
-			courseIn >> tempCourse->LectureName;
-			tempCourse->courseclass = NULL;
-			int m;
-			courseIn >> tempCourse->room;
-			courseIn >> m;
-			for (int i = 0; i < m; ++i)
-				InitClassToCourse(Class, courseIn, tempCourse, year);
-			tempCourse->next = course;
-			course = tempCourse;
+			    Courses* tempCourse = new Courses;
+			 	courseIn >> tempCourse->courseID;
+				courseIn.ignore(10, '\n');
+				getline(courseIn, tempCourse->courseName);
+				courseIn >> tempCourse->LectureName;
+				tempCourse->courseclass = NULL;
+				int m;
+				courseIn >> m;
+				for (int i = 0; i < m; ++i)
+					InitClassToCourse(Class, courseIn, tempCourse,year);
+				tempCourse->next = course;
+				course = tempCourse;
 
 			n--;
 		}
@@ -161,7 +160,7 @@ void lecturerInit(Lecturers*& lec, char semes, string year) {
 	Lecturers* tempLec = lec;
 	ifstream lecIn;
 	string fileIn = "Year" + year + "_Semester" + semes + "_LecturerDB.txt";
-	lecIn.open("./DATABASE/" + fileIn);
+	lecIn.open("./DATABASE/"+fileIn);
 	if (lecIn.is_open()) {
 		int n;
 		lecIn >> n;
@@ -217,7 +216,7 @@ void staffInit(Staffs*& staff, char semes, string year) {
 	}
 	staffIn.close();
 }
-void semesterInit(Semesters*& semes, string year, Classes*& Class) {
+void semesterInit(Semesters*& semes, string year, Classes*& Class){
 	Semesters* tempSemes = semes;
 	char n = '1';
 	while (n < '4') {
@@ -287,7 +286,7 @@ void scheduleInit(string schedule[6][4], ifstream& in)
 {
 	for (int j = 0; j < 4; j++)
 		for (int i = 0; i < 6; i++)
-			schedule[i][j] = "//";
+			 schedule[i][j]="//";
 }
 void classInit(Classes*& Class, string year) {
 	Classes* tempClass = Class;
@@ -302,7 +301,7 @@ void classInit(Classes*& Class, string year) {
 			if (!Class) {
 				Class = new Classes;
 				classIn >> Class->classID;
-				scheduleInit(Class->schedule, classIn);
+				scheduleInit(Class->schedule,classIn);
 				studentInit(Class->students, Class->classID, year);
 				tempClass = Class;
 			}
@@ -310,7 +309,7 @@ void classInit(Classes*& Class, string year) {
 				tempClass->next = new Classes;
 				classIn >> tempClass->next->classID;
 				scheduleInit(tempClass->next->schedule, classIn);
-				studentInit(tempClass->next->students, tempClass->next->classID, year);
+				studentInit(tempClass->next->students, tempClass->next->classID,year);
 				//scheduleInit
 				tempClass = tempClass->next;
 			}

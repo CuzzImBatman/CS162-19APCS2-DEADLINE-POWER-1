@@ -1,14 +1,12 @@
 #include "function.h"
-#include <stdio.h>
-
 
 #pragma region Class
 void importAClassFromCsvFile(Classes*& classList) {
-	cout << "Enter file name to the csv file: ";
+	cout << "Enter path to the csv file: ";
 	Classes* tmp = classList;
 	string path;
 	cin >> path;
-	Students* studentList = listStudentsFromFile("./DATABASE/" + path);
+	Students* studentList = listStudentsFromFile(path);
 	if (studentList)
 	{
 		if (classList != nullptr)
@@ -16,8 +14,8 @@ void importAClassFromCsvFile(Classes*& classList) {
 			short int no;
 			int choice;
 			cout << "[1] Create a new class.\n"
-				<< "[2] Import into existing class.\n"
-				<< "Your choice: ";
+				 << "[2] Import into existing class.\n"
+				 << "Your choice: ";
 			cin >> choice;
 			while (choice != 1 && choice != 2)
 			{
@@ -89,7 +87,6 @@ void importAClassFromCsvFile(Classes*& classList) {
 	}
 	else cout << "Can't open file!\n";
 }
-
 void addAStudentToAClass(Classes*& aClass) {
 	string Class;
 	cout << endl << "Enter the class to add the student to: ";
@@ -136,7 +133,7 @@ void addAStudentToAClass(Classes*& aClass) {
 	CourseDetail* CD = tmpClass->CD;
 	while (CD)
 	{
-		AddCheckInCourse(aStudent, CD->courseID, CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
+		AddCheckInCourse(aStudent,CD->courseID,CD->room);
 		AddScoreBoardCourse(aStudent, CD->courseID,CD->coursename);
 		CD = CD->next;
 	}
@@ -404,7 +401,7 @@ void changeClassForStudents(Classes*& classes, Courses*& course, char semes, str
 	CourseDetail* CD = tmpClassB->CD;
 	while (CD)
 	{
-		AddCheckInCourse(AddSt, CD->courseID, CD->room, CD->StartTime, CD->endTime, CD->startDate, CD->endDate);
+		AddCheckInCourse(AddSt, CD->courseID,CD->room);
 		AddScoreBoardCourse(AddSt, CD->courseID, CD->coursename);
 		CD = CD->next;
 	}
@@ -531,8 +528,6 @@ void updateAcademicYear(AcademicYears* year)
 		break;
 	}
 }
-
-
 void deleteAcademicYear(AcademicYears*& year)
 {
 	if (year == nullptr)
@@ -1540,54 +1535,13 @@ void ViewAttendanceList(AcademicYears* year)
 	AcademicYears* y = NULL;
 	while (!y)
 	{
-		string courseID;
-		cout << "Please enter course ID: ";
-		cin >> courseID;
-		Courses* course = findCourse(semes->courses, courseID);
-		if (!course)
-		{
-			cout << "Can't find course!\n";
-			return;
-		}
-		CourseClass* CL = course->courseclass;
-		while (CL)
-		{
-			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.txt");
-			if (out.is_open())
-			{
-				out << "Student ID,Last name,First name,";
-				for (int i = 0; i < 11; i++)
-				{
-					out << "Week " << i + 1;
-					if (i + 1 != 11)
-						out << ",";
-				}
-				out << endl;
-				CheckinCourse* ck;
-				Students* studentList = CL->students;
-				while (studentList)
-				{
-					out << studentList->studentID << ","
-						<< studentList->account->lastname << "," << studentList->account->firstname << ",";
-					ck = studentList->checkincourse;
-					while (ck && ck->courseID != course->courseID) ck = ck->next;
-					for (int i = 0; i < 11; i++) {
-						int bit = ck->bitweek >> i;
-						if (bit % 2)
-							out << "V";
-						else if (!bit || ck->bitweek == 0)
-							out << ",";
-						else if (bit)
-							out << "X";
-						if (i + 1 != 11)
-							out << ",";
-					}
-					out << endl;
-					studentList = studentList->next;
-				}
-				CL = CL->next;
-			}
-		}
+		cout << "\nPlease enter Academic Year: ";
+		cin >> Year;
+		y = year;
+		while (y)
+			if (y->year == Year)break;
+			else y = y->next;
+		if (!y)cout << "Invalid Academic Year, please enter again." << endl;
 	}
 	Courses* course = NULL;
 	Classes* Class = y->classes;
