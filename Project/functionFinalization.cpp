@@ -37,26 +37,48 @@ void writeCourses(Courses* course, char semes, string year) {
 			i++;
 			CL = CL->next;
 		}
-		out << course->room << endl;
 		out << i << endl;
 		CL = course->courseclass;
 		while (CL)
 		{
-			out << CL->startDate.day << " " << CL->startDate.month << " " << CL->startDate.year << endl;
-			out << CL->endDate.day << " " << CL->endDate.month << " " << CL->endDate.year << endl;
-			if (CL->DayInWeek == 0)out << "Mon";
-			else if (CL->DayInWeek == 1)out << "Tue";
-			else if (CL->DayInWeek == 2)out << "Wed";
-			else if (CL->DayInWeek == 3)out << "Thu";
-			else if (CL->DayInWeek == 4)out << "Fri";
-			else if (CL->DayInWeek == 5)out << "Sat";
-			out << endl;
-			out << CL->startTime <<" "<<CL->endTime<< endl;
-			
-
+			out << CL->startDate.day << ' ' << CL->startDate.month << ' ' << CL->startDate.year << endl;
+			out << CL->endDate.day << ' ' << CL->endDate.month << ' ' << CL->endDate.year << endl;
+			switch (CL->DayInWeek) {
+			case 0: 
+				out << "Mon" << endl;
+				break;
+			case 1:
+				out << "Tue" << endl;
+				break;
+			case 2:
+				out << "Wed" << endl;
+				break;
+			case 3:
+				out << "Thu" << endl;
+				break;
+			case 4:
+				out << "Fri" << endl;
+				break;
+			case 5:
+				out << "Sat" << endl;
+				break;
+			}
+			switch (CL->AtNth) {
+			case 0: 
+				out << "7 ";
+				break;
+			case 1:
+				out << "9 ";
+				break;
+			case 2: 
+				out << "13 ";
+				break;
+			case 3: 
+				out << "15 ";
+				break;
+			}
+			out << 30 << endl;
 			out << CL->classID<<endl;
-			
-			
 			StudentCourse* OS = CL->studentcourse;
 			i = 0;
 			while (OS)
@@ -75,7 +97,7 @@ void writeCourses(Courses* course, char semes, string year) {
 			CL = CL->next;
 
 		}
-		out << endl;;
+		out << course->room << endl << endl;;
 		course = course->next;
 	}
 }
@@ -166,9 +188,7 @@ void writeCheckIn(Students* st, string year)
 	out << i << endl;
 	while (CK)
 	{
-		out << CK->room <<" "<<CK->startTime<< " "<<CK->endTime<< endl;
-		out << CK->startDate.day << " " << CK->startDate.month << " " << CK->startDate.year << endl;
-		out << CK->endDate.day << " " << CK->endDate.month << " " << CK->endDate.year << endl;
+		out << CK->room << endl;
 		out << CK->courseID << " " <<CK->bitweek<< endl;
 		CK = CK->next;
 	}
