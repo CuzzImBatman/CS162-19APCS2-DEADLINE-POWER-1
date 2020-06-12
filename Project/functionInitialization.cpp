@@ -144,6 +144,7 @@ void courseInit(Courses*& course, char semes, string year,Classes*& Class) {
 				courseIn >> tempCourse->LectureName;
 				tempCourse->courseclass = NULL;
 				int m;
+				courseIn >> tempCourse->room;
 				courseIn >> m;
 				for (int i = 0; i < m; ++i)
 					InitClassToCourse(Class, courseIn, tempCourse,year);
@@ -343,4 +344,112 @@ void academicYearInit(AcademicYears*& year) {
 		n--;
 	}
 	yearIn.close();
+}
+void InitClassToCourse(Classes*& Class, ifstream& courseIn, Courses*& course,  string year) {
+
+
+	CourseClass* courseclass = new CourseClass;
+
+	courseIn >> courseclass->startDate.day;
+	courseIn >> courseclass->startDate.month;
+	courseIn >> courseclass->startDate.year;
+	courseIn >> courseclass->endDate.day;
+	courseIn >> courseclass->endDate.month;
+	courseIn >> courseclass->endDate.year;
+	string temp;
+	courseIn >> temp;
+	switch (temp[1]) { //Mo Tu We Th Fr Sa
+	case 'o':
+		courseclass->DayInWeek = 0;
+		break;
+	case 'u':
+		courseclass->DayInWeek = 1;
+		break;
+	case 'e':
+		courseclass->DayInWeek = 2;
+		break;
+	case 'h':
+		courseclass->DayInWeek = 3;
+		break;
+	case 'r':
+		courseclass->DayInWeek = 4;
+		break;
+	case 'a':
+		courseclass->DayInWeek = 5;
+		break;
+	}
+	
+	courseIn >> courseclass->startTime;
+	courseIn >> courseclass->endTime;
+	int hour = (courseclass->startTime[0]-48) * 10 + courseclass->startTime[1]-48;
+	switch (hour) {
+	case 7:
+		courseclass->AtNth = 0;
+		break;
+	case 9:
+		courseclass->AtNth = 1;
+		break;
+	case 13:
+		courseclass->AtNth = 2;
+		break;
+	case 15:
+		courseclass->AtNth = 3;
+		break;
+	}
+
+	int no;
+	
+	courseIn >> courseclass->classID;
+	courseIn >> no;
+	courseclass->studentcourse = NULL;
+
+	Classes* curCL = findClass(Class, courseclass->classID);
+
+	if (!no)
+	{
+		AddCourseToClass(curCL, course, courseclass, year);
+		Students* st = curCL->students;
+		while (st)
+		{
+			StudentCourse* OS = new StudentCourse;
+			OS->studentID = st->studentID;
+			OS->classID = curCL->classID;
+			OS->next = courseclass->studentcourse;
+			courseclass->studentcourse = OS;
+			st = st->next;
+		}
+
+	}
+	for (int i = 0; i < no; i++)
+	{
+		StudentCourse* OS = new StudentCourse;
+		courseIn >> OS->studentID;
+		courseIn >> OS->classID;
+		OS->next = courseclass->studentcourse;
+		courseclass->studentcourse = OS;
+		Classes* cl = findClass(Class, OS->classID);
+		Students* st = findStudent(cl->students, OS->studentID);
+		AddCourseToStudent(st, course, courseclass,year);
+
+	}
+	
+
+	curCL->schedule[courseclass->DayInWeek][courseclass->AtNth] = course->courseID;
+	CourseDetail* CD = new CourseDetail;
+	CD->courseID = course->courseID;
+	CD->coursename = course->courseName;
+	CD->next = curCL->CD;
+	CD->room = course->room;
+	CD->StartTime = courseclass->startTime;
+	CD->endTime = courseclass->endTime;
+	CD->startDate =courseclass->startDate;
+	CD->endDate= courseclass->endDate;
+	curCL->CD = CD;
+	Students* curST = curCL->students;
+	courseclass->students = curCL->students;
+
+	
+	courseclass->next = course->courseclass;
+	course->courseclass = courseclass;
+
 }

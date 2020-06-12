@@ -8,8 +8,9 @@
 #include <fstream>
 #include <iomanip>
 #include <stdio.h>
-#include "sha256.h"
-
+#include <chrono>
+#include <ctime>  
+using namespace std;
 #pragma region Naming rule
 /*
 struct: StructName
@@ -76,24 +77,17 @@ struct CheckinCourse
 };
 struct Students
 {
-	string studentID;
-	Accounts* account = nullptr;
-	Scoreboards* scoreboards = nullptr;
-
-	int Status = 1;
-	///1  in class
-	///0  not available
-	///-1 removed to another class
-	///-2 kicked
-
-	string schedule[6][4];
-	CheckinCourse* checkincourse = nullptr;
-	Students* next = nullptr;
+    int bitweek=0;
+    string courseID,room, startTime, endTime;
+	Date startDate, endDate;
+    CheckinCourse *next=NULL;
 };
 struct CourseDetail
 {
-	string courseID, coursename, room;
-	CourseDetail* next = nullptr;
+	string courseID, coursename, room, StartTime, endTime;
+	Date startDate, endDate;
+	CourseDetail* next = NULL;
+
 };
 struct Classes
 {
@@ -125,7 +119,9 @@ struct CourseClass
     string classID;
     Students* students = nullptr;
     Date startDate, endDate;
-	StudentCourse* studentcourse = nullptr;
+    CourseClass *next = NULL;
+	StudentCourse* studentcourse=NULL;
+	string startTime, endTime;
     int DayInWeek;
     int AtNth;
 	CourseClass* next = nullptr;
@@ -190,15 +186,9 @@ bool checkYear(Date a);
 int numberOfDay(Date x);
 bool input(AcademicYears* AcaYear, Semesters*& semes, string& year);
 AcademicYears* inputYear(AcademicYears* year, Courses*& course);
-int DeleteABit(int bit, int x);
-bool Is_empty(ifstream& in);
-
-
-void showClassOptions(AcademicYears*& year);
-void showCourseOptions(AcademicYears*& year);
-void showScoreboardOptions(AcademicYears*& year);
-void showAttendanceListOptions(AcademicYears*& year);
-
+int CheckStatusStudent(string studentID, string classID, Classes*& Class);
+void AddCheckInCourse(Students*& st, string courseID,string room,string starTime,string endTime,Date startDate,Date endDate);
+void AddScoreBoardCourse(Students*& st, string courseID,string courseName);
 bool ComparePwd(SHA256_CTX a, SHA256_CTX b);
 
 Students* listStudentsFromFile(string path);
@@ -210,37 +200,11 @@ void DeleteStudentFromCourses(string studentID, string classID, Courses*& course
 void FillCheckinCourse(Students*& student);
 
 void RemoveFile(string s);
-void staff_deleteClasses(Classes*& Class, string year);
+bool Is_empty(ifstream& in);
+int numberOfDay(Date x);
+void takeString(string& take, string& s);
+int takeTimeNumber(string time);
 
-Semesters* FindSemester(AcademicYears*& AY, AcademicYears*& ay);
-void AddScoreBoardCourse(Students*& st, string courseID, string courseName);
-void AddCheckInCourse(Students*& st, string courseID, string room);
-void AddCourseToStudent(Students*& ST, Courses*& course, int DayInWeek, int AtNth, string year);
-void AddCourseToClass(Classes*& Class, Courses*& course, int DayInWeek, int AtNth, string year);
-void AddClassToCourse(Classes*& Class, string classID, Courses*& course, string courseID, string year);
-
-void Edit_CourseName_Student(Students* st, string NewName, string OldName);
-void EditCourseName(Courses*& course, string NewName, Classes*& Class);
-void EditDateOfCL(Courses*& course, string classID, string courseID, string year);
-void EditCourseLecture(Courses*& course, string name, string courseID);
-int CheckStatusStudent(string studentID, string classID, Classes*& Class);
-void EditScheduleCourseOfClass(Courses*& course, string classID, string courseID, Classes*& Class);
-void EditCourseroom(Courses*& course, string courseID, string room, Classes*& Class);
-void Edit_CourseID_Student(Students* st, string NewID, string OldID);
-void Edit_CourseID_Class(Classes*& Class, string NewID, string OldID);
-void EditCourseId(Courses*& course, string NewID, Classes*& Class);
-
-void DeleteCourseScheduleClass(Classes*& Class, string courseID, string classID);
-void DeleteScoreBoardOfCourse(Students*& ST, string courseName);
-void DeleteCourseOfCheckin(CheckinCourse*& checkincourse, string courseID);
-void RemoveCourseOfScheduleStudent(string schedule[6][4], string courseID);
-void DeleteCourseScheduleStudent(Courses*& course, StudentCourse*& Outsider, Classes*& Class);
-
-void DeleteScoreBoardOfCourseStudent(Students*& ST, string courseName);
-
-void View_Scoreboard_Student(Students* st, string courseID);
-
-void Export_Scoreboard_Student(Students* st, string courseID, ofstream& out);
 #pragma endregion
 
 
@@ -274,9 +238,29 @@ void EditCourse(AcademicYears* year);
 void DeleteCourse(AcademicYears* year);
 void RemovedStudentFromCourseClass(AcademicYears* year);
 void AddStudentToCourseClass(AcademicYears* year);
-void viewCourseOfSemester(AcademicYears* acaYear);
-void View_StudentList_Course(AcademicYears* year);
-void View_Attendance_List(AcademicYears* year);
+void DeleteCourse(AcademicYears* year);
+void AddCourse(AcademicYears*& year);
+//void InitCourse(Courses *&course,Classes* Class);
+
+///
+void AddCourseToStudent(Students* &ST, Courses*& course, CourseClass*& CL, string year);
+void AddCourseToClass(Classes*& Class, Courses*& course,CourseClass *& CL, string year);
+void AddClassToCourse(Classes* &Class,string classID,Courses* &course,string courseID,string year);
+void RemoveCourseOfScheduleStudent(string schedule[6][4],string courseID);
+void EditScheduleCourseOfClass(Courses*&course,string classID,string courseID,Classes *&Class);
+void EditCourseId(Courses*& course,string NewID, Classes*& Class);
+void EditCourseName(Courses*& course, string NewName, Classes*& Class);
+void EditCourseroom(Courses*& course,string courseID,string room, Classes*& Class);
+void EditCourseLecture(Courses*& course,string name,string courseID);
+void EditDateOfCL(Courses*& course, string classID, string courseID,string year);
+void DeleteCourseOfCheckin(CheckinCourse* &checkincourse,string courseID);
+void DeleteCourseScheduleStudent( Courses*& course, StudentCourse* &Outsider,Classes *&Class);
+void DeleteCourseScheduleClass(Classes *&Class,string courseID,string classID);
+
+
+void viewCourseOfSemester(AcademicYears* AcaYear);
+//void viewStudentsOfCourse();
+
 
 void createLecturer(AcademicYears* year);
 void updateLecturer(AcademicYears* year);
