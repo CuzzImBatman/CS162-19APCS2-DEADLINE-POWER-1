@@ -150,10 +150,10 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 			course = findCourse(s->courses, courseID);
 			if (!course)s = s->next;
 			else
-			{  
+			{
 				if (course->LectureName != acc->uName)
 				{
-					cout << "You don't have permission to edit this course."<<endl; 
+					cout << "You don't have permission to edit this course." << endl;
 					return;
 				}
 				break;
@@ -166,7 +166,7 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 	CourseClass* CL = NULL;
 	while (!CL)
 	{
-		 CL = course->courseclass;
+		CL = course->courseclass;
 		cout << "Please enter student ID: ";
 		cin >> studentID;
 		while (CL)
@@ -192,15 +192,15 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 	while (ck)
 		if (ck->courseID == courseID)break;
 		else ck = ck->next;
-	cout << "week: "<<endl;
+	cout << "week: " << endl;
 	int week;
 	cin >> week;
 	int n = 0;
 	do
 	{
 		cout << "0. Back" << endl;
-		cout << "1.Check in"<<endl;
-		cout << "2.UnCheck in"<<endl;
+		cout << "1.Check in" << endl;
+		cout << "2.UnCheck in" << endl;
 		cin >> n;
 		if (n == 1)
 		{
@@ -209,17 +209,17 @@ void Edit_Attend_List(AcademicYears* year, Accounts*& acc)
 			else
 			{
 				ck->bitweek += 1 << (week - 1);
-				cout << "Checked in"<<endl;
+				cout << "Checked in" << endl;
 			}
 		}
 		if (n == 2)
 		{
 			if ((ck->bitweek) >> (week - 1) == 0)
-			cout << "Student've not checked in yet." << endl;
+				cout << "Student've not checked in yet." << endl;
 			else
 			{
 				ck->bitweek -= 1 << (week - 1);
-				cout << "Un checked-in"<<endl;
+				cout << "Un checked-in" << endl;
 			}
 		}
 
@@ -240,7 +240,7 @@ void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
 	while (CL)
 	{
 
-		string name = "./DATABASE/Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.txt";
+		string name = "./DATABASE/Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
 		string studentID;
 		ifstream in;
 		in.open(name);
@@ -249,9 +249,9 @@ void ImportScoreBoard(AcademicYears* year, Accounts*& acc)
 			continue;
 		}
 		getline(in, name);
-		getline(in, name, ',');
 		while (!Is_empty(in))
 		{
+			getline(in, name, ',');
 			getline(in, name, ',');
 			getline(in, name, ',');
 			getline(in, studentID, ',');

@@ -1,15 +1,15 @@
 #include "function.h"
 
-void writeAccounts(ofstream& fout, Accounts* acc){
+void writeAccounts(ofstream& fout, Accounts* acc) {
 	fout << acc->uName << endl;
 	for (int i = 0; i < 8; i++)
-		fout << hex << setw(8) << setfill('0') << acc->pwd.state[i]<<endl;
+		fout << hex << setw(8) << setfill('0') << acc->pwd.state[i] << endl;
 	fout << acc->firstname << endl;
 	fout << acc->lastname << endl;
 	fout << acc->gender << endl;
 	fout << acc->doB->day << endl;
 	fout << acc->doB->month << endl;
-	fout << acc->doB->year << endl<<endl;
+	fout << acc->doB->year << endl << endl;
 }
 
 void writeCourses(Courses* course, char semes, string year) {
@@ -30,6 +30,7 @@ void writeCourses(Courses* course, char semes, string year) {
 		out << course->courseID << endl;
 		out << course->courseName << endl;
 		out << course->LectureName << endl;
+		out << course->room << endl;
 		CourseClass* CL = course->courseclass;
 		i = 0;
 		while (CL)
@@ -41,44 +42,19 @@ void writeCourses(Courses* course, char semes, string year) {
 		CL = course->courseclass;
 		while (CL)
 		{
-			out << CL->startDate.day << ' ' << CL->startDate.month << ' ' << CL->startDate.year << endl;
-			out << CL->endDate.day << ' ' << CL->endDate.month << ' ' << CL->endDate.year << endl;
-			switch (CL->DayInWeek) {
-			case 0: 
-				out << "Mon" << endl;
-				break;
-			case 1:
-				out << "Tue" << endl;
-				break;
-			case 2:
-				out << "Wed" << endl;
-				break;
-			case 3:
-				out << "Thu" << endl;
-				break;
-			case 4:
-				out << "Fri" << endl;
-				break;
-			case 5:
-				out << "Sat" << endl;
-				break;
-			}
-			switch (CL->AtNth) {
-			case 0: 
-				out << "7 ";
-				break;
-			case 1:
-				out << "9 ";
-				break;
-			case 2: 
-				out << "13 ";
-				break;
-			case 3: 
-				out << "15 ";
-				break;
-			}
-			out << 30 << endl;
-			out << CL->classID<<endl;
+			out << CL->startDate.day << " " << CL->startDate.month << " " << CL->startDate.year << endl;
+			out << CL->endDate.day << " " << CL->endDate.month << " " << CL->endDate.year << endl;
+			if (CL->DayInWeek == 0)out << "Mon";
+			else if (CL->DayInWeek == 1)out << "Tue";
+			else if (CL->DayInWeek == 2)out << "Wed";
+			else if (CL->DayInWeek == 3)out << "Thu";
+			else if (CL->DayInWeek == 4)out << "Fri";
+			else if (CL->DayInWeek == 5)out << "Sat";
+			out << endl;
+			out << CL->startTime << " " << CL->endTime << endl;
+
+
+			out << CL->classID << endl;
 			StudentCourse* OS = CL->studentcourse;
 			i = 0;
 			while (OS)
@@ -90,14 +66,14 @@ void writeCourses(Courses* course, char semes, string year) {
 			OS = CL->studentcourse;
 			while (OS)
 			{
-				out << OS->studentID<<" ";
-				out << OS->classID<<endl;
+				out << OS->studentID << " ";
+				out << OS->classID << endl;
 				OS = OS->next;
 			}
 			CL = CL->next;
 
 		}
-		out << course->room << endl << endl;;
+		out << endl;
 		course = course->next;
 	}
 }
@@ -156,10 +132,9 @@ void writeScoreBoard(Students* st, string year)
 	Scoreboards* SB = st->scoreboards;
 	int i = 0;
 
-
 	SB = st->scoreboards;
 	ofstream out;
-	string output = "Year" + year + "_StudentID" + st->studentID + "_ScoreBoard.txt";
+	string output = "Year" + year + "_StudentID" + st->studentID + "_ScoreBoard.csv";
 	out.open("./DATABASE/" + output);
 
 	while (SB)
@@ -168,7 +143,7 @@ void writeScoreBoard(Students* st, string year)
 		out << SB->courseID << "," << SB->labScore << "," << SB->midtermScore << "," << SB->finalScore << "," << SB->bonusScore << endl;
 		SB = SB->next;
 	}
-//	out.close();
+	//	out.close();
 
 }
 void writeCheckIn(Students* st, string year)
@@ -189,7 +164,7 @@ void writeCheckIn(Students* st, string year)
 	while (CK)
 	{
 		out << CK->room << endl;
-		out << CK->courseID << " " <<CK->bitweek<< endl;
+		out << CK->courseID << " " << CK->bitweek << endl;
 		CK = CK->next;
 	}
 	//	out.close();

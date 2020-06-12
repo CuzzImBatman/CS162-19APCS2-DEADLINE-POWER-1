@@ -252,7 +252,7 @@ void showScoreboardOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			View_Scoreboard(year);
+			ViewAScoreboard(year);
 			break;
 		}
 		case 2: {
@@ -276,7 +276,7 @@ void showAttendanceListOptions(AcademicYears*& year) {
 		cin >> choice;
 		switch (choice) {
 		case 1: {
-			ViewAttendanceList(year);
+			ViewAttendanceListOfACourse(year);
 			break;
 		}
 		case 2: {
@@ -398,7 +398,6 @@ void showMenu(Accounts*& acc, AcademicYears*& year) {
 			cout << "[5] Back to main menu." << endl;
 			cout << "Your choice: ";
 			cin >> choice;
-			// Joey: Infinite loop when type in letters into "choice" (cannot escape)
 			switch (choice) {
 			case 1: {
 				showClassOptions(year);
