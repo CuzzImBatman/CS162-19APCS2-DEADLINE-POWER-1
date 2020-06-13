@@ -979,6 +979,7 @@ void DeleteCourseScheduleStudent(Courses*& course, StudentCourse*& Outsider, Cla
 			DeleteCourseOfCheckin(curST->checkincourse, course->courseID);
 			DeleteScoreBoardOfCourse(curST, course->courseName);
 		}
+		st = st->next;;
 	}
 }
 #pragma endregion

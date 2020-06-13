@@ -949,15 +949,19 @@ void View_StudentList_Course(AcademicYears* year)
 	}
 	 cout << "Students List of " << courseID << endl;;
 	
-	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID"<<endl;
+	 cout << setw(10) << "Student ID" << setw(25) << "Full name" << setw(10) << "Class ID" << endl;
 	
 		StudentCourse* OS = CL->studentcourse;
 		while (OS != NULL)
 		{
 			Classes* tempCL = findClass(y->classes, OS->classID);
 			Students* tempST = findStudent(tempCL->students, OS->studentID);
-			if(tempST->Status )
-				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << endl;
+			if (tempST->Status) {
+				cout << setw(10) << tempST->studentID;
+				cout << setw(25);
+				cout << tempST->account->lastname + " " + tempST->account->firstname;
+				cout << setw(10) << OS->classID << endl;
+			}
 			OS = OS->next;
 		}
 	
@@ -1395,7 +1399,7 @@ void Export_ScoreBoard(AcademicYears* year)
 	CourseClass* CL = course->courseclass;
 	while (CL)
 	{
-		string name = "Yr" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
+		string name = "./DATABASE/Year" + year->year + "_CourseID_" + course->courseID + "_ClassID_" + CL->classID + "_ScoreBoard.csv";
 		ofstream out;
 		out.open(name);
 		out << "No" << "," << "Last name" << "," << "first name" << "," << "student ID";
@@ -1441,7 +1445,7 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 		CourseClass* CL = course->courseclass;
 		while (CL)
 		{
-			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.txt");
+			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.csv");
 			if (out.is_open())
 			{
 				out << "Student ID,Last name,First name,";

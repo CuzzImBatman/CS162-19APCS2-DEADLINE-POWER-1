@@ -1,2 +1,14 @@
-﻿  functionLecturer.cpp
+﻿  functionFinalization.cpp
+  subroutines.cpp
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(53,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(68,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(74,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(88,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(94,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(100,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(117,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(123,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(129,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+D:\CS162\CS162-19APCS2-DEADLINE-POWER\Project\subroutines.cpp(670,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Project.vcxproj -> D:\CS162\CS162-19APCS2-DEADLINE-POWER\x64\Debug\Project.exe

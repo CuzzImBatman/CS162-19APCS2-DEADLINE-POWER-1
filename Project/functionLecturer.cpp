@@ -49,7 +49,7 @@ void ViewStudentListOfACourse(AcademicYears* year)
 
 	cout << "Students List of " << courseID << endl;;
 	CourseClass* CL = course->courseclass;
-	cout << setw(3) << "last name" << setw(10) << "first name" << setw(10) << "student ID" << setw(10) << "class ID" << endl;
+	cout << setw(10) << "Student ID" << setw(25) << "Full name" << setw(10) << "Class ID" << endl;
 	while (CL)
 	{
 
@@ -58,8 +58,12 @@ void ViewStudentListOfACourse(AcademicYears* year)
 		{
 			Classes* tempCL = findClass(Class, OS->classID);
 			Students* tempST = findStudent(tempCL->students, OS->studentID);
-			if (tempST->Status && tempST->Status)
-				cout << setw(3) << tempST->account->lastname << setw(10) << tempST->account->firstname << setw(10) << tempST->studentID << setw(10) << OS->classID << endl;
+			if (tempST->Status) {
+				cout << setw(10) << tempST->studentID;
+				cout << setw(25);
+				cout << tempST->account->lastname + " " + tempST->account->firstname;
+				cout << setw(10) << OS->classID << endl;
+			}
 			OS = OS->next;
 		}
 		CL = CL->next;
