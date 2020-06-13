@@ -1441,7 +1441,7 @@ void exportAttendanceListOfCourse(AcademicYears* year)
 		CourseClass* CL = course->courseclass;
 		while (CL)
 		{
-			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.txt");
+			out.open("./DATABASE/Year" + yr + "_Semester" + semes->semesterNo + "_" + course->courseID + "_ClassID_" + CL->classID + "_AttendanceList.csv");
 			if (out.is_open())
 			{
 				out << "Student ID,Last name,First name,";

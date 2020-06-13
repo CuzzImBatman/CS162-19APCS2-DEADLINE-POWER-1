@@ -163,7 +163,9 @@ void writeCheckIn(Students* st, string year)
 	out << i << endl;
 	while (CK)
 	{
-		out << CK->room << endl;
+		out << CK->room << " " << CK->startTime << " " << CK->endTime << endl;
+		out << CK->startDate.day << " " << CK->startDate.month << " " << CK->startDate.year << endl;
+		out << CK->endDate.day << " " << CK->endDate.month << " " << CK->endDate.year << endl;
 		out << CK->courseID << " " << CK->bitweek << endl;
 		CK = CK->next;
 	}
